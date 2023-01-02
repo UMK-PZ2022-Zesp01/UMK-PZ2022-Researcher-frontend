@@ -1,0 +1,52 @@
+h2{
+    margin: auto;
+    align-self: center;
+    text-align: center;
+
+    color: #6D3B9E;
+
+}
+
+.loginFormBox{
+    display: flex;
+    flex-grow: 1;
+    margin: auto;
+
+    flex-direction: column;
+
+}
+
+.registerFormBox{
+    display: flex;
+    flex-grow: 2;
+
+    flex-direction: column;
+
+    margin: auto;
+}
+
+
+
+.loginForm{
+    display: flex;
+
+    padding: 10%;
+
+    flex-direction: column;
+}
+
+.registerForm{
+    display: flex;
+
+    padding: 10%;
+
+    flex-direction: column;
+}
+
+
+
+.aPurple{
+
+    color: #6D3B9E;
+    text-decoration: none;
+}
