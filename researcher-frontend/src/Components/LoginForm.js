@@ -29,24 +29,31 @@ function LoginForm(){
 
     return(
         <div className="loginFormBox">
-            <h2>Zaloguj się</h2>
+            <div className="hBox">
+                <h2>Zaloguj się</h2>
+            </div>
             <form onSubmit={(event)=>SubmitButtonClicked(event)} className="loginForm">
                 <input
                     id="login"
                     type="text"
                     placeholder="Login lub adres email"
                     className="textInput"
+                    required
                 />
                 <input
-                    type="text"
+                    type="password"
                     placeholder="Hasło"
                     className="textInput"
+                    required
                 />
                 <a href="/" className="aPurple">Nie pamiętam hasła</a>
-                <button type="submit" className="">Zaloguj</button>
-                <div>---- lub ----</div>
-                <button className="loginWith">Zaloguj z G</button>
-                <button className="loginWith">Zaloguj z FB</button>
+                <button type="submit" className="submitButton">ZALOGUJ</button>
+                <div className="orLoginWith"><span>lub</span></div>
+                <div className="flexRow">
+                    <button className="loginWith">Zaloguj z G</button>
+                    <button className="loginWith">Zaloguj z FB</button>
+                </div>
+
             </form>
         </div>
     )
