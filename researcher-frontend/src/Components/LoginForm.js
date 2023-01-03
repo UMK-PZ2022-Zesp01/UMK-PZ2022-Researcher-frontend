@@ -1,4 +1,4 @@
-import getApiUrl from "../Common/GetApiUrl.js"
+import getApiUrl from "../Common/Api.js"
 import React from 'react';
 import "./Form.css"
 

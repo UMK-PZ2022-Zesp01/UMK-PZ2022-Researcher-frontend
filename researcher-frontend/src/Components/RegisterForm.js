@@ -1,10 +1,10 @@
-import getApiUrl from "../Common/GetApiUrl.js"
+import getApiUrl from "../Common/Api.js"
+import Alert from "./Alert"
 import React from 'react';
 import "./Form.css"
 
-function RegisterForm(){
-    let currentTime = new Date().toISOString().split("T")[0];
 
+function RegisterForm(){
     const [name, setName] = React.useState("");
     const [surname, setSurname] = React.useState("");
     const [username, setUsername] = React.useState("");
@@ -13,11 +13,47 @@ function RegisterForm(){
     const [passwordRep, setPasswordRep] = React.useState("");
     const [gender, setGender] = React.useState("");
     const [birthDate, setBirthDate] = React.useState("");
-    const [agreement, setAgreement] = React.useState("")
+    const [agreement, setAgreement] = React.useState(false)
+
+    // const [alertType, setAlertType]=React.useState("")
+
+    let currentTime = new Date().toISOString().split("T")[0];
+
+    let user = {
+        login: username,
+        password: password,
+        firstName: name,
+        lastName: surname,
+        email: email,
+        birthDate: birthDate,
+        gender: gender
+    }
 
     function SubmitButtonClicked(event){
         event.preventDefault()
 
+        // setAlertType("greenAlert")
+
+        fetch(getApiUrl()+"add", {
+                method: "POST",
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify(user)
+        }).then(response => {
+            try{
+                if(response.status===201){
+                    
+                }
+                // response.json().then(result => {
+                //     if (result.id != null){
+                //         console.log(result)
+                //     }
+                // })
+            }catch (error){
+                console.log(error)
+            }
+        })
     }
     return(
         <div className="registerFormBox">
@@ -60,9 +96,9 @@ function RegisterForm(){
                             required
                         >
                             <option value="Wybierz płeć:" disabled >Wybierz płeć:</option>
-                            <option value="Kobieta">Kobieta</option>
-                            <option value="Mężczyzna">Mężczyzna</option>
-                            <option value="Inna">Inna</option>
+                            <option value="FEMALE">Kobieta</option>
+                            <option value="MALE">Mężczyzna</option>
+                            <option value="OTHER">Inna</option>
                             </select>
                     </div>
                     <div className="flexColumnSep"></div>
@@ -104,7 +140,7 @@ function RegisterForm(){
                 </div>
                 <div className="agreementBox">
                     <input
-                        onChange={()=>setAgreement(true)}
+                        onChange={()=>setAgreement(!agreement)}
                         id="agreement"
                         type="checkbox"
                         className="checkboxInput"
@@ -114,6 +150,7 @@ function RegisterForm(){
                 </div>
                 <button type="submit" className="submitButton">ZAREJESTRUJ</button>
             </form>
+            {/*{alertType!=="" && <Alert alertType={alertType} text="Pomyślnie zarejestrowano"/>}*/}
         </div>
     )
 }
