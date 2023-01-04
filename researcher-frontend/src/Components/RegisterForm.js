@@ -1,21 +1,23 @@
 import getApiUrl from "../Common/Api.js"
-import Alert from "./Alert"
 import React from 'react';
 import "./Form.css"
+import {useRef} from "react";
 
 
-function RegisterForm(){
+function RegisterForm(props){
     const [name, setName] = React.useState("");
     const [surname, setSurname] = React.useState("");
     const [username, setUsername] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [passwordRep, setPasswordRep] = React.useState("");
+    const [confirmPassword, setConfirmPassword] = React.useState("");
     const [gender, setGender] = React.useState("");
     const [birthDate, setBirthDate] = React.useState("");
     const [agreement, setAgreement] = React.useState(false)
 
-    // const [alertType, setAlertType]=React.useState("")
+
+    const confirmPasswordRef = useRef(null);
+    const setAlert = props.setters
 
     let currentTime = new Date().toISOString().split("T")[0];
 
@@ -29,32 +31,88 @@ function RegisterForm(){
         gender: gender
     }
 
+
+    //SUBMIT BUTTON onClick function
+    function validatePassword(){
+        let element = confirmPasswordRef.current
+        if (password!==confirmPassword){
+            element.setCustomValidity("Hasła się nie zgadzają.")
+        }else {
+            element.setCustomValidity("")
+        }
+    }
+
     function SubmitButtonClicked(event){
         event.preventDefault()
 
-        // setAlertType("greenAlert")
+        // fetch(getApiUrl() + "add", {
+        //     method: "POST",
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(user)
+        // }).then(response => {
+        //     try {
+        //         switch(response.status){
+        //             case 201: //SUCCESS
+        //                 setAlert({
+        //                     alertType:201,
+        //                     alertText:"Rejestracja przebiegła pomyślnie!"
+        //                 });
+        //
+        //                 break;
+        //             case 203:
+        //                 setAlert({
+        //                     alertType:203,
+        //                     alertText:"Coś sie zesrało"
+        //                 });
+        //                 break;
+        //             default:
+        //                 setAlert({
+        //                     alertType:500,
+        //                     alertText:"Coś sie zesrało"
+        //                 });
+        //         }
+        //     } catch (error) {
+        //         setAlert({
+        //             alertType:6969,
+        //             alertText:"Nawet nie wiem jaki błąd ma to niby wyłapać"
+        //         });
+        //     }
+        // }).catch((error)=>{
+        //     setAlert({
+        //         alertType:6969,
+        //         alertText:"Serwer sra"
+        //     });
+        //     console.log("serwer sra")
+        // })
 
-        fetch(getApiUrl()+"add", {
-                method: "POST",
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify(user)
+        fetch(getApiUrl() + "add", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
         }).then(response => {
-            try{
-                if(response.status===201){
-                    
-                }
-                // response.json().then(result => {
-                //     if (result.id != null){
-                //         console.log(result)
-                //     }
-                // })
-            }catch (error){
-                console.log(error)
+            if(response.ok){
+                setAlert({
+                    alertType:201,
+                    alertText:"Rejestracja przebiegła pomyślnie!"
+                });
             }
+            else
+                setAlert({
+                    alertType:response.status,
+                    alertText:"Coś sie zesrało"
+                });
+        }).catch((error)=>{
+            setAlert({
+                alertType:999,
+                alertText:"Serwer sra"
+            });
         })
     }
+
     return(
         <div className="registerFormBox">
             <div className="hBox">
@@ -120,12 +178,13 @@ function RegisterForm(){
                             required
                         />
                         <input
-                            onChange={(event)=>setPasswordRep(event.target.value)}
-                            id="passwordRep"
+                            onChange={(event)=> setConfirmPassword(event.target.value)}
+                            id="confirmPassword"
                             type="password"
-                            placeholder="Powtórz hasło"
+                            placeholder="Potwierdź hasło"
                             className="textInput"
                             required
+                            ref={el=>confirmPasswordRef.current=el}
                         />
                         <input
                             onChange={(event)=>setBirthDate(event.target.value)}
@@ -148,9 +207,8 @@ function RegisterForm(){
                     />
                     <label htmlFor="agreement">Wyrażam zgodę na przetwarzanie moich danych osobowych.</label>
                 </div>
-                <button type="submit" className="submitButton">ZAREJESTRUJ</button>
+                <button onClick={validatePassword} type="submit" className="submitButton">ZAREJESTRUJ</button>
             </form>
-            {/*{alertType!=="" && <Alert alertType={alertType} text="Pomyślnie zarejestrowano"/>}*/}
         </div>
     )
 }
