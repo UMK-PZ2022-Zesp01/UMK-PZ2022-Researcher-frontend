@@ -1,11 +1,12 @@
 .loginRegisterPage{
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
 
     background-color: #717171;
 }
 
-.loginRegisterPanel{
+.loginRegisterPanel {
+    position: relative;
     max-width: 900px;
     padding: 5vw;
     display: flex;
@@ -17,8 +18,18 @@
     border-radius: 10px;
 }
 
+.alertOverlay{
+    position: absolute;
+    width: 100%;
+    padding: 0 5vw;
+    top: 0;
+    left: 0;
+
+
+}
+
 .header{
-    max-width: 30% ;
+    width: 30% ;
 
     margin: auto;
 
@@ -28,7 +39,7 @@
 }
 
 .main{
-    max-width: 100%;
+    width: 100%;
     padding: 5% 0;
 
     display: flex;

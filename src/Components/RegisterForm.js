@@ -2,6 +2,7 @@ import getApiUrl from "../Common/Api.js"
 import React from 'react';
 import "./Form.css"
 import {useRef} from "react";
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 
 function RegisterForm(props){
@@ -45,70 +46,39 @@ function RegisterForm(props){
     function SubmitButtonClicked(event){
         event.preventDefault()
 
-        // fetch(getApiUrl() + "add", {
-        //     method: "POST",
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(user)
-        // }).then(response => {
-        //     try {
-        //         switch(response.status){
-        //             case 201: //SUCCESS
-        //                 setAlert({
-        //                     alertType:201,
-        //                     alertText:"Rejestracja przebiegła pomyślnie!"
-        //                 });
-        //
-        //                 break;
-        //             case 203:
-        //                 setAlert({
-        //                     alertType:203,
-        //                     alertText:"Coś sie zesrało"
-        //                 });
-        //                 break;
-        //             default:
-        //                 setAlert({
-        //                     alertType:500,
-        //                     alertText:"Coś sie zesrało"
-        //                 });
-        //         }
-        //     } catch (error) {
-        //         setAlert({
-        //             alertType:6969,
-        //             alertText:"Nawet nie wiem jaki błąd ma to niby wyłapać"
-        //         });
-        //     }
-        // }).catch((error)=>{
-        //     setAlert({
-        //         alertType:6969,
-        //         alertText:"Serwer sra"
-        //     });
-        //     console.log("serwer sra")
-        // })
-
-        fetch(getApiUrl() + "add", {
+        fetch(getApiUrl() + "addUser", {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json; charset:UTF-8'
             },
             body: JSON.stringify(user)
         }).then(response => {
-            if(response.ok){
+            if(response.ok){ //OK or CREATED
+                let text;
+                switch(response.status){
+                    case 201:
+                        text = "Rejestracja przebiegła pomyślnie.";
+                        break;
+                    case 299:
+                        text = "Ten email jest już zajęty.";
+                        break;
+                    case 298:
+                        text = "Ta nazwa użytkownika jest już zajęta.";
+                        break;
+                    default:
+                        text = "Co to się stanęło?"
+                }
                 setAlert({
-                    alertType:201,
-                    alertText:"Rejestracja przebiegła pomyślnie!"
+                    alertOpen: true,
+                    alertType: response.status,
+                    alertText: text
                 });
             }
-            else
-                setAlert({
-                    alertType:response.status,
-                    alertText:"Coś sie zesrało"
-                });
-        }).catch((error)=>{
+        }).catch(()=>{
             setAlert({
+                alertOpen: true,
                 alertType:999,
-                alertText:"Serwer sra"
+                alertText:"Coś poszło nie tak."
             });
         })
     }
@@ -146,6 +116,7 @@ function RegisterForm(props){
                             className="textInput"
                             required
                         />
+                        {/*<PasswordStrengthBar password={password}></PasswordStrengthBar>*/}
                         <select
                             onChange={(event)=>setGender(event.target.value)}
                             id="gender"

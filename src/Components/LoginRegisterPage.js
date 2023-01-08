@@ -2,43 +2,45 @@ import "./LoginRegisterPage.css"
 import BannerWhite from "./BannerWhite";
 import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
-import {Alert} from "@mui/material";
-import React, {useEffect} from "react";
+import {Alert, Collapse} from "@mui/material";
+import React from "react";
 
 
 function LoginRegisterPage(){
     const [alert, setAlert] = React.useState({
+        alertOpen: false,
         alertType: 0,
         alertText: ''
     });
 
-    // useEffect(()=>{
-    //     setTimeout(()=>{
-    //         setAlert({
-    //             alertType: 0,
-    //             alertText: ''
-    //         })
-    //     },5000)
-    // },[alert])
+    const closeAlert = () => setAlert({
+        alertOpen: false,
+        alertType: alert.alertType,
+        alertText: alert.alertText
+    })
+
 
     function showAlert(){
         switch (alert.alertType){
-            case 0:
-                return (<div/>)
             case 201:
-                return(<Alert severity="success">{alert.alertText}</Alert>)
+                return(<Alert onClose={()=>closeAlert()} severity="success">{alert.alertText}</Alert>)
+            case 298:
+            case 299:
+                return(<Alert onClose={()=>closeAlert()} severity="warning">{alert.alertText}</Alert>)
             default:
-                return(<Alert severity="error">{alert.alertText}</Alert>)
+                return(<Alert onClose={()=>closeAlert()} severity="error">Nieznany błąd.</Alert>)
         }
-
     }
 
     return(
         <div className="loginRegisterPage">
 
-            {showAlert()}
-
             <div className="loginRegisterPanel">
+                <div className="alertOverlay">
+                    <Collapse in={alert.alertOpen}>
+                        {showAlert()}
+                    </Collapse>
+                </div>
                 <div className="header">
                     <BannerWhite/>
                 </div>
