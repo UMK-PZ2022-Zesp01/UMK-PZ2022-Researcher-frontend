@@ -1,3 +1,7 @@
+.fullWidth{
+    width: 100%;
+}
+
 .hBox{
     height: 10vh;
     margin: 0;
@@ -72,7 +76,7 @@ h3{
 }
 
 .textInput{
-    width: auto;
+    width: 100%;
     height: 2rem;
     padding: 0.5rem;
     margin: 0.25rem 0;
@@ -189,9 +193,10 @@ h3{
 
 
 .flexRow{
+    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .flexColumn{
@@ -206,4 +211,24 @@ h3{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+
+
+
+
+
+.PasswordStrengthBar{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.barPart{
+    content: "";
+    background-color: #6D3B9E;
+    width: 24%;
+
+    height: 3px;
 }

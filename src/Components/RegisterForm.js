@@ -2,7 +2,6 @@ import getApiUrl from "../Common/Api.js"
 import React from 'react';
 import "./Form.css"
 import {useRef} from "react";
-import PasswordStrengthBar from 'react-password-strength-bar';
 
 
 function RegisterForm(props){
@@ -12,9 +11,10 @@ function RegisterForm(props){
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [confirmPassword, setConfirmPassword] = React.useState("");
+    // const [passwordScore, setPasswordScore] = React.useState(0);
     const [gender, setGender] = React.useState("");
     const [birthDate, setBirthDate] = React.useState("");
-    const [agreement, setAgreement] = React.useState(false)
+    const [agreement, setAgreement] = React.useState(false);
 
 
     const confirmPasswordRef = useRef(null);
@@ -35,12 +35,15 @@ function RegisterForm(props){
 
     //SUBMIT BUTTON onClick function
     function validatePassword(){
-        let element = confirmPasswordRef.current
+        let confirm = confirmPasswordRef.current
         if (password!==confirmPassword){
-            element.setCustomValidity("Hasła się nie zgadzają.")
+            confirm.setCustomValidity("Hasła się nie zgadzają.")
         }else {
-            element.setCustomValidity("")
+            confirm.setCustomValidity("")
         }
+        // if (passwordScore<1){
+        //
+        // }
     }
 
     function SubmitButtonClicked(event){
@@ -91,83 +94,96 @@ function RegisterForm(props){
             </div>
             <form onSubmit={(event)=>SubmitButtonClicked(event)} className="registerForm">
                 <div className="flexRow">
-                    <div className="flexColumn">
-                        <input
-                            onChange={(event)=>setName(event.target.value)}
-                            id="name"
-                            type="text"
-                            placeholder="Imię"
-                            className="textInput"
-                            required
-                        />
-                        <input
-                            onChange={(event)=>setUsername(event.target.value)}
-                            id="username"
-                            type="text"
-                            placeholder="Nazwa użytkownika"
-                            className="textInput"
-                            required
-                        />
-                        <input
-                            onChange={(event)=>setPassword(event.target.value)}
-                            id="password"
-                            type="password"
-                            placeholder="Hasło"
-                            className="textInput"
-                            required
-                        />
-                        {/*<PasswordStrengthBar password={password}></PasswordStrengthBar>*/}
-                        <select
-                            onChange={(event)=>setGender(event.target.value)}
-                            id="gender"
-                            className="textInput"
-                            defaultValue="Wybierz płeć:"
-                            required
-                        >
-                            <option value="Wybierz płeć:" disabled >Wybierz płeć:</option>
-                            <option value="FEMALE">Kobieta</option>
-                            <option value="MALE">Mężczyzna</option>
-                            <option value="OTHER">Inna</option>
-                            </select>
-                    </div>
+                    <input
+                        onChange={(event)=>setName(event.target.value)}
+                        id="name"
+                        type="text"
+                        placeholder="Imię"
+                        className="textInput"
+                        required
+                    />
                     <div className="flexColumnSep"></div>
-                    <div className="flexColumn">
-                        <input
-                            onChange={(event)=>setSurname(event.target.value)}
-                            id="surname"
-                            type="text"
-                            placeholder="Nazwisko"
-                            className="textInput"
-                            required
-                        />
-                        <input
-                            onChange={(event)=>setEmail(event.target.value)}
-                            id="email"
-                            type="email"
-                            placeholder="Adres e-mail"
-                            className="textInput"
-                            required
-                        />
-                        <input
-                            onChange={(event)=> setConfirmPassword(event.target.value)}
-                            id="confirmPassword"
-                            type="password"
-                            placeholder="Potwierdź hasło"
-                            className="textInput"
-                            required
-                            ref={el=>confirmPasswordRef.current=el}
-                        />
-                        <input
-                            onChange={(event)=>setBirthDate(event.target.value)}
-                            id="birthdate"
-                            type="date"
-                            className="textInput"
-                            min="1900-01-01"
-                            max={currentTime}
-                            required
-                        />
-                    </div>
+                    <input
+                        onChange={(event)=>setSurname(event.target.value)}
+                        id="surname"
+                        type="text"
+                        placeholder="Nazwisko"
+                        className="textInput"
+                        required
+                    />
                 </div>
+                <div className="flexRow">
+                    <input
+                        onChange={(event)=>setUsername(event.target.value)}
+                        id="username"
+                        type="text"
+                        placeholder="Nazwa użytkownika"
+                        className="textInput"
+                        required
+                    />
+                    <div className="flexColumnSep"></div>
+                    <input
+                        onChange={(event)=>setEmail(event.target.value)}
+                        id="email"
+                        type="email"
+                        placeholder="Adres e-mail"
+                        className="textInput"
+                        required
+                    />
+                </div>
+                <div className="flexRow">
+                    <input
+                        onChange={(event)=>setPassword(event.target.value)}
+                        id="password"
+                        type="password"
+                        placeholder="Hasło"
+                        className="textInput"
+                        required
+                    />
+                    <div className="flexColumnSep"></div>
+                    <input
+                        onChange={(event)=> setConfirmPassword(event.target.value)}
+                        id="confirmPassword"
+                        type="password"
+                        placeholder="Potwierdź hasło"
+                        className="textInput"
+                        required
+                        ref={el=>confirmPasswordRef.current=el}
+                    />
+                </div>
+                {/*<div className="flexRow">*/}
+                {/*    <PasswordStrengthBar*/}
+                {/*        setters={setPasswordScore}*/}
+                {/*        className="fullWidth"*/}
+                {/*        password={password}*/}
+                {/*        required*/}
+                {/*    ></PasswordStrengthBar>*/}
+                {/*</div>*/}
+                <div className="flexRow">
+                    <select
+                        onChange={(event)=>setGender(event.target.value)}
+                        id="gender"
+                        className="textInput"
+                        defaultValue="Wybierz płeć:"
+                        required
+                    >
+                        <option value="Wybierz płeć:" disabled >Wybierz płeć:</option>
+                        <option value="FEMALE">Kobieta</option>
+                        <option value="MALE">Mężczyzna</option>
+                        <option value="OTHER">Inna</option>
+                        </select>
+                    <div className="flexColumnSep"></div>
+                    <input
+                        onChange={(event)=>setBirthDate(event.target.value)}
+                        id="birthdate"
+                        type="date"
+                        className="textInput"
+                        min="1900-01-01"
+                        max={currentTime}
+                        required
+                    />
+                </div>
+
                 <div className="agreementBox">
                     <input
                         onChange={()=>setAgreement(!agreement)}
