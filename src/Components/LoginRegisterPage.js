@@ -28,7 +28,7 @@ function LoginRegisterPage(){
             case 299:
                 return(<Alert onClose={()=>closeAlert()} severity="warning">{alert.alertText}</Alert>)
             default:
-                return(<Alert onClose={()=>closeAlert()} severity="error">Nieznany błąd.</Alert>)
+                return(<Alert onClose={()=>closeAlert()} severity="error">{alert.alertText}</Alert>)
         }
     }
 
