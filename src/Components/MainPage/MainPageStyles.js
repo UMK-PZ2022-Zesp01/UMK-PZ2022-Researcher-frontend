@@ -1,7 +1,7 @@
-import {makeStyles} from "@mui/material";
+import {createUseStyles} from "react-jss";
 
-export default makeStyles(()=>{
+export default createUseStyles({
     mainPage:{
 
-    }
+    },
 })

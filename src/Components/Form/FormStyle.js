@@ -80,19 +80,37 @@ export default createUseStyles({
         '&:-internal-autofill-selected':{
             WebkitBoxShadow: "0 0 0 50px #C6B1E7 inset",
         },
-        // '&:-webkit-autofill':{
-        //     WebkitBoxShadow: "0 0 0 50px #C6B1E7 inset",
-        //     '&:hover':{
-        //         WebkitBoxShadow: "0 0 0 50px #C6B1E7 inset",
-        //     },
-        //     '&:focus':{
-        //         WebkitBoxShadow: "0 0 0 50px #C6B1E7 inset",
-        //     },
-        //     '&:active':{
-        //         WebkitBoxShadow: "0 0 0 50px #C6B1E7 inset",
-        //     }
-        // },
+        '&:-webkit-autofill':{
+            WebkitBoxShadow: "0 0 0 50px #C6B1E7 inset",
+            '&:hover':{
+                WebkitBoxShadow: "0 0 0 50px #C6B1E7 inset",
+            },
+            '&:focus':{
+                WebkitBoxShadow: "0 0 0 50px #C6B1E7 inset",
+            },
+            '&:active':{
+                WebkitBoxShadow: "0 0 0 50px #C6B1E7 inset",
+            }
+        },
     },
+    select: {
+        width: "100%",
+        height: "2rem",
+        padding: "0.5rem",
+        margin: "0.25rem 0",
+        backgroundColor: "#C6B1E7",
+        display: "block",
+        appearance: "none",
+        border: "none",
+        '&:focus': {
+            appearance: "none",
+            outline: "none"
+        },
+        '&:-internal-autofill-selected':{
+            WebkitBoxShadow: "0 0 0 50px #C6B1E7 inset",
+        },
+    },
+
     submitButton: {
         padding: "0.5rem",
         margin: "0.5rem 0",

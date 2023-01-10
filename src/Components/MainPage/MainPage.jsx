@@ -1,8 +1,9 @@
 import MainPageStyles from "./MainPageStyles";
 
 function MainPage(){
+    const styles = MainPageStyles()
     return(
-        <div className="MainPage">
+        <div className={styles.mainPage}>
             MainPage
         </div>
     );

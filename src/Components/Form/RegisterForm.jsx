@@ -7,8 +7,8 @@ import PasswordStrengthBar from "react-password-strength-bar";
 
 function RegisterForm(props){
     const styles=FormStyle()
-    const [name, setName] = React.useState("");
-    const [surname, setSurname] = React.useState("");
+    const [firstName, setFirstName] = React.useState("");
+    const [lastName, setLastName] = React.useState("");
     const [username, setUsername] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -27,11 +27,42 @@ function RegisterForm(props){
     let user = {
         login: username,
         password: password,
-        firstName: name,
-        lastName: surname,
+        firstName: firstName,
+        lastName: lastName,
         email: email,
         birthDate: birthDate,
         gender: gender
+    }
+
+    const handleFirstNameChanged=(event)=>{
+        setFirstName(event.target.value)
+    }
+    const handleLastNameChanged=(event)=>{
+        setLastName(event.target.value)
+    }
+    const handleUsernameChanged=(event)=>{
+        setUsername(event.target.value)
+    }
+    const handleEmailChanged=(event)=>{
+        setEmail(event.target.value)
+    }
+    const handlePasswordChanged=(event)=>{
+        setPassword(event.target.value)
+    }
+    const handleConfirmPasswordChanged=(event)=>{
+        setConfirmPassword(event.target.value)
+    }
+    const handleScoreChanged=(score, feedback)=>{
+        setPasswordScore(score)
+    }
+    const handleGenderChanged=(event)=>{
+        setGender(event.target.value)
+    }
+    const handleBirthDateChanged=(event)=>{
+        setBirthDate(event.target.value)
+    }
+    const handleAgreementChanged=()=>{
+        setAgreement(!agreement)
     }
 
 
@@ -39,7 +70,7 @@ function RegisterForm(props){
     function validatePassword(){
         let pass = passwordRef.current
         let confirm = confirmPasswordRef.current
-        if (passwordScore<1){
+        if (passwordScore<2){
             pass.setCustomValidity("Hasło jest za słabe.")
         }else{
             pass.setCustomValidity("")
@@ -100,8 +131,8 @@ function RegisterForm(props){
             <form onSubmit={(event)=>SubmitButtonClicked(event)} className={styles.registerForm}>
                 <div className={styles.flexRow}>
                     <input
-                        onChange={(event)=>setName(event.target.value)}
-                        id="name"
+                        onChange={(event)=>handleFirstNameChanged(event)}
+                        id="firstName"
                         type="text"
                         placeholder="Imię"
                         className={styles.textInput}
@@ -109,8 +140,8 @@ function RegisterForm(props){
                     />
                     <div className={styles.flexColumnSep}></div>
                     <input
-                        onChange={(event)=>setSurname(event.target.value)}
-                        id="surname"
+                        onChange={(event)=>handleLastNameChanged(event)}
+                        id="lastName"
                         type="text"
                         placeholder="Nazwisko"
                         className={styles.textInput}
@@ -119,7 +150,7 @@ function RegisterForm(props){
                 </div>
                 <div className={styles.flexRow}>
                     <input
-                        onChange={(event)=>setUsername(event.target.value)}
+                        onChange={(event)=>handleUsernameChanged(event)}
                         id="username"
                         type="text"
                         placeholder="Nazwa użytkownika"
@@ -128,7 +159,7 @@ function RegisterForm(props){
                     />
                     <div className={styles.flexColumnSep}></div>
                     <input
-                        onChange={(event)=>setEmail(event.target.value)}
+                        onChange={(event)=>handleEmailChanged(event)}
                         id="email"
                         type="email"
                         placeholder="Adres e-mail"
@@ -138,7 +169,7 @@ function RegisterForm(props){
                 </div>
                 <div className={styles.flexRow}>
                     <input
-                        onChange={(event)=>setPassword(event.target.value)}
+                        onChange={(event)=>handlePasswordChanged(event)}
                         id="password"
                         type="password"
                         placeholder="Hasło"
@@ -148,7 +179,7 @@ function RegisterForm(props){
                     />
                     <div className={styles.flexColumnSep}></div>
                     <input
-                        onChange={(event)=> setConfirmPassword(event.target.value)}
+                        onChange={(event)=>handleConfirmPasswordChanged(event)}
                         id="confirmPassword"
                         type="password"
                         placeholder="Potwierdź hasło"
@@ -159,17 +190,19 @@ function RegisterForm(props){
                 </div>
                 <div className={styles.flexRow}>
                     <PasswordStrengthBar
-                        onChangeScore={(score, feedback)=>setPasswordScore(score)}
+                        onChangeScore={(score, feedback)=>handleScoreChanged(score,feedback)}
                         setPasswordScore={setPasswordScore}
                         className={styles.fullWidth}
                         password={password}
+                        scoreWords={['Słabe', 'Słabe','Ok','Silne',"Bardzo Silne"]}
+                        shortScoreWord={"Zbyt krótkie"}
                     ></PasswordStrengthBar>
                 </div>
                 <div className={styles.flexRow}>
                     <select
-                        onChange={(event)=>setGender(event.target.value)}
+                        onChange={(event)=>handleGenderChanged(event)}
                         id="gender"
-                        className={styles.textInput}
+                        className={styles.select}
                         defaultValue="Wybierz płeć:"
                         required
                     >
@@ -180,7 +213,7 @@ function RegisterForm(props){
                         </select>
                     <div className={styles.flexColumnSep}></div>
                     <input
-                        onChange={(event)=>setBirthDate(event.target.value)}
+                        onChange={(event)=>handleBirthDateChanged(event)}
                         id="birthdate"
                         type="date"
                         className={styles.textInput}
@@ -192,7 +225,7 @@ function RegisterForm(props){
 
                 <div className={styles.agreementBox}>
                     <input
-                        onChange={()=>setAgreement(!agreement)}
+                        onChange={()=>handleAgreementChanged()}
                         id="agreement"
                         type="checkbox"
                         className={styles.checkboxInput}
