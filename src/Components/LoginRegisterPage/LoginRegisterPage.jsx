@@ -1,12 +1,16 @@
-import "./LoginRegisterPage.css"
-import BannerWhite from "./BannerWhite";
-import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
-import {Alert, Collapse} from "@mui/material";
 import React from "react";
+import LoginRegisterPageStyle from "./LoginRegisterPageStyle";
+import BannerWhite from "../Banner/BannerWhite";
+import LoginForm from "../Form/LoginForm";
+import RegisterForm from "../Form/RegisterForm";
+import {Alert, Collapse} from "@mui/material";
+
+
 
 
 function LoginRegisterPage(){
+    const styles=LoginRegisterPageStyle()
+
     const [alert, setAlert] = React.useState({
         alertOpen: false,
         alertType: 0,
@@ -33,20 +37,20 @@ function LoginRegisterPage(){
     }
 
     return(
-        <div className="loginRegisterPage">
+        <div className={styles.loginRegisterPage}>
 
-            <div className="loginRegisterPanel">
-                <div className="alertOverlay">
+            <div className={styles.loginRegisterPanel}>
+                <div className={styles.alertOverlay}>
                     <Collapse in={alert.alertOpen}>
                         {showAlert()}
                     </Collapse>
                 </div>
-                <div className="header">
+                <div className={styles.header}>
                     <BannerWhite/>
                 </div>
-                <div className="main">
+                <div className={styles.main}>
                     <LoginForm setters={setAlert}/>
-                    <div className="separator"/>
+                    <div className={styles.separator}/>
                     <RegisterForm setters={setAlert}/>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 import "./Banner.css"
-import banner from "../img/banner2.png"
+import banner from "../../img/banner2.png"
 
 function BannerWhite(){
     return(

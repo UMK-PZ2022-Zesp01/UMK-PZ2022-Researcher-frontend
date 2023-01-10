@@ -1,4 +1,4 @@
-import "./MainPage.css"
+import MainPageStyles from "./MainPageStyles";
 
 function MainPage(){
     return(

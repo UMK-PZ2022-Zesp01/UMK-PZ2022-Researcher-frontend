@@ -1,9 +1,10 @@
-import getApiUrl from "../Common/Api.js"
+import getApiUrl from "../../Common/Api.js"
 import React from 'react';
-import "./Form.css"
+import FormStyle from "./FormStyle"
 
 
 function LoginForm(){
+    const styles=FormStyle()
     const [login, setLogin] = React.useState("")
     const [password, setPassword] = React.useState("")
 
@@ -28,30 +29,30 @@ function LoginForm(){
     }
 
     return(
-        <div className="loginFormBox">
-            <div className="hBox">
-                <h2>Zaloguj się</h2>
+        <div className={styles.loginFormBox}>
+            <div className={styles.hBox}>
+                <div className={styles.h2}>Zaloguj się</div>
             </div>
-            <form onSubmit={(event)=>SubmitButtonClicked(event)} className="loginForm">
+            <form onSubmit={(event)=>SubmitButtonClicked(event)} className={styles.loginForm}>
                 <input
                     id="login"
                     type="text"
                     placeholder="Login lub adres email"
-                    className="textInput"
+                    className={styles.textInput}
                     required
                 />
                 <input
                     type="password"
                     placeholder="Hasło"
-                    className="textInput"
+                    className={styles.textInput}
                     required
                 />
-                <a href="/" className="aPurple">Nie pamiętam hasła</a>
-                <button type="submit" className="submitButton">ZALOGUJ</button>
-                <div className="orLoginWith"><span>lub</span></div>
-                <div className="flexRow">
-                    <button className="loginWith">Zaloguj z G</button>
-                    <button className="loginWith">Zaloguj z FB</button>
+                <a href="/" className={styles.aPurple}>Nie pamiętam hasła</a>
+                <button type="submit" className={styles.submitButton}>ZALOGUJ</button>
+                <div className={styles.orLoginWith}><span>lub</span></div>
+                <div className={styles.flexRow}>
+                    <button className={styles.loginWith}>Zaloguj z G</button>
+                    <button className={styles.loginWith}>Zaloguj z FB</button>
                 </div>
 
             </form>

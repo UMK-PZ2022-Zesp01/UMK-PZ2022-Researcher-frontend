@@ -1,5 +1,5 @@
 import "./Banner.css"
-import banner from "../img/banner1.png"
+import banner from "../../img/banner1.png"
 
 function BannerPurple(){
     return(

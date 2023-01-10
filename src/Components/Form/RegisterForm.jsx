@@ -1,22 +1,24 @@
-import getApiUrl from "../Common/Api.js"
-import React from 'react';
-import "./Form.css"
-import {useRef} from "react";
 
+import React from 'react';
+import FormStyle from "./FormStyle"
+import getApiUrl from "../../Common/Api.js"
+import {useRef} from "react";
+import PasswordStrengthBar from "react-password-strength-bar";
 
 function RegisterForm(props){
+    const styles=FormStyle()
     const [name, setName] = React.useState("");
     const [surname, setSurname] = React.useState("");
     const [username, setUsername] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [confirmPassword, setConfirmPassword] = React.useState("");
-    // const [passwordScore, setPasswordScore] = React.useState(0);
+    const [passwordScore, setPasswordScore] = React.useState(0);
     const [gender, setGender] = React.useState("");
     const [birthDate, setBirthDate] = React.useState("");
     const [agreement, setAgreement] = React.useState(false);
 
-
+    const passwordRef = useRef(null);
     const confirmPasswordRef = useRef(null);
     const setAlert = props.setters
 
@@ -35,15 +37,18 @@ function RegisterForm(props){
 
     //SUBMIT BUTTON onClick function
     function validatePassword(){
+        let pass = passwordRef.current
         let confirm = confirmPasswordRef.current
+        if (passwordScore<1){
+            pass.setCustomValidity("Hasło jest za słabe.")
+        }else{
+            pass.setCustomValidity("")
+        }
         if (password!==confirmPassword){
             confirm.setCustomValidity("Hasła się nie zgadzają.")
         }else {
             confirm.setCustomValidity("")
         }
-        // if (passwordScore<1){
-        //
-        // }
     }
 
     function SubmitButtonClicked(event){
@@ -87,83 +92,84 @@ function RegisterForm(props){
     }
 
     return(
-        <div className="registerFormBox">
-            <div className="hBox">
-                <h3>Nie posiadasz konta?</h3>
-                <h2>Zarejestruj się</h2>
+        <div className={styles.registerFormBox}>
+            <div className={styles.hBox}>
+                <div className={styles.h3}>Nie posiadasz konta?</div>
+                <div className={styles.h2}>Zarejestruj się</div>
             </div>
-            <form onSubmit={(event)=>SubmitButtonClicked(event)} className="registerForm">
-                <div className="flexRow">
+            <form onSubmit={(event)=>SubmitButtonClicked(event)} className={styles.registerForm}>
+                <div className={styles.flexRow}>
                     <input
                         onChange={(event)=>setName(event.target.value)}
                         id="name"
                         type="text"
                         placeholder="Imię"
-                        className="textInput"
+                        className={styles.textInput}
                         required
                     />
-                    <div className="flexColumnSep"></div>
+                    <div className={styles.flexColumnSep}></div>
                     <input
                         onChange={(event)=>setSurname(event.target.value)}
                         id="surname"
                         type="text"
                         placeholder="Nazwisko"
-                        className="textInput"
+                        className={styles.textInput}
                         required
                     />
                 </div>
-                <div className="flexRow">
+                <div className={styles.flexRow}>
                     <input
                         onChange={(event)=>setUsername(event.target.value)}
                         id="username"
                         type="text"
                         placeholder="Nazwa użytkownika"
-                        className="textInput"
+                        className={styles.textInput}
                         required
                     />
-                    <div className="flexColumnSep"></div>
+                    <div className={styles.flexColumnSep}></div>
                     <input
                         onChange={(event)=>setEmail(event.target.value)}
                         id="email"
                         type="email"
                         placeholder="Adres e-mail"
-                        className="textInput"
+                        className={styles.textInput}
                         required
                     />
                 </div>
-                <div className="flexRow">
+                <div className={styles.flexRow}>
                     <input
                         onChange={(event)=>setPassword(event.target.value)}
                         id="password"
                         type="password"
                         placeholder="Hasło"
-                        className="textInput"
+                        className={styles.textInput}
                         required
+                        ref={el=>passwordRef.current=el}
                     />
-                    <div className="flexColumnSep"></div>
+                    <div className={styles.flexColumnSep}></div>
                     <input
                         onChange={(event)=> setConfirmPassword(event.target.value)}
                         id="confirmPassword"
                         type="password"
                         placeholder="Potwierdź hasło"
-                        className="textInput"
+                        className={styles.textInput}
                         required
                         ref={el=>confirmPasswordRef.current=el}
                     />
                 </div>
-                {/*<div className="flexRow">*/}
-                {/*    <PasswordStrengthBar*/}
-                {/*        setters={setPasswordScore}*/}
-                {/*        className="fullWidth"*/}
-                {/*        password={password}*/}
-                {/*        required*/}
-                {/*    ></PasswordStrengthBar>*/}
-                {/*</div>*/}
-                <div className="flexRow">
+                <div className={styles.flexRow}>
+                    <PasswordStrengthBar
+                        onChangeScore={(score, feedback)=>setPasswordScore(score)}
+                        setPasswordScore={setPasswordScore}
+                        className={styles.fullWidth}
+                        password={password}
+                    ></PasswordStrengthBar>
+                </div>
+                <div className={styles.flexRow}>
                     <select
                         onChange={(event)=>setGender(event.target.value)}
                         id="gender"
-                        className="textInput"
+                        className={styles.textInput}
                         defaultValue="Wybierz płeć:"
                         required
                     >
@@ -172,29 +178,29 @@ function RegisterForm(props){
                         <option value="MALE">Mężczyzna</option>
                         <option value="OTHER">Inna</option>
                         </select>
-                    <div className="flexColumnSep"></div>
+                    <div className={styles.flexColumnSep}></div>
                     <input
                         onChange={(event)=>setBirthDate(event.target.value)}
                         id="birthdate"
                         type="date"
-                        className="textInput"
+                        className={styles.textInput}
                         min="1900-01-01"
                         max={currentTime}
                         required
                     />
                 </div>
 
-                <div className="agreementBox">
+                <div className={styles.agreementBox}>
                     <input
                         onChange={()=>setAgreement(!agreement)}
                         id="agreement"
                         type="checkbox"
-                        className="checkboxInput"
+                        className={styles.checkboxInput}
                         required
                     />
                     <label htmlFor="agreement">Wyrażam zgodę na przetwarzanie moich danych osobowych.</label>
                 </div>
-                <button onClick={validatePassword} type="submit" className="submitButton">ZAREJESTRUJ</button>
+                <button onClick={validatePassword} type="submit" className={styles.submitButton}>ZAREJESTRUJ</button>
             </form>
         </div>
     )
