@@ -85,41 +85,48 @@ function RegisterForm(props){
     function SubmitButtonClicked(event){
         event.preventDefault()
 
-        fetch(getApiUrl() + "addUser", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json; charset:UTF-8'
-            },
-            body: JSON.stringify(user)
-        }).then(response => {
-            if(response.ok){ //OK or CREATED
-                let text;
-                switch(response.status){
-                    case 201:
-                        text = "Rejestracja przebiegła pomyślnie.";
-                        break;
-                    case 299:
-                        text = "Ten email jest już zajęty.";
-                        break;
-                    case 298:
-                        text = "Ta nazwa użytkownika jest już zajęta.";
-                        break;
-                    default:
-                        text = "Co to się stanęło?"
+        try {
+            fetch(getApiUrl() + "addUser", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json; charset:UTF-8'
+                },
+                body: JSON.stringify(user)
+            }).then(response => {
+                if (response.ok) { //OK or CREATED
+                    let text;
+                    switch (response.status) {
+                        case 201:
+                            text = "Rejestracja przebiegła pomyślnie.";
+                            break;
+                        case 299:
+                            text = "Ten email jest już zajęty.";
+                            break;
+                        case 298:
+                            text = "Ta nazwa użytkownika jest już zajęta.";
+                            break;
+                        default:
+                            text = "Co to się stanęło?"
+                    }
+                    setAlert({
+                        alertOpen: true,
+                        alertType: response.status,
+                        alertText: text
+                    });
                 }
+                else{
+                    console.log(response.status)
+                }
+            }).catch(() => {
                 setAlert({
                     alertOpen: true,
-                    alertType: response.status,
-                    alertText: text
+                    alertType: 999,
+                    alertText: "Coś poszło nie tak."
                 });
-            }
-        }).catch(()=>{
-            setAlert({
-                alertOpen: true,
-                alertType:999,
-                alertText:"Coś poszło nie tak."
-            });
-        })
+            })
+        }catch (error){
+            console.log(error)
+        }
     }
 
     return(
@@ -136,6 +143,7 @@ function RegisterForm(props){
                         type="text"
                         placeholder="Imię"
                         className={styles.textInput}
+                        maxLength={32}
                         required
                     />
                     <div className={styles.flexColumnSep}></div>
@@ -145,6 +153,7 @@ function RegisterForm(props){
                         type="text"
                         placeholder="Nazwisko"
                         className={styles.textInput}
+                        maxLength={32}
                         required
                     />
                 </div>
@@ -155,6 +164,7 @@ function RegisterForm(props){
                         type="text"
                         placeholder="Nazwa użytkownika"
                         className={styles.textInput}
+                        maxLength={32}
                         required
                     />
                     <div className={styles.flexColumnSep}></div>
@@ -164,6 +174,7 @@ function RegisterForm(props){
                         type="email"
                         placeholder="Adres e-mail"
                         className={styles.textInput}
+                        maxLength={64}
                         required
                     />
                 </div>
@@ -175,6 +186,7 @@ function RegisterForm(props){
                         placeholder="Hasło"
                         className={styles.textInput}
                         required
+                        maxLength={32}
                         ref={el=>passwordRef.current=el}
                     />
                     <div className={styles.flexColumnSep}></div>
@@ -185,6 +197,7 @@ function RegisterForm(props){
                         placeholder="Potwierdź hasło"
                         className={styles.textInput}
                         required
+                        maxLength={32}
                         ref={el=>confirmPasswordRef.current=el}
                     />
                 </div>
@@ -206,10 +219,10 @@ function RegisterForm(props){
                         defaultValue="Wybierz płeć:"
                         required
                     >
-                        <option value="Wybierz płeć:" disabled >Wybierz płeć:</option>
-                        <option value="FEMALE">Kobieta</option>
-                        <option value="MALE">Mężczyzna</option>
-                        <option value="OTHER">Inna</option>
+                        <option className={styles.option} value="Wybierz płeć:" hidden disabled>Wybierz płeć:</option>
+                        <option className={styles.option} value="female">Kobieta</option>
+                        <option className={styles.option} value="male">Mężczyzna</option>
+                        <option className={styles.option} value="other">Inna</option>
                         </select>
                     <div className={styles.flexColumnSep}></div>
                     <input

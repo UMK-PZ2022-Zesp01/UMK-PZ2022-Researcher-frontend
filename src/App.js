@@ -1,7 +1,8 @@
 import './App.css';
-import {  Routes, Route } from "react-router-dom";
+import {Routes, Route, Router, BrowserRouter} from "react-router-dom";
 import MainPage from "./Components/MainPage/MainPage";
 import LoginRegisterPage from "./Components/LoginRegisterPage/LoginRegisterPage";
+import React from "react";
 
 
 
@@ -9,10 +10,12 @@ import LoginRegisterPage from "./Components/LoginRegisterPage/LoginRegisterPage"
 function App() {
   return (
     <div className="App">
-        <Routes>
-            <Route index element={<MainPage/>}/>
-            <Route path="login" element={<LoginRegisterPage/>}/>
-        </Routes>
+        <BrowserRouter basename="/">
+            <Routes>
+                <Route index element={<MainPage/>}/>
+                <Route path="login" element={<LoginRegisterPage/>}/>
+            </Routes>
+        </BrowserRouter>
     </div>
   );
 }

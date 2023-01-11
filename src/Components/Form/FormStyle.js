@@ -94,6 +94,7 @@ export default createUseStyles({
         },
     },
     select: {
+        position: 'static',
         width: "100%",
         height: "2rem",
         padding: "0.5rem",
@@ -109,6 +110,14 @@ export default createUseStyles({
         '&:-internal-autofill-selected':{
             WebkitBoxShadow: "0 0 0 50px #C6B1E7 inset",
         },
+        backgroundImage: "linear-gradient(45deg, transparent 50%, #000000 50%),\r\n    linear-gradient(135deg, #000000 50%, transparent 50%),\r\n    linear-gradient(to right, #C6B1E7, #C6B1E7)",
+        backgroundPosition: "calc(100% - 20px) calc(1em + 2px),\r\n    calc(100% - 15px) calc(1em + 2px),\r\n    100% 0",
+        backgroundSize: "5px 5px,\r\n    5px 5px,\r\n    2.5em 2.5em",
+        backgroundRepeat: "no-repeat",
+    },
+
+    option:{
+        lineHeight:'2rem',
     },
 
     submitButton: {
@@ -195,17 +204,5 @@ export default createUseStyles({
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between"
-    },
-    PasswordStrengthBar: {
-        width: "100%",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between"
-    },
-    barPart: {
-        content: "\"\"",
-        backgroundColor: "#6D3B9E",
-        width: "24%",
-        height: "3px"
-    },
+    }
 })

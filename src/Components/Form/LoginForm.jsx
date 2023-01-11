@@ -1,11 +1,15 @@
-import getApiUrl from "../../Common/Api.js"
 import React from 'react';
+import {useContext} from "react";
+import AuthContext from "../../Common/AuthProvider";
 import FormStyle from "./FormStyle"
+import getApiUrl from "../../Common/Api.js"
 
+const LOGIN_URL = '/login'
 
 function LoginForm(){
+    const {setAuth} = useContext(AuthContext);
     const styles=FormStyle()
-    const [login, setLogin] = React.useState("")
+    const [username, setUsername] = React.useState("")
     const [password, setPassword] = React.useState("")
 
     //z tablicy ogloszen, do gruntownej zmiany
@@ -23,25 +27,78 @@ function LoginForm(){
     //     })
     // }
 
-    function SubmitButtonClicked(event){
+    async function SubmitButtonClicked(event) {
         event.preventDefault()
+
+        const loginData = {
+            username: username,
+            password: password,
+        }
+
+        try {
+            await fetch(getApiUrl() + LOGIN_URL, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json; charset:UTF-8'
+                },
+                withCredentials: true,
+                body: JSON.stringify(loginData)
+            }).then(response => {
+                if(response.ok){
+                    response.json().then(json=>{
+                        console.log(json)
+                        const accessToken = response?.data?.accessToken;
+                        const roles = response?.data?.roles;
+                        setAuth({username,password, roles, accessToken});
+                        setUsername('')
+                        setPassword('')
+                    })
+                }
+            }).catch((reason)=>{
+                console.log(reason)
+            })
+        } catch (error) {
+            if(!error.response){
+                console.log('No server response.')
+            }else if(error.response?.status === 400 ){
+                console.log("Missing username or password.")
+            }else if (error.response?.status === 401){
+                console.log('Unauthorized.')
+            }
+            console.log(error)
+        }
+
+        console.log(username)
+        console.log(password)
+
 
     }
 
+    const handleUsernameChanged = (event) => {
+        setUsername(event.target.value)
+    }
+
+    const handlePasswordChanged = (event) => {
+        setPassword(event.target.value)
+    }
+
     return(
-        <div className={styles.loginFormBox}>
+        <section className={styles.loginFormBox}>
             <div className={styles.hBox}>
                 <div className={styles.h2}>Zaloguj się</div>
             </div>
             <form onSubmit={(event)=>SubmitButtonClicked(event)} className={styles.loginForm}>
                 <input
-                    id="login"
+                    onChange={(event)=>handleUsernameChanged(event)}
+                    autoFocus
+                    id="username"
                     type="text"
                     placeholder="Login lub adres email"
                     className={styles.textInput}
                     required
                 />
                 <input
+                    onChange={(event)=>handlePasswordChanged(event)}
                     type="password"
                     placeholder="Hasło"
                     className={styles.textInput}
@@ -56,7 +113,7 @@ function LoginForm(){
                 </div>
 
             </form>
-        </div>
+        </section>
     )
 }
 
