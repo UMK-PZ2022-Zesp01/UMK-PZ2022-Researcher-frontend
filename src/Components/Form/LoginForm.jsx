@@ -4,7 +4,7 @@ import AuthContext from "../../Common/AuthProvider";
 import FormStyle from "./FormStyle"
 import getApiUrl from "../../Common/Api.js"
 
-const LOGIN_URL = '/login'
+const LOGIN_URL = 'auth'
 
 function LoginForm(){
     const {setAuth} = useContext(AuthContext);
@@ -38,16 +38,17 @@ function LoginForm(){
         try {
             await fetch(getApiUrl() + LOGIN_URL, {
                 method: "POST",
+                credentials:"include",
                 headers: {
-                    'Content-Type': 'application/json; charset:UTF-8'
+                    'Content-Type': 'application/json; charset:UTF-8',
                 },
-                withCredentials: true,
                 body: JSON.stringify(loginData)
             }).then(response => {
                 if(response.ok){
-                    response.json().then(json=>{
-                        console.log(json)
-                        const accessToken = response?.data?.accessToken;
+                    response.text().then(text=>{
+                        console.log(text)
+                        // const refreshToken =
+                        const accessToken = text;
                         const roles = response?.data?.roles;
                         setAuth({username,password, roles, accessToken});
                         setUsername('')
@@ -67,11 +68,6 @@ function LoginForm(){
             }
             console.log(error)
         }
-
-        console.log(username)
-        console.log(password)
-
-
     }
 
     const handleUsernameChanged = (event) => {
@@ -91,7 +87,7 @@ function LoginForm(){
                 <input
                     onChange={(event)=>handleUsernameChanged(event)}
                     autoFocus
-                    id="username"
+                    id="usernameLog"
                     type="text"
                     placeholder="Login lub adres email"
                     className={styles.textInput}

@@ -1,7 +1,17 @@
 .App {
   text-align: center;
+  width: 100%;
+  height: 100%;
+}
+.App::after{
+  z-index: -1000;
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #512c8c;
+  background: linear-gradient(135deg, rgba(148,205,233,1) 0%, rgba(92,19,116,1) 100%);
 }
+
 

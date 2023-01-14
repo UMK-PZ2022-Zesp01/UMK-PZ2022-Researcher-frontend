@@ -4,9 +4,6 @@ import MainPage from "./Components/MainPage/MainPage";
 import LoginRegisterPage from "./Components/LoginRegisterPage/LoginRegisterPage";
 import React from "react";
 
-
-
-
 function App() {
   return (
     <div className="App">

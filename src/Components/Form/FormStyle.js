@@ -32,14 +32,16 @@ export default createUseStyles({
     loginFormBox: {
         display: "flex",
         flexDirection: "column",
+        flexBasis:'33%',
         flexGrow: "1",
         margin: "0"
     },
     registerFormBox: {
         display: "flex",
         flexDirection: "column",
-        flexGrow: "2",
-        margin: "0"
+        flexBasis:'66%',
+        flexGrow: '2',
+        margin: '0'
     },
     loginForm: {
         display: "flex",
@@ -205,4 +207,5 @@ export default createUseStyles({
         flexDirection: "column",
         justifyContent: "space-between"
     }
+
 })

@@ -4,10 +4,8 @@ import {createUseStyles} from 'react-jss'
 
 export default createUseStyles({
         loginRegisterPage:{
-            width: '100vw',
-            height: '100vh',
-
-            backgroundColor: '#717171'
+            width: '100%',
+            height: '100%'
         },
         loginRegisterPanel:{
             position: 'relative',
@@ -43,15 +41,17 @@ export default createUseStyles({
 
             display: 'flex',
             flexDirection: 'row',
-
-
+            flexWrap: 'wrap',
 
             backgroundColor: '#F4F0FA',
             borderRadius: '10px',
+
         },
         separator:{
             width: '3px',
             margin: '0',
+            flexBasis: '3px',
+            flexShrink:'1',
 
             backgroundColor: '#512c8c',
             borderRadius: '2px',

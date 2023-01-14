@@ -5,6 +5,8 @@ import getApiUrl from "../../Common/Api.js"
 import {useRef} from "react";
 import PasswordStrengthBar from "react-password-strength-bar";
 
+const REGISTER_URL = "addUser"
+
 function RegisterForm(props){
     const styles=FormStyle()
     const [firstName, setFirstName] = React.useState("");
@@ -86,7 +88,7 @@ function RegisterForm(props){
         event.preventDefault()
 
         try {
-            fetch(getApiUrl() + "addUser", {
+            fetch(getApiUrl() + REGISTER_URL, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json; charset:UTF-8'
@@ -160,7 +162,7 @@ function RegisterForm(props){
                 <div className={styles.flexRow}>
                     <input
                         onChange={(event)=>handleUsernameChanged(event)}
-                        id="username"
+                        id="usernameReg"
                         type="text"
                         placeholder="Nazwa użytkownika"
                         className={styles.textInput}
