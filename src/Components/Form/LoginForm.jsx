@@ -4,7 +4,7 @@ import AuthContext from "../../Common/AuthProvider";
 import FormStyle from "./FormStyle"
 import getApiUrl from "../../Common/Api.js"
 
-const LOGIN_URL = 'auth'
+const LOGIN_URL = 'login'
 
 function LoginForm(){
     const {setAuth} = useContext(AuthContext);
@@ -30,11 +30,6 @@ function LoginForm(){
     async function SubmitButtonClicked(event) {
         event.preventDefault()
 
-        const loginData = {
-            username: username,
-            password: password,
-        }
-
         try {
             await fetch(getApiUrl() + LOGIN_URL, {
                 method: "POST",
@@ -42,15 +37,15 @@ function LoginForm(){
                 headers: {
                     'Content-Type': 'application/json; charset:UTF-8',
                 },
-                body: JSON.stringify(loginData)
+                body: JSON.stringify({username,password})
             }).then(response => {
                 if(response.ok){
                     response.text().then(text=>{
                         console.log(text)
                         // const refreshToken =
                         const accessToken = text;
-                        const roles = response?.data?.roles;
-                        setAuth({username,password, roles, accessToken});
+                        // const roles = response?.data?.roles;
+                        setAuth({username,password, accessToken});
                         setUsername('')
                         setPassword('')
                     })
