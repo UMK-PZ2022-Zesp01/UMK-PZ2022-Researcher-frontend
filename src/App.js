@@ -1,19 +1,28 @@
 import './App.css';
-import {Routes, Route, Router, BrowserRouter} from "react-router-dom";
-import MainPage from "./Components/MainPage/MainPage";
-import LoginRegisterPage from "./Components/LoginRegisterPage/LoginRegisterPage";
-import React from "react";
+
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+
+import MainPage from './Components/MainPage/MainPage';
+import LoginRegisterPage from './Components/LoginRegisterPage/LoginRegisterPage';
+import RequireAuth from './Common/RequireAuth';
+import PersistLogin from './Common/PersistLogin';
+import Layout from './Common/Layout';
 
 function App() {
   return (
-    <div className="App">
-        <BrowserRouter basename="/">
-            <Routes>
-                <Route index element={<MainPage/>}/>
-                <Route path="user" element={<LoginRegisterPage/>}/>
-            </Routes>
-        </BrowserRouter>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="/login" element={<LoginRegisterPage />} />
+        <Route element={<PersistLogin />}>
+          <Route path="/" element={<MainPage />} />
+          <Route element={<RequireAuth />}>
+            <Route path="/authTest" element={<MainPage />} />
+          </Route>
+        </Route>
+        {/*<Route path="*" element={<Missing/>}></Route>*/}
+      </Route>
+    </Routes>
   );
 }
 
