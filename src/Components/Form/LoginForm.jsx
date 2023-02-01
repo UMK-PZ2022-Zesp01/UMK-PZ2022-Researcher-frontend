@@ -6,8 +6,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const LOGIN_URL = 'login';
 
-function LoginForm() {
+function LoginForm(props) {
   const { setAuth } = useAuth();
+  const setAlert = props.setters;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,18 +34,27 @@ function LoginForm() {
         }),
       })
         .then(response => {
-          if (response.ok) {
-            response.json().then(result => {
-              const accessToken = result.accessToken;
-              setAuth({ username, password, accessToken });
-              setUsername('');
-              setPassword('');
-              navigate(from, { replace: true });
-            });
-          }
+          response.ok
+            ? response.json().then(result => {
+                const accessToken = result.accessToken;
+                setAuth({ username, password, accessToken });
+                setUsername('');
+                setPassword('');
+                navigate(from, { replace: true });
+              })
+            : setAlert({
+                alertOpen: true,
+                alertType: response.status,
+                alertText: 'Logowanie nie powiodło się, sprawdź poprawność loginu oraz hasła',
+              });
         })
         .catch(reason => {
           console.log(reason);
+          setAlert({
+            alertOpen: true,
+            alertType: 404,
+            alertText: 'Logowanie nie powiodło się. Prosimy spróbować ponownie później.',
+          });
         });
     } catch (error) {
       if (!error.response) {
