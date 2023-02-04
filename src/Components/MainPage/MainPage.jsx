@@ -25,7 +25,7 @@ function MainPage() {
 
     const getPosts = async () => {
       try {
-        await fetch(getApiUrl() + 'getAllResearches', {
+        await fetch(getApiUrl() + 'researches', {
           signal,
           method: 'GET',
           headers: {
