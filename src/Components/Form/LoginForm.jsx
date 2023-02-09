@@ -4,7 +4,7 @@ import getApiUrl from '../../Common/Api.js';
 import useAuth from '../../hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const LOGIN_URL = 'login';
+const LOGIN_URL = getApiUrl() +  'login';
 
 function LoginForm(props) {
   const { setAuth } = useAuth();
@@ -22,7 +22,7 @@ function LoginForm(props) {
     event.preventDefault();
 
     try {
-      await fetch(getApiUrl() + LOGIN_URL, {
+      await fetch(LOGIN_URL, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -37,7 +37,7 @@ function LoginForm(props) {
           response.ok
             ? response.json().then(result => {
                 const accessToken = result.accessToken;
-                setAuth({ username, password, accessToken });
+                setAuth({ username, accessToken });
                 setUsername('');
                 setPassword('');
                 navigate(from, { replace: true });

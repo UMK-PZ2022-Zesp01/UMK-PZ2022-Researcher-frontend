@@ -1,17 +1,14 @@
 import useAuth from './useAuth';
 import getApiUrl from '../Common/Api';
-import { useEffect } from 'react';
 
-const REFRESH_URL = 'auth/refresh';
+const REFRESH_URL = getApiUrl() + 'auth/refresh';
 
 const useRefreshToken = () => {
   const { setAuth } = useAuth();
 
-  useEffect(() => {}, []);
-
   const refresh = async () => {
     try {
-      await fetch(getApiUrl() + REFRESH_URL, {
+      await fetch(REFRESH_URL, {
         method: 'GET',
         credentials: 'include',
         headers: {
@@ -24,7 +21,7 @@ const useRefreshToken = () => {
               await setAuth(result);
             });
           } else {
-            console.log('Access denied');
+            // console.log('Access denied');
           }
         })
         .catch(e => {
