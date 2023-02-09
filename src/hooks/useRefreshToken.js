@@ -2,7 +2,7 @@ import useAuth from './useAuth';
 import getApiUrl from '../Common/Api';
 import { useEffect } from 'react';
 
-const REFRESH_URL = 'refreshAccess';
+const REFRESH_URL = 'auth/refresh';
 
 const useRefreshToken = () => {
   const { setAuth } = useAuth();

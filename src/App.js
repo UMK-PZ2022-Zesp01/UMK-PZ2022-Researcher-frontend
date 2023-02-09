@@ -8,6 +8,7 @@ import LoginRegisterPage from './Components/LoginRegisterPage/LoginRegisterPage'
 import RequireAuth from './Common/RequireAuth';
 import PersistLogin from './Common/PersistLogin';
 import Layout from './Common/Layout';
+import UserPage from './Components/UserPage/UserPage'
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path="/login" element={<LoginRegisterPage />} />
         <Route element={<PersistLogin />}>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={<UserPage />} />
+          <Route path="/user" element={<UserPage />} />
           <Route element={<RequireAuth />}>
             <Route path="/authTest" element={<MainPage />} />
           </Route>
