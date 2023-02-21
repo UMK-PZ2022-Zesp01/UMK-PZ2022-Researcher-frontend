@@ -4,7 +4,7 @@ import getApiUrl from '../../Common/Api.js';
 import { useRef } from 'react';
 import PasswordStrengthBar from 'react-password-strength-bar';
 
-const REGISTER_URL = getApiUrl() +'user/add';
+const REGISTER_URL = getApiUrl() +'user/register';
 
 function RegisterForm(props) {
   const styles = FormStyle();
