@@ -4,6 +4,7 @@ import BannerWhite from '../Banner/BannerWhite';
 import LoginForm from '../Form/LoginForm';
 import RegisterForm from '../Form/RegisterForm';
 import { Alert, Collapse } from '@mui/material';
+import { Helmet } from "react-helmet";
 
 function LoginRegisterPage() {
   const styles = LoginRegisterPageStyle();
@@ -47,6 +48,9 @@ function LoginRegisterPage() {
 
   return (
     <div className={styles.loginRegisterPage}>
+      <Helmet>
+        <title>Researcher | Logowanie</title>
+      </Helmet>
       <div className={styles.loginRegisterPanel}>
         <div className={styles.alertOverlay}>
           <Collapse in={alert.alertOpen}>{showAlert()}</Collapse>

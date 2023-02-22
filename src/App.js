@@ -9,6 +9,8 @@ import RequireAuth from './Common/RequireAuth';
 import PersistLogin from './Common/PersistLogin';
 import Layout from './Common/Layout';
 import UserPage from './Components/UserPage/UserPage'
+import CreateResearchPageStyle from "./Components/CreateResearchPage/CreateResearchPageStyle";
+import CreateResearchPage from "./Components/CreateResearchPage/CreateResearchPage";
 
 function App() {
   return (
@@ -18,6 +20,7 @@ function App() {
         <Route element={<PersistLogin />}>
           <Route path="/" element={<UserPage />} />
           <Route path="/user" element={<UserPage />} />
+          <Route path="/research/create" element={<CreateResearchPage />} />
           <Route element={<RequireAuth />}>
             <Route path="/authTest" element={<MainPage />} />
           </Route>

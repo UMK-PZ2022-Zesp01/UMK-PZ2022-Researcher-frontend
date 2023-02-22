@@ -8,6 +8,7 @@ import banner from "../../img/banner2.png";
 import GetUserData from "./FetchUser";
 import useAuth from '../../hooks/useAuth';
 import getApiUrl from '../../Common/Api.js';
+import { Helmet } from "react-helmet";
 
 export default function UserPage(props) {
 
@@ -51,6 +52,10 @@ export default function UserPage(props) {
 
     return(
         <div className={styles.userPage}>
+
+            <Helmet>
+                <title>Researcher | Twój profil</title>
+            </Helmet>
 
             {/*<div className="navbar"> TUTAJ NAVBAR </div>*/}
 
