@@ -1,7 +1,7 @@
 import React from "react";
 import CreateResearchFormStyle from "./CreateResearchFormStyle";
-import { Helmet } from "react-helmet";
-import addImg from '../../img/create-research/add-image.png'
+import {faFileImage} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function CreateResearchForm(){
 
@@ -9,16 +9,13 @@ function CreateResearchForm(){
 
   return (
     <>
-      <Helmet>
-        <title>Researcher | Nowe badanie</title>
-      </Helmet>
       <h2 className={styles.title}>Stwórz nowe ogłoszenie o badaniu</h2>
       <form className={styles.researchForm}>
 
         <div className={styles.formRow}>
           <input type="file" id="poster" name="poster" accept="image/png, image/jpeg" hidden />
           <label className={styles.posterButton} htmlFor="poster">
-            <img className={styles.posterButtonImage} src={addImg} alt="add-image"/>
+            <FontAwesomeIcon className={styles.posterIcon} icon={faFileImage} />
             <div className={styles.posterButtonDesc}>Dodaj<br />plakat</div>
           </label>
           <div className={styles.formRow1Right}>

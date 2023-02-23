@@ -83,14 +83,15 @@ export default createUseStyles({
     }
   },
 
-  posterButtonImage: {
-    width: '75%'
+  posterIcon: {
+    fontSize: '72px'
   },
 
   posterButtonDesc: {
     fontSize: '20px',
     fontWeight: 'bold',
     textTransform: 'uppercase',
+    marginTop: '10px',
     color: '#512C8C'
   },
 
