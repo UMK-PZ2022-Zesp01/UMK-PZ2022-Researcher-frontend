@@ -5,28 +5,66 @@ export default createUseStyles({
 
   title: {
     color: '#512C8C',
-    marginBottom: '50px'
+    marginBottom: '20px'
   },
 
   researchForm: {
-    width: '100%'
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '15px'
   },
 
   formInputRegular: {
-    padding: '10px'
+    width: '100%',
+    padding: '10px',
+    backgroundColor: '#C6B1E7',
+    outline: 'none',
+    border: '2px solid #C6B1E7',
+    borderRadius: '5px',
+    '&:focus': {
+      border: '2px solid #512C8C'
+    }
   },
 
   formInputLarge: {
     height: '100%',
     padding: '10px',
+    backgroundColor: '#C6B1E7',
+    outline: 'none',
+    border: '2px solid #C6B1E7',
+    borderRadius: '5px',
     fontFamily: 'sans-serif',
-    resize: 'none'
+    resize: 'none',
+    '&:focus': {
+      border: '2px solid #512C8C'
+    }
   },
 
-  formRow1: {
+  rowContainer:{
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: '10px'
+  },
+
+  formRow: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'row',
-    gap: '15px'
+    gap: '15px',
+    '& label': {
+      fontWeight: 'bold',
+      color: '#512C8C'
+    }
+  },
+
+  formLabel: {
+    fontWeight: 'bold',
+    color: '#512C8C',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center'
   },
 
   posterButton: {
@@ -40,7 +78,8 @@ export default createUseStyles({
     padding: '25px',
     borderRadius: '10px',
     '&:hover': {
-      cursor: 'pointer'
+      cursor: 'pointer',
+      backgroundColor: '#D7C2F8'
     }
   },
 
@@ -60,6 +99,59 @@ export default createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     gap: '15px'
+  },
+
+  inputWithLabel: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    width: '50%',
+    gap: '10px',
+    '& label': {
+      fontWeight: 'bold',
+      color: '#512C8C'
+    }
+  },
+
+  map: {
+    width: '100%',
+    height: '400px',
+    backgroundColor: '#C6B1E7',
+    borderRadius: '10px'
+  },
+
+  addRewardReqLabel: {
+    fontWeight: 'bold',
+    color: '#512C8C',
+    '&:hover': {
+      cursor: 'pointer'
+    }
+  },
+
+  plusSign: {
+    fontSize: '20px'
+  },
+
+  checkboxLabel: {
+    fontSize: '14px !important',
+    fontWeight: 'normal !important',
+    color: '#000 !important'
+  },
+
+  formButton: {
+    width: '100%',
+    backgroundColor: '#512C8C',
+    color: '#FFF',
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    borderRadius: '10px',
+    padding: '10px',
+    outline: 'none',
+    border: '2px solid #512C8C',
+    '&:hover': {
+      backgroundColor: '#6D3B9E',
+      border: '2px solid #6D3B9E'
+    }
   }
 
 });
