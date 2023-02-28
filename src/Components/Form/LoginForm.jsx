@@ -21,6 +21,47 @@ function LoginForm(props) {
   async function SubmitButtonClicked(event) {
     event.preventDefault();
 
+    try{
+      const response = await fetch(LOGIN_URL, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json; charset:UTF-8',
+        },
+        body: JSON.stringify({
+          login: username,
+          password: password,
+        }),
+      })
+      const json = (await response.json())
+
+      switch (response.status){
+        case 201:
+          const accessToken = json.accessToken;
+          setAuth({ username, accessToken });
+          setUsername('');
+          setPassword('');
+          navigate(from, { replace: true });
+          break
+        case 401:
+          setAlert({
+            alertOpen: true,
+            alertType: response.status,
+            alertText: 'Logowanie nie powiodło się, sprawdź poprawność loginu oraz hasła',
+          });
+          break
+        case 403:
+          setUsername('');
+          setPassword('');
+          navigate('/registeredSuccessfully', {replace: false, state:{email,username}});
+      }
+
+    }catch (error){
+
+    }
+
+
+
     try {
       await fetch(LOGIN_URL, {
         method: 'POST',
@@ -77,10 +118,10 @@ function LoginForm(props) {
   };
 
   return (
-    <section className={styles.loginFormBox}>
-      <div className={styles.hBox}>
+    <article className={styles.loginFormBox}>
+      <header className={styles.hBox}>
         <div className={styles.h2}>Zaloguj się</div>
-      </div>
+      </header>
       <form onSubmit={event => SubmitButtonClicked(event)} className={styles.loginForm}>
         <input
           onChange={event => handleUsernameChanged(event)}
@@ -112,7 +153,7 @@ function LoginForm(props) {
           <button className={styles.loginWith}>Zaloguj z FB</button>
         </div>
       </form>
-    </section>
+    </article>
   );
 }
 

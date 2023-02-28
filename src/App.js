@@ -8,6 +8,8 @@ import LoginRegisterPage from './Components/LoginRegisterPage/LoginRegisterPage'
 import RequireAuth from './Common/RequireAuth';
 import PersistLogin from './Common/PersistLogin';
 import Layout from './Common/Layout';
+import RegisteredSuccessfullyPage from "./Components/RegisteredSuccessfulyPage/RegisteredSuccessfullyPage";
+import ConfirmEmailPage from "./Components/ConfirmEmailPage/ConfirmEmailPage";
 
 function App() {
   return (
@@ -20,6 +22,9 @@ function App() {
             <Route path="/authTest" element={<MainPage />} />
           </Route>
         </Route>
+
+        <Route path={"/registeredSuccessfully"} element={<RegisteredSuccessfullyPage/>}></Route>
+        <Route path={"/confirmEmail/:token"} element={<ConfirmEmailPage/>}></Route>
         {/*<Route path="*" element={<Missing/>}></Route>*/}
       </Route>
     </Routes>
