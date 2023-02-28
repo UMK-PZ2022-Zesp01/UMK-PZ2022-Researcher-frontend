@@ -1,11 +1,11 @@
 import React from "react";
 import CreateResearchFormStyle from "./CreateResearchFormStyle";
-import {faFileImage} from "@fortawesome/free-solid-svg-icons";
+import { faFileImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function CreateResearchForm(){
+function CreateResearchForm() {
 
-  const styles = CreateResearchFormStyle()
+  const styles = CreateResearchFormStyle();
 
   return (
     <>
@@ -19,8 +19,10 @@ function CreateResearchForm(){
             <div className={styles.posterButtonDesc}>Dodaj<br />plakat</div>
           </label>
           <div className={styles.formRow1Right}>
-            <input className={styles.formInputRegular} type="text" id="title" name="title" placeholder="Tytuł badania"/>
-            <textarea className={styles.formInputLarge} id="desc" name="desc" maxLength="1000" placeholder="Opis badania"/>
+            <input className={styles.formInputRegular} type="text" id="title" name="title"
+                   placeholder="Tytuł badania" />
+            <textarea className={styles.formInputLarge} id="desc" name="desc" maxLength="1500"
+                      placeholder="Opis badania" />
           </div>
         </div>
 
@@ -47,12 +49,13 @@ function CreateResearchForm(){
           <div className={styles.inputWithLabel}>
             <label htmlFor="remote-link">Link do badania</label>
             <input className={styles.formInputRegular}
-                   type="text" id="remote-link" name="remote-link" placeholder="np. https://docs.google.com/forms/tw0j384d4n13"/>
+                   type="text" id="remote-link" name="remote-link"
+                   placeholder="np. https://docs.google.com/forms/tw0j384d4n13" />
           </div>
         </div>
 
         <div className={styles.formRow}>
-          <div className={styles.map}>[GOOGLE API MAP]<br/>(do wyboru stacjonarnego miejsca badania)</div>
+          <div className={styles.map}>[GOOGLE API MAP]<br />(do wyboru stacjonarnego miejsca badania)</div>
         </div>
 
         <div className={styles.rowContainer}>
@@ -64,7 +67,7 @@ function CreateResearchForm(){
               <option value="remote">przedmiot / upominek</option>
             </select>
             <input className={styles.formInputRegular}
-                   type="text" id="reward-value" name="reward-value" placeholder="kwota w zł / przedmiot"/>
+                   type="text" id="reward-value" name="reward-value" placeholder="kwota w zł / przedmiot" />
           </div>
           <div className={styles.addRewardReqLabel}>
             <span className={styles.plusSign}>+</span> <span>Dodaj kolejną nagrodę</span>
@@ -82,23 +85,23 @@ function CreateResearchForm(){
             </select>
             <label htmlFor="req-age-min">Minimum: </label>
             <input className={styles.formInputRegular}
-                   type="number" min="0" max="130" defaultValue="0" id="req-age-min" name="req-age-min"/>
+                   type="number" min="0" max="130" defaultValue="0" id="req-age-min" name="req-age-min" />
             <label htmlFor="req-age-max">Maksimum: </label>
             <input className={styles.formInputRegular}
-                   type="number" min="0" max="130" defaultValue="0" id="req-age-max" name="req-age-max"/>
+                   type="number" min="0" max="130" defaultValue="0" id="req-age-max" name="req-age-max" />
           </div>
           {/*<div className={styles.formLabel}>*/}
           {/*  Jeśli nie chcesz, aby kryterium wieku było ograniczone z dwóch stron, to ustaw jedynie wartość kryterium, które Cię interesuje - drugie ustaw na wartość 0!*/}
           {/*</div>*/}
-        {/* lub dodać checkboxy na minimum/maksimum! */}
+          {/* lub dodać checkboxy na minimum/maksimum! */}
           <div className={styles.addRewardReqLabel}>
             <span className={styles.plusSign}>+</span> <span>Dodaj kolejne kryterium</span>
           </div>
         </div>
 
         <div className={styles.formRow}>
-          <input className={styles.formButton} type="reset" value="Zacznij od nowa"/>
-          <input className={styles.formButton} type="submit" value="Dodaj nowe badanie"/>
+          <input className={styles.formButton} type="reset" value="Zacznij od nowa" />
+          <input className={styles.formButton} type="submit" value="Dodaj nowe ogłoszenie" />
         </div>
 
       </form>
