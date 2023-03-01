@@ -20,26 +20,6 @@ export default createUseStyles({
 
 
     },
-    chungusCheck:{
-        width:'7rem',
-        height:'7rem',
-        position:"relative",
-        color: '#58a23c',
-        border: '0.4rem solid #58a23c',
-        borderRadius:'100%',
-
-
-        fontSize: '6rem',
-        '&::after':{
-            position:'absolute',
-            top:'3rem',
-            left:'0.5rem',
-            content: '"✔"',
-            lineHeight:'0',
-
-            margin:'0',
-        }
-    },
     h2: {
         fontSize: '1.5rem',
         fontWeight: '500',

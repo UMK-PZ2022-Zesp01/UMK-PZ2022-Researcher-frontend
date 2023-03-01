@@ -33,10 +33,10 @@ function LoginForm(props) {
           password: password,
         }),
       })
-      const json = (await response.json())
 
-      switch (response.status){
+      switch (response?.status){
         case 201:
+          const json = (await response.json())
           const accessToken = json.accessToken;
           setAuth({ username, accessToken });
           setUsername('');
@@ -53,60 +53,70 @@ function LoginForm(props) {
         case 403:
           setUsername('');
           setPassword('');
-          navigate('/registeredSuccessfully', {replace: false, state:{email,username}});
-      }
-
-    }catch (error){
-
-    }
-
-
-
-    try {
-      await fetch(LOGIN_URL, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json; charset:UTF-8',
-        },
-        body: JSON.stringify({
-          login: username,
-          password: password,
-        }),
-      })
-        .then(response => {
-          response.ok
-            ? response.json().then(result => {
-                const accessToken = result.accessToken;
-                setAuth({ username, accessToken });
-                setUsername('');
-                setPassword('');
-                navigate(from, { replace: true });
-              })
-            : setAlert({
-                alertOpen: true,
-                alertType: response.status,
-                alertText: 'Logowanie nie powiodło się, sprawdź poprawność loginu oraz hasła',
-              });
-        })
-        .catch(reason => {
-          console.log(reason);
+          navigate('/registeredSuccessfully', {replace: false, state:{username}});
+          break
+        default:
+          console.log(response);
           setAlert({
-            alertOpen: true,
-            alertType: 404,
+            alertOpen: true, alertType: 404,
             alertText: 'Logowanie nie powiodło się. Prosimy spróbować ponownie później.',
           });
-        });
-    } catch (error) {
-      if (!error.response) {
-        console.log('No server response.');
-      } else if (error.response?.status === 400) {
-        console.log('Missing username or password.');
-      } else if (error.response?.status === 401) {
-        console.log('Unauthorized.');
       }
+    }catch (error){
       console.log(error);
+      setAlert({
+        alertOpen: true, alertType: 404,
+        alertText: 'Logowanie nie powiodło się. Prosimy spróbować ponownie później.',
+      });
     }
+
+
+
+  //   try {
+  //     await fetch(LOGIN_URL, {
+  //       method: 'POST',
+  //       credentials: 'include',
+  //       headers: {
+  //         'Content-Type': 'application/json; charset:UTF-8',
+  //       },
+  //       body: JSON.stringify({
+  //         login: username,
+  //         password: password,
+  //       }),
+  //     })
+  //       .then(response => {
+  //         response.ok
+  //           ? response.json().then(result => {
+  //               const accessToken = result.accessToken;
+  //               setAuth({ username, accessToken });
+  //               setUsername('');
+  //               setPassword('');
+  //               navigate(from, { replace: true });
+  //             })
+  //           : setAlert({
+  //               alertOpen: true,
+  //               alertType: response.status,
+  //               alertText: 'Logowanie nie powiodło się, sprawdź poprawność loginu oraz hasła',
+  //             });
+  //       })
+  //       .catch(reason => {
+  //         console.log(reason);
+  //         setAlert({
+  //           alertOpen: true,
+  //           alertType: 404,
+  //           alertText: 'Logowanie nie powiodło się. Prosimy spróbować ponownie później.',
+  //         });
+  //       });
+  //   } catch (error) {
+  //     if (!error.response) {
+  //       console.log('No server response.');
+  //     } else if (error.response?.status === 400) {
+  //       console.log('Missing username or password.');
+  //     } else if (error.response?.status === 401) {
+  //       console.log('Unauthorized.');
+  //     }
+  //     console.log(error);
+  //   }
   }
 
   const handleUsernameChanged = event => {

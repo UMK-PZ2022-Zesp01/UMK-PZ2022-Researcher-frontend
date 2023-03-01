@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import getApiUrl from '../../Common/Api';
 import useLogout from '../../hooks/useLogout';
 import { useUsername } from "../../hooks/useAuth";
+import Loading from "../Loading/Loading";
 
 const RESEARCHES_URL = getApiUrl() + 'researches'
 
@@ -58,6 +59,7 @@ function MainPage() {
 
   return (
     <article className={styles.mainPage}>
+      <Loading isLoading={true} isSuccessful={false}></Loading>
       <header>Witaj{username?(" "+username):""}!</header>
       {showPosts()}
       {username&&<button onClick={signOut}>Sign out</button>}

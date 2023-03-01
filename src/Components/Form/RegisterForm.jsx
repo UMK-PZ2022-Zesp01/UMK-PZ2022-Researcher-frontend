@@ -103,7 +103,7 @@ function RegisterForm(props) {
             switch (response.status) {
               case 201:
                 text = 'Rejestracja przebiegła pomyślnie.';
-                navigate('/registeredSuccessfully', {replace: false, state:{email,username}});
+                navigate('/registeredSuccessfully', {replace: false, state:{username}});
                 break;
               case 299:
                 text = 'Ten email jest już zajęty.';

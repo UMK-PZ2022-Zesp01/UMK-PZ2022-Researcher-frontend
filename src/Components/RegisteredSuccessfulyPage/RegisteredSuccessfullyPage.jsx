@@ -1,71 +1,96 @@
-import React from "react";
+import React, {useEffect} from "react";
 import RegisteredSuccessfullyPageStyle from "./RegisteredSuccessfullyPageStyle";
-import {Navigate, useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import getApiUrl from "../../Common/Api";
+import Loading from "../Loading/Loading";
 
-
-const RESEND_URL = `${getApiUrl()}user/resendVerificationMail`
+const DEMAND_URL = `${getApiUrl()}user/sendVerificationMail`
 
 export default function RegisteredSuccessfullyPage(){
     const styles=RegisteredSuccessfullyPageStyle()
 
     const location = useLocation()
-    // const email= React.useState("owszemniebotak@gmail.com")
+    const navigate = useNavigate()
 
-    const email = location?.state?.email
     const username = location?.state?.username
+    const [isLoading, setIsLoading]= React.useState(true)
+    const [isSuccessful, setIsSuccessful]= React.useState(false)
 
-    // return<div className={styles.registeredSuccessfullyPanel}>
-    //         <div className={styles.chungusCheck}></div>
-    //         <article>
-    //             <header className={styles.h2}>Rejestracja przebiegła pomyślnie</header>
-    //             <section>
-    //                 <h3 className={styles.h3}>Wysłaliśmy do Ciebie wiadomość z linkiem aktywacyjnym na adres: {email}.</h3>
-    //                     <h3 className={styles.h3}>Kliknij link w wiadomości, aby potwierdzić adres email.</h3>
-    //             </section>
-    //             <br/>
-    //             <section>
-    //                 Wiadomość nie dotarła? <button className={styles.button}>Wyślij ponownie</button>
-    //             </section>
-    //         </article>
-    //     </div>
+    const [header, setHeader] = React.useState("Wczytywanie")
+    const [text, setText] = React.useState("")
 
-    const sendVerificationMail = async () =>{
-        const response = await fetch(`${RESEND_URL}?username:${username}`,{
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json; charset:UTF-8',
+
+    const demandVerificationMail = async () =>{
+        try{
+            const response = await fetch(`${DEMAND_URL}?username=${username}`,{
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json; charset:UTF-8',
+                }
+            })
+
+            switch (response?.status){
+                case 201:
+                    const json = await response.json()
+                    setIsSuccessful(true)
+                    setHeader("Rejestracja przebiegła pomyślnie")
+                    setText(
+                        `Wysłaliśmy do Ciebie wiadomość z linkiem aktywacyjnym na adres: ${json}.
+                               \nKliknij link w wiadomości, aby potwierdzić adres email.`
+                    )
+                    break
+                case 204:
+                    setIsSuccessful(false)
+                    setHeader("Coś poszło nie tak.")
+                    setText("Użytkownik nie istnieje, lub jego konto jest już aktywowane.")
+                    break
+                default:
+                    setIsSuccessful(false)
+                    setHeader("Coś poszło nie tak.")
             }
-        })
-        const result = response.ok
+        }catch (error){
+            setIsSuccessful(false)
+            setHeader("Błąd serwera")
+            setText("Prosimy spróbować ponownie później")
+        }
+        setIsLoading(false)
     }
 
 
+    useEffect(()=>{
+        if(username==null)navigate('/',{replace:true})
+
+        demandVerificationMail()
+    },[username])
 
 
     const handleResendButtonClicked = () => {
+        setIsLoading(true)
+        setIsSuccessful(false)
+        setHeader("Wczytywanie")
+        setText("")
+        setTimeout(()=>{
+            demandVerificationMail()
+        },1000)
+
 
     }
 
-    return email ? (
-        <div className={styles.registeredSuccessfullyPanel}>
-                <div className={styles.chungusCheck}></div>
-                <article>
-                    <header className={styles.h2}>Rejestracja przebiegła pomyślnie</header>
-                    <section>
-                        <h3 className={styles.h3}>Wysłaliśmy do Ciebie wiadomość z linkiem aktywacyjnym na adres: {email}.</h3>
-                            <h3 className={styles.h3}>Kliknij link w wiadomości, aby potwierdzić adres email.</h3>
-                    </section>
-                    <br/>
-                    <section>
-                        Wiadomość nie dotarła?
-                        <button className={styles.button} onClick={handleResendButtonClicked}>Wyślij ponownie</button>
-                    </section>
-                </article>
+
+    return<div className={styles.registeredSuccessfullyPanel}>
+            <Loading isLoading={isLoading} isSuccessful={isSuccessful}></Loading>
+                <header className={styles.h2}>{header}</header>
+                <section>
+                    <h3 className={styles.h3}>{text}</h3>
+                </section>
+                <br/>
+                {!isLoading && <section>
+                    Wiadomość nie dotarła?
+                    <button className={styles.button} onClick={handleResendButtonClicked}>
+                        Wyślij ponownie
+                    </button>
+                </section>}
             </div>
-        ) : (
-            <Navigate to={'/'} state={{ from: location }} replace/>
-    )
 
 }
