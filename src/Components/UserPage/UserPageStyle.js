@@ -28,7 +28,7 @@ header:{
 
 userPanel:{
     /*background-color: rgba(255, 255, 255, 0.38);*/
-    width: '900px',
+    width: '1200px',
     padding: '5vw',
     display: 'flex',
     flexDirection: 'column',
@@ -37,17 +37,35 @@ userPanel:{
     borderRadius: '10px',
 },
 
+bookmarksContainer:{
+    display: 'flex',
+    flexDirection:'row',
+    width:'95%'
+},
+
+logo:{
+    backgroundColor: "#512C8C",
+    padding: '10px 15px',
+    marginLeft: '40px',
+    borderTopLeftRadius: '10px',
+    borderTopRightRadius: '10px'
+},
+
+logoImg:{
+    height:'40px',
+},
+
 main:{
     maxWidth: '100%',
     padding: '5% 0',
     display: 'grid',
     gridTemplateRows: '2fr 0.1fr 3fr',
-    background: 'rgba( 255, 255, 255, 0.65 )',
-    backdropFilter: 'blur( 20px )',
+    background: '#F4F0FA',
+    // backdropFilter: 'blur( 20px )',
     /*background-color: #F4F0FA;*/
     borderRadius: '10px',
-    border: '1px solid rgba( 255, 255, 255, 0.18 )',
-    boxShadow: '8px 10px 20px rgba(115, 115, 115, 0.5)',
+    // border: '1px solid rgba( 255, 255, 255, 0.18 )',
+    // boxShadow: '8px 10px 20px rgba(115, 115, 115, 0.5)',
 },
 
 left:{
@@ -83,6 +101,17 @@ userData:{
     justifyContent: 'left',
 },
 
+userResearches:{
+
+
+},
+
+dataItem:{
+    display: 'flex',
+    flexDirection: 'row',
+    marginBlockStart: '2rem',
+},
+
 userPic:{
     maxWidth:'20%',
     display: 'block',
@@ -113,9 +142,8 @@ h4:{
 
 h5:{
     color: '#4C8076',
-    fontSize: 'large',
+    fontSize: '25px',
     fontWeight: 'bolder',
-    marginBlockStart: '1rem',
 },
 
 /*.name{*/
@@ -145,6 +173,12 @@ editButton: {
     borderRadius: '5px',
 },
 
+icon: {
+    fontSize: "30px",
+    color: '#512c8c',
+    pointerEvents: "none",
+    marginRight: '20px',
+},
 // editButton:hover:{
 //     cursor: pointer,
 //     border: solid white 1px,

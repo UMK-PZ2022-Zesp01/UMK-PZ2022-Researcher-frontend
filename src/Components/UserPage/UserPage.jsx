@@ -1,10 +1,13 @@
 import UserPageStyle from './UserPageStyle';
-import BannerUser from "../Banner/BannerUser.jsx";
+import banner from "../../img/banner2.png";
 import dude from "../../img/dude.png";
 import {Alert} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import useAuth from '../../hooks/useAuth';
 import getApiUrl from '../../Common/Api.js';
+import BookmarksNav from "../BookmarksNav/BookmarksNav";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse, faLocationDot, faEnvelope, faPhone, faPerson } from "@fortawesome/free-solid-svg-icons";
 
 export default function UserPage(props) {
 
@@ -53,10 +56,15 @@ export default function UserPage(props) {
             {/*<div className="navbar"> TUTAJ NAVBAR </div>*/}
 
             <div className={styles.userPanel}>
-                <div className={styles.header}>
-                    <BannerUser/>
+                <div className={styles.bookmarksContainer}>
+                    <div  className={styles.logo}>
+                        <img className={styles.logoImg} src={banner} alt="Researcher logo" />
+                    </div>
+                    <BookmarksNav/>
                 </div>
+
                 <div className={styles.main}>
+
                     <div className={styles.left}>
                         <div className={styles.userPic}>
                             <img src={dude} alt="profile" className={styles.profileImage}></img>
@@ -69,19 +77,36 @@ export default function UserPage(props) {
                     </div>
                     <div className={styles.right}>
                         <div className={styles.userData}>
-                            <div className={styles.h5}> Lokalizacja: Toruń </div>
-                            <div className={styles.h5}> Email: {userData.email}</div>
-                            <div className={styles.h5}> Numer Telefonu: {userData.phone}</div>
-                            <div className={styles.h5}> Płeć: {userData.gender}</div>
-                            {/*<UserData/>*/}
+                            <div className={styles.dataItem}>
+                                <FontAwesomeIcon className={styles.icon} icon={faLocationDot} />
+                                <div className={styles.h5}>Toruń </div>
+                            </div>
+
+                            <div className={styles.dataItem}>
+                                <FontAwesomeIcon className={styles.icon} icon={faEnvelope} />
+                                <div className={styles.h5}>{userData.email}</div>
+                            </div>
+
+                            <div className={styles.dataItem}>
+                                <FontAwesomeIcon className={styles.icon} icon={faPhone} />
+                                <div className={styles.h5}>{userData.phone}</div>
+                            </div>
+
+                            <div className={styles.dataItem}>
+                                <FontAwesomeIcon className={styles.icon} icon={faPerson} />
+                                <div className={styles.h5}>{userData.gender}</div>
+                            </div>
                         </div>
-                        <a href={"/.."}>
-                            <button className={styles.editButton}>Edytuj dane</button>
-                        </a>
                     </div>
+
+                    <div className={styles.userResearches}>
+
+                    </div>
+
                 </div>
             </div>
         </div>
+
     );
 
 };
