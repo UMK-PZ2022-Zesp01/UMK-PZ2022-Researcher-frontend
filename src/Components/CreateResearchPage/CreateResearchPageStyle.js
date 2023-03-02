@@ -20,7 +20,12 @@ export default createUseStyles({
     backgroundColor: "#512C8C",
     padding: "10px 15px",
     borderTopLeftRadius: "10px",
-    borderTopRightRadius: "10px"
+    borderTopRightRadius: "10px",
+    transition: "background-color .5s",
+
+    "&:hover": {
+      backgroundColor: "#6D3B9E"
+    }
   },
 
   logoImg: {

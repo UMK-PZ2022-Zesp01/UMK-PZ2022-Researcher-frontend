@@ -18,7 +18,7 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path="/login" element={<LoginRegisterPage />} />
         <Route element={<PersistLogin />}>
-          <Route path="/" element={<UserPage />} />
+          <Route path="/" element={<MainPage />} />
           <Route path="/user" element={<UserPage />} />
           <Route path="/research/create" element={<CreateResearchPage />} />
           <Route element={<RequireAuth />}>

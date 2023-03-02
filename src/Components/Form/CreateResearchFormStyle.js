@@ -23,9 +23,11 @@ export default createUseStyles({
     border: "2px solid #C6B1E7",
     borderRadius: "5px",
     fontFamily: "sans-serif",
+    transition: ".3s",
 
     "&:focus": {
-      border: "2px solid #512C8C"
+      border: "2px solid #512C8C",
+      backgroundColor: "#D7C2F8"
     }
   },
 
@@ -38,9 +40,11 @@ export default createUseStyles({
     borderRadius: "5px",
     fontFamily: "sans-serif",
     resize: "none",
+    transition: ".3s",
 
     "&:focus": {
-      border: "2px solid #512C8C"
+      border: "2px solid #512C8C",
+      backgroundColor: "#D7C2F8"
     }
   },
 
@@ -51,10 +55,23 @@ export default createUseStyles({
     gap: "10px"
   },
 
+  formRowTop: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    gap: "15px",
+
+    "& label": {
+      fontWeight: "bold",
+      color: "#512C8C"
+    }
+  },
+
   formRow: {
     width: "100%",
     display: "flex",
     flexDirection: "row",
+    alignItems: "center",
     gap: "15px",
 
     "& label": {
@@ -81,7 +98,7 @@ export default createUseStyles({
     backgroundColor: "#C6B1E7",
     padding: "25px",
     borderRadius: "5px",
-    transition: ".5s",
+    transition: ".3s",
 
     "&:hover": {
       cursor: "pointer",
@@ -125,12 +142,13 @@ export default createUseStyles({
     width: "100%",
     height: "400px",
     backgroundColor: "#C6B1E7",
-    borderRadius: "10px"
+    borderRadius: "5px"
   },
 
   addRewardReqLabel: {
     fontWeight: "bold",
     color: "#512C8C",
+    marginLeft: "10px",
 
     "&:hover": {
       cursor: "pointer"
@@ -157,6 +175,7 @@ export default createUseStyles({
     padding: "10px",
     outline: "none",
     border: "2px solid #512C8C",
+    transition: ".3s",
     
     "&:hover": {
       backgroundColor: "#6D3B9E",

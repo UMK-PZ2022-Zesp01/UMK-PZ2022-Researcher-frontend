@@ -16,9 +16,9 @@ function CreateResearchPage() {
       </Helmet>
 
       <div className={styles.bookmarksContainer}>
-        <div className={styles.logo}>
+        <a href="/" className={styles.logo}>
           <img className={styles.logoImg} src={banner} alt="Researcher Logo" />
-        </div>
+        </a>
         <BookmarksNav />
       </div>
 
