@@ -7,7 +7,8 @@ import useAuth from '../../hooks/useAuth';
 import getApiUrl from '../../Common/Api.js';
 import BookmarksNav from "../BookmarksNav/BookmarksNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faLocationDot, faEnvelope, faPhone, faPerson } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot, faEnvelope, faPhone, faPerson } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet";
 
 export default function UserPage(props) {
 
@@ -52,6 +53,10 @@ export default function UserPage(props) {
 
     return(
         <div className={styles.userPage}>
+
+            <Helmet>
+                <title>Researcher | Twój profil</title>
+            </Helmet>
 
             {/*<div className="navbar"> TUTAJ NAVBAR </div>*/}
 
