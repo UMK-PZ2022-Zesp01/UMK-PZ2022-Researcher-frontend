@@ -1,22 +1,18 @@
-import React from 'react';
+import React from "react";
 import MainPageStyle from './MainPageStyle';
 import { useEffect } from 'react';
 import getApiUrl from '../../Common/Api';
-import { useNavigate } from 'react-router-dom';
 import useLogout from '../../hooks/useLogout';
-import useAuth from '../../hooks/useAuth';
+import { useUsername } from "../../hooks/useAuth";
+import Loading from "../Loading/Loading";
+
+const RESEARCHES_URL = getApiUrl() + 'researches'
 
 function MainPage() {
-  const { username } = useAuth().auth;
-  const navigate = useNavigate();
+  const styles = MainPageStyle();
+  const [username,setUsername] = React.useState(useUsername())
   const logout = useLogout();
   const [posts, setPosts] = React.useState([]);
-  const styles = MainPageStyle();
-
-  const signOut = async () => {
-    await logout();
-    navigate('/', { replace: true });
-  };
 
   useEffect(() => {
     let isMounted = true;
@@ -25,7 +21,7 @@ function MainPage() {
 
     const getPosts = async () => {
       try {
-        await fetch(getApiUrl() + 'researches', {
+        await fetch(RESEARCHES_URL, {
           signal,
           method: 'GET',
           headers: {
@@ -52,15 +48,21 @@ function MainPage() {
     };
   }, []);
 
+  const signOut = async () => {
+    await logout();
+    setUsername("")
+  };
+
   const showPosts = () => {
     return posts.map(post => <div key={post.id}>{post.title}</div>);
   };
 
   return (
     <article className={styles.mainPage}>
-      <header>Witaj {username}!</header>
+      <Loading isLoading={true} isSuccessful={false}></Loading>
+      <header>Witaj{username?(" "+username):""}!</header>
       {showPosts()}
-      <button onClick={signOut}>Sign out</button>
+      {username&&<button onClick={signOut}>Sign out</button>}
     </article>
   );
 }

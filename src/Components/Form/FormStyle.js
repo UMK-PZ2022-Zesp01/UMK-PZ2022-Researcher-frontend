@@ -124,6 +124,8 @@ export default createUseStyles({
   },
 
   submitButton: {
+    position:'relative',
+    zIndex:'0',
     padding: '0.5rem',
     margin: '0.5rem 0',
     backgroundColor: '#512c8c',
@@ -132,11 +134,33 @@ export default createUseStyles({
     appearance: 'none',
     border: 'none',
     borderRadius: '5px',
-    '&:hover': {
+    transition:'translate linear 0.1s ',
+
+    '&::before':{
+      zIndex:'-1',
+      position:'absolute',
+      content:'""',
+      top:'0',
+      left:'50%',
+      width:'0',
+      height:'100%',
+      transition:'width ease-in-out 0.3s, left ease-in-out 0.3s',
+      borderRadius:'5px',
       backgroundColor: '#6D3B9E',
-      cursor: 'pointer',
     },
-    '&:active': {},
+
+    '&:hover': {
+      cursor: 'pointer',
+      '&::before':{
+        width:'100%',
+        left:'0',
+      }
+    },
+    '&:active': {
+      backgroundColor:'#512c8c',
+      translate:'0 2px'
+
+    },
   },
   orLoginWith: {
     width: '100%',

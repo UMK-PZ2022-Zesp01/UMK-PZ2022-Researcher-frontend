@@ -8,6 +8,8 @@ import LoginRegisterPage from './Components/LoginRegisterPage/LoginRegisterPage'
 import RequireAuth from './Common/RequireAuth';
 import PersistLogin from './Common/PersistLogin';
 import Layout from './Common/Layout';
+import RegisteredSuccessfullyPage from "./Components/RegisteredSuccessfulyPage/RegisteredSuccessfullyPage";
+import ConfirmEmailPage from "./Components/ConfirmEmailPage/ConfirmEmailPage";
 import UserPage from './Components/UserPage/UserPage'
 
 function App() {
@@ -16,12 +18,15 @@ function App() {
       <Route path="/" element={<Layout />}>
         <Route path="/login" element={<LoginRegisterPage />} />
         <Route element={<PersistLogin />}>
-          <Route path="/" element={<UserPage />} />
+          <Route  path="/" index element={<MainPage />} />
           <Route path="/user" element={<UserPage />} />
           <Route element={<RequireAuth />}>
             <Route path="/authTest" element={<MainPage />} />
           </Route>
         </Route>
+
+        <Route path={"/registeredSuccessfully"} element={<RegisteredSuccessfullyPage/>}></Route>
+        <Route path={"/confirmEmail/:token"} element={<ConfirmEmailPage/>}></Route>
         {/*<Route path="*" element={<Missing/>}></Route>*/}
       </Route>
     </Routes>

@@ -4,7 +4,7 @@ import getApiUrl from '../../Common/Api.js';
 import useAuth from '../../hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-const LOGIN_URL = 'login';
+const LOGIN_URL = getApiUrl() +  'login';
 
 function LoginForm(props) {
   const { setAuth } = useAuth();
@@ -21,8 +21,8 @@ function LoginForm(props) {
   async function SubmitButtonClicked(event) {
     event.preventDefault();
 
-    try {
-      await fetch(getApiUrl() + LOGIN_URL, {
+    try{
+      const response = await fetch(LOGIN_URL, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -33,39 +33,90 @@ function LoginForm(props) {
           password: password,
         }),
       })
-        .then(response => {
-          response.ok
-            ? response.json().then(result => {
-                const accessToken = result.accessToken;
-                setAuth({ username, password, accessToken });
-                setUsername('');
-                setPassword('');
-                navigate(from, { replace: true });
-              })
-            : setAlert({
-                alertOpen: true,
-                alertType: response.status,
-                alertText: 'Logowanie nie powiodło się, sprawdź poprawność loginu oraz hasła',
-              });
-        })
-        .catch(reason => {
-          console.log(reason);
+
+      switch (response?.status){
+        case 201:
+          const json = (await response.json())
+          const accessToken = json.accessToken;
+          setAuth({ username, accessToken });
+          setUsername('');
+          setPassword('');
+          navigate(from, { replace: true });
+          break
+        case 401:
           setAlert({
             alertOpen: true,
-            alertType: 404,
+            alertType: response.status,
+            alertText: 'Logowanie nie powiodło się, sprawdź poprawność loginu oraz hasła',
+          });
+          break
+        case 403:
+          setUsername('');
+          setPassword('');
+          navigate('/registeredSuccessfully', {replace: false, state:{username}});
+          break
+        default:
+          console.log(response);
+          setAlert({
+            alertOpen: true, alertType: 404,
             alertText: 'Logowanie nie powiodło się. Prosimy spróbować ponownie później.',
           });
-        });
-    } catch (error) {
-      if (!error.response) {
-        console.log('No server response.');
-      } else if (error.response?.status === 400) {
-        console.log('Missing username or password.');
-      } else if (error.response?.status === 401) {
-        console.log('Unauthorized.');
       }
+    }catch (error){
       console.log(error);
+      setAlert({
+        alertOpen: true, alertType: 404,
+        alertText: 'Logowanie nie powiodło się. Prosimy spróbować ponownie później.',
+      });
     }
+
+
+
+  //   try {
+  //     await fetch(LOGIN_URL, {
+  //       method: 'POST',
+  //       credentials: 'include',
+  //       headers: {
+  //         'Content-Type': 'application/json; charset:UTF-8',
+  //       },
+  //       body: JSON.stringify({
+  //         login: username,
+  //         password: password,
+  //       }),
+  //     })
+  //       .then(response => {
+  //         response.ok
+  //           ? response.json().then(result => {
+  //               const accessToken = result.accessToken;
+  //               setAuth({ username, accessToken });
+  //               setUsername('');
+  //               setPassword('');
+  //               navigate(from, { replace: true });
+  //             })
+  //           : setAlert({
+  //               alertOpen: true,
+  //               alertType: response.status,
+  //               alertText: 'Logowanie nie powiodło się, sprawdź poprawność loginu oraz hasła',
+  //             });
+  //       })
+  //       .catch(reason => {
+  //         console.log(reason);
+  //         setAlert({
+  //           alertOpen: true,
+  //           alertType: 404,
+  //           alertText: 'Logowanie nie powiodło się. Prosimy spróbować ponownie później.',
+  //         });
+  //       });
+  //   } catch (error) {
+  //     if (!error.response) {
+  //       console.log('No server response.');
+  //     } else if (error.response?.status === 400) {
+  //       console.log('Missing username or password.');
+  //     } else if (error.response?.status === 401) {
+  //       console.log('Unauthorized.');
+  //     }
+  //     console.log(error);
+  //   }
   }
 
   const handleUsernameChanged = event => {
@@ -77,10 +128,10 @@ function LoginForm(props) {
   };
 
   return (
-    <section className={styles.loginFormBox}>
-      <div className={styles.hBox}>
+    <article className={styles.loginFormBox}>
+      <header className={styles.hBox}>
         <div className={styles.h2}>Zaloguj się</div>
-      </div>
+      </header>
       <form onSubmit={event => SubmitButtonClicked(event)} className={styles.loginForm}>
         <input
           onChange={event => handleUsernameChanged(event)}
@@ -112,7 +163,7 @@ function LoginForm(props) {
           <button className={styles.loginWith}>Zaloguj z FB</button>
         </div>
       </form>
-    </section>
+    </article>
   );
 }
 

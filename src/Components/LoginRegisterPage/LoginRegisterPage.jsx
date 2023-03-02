@@ -5,7 +5,7 @@ import LoginForm from '../Form/LoginForm';
 import RegisterForm from '../Form/RegisterForm';
 import { Alert, Collapse } from '@mui/material';
 
-function LoginRegisterPage() {
+export default function LoginRegisterPage() {
   const styles = LoginRegisterPageStyle();
 
   const [alert, setAlert] = React.useState({
@@ -46,7 +46,7 @@ function LoginRegisterPage() {
   }
 
   return (
-    <div className={styles.loginRegisterPage}>
+    // <div className={styles.loginRegisterPage}>
       <div className={styles.loginRegisterPanel}>
         <div className={styles.alertOverlay}>
           <Collapse in={alert.alertOpen}>{showAlert()}</Collapse>
@@ -54,14 +54,13 @@ function LoginRegisterPage() {
         <div className={styles.header}>
           <BannerWhite />
         </div>
-        <div className={styles.main}>
+        <main className={styles.main}>
           <LoginForm setters={setAlert} />
           <div className={styles.separator} />
           <RegisterForm setters={setAlert} />
-        </div>
+        </main>
       </div>
-    </div>
+    // </div>
   );
 }
 
-export default LoginRegisterPage;

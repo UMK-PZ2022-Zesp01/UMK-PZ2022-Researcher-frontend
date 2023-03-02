@@ -3,11 +3,15 @@ import FormStyle from './FormStyle';
 import getApiUrl from '../../Common/Api.js';
 import { useRef } from 'react';
 import PasswordStrengthBar from 'react-password-strength-bar';
+import {useNavigate} from "react-router-dom";
 
-const REGISTER_URL = 'user/add';
+const REGISTER_URL = getApiUrl() +'user/register';
 
 function RegisterForm(props) {
   const styles = FormStyle();
+
+  const navigate = useNavigate();
+
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
   const [username, setUsername] = React.useState('');
@@ -82,11 +86,10 @@ function RegisterForm(props) {
     }
   }
 
-  function SubmitButtonClicked(event) {
+  async function SubmitButtonClicked(event) {
     event.preventDefault();
-
     try {
-      fetch(getApiUrl() + REGISTER_URL, {
+      await fetch(REGISTER_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset:UTF-8',
@@ -100,6 +103,7 @@ function RegisterForm(props) {
             switch (response.status) {
               case 201:
                 text = 'Rejestracja przebiegła pomyślnie.';
+                navigate('/registeredSuccessfully', {replace: false, state:{username}});
                 break;
               case 299:
                 text = 'Ten email jest już zajęty.';
@@ -132,11 +136,11 @@ function RegisterForm(props) {
   }
 
   return (
-    <div className={styles.registerFormBox}>
-      <div className={styles.hBox}>
+    <article className={styles.registerFormBox}>
+      <header className={styles.hBox}>
         <div className={styles.h3}>Nie posiadasz konta?</div>
         <div className={styles.h2}>Zarejestruj się</div>
-      </div>
+      </header>
       <form onSubmit={event => SubmitButtonClicked(event)} className={styles.registerForm}>
         <div className={styles.flexRow}>
           <input
@@ -260,7 +264,7 @@ function RegisterForm(props) {
           ZAREJESTRUJ
         </button>
       </form>
-    </div>
+    </article>
   );
 }
 
