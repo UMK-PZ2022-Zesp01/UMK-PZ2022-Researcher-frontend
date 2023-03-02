@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import styles from "./UserData.module.css"
 import useAuth from '../../hooks/useAuth';
 import getApiUrl from "../../Common/Api";
 
+
+////////////////////////////////////
+// na pózniej - na razie nie używać
+//////////////////////////////////////
 
 function GetUserData() {
     const [userData, setUserData] = useState({});

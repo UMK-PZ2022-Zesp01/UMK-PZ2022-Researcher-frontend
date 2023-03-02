@@ -1,16 +1,14 @@
-import styles from "./UserPage.module.css"
-import BannerWhite from "../Banner/BannerWhite";
-import BannerUser from "./BannerUser";
+import UserPageStyle from './UserPageStyle';
+import BannerUser from "../Banner/BannerUser.jsx";
 import dude from "../../img/dude.png";
 import {Alert} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import banner from "../../img/banner2.png";
-import GetUserData from "./FetchUser";
 import useAuth from '../../hooks/useAuth';
 import getApiUrl from '../../Common/Api.js';
 
 export default function UserPage(props) {
 
+    const styles=UserPageStyle();
     const [alert, setAlert] = React.useState({
         alertType: 0,
         alertText: ''
@@ -29,7 +27,7 @@ export default function UserPage(props) {
 
     const [userData, setUserData] = useState({});
     const { username, accessToken } = useAuth().auth;
-    console.log(accessToken)
+    console.log(accessToken);
 
     useEffect(() => {
         fetch(getApiUrl() + 'user/current', {
@@ -40,10 +38,10 @@ export default function UserPage(props) {
                 'Content-Type': 'application/json; charset:UTF-8',
             }
         })
-            .then(response => response.json().then(data=>{setUserData(data)}))
-            // .then(data => {
-            //     setUserData(data);
-            // })
+            .then(response => response.json())
+            .then(data => {
+                setUserData(data);
+            })
             .catch(error => {
                 console.error(error);
             });
@@ -63,7 +61,7 @@ export default function UserPage(props) {
                         <div className={styles.userPic}>
                             <img src={dude} alt="profile" className={styles.profileImage}></img>
                         </div>
-                        <h4 className={styles.name}>{userData.firstName} {userData.lastName}</h4>
+                        <div className={styles.h4}>{userData.firstName} {userData.lastName}</div>
                     </div>
 
                     <div className={styles.separator}>
@@ -71,10 +69,10 @@ export default function UserPage(props) {
                     </div>
                     <div className={styles.right}>
                         <div className={styles.userData}>
-                            <h5>Lokalizacja: Toruń </h5>
-                            <h5>Email: {userData.email}</h5>
-                            <h5>Numer Telefonu: {userData.phone}</h5>
-                            <h5>Płeć: {userData.gender}</h5>
+                            <div className={styles.h5}> Lokalizacja: Toruń </div>
+                            <div className={styles.h5}> Email: {userData.email}</div>
+                            <div className={styles.h5}> Numer Telefonu: {userData.phone}</div>
+                            <div className={styles.h5}> Płeć: {userData.gender}</div>
                             {/*<UserData/>*/}
                         </div>
                         <a href={"/.."}>
