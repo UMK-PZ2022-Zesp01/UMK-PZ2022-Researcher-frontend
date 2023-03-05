@@ -6,9 +6,12 @@ import React, {useEffect, useState} from "react";
 import useAuth from '../../hooks/useAuth';
 import getApiUrl from '../../Common/Api.js';
 import BookmarksNav from "../BookmarksNav/BookmarksNav";
+import UserResearchCard from "../Researches/UserResearchCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot, faEnvelope, faPhone, faPerson } from "@fortawesome/free-solid-svg-icons";
 import { Helmet } from "react-helmet";
+
+
 
 export default function UserPage(props) {
 
@@ -77,9 +80,9 @@ export default function UserPage(props) {
                         <div className={styles.h4}>{userData.firstName} {userData.lastName}</div>
                     </div>
 
-                    <div className={styles.separator}>
+                    <div className={styles.separator}></div>
 
-                    </div>
+
                     <div className={styles.right}>
                         <div className={styles.userData}>
                             <div className={styles.dataItem}>
@@ -104,8 +107,10 @@ export default function UserPage(props) {
                         </div>
                     </div>
 
-                    <div className={styles.userResearches}>
+                    <div className={styles.separator}></div>
 
+                    <div className={styles.userResearches}>
+                        <UserResearchCard/>
                     </div>
 
                 </div>
