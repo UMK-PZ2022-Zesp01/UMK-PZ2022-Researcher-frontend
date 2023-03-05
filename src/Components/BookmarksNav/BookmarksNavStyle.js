@@ -16,7 +16,13 @@ export default createUseStyles({
     color: "#512C8C",
     padding: "20px",
     borderTopLeftRadius: "10px",
-    borderTopRightRadius: "10px"
+    borderTopRightRadius: "10px",
+    pointerEvents: "none",
+
+    "& .iconDesc": {
+      display: "none",
+      visibility: "hidden"
+    }
   },
 
   activeIcon: {
@@ -81,5 +87,15 @@ export default createUseStyles({
 
   ".bookmarkItem:not(:hover) > .iconDesc": {
     transition: "none"
+  },
+
+  "@media (max-width: 500px)": {
+    bookmarks: {
+      display: "none",
+      visibility: "hidden"
+    }
+
+
   }
+
 });

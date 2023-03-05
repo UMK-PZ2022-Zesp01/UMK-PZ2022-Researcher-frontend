@@ -1,16 +1,16 @@
 import React from "react";
-import MainPageStyle from './MainPageStyle';
-import { useEffect } from 'react';
-import getApiUrl from '../../Common/Api';
-import useLogout from '../../hooks/useLogout';
+import MainPageStyle from "./MainPageStyle";
+import { useEffect } from "react";
+import getApiUrl from "../../Common/Api";
+import useLogout from "../../hooks/useLogout";
 import { useUsername } from "../../hooks/useAuth";
 import Loading from "../Loading/Loading";
 
-const RESEARCHES_URL = getApiUrl() + 'researches'
+const RESEARCHES_URL = getApiUrl() + "researches";
 
 function MainPage() {
   const styles = MainPageStyle();
-  const [username,setUsername] = React.useState(useUsername())
+  const [username, setUsername] = React.useState(useUsername());
   const logout = useLogout();
   const [posts, setPosts] = React.useState([]);
 
@@ -23,10 +23,10 @@ function MainPage() {
       try {
         await fetch(RESEARCHES_URL, {
           signal,
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json;charset:UTF-8',
-          },
+            "Content-Type": "application/json;charset:UTF-8"
+          }
         })
           .then(response =>
             response.json().then(result => {
@@ -50,7 +50,7 @@ function MainPage() {
 
   const signOut = async () => {
     await logout();
-    setUsername("")
+    setUsername("");
   };
 
   const showPosts = () => {
@@ -60,9 +60,9 @@ function MainPage() {
   return (
     <article className={styles.mainPage}>
       <Loading isLoading={true} isSuccessful={false}></Loading>
-      <header>Witaj{username?(" "+username):""}!</header>
+      <header>Witaj{username ? (" " + username) : ""}!</header>
       {showPosts()}
-      {username&&<button onClick={signOut}>Sign out</button>}
+      {username && <button onClick={signOut}>Sign out</button>}
     </article>
   );
 }

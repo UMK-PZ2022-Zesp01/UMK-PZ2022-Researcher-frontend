@@ -1,9 +1,10 @@
-import React from "react";
 import { createUseStyles } from "react-jss";
 
 export default createUseStyles({
 
   title: {
+    width: "100%",
+    display: "flex",
     color: "#512C8C",
     marginBottom: "20px"
   },
@@ -181,6 +182,53 @@ export default createUseStyles({
       backgroundColor: "#6D3B9E",
       border: "2px solid #6D3B9E",
       cursor: "pointer"
+    }
+  },
+
+  "@media (max-width: 500px)": {
+    title: {
+      fontSize: "1em",
+      justifyContent: "center"
+    },
+
+    formRowTop: {
+      flexDirection: "column"
+    },
+
+    posterButton: {
+      width: "100%",
+      height: "100px",
+      flexDirection: "row",
+      gap: "15px"
+    },
+
+    posterIcon: {
+      fontSize: "48px"
+    },
+
+    posterButtonDesc: {
+      margin: "0"
+    },
+
+    formRow1Right: {
+      width: "100%"
+    },
+
+    formInputLarge: {
+      height: "10em"
+    },
+
+    formRow: {
+      flexDirection: "column",
+      width: "100%"
+    },
+
+    inputWithLabel: {
+      width: "100%"
+    },
+
+    formLabel: {
+
     }
   }
 

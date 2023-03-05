@@ -1,9 +1,9 @@
-import React from 'react';
-import LoginRegisterPageStyle from './LoginRegisterPageStyle';
-import BannerWhite from '../Banner/BannerWhite';
-import LoginForm from '../Form/LoginForm';
-import RegisterForm from '../Form/RegisterForm';
-import { Alert, Collapse } from '@mui/material';
+import React from "react";
+import LoginRegisterPageStyle from "./LoginRegisterPageStyle";
+import BannerWhite from "../Banner/BannerWhite";
+import LoginForm from "../Form/LoginForm";
+import RegisterForm from "../Form/RegisterForm";
+import { Alert, Collapse } from "@mui/material";
 import { Helmet } from "react-helmet";
 
 export default function LoginRegisterPage() {
@@ -12,14 +12,14 @@ export default function LoginRegisterPage() {
   const [alert, setAlert] = React.useState({
     alertOpen: false,
     alertType: 0,
-    alertText: '',
+    alertText: ""
   });
 
   const closeAlert = () =>
     setAlert({
       alertOpen: false,
       alertType: alert.alertType,
-      alertText: alert.alertText,
+      alertText: alert.alertText
     });
 
   function showAlert() {

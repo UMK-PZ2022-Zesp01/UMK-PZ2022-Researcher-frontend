@@ -1,33 +1,33 @@
-import React from 'react';
-import FormStyle from './FormStyle';
-import getApiUrl from '../../Common/Api.js';
-import { useRef } from 'react';
-import PasswordStrengthBar from 'react-password-strength-bar';
-import {useNavigate} from "react-router-dom";
+import React from "react";
+import FormStyle from "./FormStyle";
+import getApiUrl from "../../Common/Api.js";
+import { useRef } from "react";
+import PasswordStrengthBar from "react-password-strength-bar";
+import { useNavigate } from "react-router-dom";
 
-const REGISTER_URL = getApiUrl() +'user/register';
+const REGISTER_URL = getApiUrl() + "user/register";
 
 function RegisterForm(props) {
   const styles = FormStyle();
 
   const navigate = useNavigate();
 
-  const [firstName, setFirstName] = React.useState('');
-  const [lastName, setLastName] = React.useState('');
-  const [username, setUsername] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
   const [passwordScore, setPasswordScore] = React.useState(0);
-  const [gender, setGender] = React.useState('');
-  const [birthDate, setBirthDate] = React.useState('');
+  const [gender, setGender] = React.useState("");
+  const [birthDate, setBirthDate] = React.useState("");
   const [agreement, setAgreement] = React.useState(false);
 
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
   const setAlert = props.setters;
 
-  let currentTime = new Date().toISOString().split('T')[0];
+  let currentTime = new Date().toISOString().split("T")[0];
 
   let user = {
     login: username,
@@ -36,7 +36,7 @@ function RegisterForm(props) {
     lastName: lastName,
     email: email,
     birthDate: birthDate,
-    gender: gender,
+    gender: gender
   };
 
   const handleFirstNameChanged = event => {
@@ -75,14 +75,14 @@ function RegisterForm(props) {
     let pass = passwordRef.current;
     let confirm = confirmPasswordRef.current;
     if (passwordScore < 2) {
-      pass.setCustomValidity('Hasło jest za słabe.');
+      pass.setCustomValidity("Hasło jest za słabe.");
     } else {
-      pass.setCustomValidity('');
+      pass.setCustomValidity("");
     }
     if (password !== confirmPassword) {
-      confirm.setCustomValidity('Hasła się nie zgadzają.');
+      confirm.setCustomValidity("Hasła się nie zgadzają.");
     } else {
-      confirm.setCustomValidity('');
+      confirm.setCustomValidity("");
     }
   }
 
@@ -90,11 +90,11 @@ function RegisterForm(props) {
     event.preventDefault();
     try {
       await fetch(REGISTER_URL, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json; charset:UTF-8',
+          "Content-Type": "application/json; charset:UTF-8"
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(user)
       })
         .then(response => {
           if (response.ok) {
@@ -102,22 +102,22 @@ function RegisterForm(props) {
             let text;
             switch (response.status) {
               case 201:
-                text = 'Rejestracja przebiegła pomyślnie.';
-                navigate('/registeredSuccessfully', {replace: false, state:{username}});
+                text = "Rejestracja przebiegła pomyślnie.";
+                navigate("/registeredSuccessfully", { replace: false, state: { username } });
                 break;
               case 299:
-                text = 'Ten email jest już zajęty.';
+                text = "Ten email jest już zajęty.";
                 break;
               case 298:
-                text = 'Ta nazwa użytkownika jest już zajęta.';
+                text = "Ta nazwa użytkownika jest już zajęta.";
                 break;
               default:
-                text = 'Co to się stanęło?';
+                text = "Co to się stanęło?";
             }
             setAlert({
               alertOpen: true,
               alertType: response.status,
-              alertText: text,
+              alertText: text
             });
           } else {
             console.log(response.status);
@@ -127,7 +127,7 @@ function RegisterForm(props) {
           setAlert({
             alertOpen: true,
             alertType: 999,
-            alertText: 'Coś poszło nie tak.',
+            alertText: "Coś poszło nie tak."
           });
         });
     } catch (error) {
@@ -213,8 +213,8 @@ function RegisterForm(props) {
             setPasswordScore={setPasswordScore}
             className={styles.fullWidth}
             password={password}
-            scoreWords={['Słabe', 'Słabe', 'Ok', 'Silne', 'Bardzo Silne']}
-            shortScoreWord={'Zbyt krótkie'}
+            scoreWords={["Słabe", "Słabe", "Ok", "Silne", "Bardzo Silne"]}
+            shortScoreWord={"Zbyt krótkie"}
           ></PasswordStrengthBar>
         </div>
         <div className={styles.flexRow}>

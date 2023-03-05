@@ -22,6 +22,36 @@ function CreateResearchForm() {
     setReqType(event.target.value);
   };
 
+  const RewardDiv = () => {
+    return (
+      <>
+        <select onChange={handleRewardTypeSelect} className={styles.formInputRegular}
+                name="reward-type" id="reward-type-select">
+          <option value="" disabled selected>Wybierz typ nagrody...</option>
+          <option value="reward-cash">pieniężna</option>
+          <option value="reward-item">przedmiot / upominek</option>
+        </select>
+        {rewardType === "reward-cash" &&
+          <input className={styles.formInputRegular}
+                 type="number" min="0" step="0.01" id="reward-value" name="reward-value"
+                 placeholder="Kwota w zł"
+          />
+        }
+        {rewardType === "reward-item" &&
+          <input className={styles.formInputRegular}
+                 type="text" id="reward-value" name="reward-value"
+                 placeholder="Nazwa przedmiotu / upominku"
+          />
+        }
+      </>
+    );
+  };
+
+  const [rewardList, setRewardList] = useState([<RewardDiv key="0" />]);
+  const onAddRewardButtonClick = () => {
+    setRewardList(rewardList.concat(<RewardDiv key={rewardList.length} />));
+  };
+
   return (
     <>
       <h2 className={styles.title}>Stwórz nowe ogłoszenie o badaniu</h2>
@@ -35,9 +65,9 @@ function CreateResearchForm() {
           </label>
           <div className={styles.formRow1Right}>
             <input className={styles.formInputRegular} type="text" id="title" name="title"
-                   placeholder="Tytuł badania" />
+                   placeholder="Tytuł badania" required />
             <textarea className={styles.formInputLarge} id="desc" name="desc" maxLength="1500"
-                      placeholder="Opis badania" />
+                      placeholder="Opis badania" required />
           </div>
         </div>
 
@@ -45,14 +75,12 @@ function CreateResearchForm() {
           <div className={styles.inputWithLabel}>
             <label htmlFor="date-begin">Data i godzina rozpoczęcia badania</label>
             <input className={styles.formInputRegular}
-                   type="datetime-local" id="date-begin" name="date-begin"
-            />
+                   type="datetime-local" id="date-begin" name="date-begin" required />
           </div>
           <div className={styles.inputWithLabel}>
             <label htmlFor="date-end">Data i godzina zakończenia badania</label>
             <input className={styles.formInputRegular}
-                   type="datetime-local" id="date-end" name="date-end"
-            />
+                   type="datetime-local" id="date-end" name="date-end" required />
           </div>
         </div>
 
@@ -60,15 +88,14 @@ function CreateResearchForm() {
           <label className={styles.formLabel}>W jakiej formie przeprowadzasz badanie?</label>
           <div className={styles.formRow}>
             <select onChange={handleResearchFormSelect} className={styles.formInputRegular} name="form"
-                    id="form-select">
+                    id="form-select" required>
               <option value="" disabled selected>Wybierz formę...</option>
               <option value="form-in-place">stacjonarnie</option>
               <option value="form-remote">zdalnie</option>
             </select>
             {researchForm === "form-remote" &&
-              <input className={styles.formInputRegular}
-                     type="text" id="remote-link" name="remote-link" placeholder="Link do zdalnego badania"
-              />
+              <input className={styles.formInputRegular} type="text" id="remote-link" name="remote-link"
+                     placeholder="Link do zdalnego badania" required />
             }
           </div>
         </div>
@@ -82,26 +109,27 @@ function CreateResearchForm() {
         <div className={styles.rowContainer}>
           <label className={styles.formLabel}>Nagrody za udział w badaniu</label>
           <div className={styles.formRow}>
-            <select onChange={handleRewardTypeSelect} className={styles.formInputRegular}
-                    name="reward-type" id="reward-type-select">
-              <option value="" disabled selected>Wybierz typ nagrody...</option>
-              <option value="reward-cash">pieniężna</option>
-              <option value="reward-item">przedmiot / upominek</option>
-            </select>
-            {rewardType === "reward-cash" &&
-              <input className={styles.formInputRegular}
-                     type="number" min="0" step="0.01" id="reward-value" name="reward-value"
-                     placeholder="Kwota w zł"
-              />
-            }
-            {rewardType === "reward-item" &&
-              <input className={styles.formInputRegular}
-                     type="text" id="reward-value" name="reward-value"
-                     placeholder="Nazwa przedmiotu / upominku"
-              />
-            }
+            {/*<select onChange={handleRewardTypeSelect} className={styles.formInputRegular}*/}
+            {/*        name="reward-type" id="reward-type-select">*/}
+            {/*  <option value="" disabled selected>Wybierz typ nagrody...</option>*/}
+            {/*  <option value="reward-cash">pieniężna</option>*/}
+            {/*  <option value="reward-item">przedmiot / upominek</option>*/}
+            {/*</select>*/}
+            {/*{rewardType === "reward-cash" &&*/}
+            {/*  <input className={styles.formInputRegular}*/}
+            {/*         type="number" min="0" step="0.01" id="reward-value" name="reward-value"*/}
+            {/*         placeholder="Kwota w zł"*/}
+            {/*  />*/}
+            {/*}*/}
+            {/*{rewardType === "reward-item" &&*/}
+            {/*  <input className={styles.formInputRegular}*/}
+            {/*         type="text" id="reward-value" name="reward-value"*/}
+            {/*         placeholder="Nazwa przedmiotu / upominku"*/}
+            {/*  />*/}
+            {/*}*/}
+            {rewardList}
           </div>
-          <div className={styles.addRewardReqLabel}>
+          <div onClick={onAddRewardButtonClick} className={styles.addRewardReqLabel}>
             <span className={styles.plusSign}>+</span> <span>Dodaj kolejną nagrodę</span>
           </div>
         </div>

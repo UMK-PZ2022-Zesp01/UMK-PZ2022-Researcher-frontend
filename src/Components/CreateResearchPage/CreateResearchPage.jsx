@@ -15,12 +15,12 @@ function CreateResearchPage() {
         <title>Researcher | Nowe badanie</title>
       </Helmet>
 
-      <div className={styles.bookmarksContainer}>
+      <header className={styles.bookmarksContainer}>
         <a href="/" className={styles.logo}>
           <img className={styles.logoImg} src={banner} alt="Researcher Logo" />
         </a>
-        <BookmarksNav />
-      </div>
+        <BookmarksNav active="2"/>
+      </header>
 
       <main className={styles.createResearchPanel}>
         <CreateResearchForm />

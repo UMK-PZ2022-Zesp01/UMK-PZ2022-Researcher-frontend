@@ -4,7 +4,7 @@ export default createUseStyles({
 
   container: {
     maxWidth: "900px",
-    margin: "100px auto",
+    margin: "75px auto",
     display: "flex",
     flexDirection: "column",
     alignItems: "center"
@@ -42,6 +42,21 @@ export default createUseStyles({
     alignItems: "flex-start",
     borderRadius: "10px",
     backgroundColor: "#F4F0FA"
+  },
+
+  "@media (max-width: 500px)": {
+    container: {
+      margin: "25px 10px"
+    },
+
+    bookmarksContainer: {
+      justifyContent: "center"
+    },
+
+    createResearchPanel: {
+      padding: "30px"
+    }
   }
+
 });
 
