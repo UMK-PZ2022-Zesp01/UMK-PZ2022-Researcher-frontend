@@ -81,6 +81,13 @@ export default createUseStyles({
     }
   },
 
+  formColumn: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: "15px"
+  },
+
   formLabel: {
     fontWeight: "bold",
     color: "#512C8C",
@@ -89,32 +96,80 @@ export default createUseStyles({
     alignItems: "center"
   },
 
+  posterDisplay: {
+    width: "25%",
+    height: "250px",
+    borderRadius: "5px",
+    cursor: "pointer"
+  },
+
+  posterImg: {
+    width: "100%",
+    height: "100%",
+    borderRadius: "5px",
+    objectFit: "cover"
+  },
+
   posterButton: {
+    position: "relative",
+    width: "25%",
+    height: "250px",
+  },
+
+  posterIcon: {
+    display: "block",
+    position: "relative",
+    fontSize: "48px"
+  },
+
+  posterButtonOverlay: {
+    position: "absolute",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
-    width: "25%",
-    height: "250px",
-    backgroundColor: "#C6B1E7",
-    padding: "25px",
+    gap: "20px",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    padding: "10px",
+    fontSize: "20px",
+    fontWeight: "bold",
     borderRadius: "5px",
-    transition: ".3s",
+    color: "#512C8C",
+    backgroundColor: "#C6B1E7",
+    transition: ".5s",
+    opacity: 0,
 
     "&:hover": {
-      cursor: "pointer",
+      opacity: 1
+    }
+  },
+
+  overlayActive: {
+    opacity: 1
+  },
+
+  overlayTile: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "10px 0",
+    borderRadius: "5px",
+    backgroundColor: "#C6B1E7",
+    cursor: "pointer",
+    transition: "background-color .5s",
+
+    "&:hover": {
       backgroundColor: "#D7C2F8"
     }
   },
 
-  posterIcon: {
-    fontSize: "72px"
-  },
-
   posterButtonDesc: {
+    display: "block",
+    position: "relative",
     fontSize: "20px",
     fontWeight: "bold",
-    textTransform: "uppercase",
     marginTop: "10px",
     color: "#512C8C"
   },
@@ -150,9 +205,14 @@ export default createUseStyles({
     fontWeight: "bold",
     color: "#512C8C",
     marginLeft: "10px",
+    border: "2px solid #512C8C",
+    padding: "0 10px 5px 10px",
+    borderRadius: "20px",
+    transition: ".5s",
 
     "&:hover": {
-      cursor: "pointer"
+      cursor: "pointer",
+      backgroundColor: "#C6B1E7"
     }
   },
 

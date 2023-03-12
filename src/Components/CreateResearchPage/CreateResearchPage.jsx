@@ -1,6 +1,6 @@
 import React from "react";
 import CreateResearchPageStyle from "./CreateResearchPageStyle";
-import CreateResearchForm from "../Form/CreateResearchForm";
+import CreateResearchForm from "../Form/CreateResearchForm/CreateResearchForm";
 import banner from "../../img/banner2.png";
 import { Helmet } from "react-helmet";
 import BookmarksNav from "../BookmarksNav/BookmarksNav";

@@ -5,7 +5,7 @@ import { faFileCirclePlus, faGear, faHouse, faRightFromBracket, faUser } from "@
 
 /***
  props "active":
-
+*
  * 0 = Home Page
  *
  * 1 = Profile Page
@@ -17,12 +17,12 @@ import { faFileCirclePlus, faGear, faHouse, faRightFromBracket, faUser } from "@
  * 4 = Logout Button
  ***/
 
-function BookmarksNav(props) {
+function BookmarksNav({active}) {
 
   const styles = BookmarksNavStyle();
 
   const generateNav = () => {
-    const activeBookmarkIndex = Number(props.active);
+    const activeBookmarkIndex = Number(active);
 
     let bookmarksList = [
       <a href="/" className={activeBookmarkIndex === 0 ? styles.activeBookmarkItem : styles.bookmarkItem}>
