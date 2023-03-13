@@ -3,12 +3,13 @@ import userResearchCardStyle from './UserResearchCardStyle.js';
 import { useUsername } from "../../hooks/useAuth";
 import { useEffect } from 'react';
 import getApiUrl from "../../Common/Api";
-const USERRESEARCHES_URL = getApiUrl() + 'researches'
+const USERRESEARCHES_URL = getApiUrl() + 'research/creatorLogin/'
 ////////////////// TESTOWE CREATORID ////////////////////
 
 function UserResearchCard(){
     const styles=userResearchCardStyle();
     const [researches, setResearches] = React.useState([]);
+    const login=useUsername();
 
     useEffect(() => {
         let isMounted = true;
@@ -17,7 +18,7 @@ function UserResearchCard(){
 
         const getUserResearches = async () => {
             try {
-                await fetch(USERRESEARCHES_URL, {
+                await fetch(USERRESEARCHES_URL+login, {
                     signal,
                     method: 'GET',
                     headers: {
