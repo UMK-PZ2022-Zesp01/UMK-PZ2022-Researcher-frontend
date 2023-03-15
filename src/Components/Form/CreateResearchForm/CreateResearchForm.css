@@ -217,14 +217,7 @@
     border-radius: 5px;
 }
 
-.addRewardReqLabel {
-    /*font-weight: bold;*/
-    /*color: #512C8C;*/
-    /*border: 2px solid #512C8C;*/
-    /*padding: 0 10px 5px 10px;*/
-    /*border-radius: 20px;*/
-    /*cursor: pointer;*/
-    /*transition: .5s;*/
+.addRewardReqButton {
     padding: 10px;
     background-color: #D6CEF3;
     outline: none;
@@ -233,11 +226,17 @@
     font-family: sans-serif;
     font-weight: bold;
     color: #512C8C;
+    cursor: pointer;
     transition: .3s;
 }
 
-.addRewardReqLabel:hover {
-    background-color: #D6CEF3;
+.addRewardReqButton:hover {
+    background-color: #D7C2F8;
+    border: 2px solid #512C8C;
+}
+
+.addRewardReqButtonDesc {
+    margin-left: 5px;
 }
 
 .plusSign {

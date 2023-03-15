@@ -3,14 +3,13 @@ import './CreateResearchForm.css';
 import { faFileImage, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getApiUrl from '../../../Common/Api';
-import { CreateResearchFormReward } from './CreateResearchFormReward';
-import { v4 as uuidv4 } from 'uuid';
+import { CreateResearchFormReward } from './Reward/CreateResearchFormReward';
+import { v4 as generateKey } from 'uuid';
+import { useUsername } from '../../../hooks/useAuth';
 
 function CreateResearchForm() {
   const RESEARCH_ADD_URL = getApiUrl() + 'research/add';
   const PHOTO_UPLOAD_URL = getApiUrl() + 'image/upload';
-
-  const loggedUserId = null; //TODO
 
   const [posterImage, setPosterImage] = useState(null);
   const [title, setTitle] = useState('');
@@ -31,31 +30,32 @@ function CreateResearchForm() {
   let research = {
     title: title,
     description: description,
+    creatorLogin: useUsername(),
     posterId: null,
     begDate: begDate,
     endDate: endDate,
     participantLimit: participantLimit,
     location: null,
-    // rewards: null
+    rewards: null,
     // requirementList: requirement
   };
 
   /*** Rewards Section ***/
 
-  const [reload, setReload] = React.useState(false);
+  const [reload, setReload] = useState(false);
+  const [keyArray, setKeyArray] = useState([]);
 
+  /** Generate New Keys For CreateResearchFormReward Components **/
   useEffect(() => {
-    let newKeyArray = rewardList.reduce(array => [...array, uuidv4()], []);
+    let newKeyArray = rewardList.reduce(array => [...array, generateKey()], []);
     setKeyArray(newKeyArray);
   }, [reload]);
-
-  const [keyArray, setKeyArray] = React.useState([]);
 
   const renderRewardComponents = () => {
     return rewardList.length > 0 ? (
       rewardList.map((data, index) => (
         <CreateResearchFormReward
-          key={keyArray[index] ? keyArray[index] : 'cfel'}
+          key={keyArray[index] ? keyArray[index] : generateKey()}
           index={index}
           data={data}
           handleUpdate={updateReward}
@@ -86,9 +86,8 @@ function CreateResearchForm() {
     setReload(!reload);
   };
 
-  useEffect(() => {
-    console.log(rewardList);
-  }, [rewardList]);
+  /*** Requirements Section ***/
+  // TODO
 
   /*** Functions for Handling Changes in Form ***/
 
@@ -102,7 +101,6 @@ function CreateResearchForm() {
 
   const handleTitleChange = event => {
     setTitle(event.target.value);
-    console.log(rewardList);
   };
 
   const handleDescriptionChange = event => {
@@ -130,6 +128,7 @@ function CreateResearchForm() {
   };
 
   /*** Send New Research to Backend ***/
+  // TODO: Handle Cases in 'switch' & Add Alerts
 
   const addNewResearch = async () => {
     /** Photo Upload **/
@@ -189,6 +188,7 @@ function CreateResearchForm() {
   const handleFormSubmit = event => {
     event.preventDefault();
     research.location = { form: researchForm, place: researchPlace };
+    research.rewards = rewardList;
     addNewResearch().then(null);
   };
 
@@ -344,9 +344,9 @@ function CreateResearchForm() {
           <div className="formColumn">{renderRewardComponents()}</div>
 
           <div className="formColumnButton">
-            <div onClick={handleAddRewardButtonClick} className="addRewardReqLabel">
+            <div onClick={handleAddRewardButtonClick} className="addRewardReqButton">
               <FontAwesomeIcon icon={faPlus} />
-              <span>Dodaj nagrodę</span>
+              <span className="addRewardReqButtonDesc">Dodaj nagrodę</span>
             </div>
           </div>
         </div>

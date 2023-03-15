@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import './CreateResearchFormReward.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -35,7 +35,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
           onChange={event =>
             handleUpdate(index, {
               type: type,
-              value: Number(event.target.value),
+              value: event.target.value,
             })
           }
         />
