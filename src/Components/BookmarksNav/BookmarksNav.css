@@ -1,0 +1,107 @@
+.bookmarks {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.activeBookmarkItem {
+    display: flex;
+    align-items: center;
+    background-color: #F4F0FA;
+    color: #512C8C;
+    padding: 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    pointer-events: none;
+}
+
+.activeBookmarkItem .iconDesc {
+    display: none;
+    visibility: hidden;
+}
+
+.activeIcon {
+    font-size: 20px;
+}
+
+.activeIconDesc {
+    margin-left: 10px;
+    color: #512C8C;
+    font-weight: bold;
+}
+
+.loggedUserBookmarkItem {
+    display: flex;
+    align-items: center;
+    background-color: #D6CEF3;
+    color: #512C8C;
+    padding: 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-decoration: none;
+    transition: background-color .5s;
+}
+
+.loggedUserBookmarkItem:hover {
+    background-color: #F4F0FA;
+}
+
+.loggedUserBookmarkDesc {
+    font-weight: bold;
+    margin-left: 10px;
+    text-wrap: avoid;
+}
+
+.bookmarkItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 60px;
+    height: 64px;
+    background-color: #512C8C;
+    color: #FFF;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: max-width .5s;
+}
+
+.bookmarkItem:hover {
+    background-color: #6D3B9E;
+    max-width: 185px;
+}
+
+.icon {
+    font-size: 20px;
+    pointer-events: none;
+}
+
+.iconDesc {
+    font-weight: bold;
+    margin-left: 10px;
+    pointer-events: none;
+    opacity: 0;
+    position: relative;
+    transition: .25s linear;
+    transition-delay: .5s;
+    text-wrap: avoid;
+}
+
+.bookmarkItem:hover > .iconDesc {
+    opacity: 1;
+}
+
+.bookmarkItem:not(:hover) > .iconDesc {
+    transition: none;
+}
+
+@media (max-width: 500px) {
+    .bookmarks {
+        display: none;
+        visibility: hidden;
+    }
+}

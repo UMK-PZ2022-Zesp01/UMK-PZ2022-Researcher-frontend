@@ -1,16 +1,14 @@
-import React, { useState } from "react";
-import CreateResearchFormStyle from "./CreateResearchFormStyle";
-import { faFileImage, faTrash } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
+import "./CreateResearchForm.css";
+import { faFileImage, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import getApiUrl from "../../../Common/Api";
 import { CreateResearchFormReward } from "./CreateResearchFormReward";
 
 function CreateResearchForm() {
 
-  const styles = CreateResearchFormStyle();
-
   const RESEARCH_ADD_URL = getApiUrl() + "research/add";
-  const PHOTO_UPLOAD_URL = getApiUrl() + "photo/upload";
+  const PHOTO_UPLOAD_URL = getApiUrl() + "image/upload";
 
   const loggedUserId = null; //TODO
 
@@ -22,10 +20,7 @@ function CreateResearchForm() {
   const [participantLimit, setParticipantLimit] = useState(0);
   const [researchForm, setResearchForm] = useState("");
   const [researchPlace, setResearchPlace] = useState("");
-  const [rewardType, setRewardType] = useState("");
-  const [rewardName, setRewardName] = useState("");
-  const [rewardItem, setRewardItem] = useState(null);
-  const [rewardList, setRewardList] = useState([{ type: "", cashValue: "", name: "" }]);
+  const [rewardList, setRewardList] = useState([{ type: "", value: null }]);
   const [requirementType, setRequirementType] = useState("");
   const [requirementAgeMin, setRequirementAgeMin] = useState(-1);
   const [requirementAgeMax, setRequirementAgeMax] = useState(-1);
@@ -47,31 +42,38 @@ function CreateResearchForm() {
 
   /*** Rewards Section ***/
 
-  const addRewardItem = (type, cashValue, name) => {
-    setRewardList([...rewardList,
-      { type: type, cashValue: cashValue, name: name }
-    ]);
+  const renderRewardComponents = () => {
+    return rewardList.length > 0
+      ? rewardList.map((data, index) =>
+        <CreateResearchFormReward key={index.toString()} index={index} data={data}
+                                  handleUpdate={updateReward} handleDelete={deleteReward} />
+      )
+      : <div className="noRewardDesc">W tej chwili Twoje badanie nie oferuje żadnych nagród</div>;
   };
 
-  let rewardCounter = 1;
-  const [rewardComponentsList, setRewardComponentsList] = useState([
-    <CreateResearchFormReward key={rewardCounter} addRewardItem={addRewardItem} />
-  ]);
-
-  const onAddRewardButtonClick = () => {
-    rewardCounter++;
-    setRewardComponentsList([...rewardComponentsList,
-      <CreateResearchFormReward key={rewardCounter} addRewardItem={addRewardItem} />
-    ]);
-    setRewardList([...rewardList, { type: "", cashValue: "", name: "" }]);
-
-    /*** For deleting reward from list ***/
-    // setRewardList(
-    //   prevState => [
-    //     prevState.map((index) => index < rewardCounter)
-    //   ]
-    // );
+  const updateReward = (index, reward) => {
+    let updatedRewardList = [...rewardList];
+    updatedRewardList[index] = reward;
+    setRewardList(updatedRewardList);
   };
+
+  const deleteReward = (index) => {
+    let updatedRewardList = [...rewardList];
+    updatedRewardList.splice(index, 1);
+
+    console.log("Zwykly:" + rewardList);
+    console.log("Updated:" + updatedRewardList);
+
+    setRewardList(updatedRewardList);
+  };
+
+  const handleAddRewardButtonClick = () => {
+    setRewardList([...rewardList, { type: "", value: null }]);
+  };
+
+  useEffect(() => {
+    console.log(rewardList);
+  }, [rewardList]);
 
   /*** Functions for Handling Changes in Form ***/
 
@@ -79,8 +81,13 @@ function CreateResearchForm() {
     setPosterImage(event.target.files[0]);
   };
 
+  const resetPosterInput = () => {
+    setPosterImage(null);
+  };
+
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
+    console.log(rewardList);
   };
 
   const handleDescriptionChange = (event) => {
@@ -107,14 +114,6 @@ function CreateResearchForm() {
     setResearchPlace(event.target.value);
   };
 
-  const handleRewardTypeSelect = (event) => {
-    setRewardType(event.target.value);
-  };
-
-  const handleRewardNameSelect = (event) => {
-    setRewardName(event.target.value);
-  };
-
   /*** Send New Research to Backend ***/
 
   const addNewResearch = async () => {
@@ -127,8 +126,7 @@ function CreateResearchForm() {
 
     try {
       const response = await fetch(PHOTO_UPLOAD_URL, {
-        method: "POST",
-        body: formData
+        method: "POST", body: formData
       });
 
       switch (response.status) {
@@ -139,11 +137,9 @@ function CreateResearchForm() {
 
           try {
             const response = await fetch(RESEARCH_ADD_URL, {
-              method: "POST",
-              headers: {
+              method: "POST", headers: {
                 "Content-Type": "application/json; charset:UTF-8"
-              },
-              body: JSON.stringify(research)
+              }, body: JSON.stringify(research)
             });
 
             switch (response.status) {
@@ -171,10 +167,6 @@ function CreateResearchForm() {
 
   };
 
-  const resetPosterInput = () => {
-    setPosterImage(null);
-  };
-
   const handleFormReset = () => {
     resetPosterInput();
   };
@@ -187,129 +179,93 @@ function CreateResearchForm() {
 
   return (
     <>
-      <h2 className={styles.title}>Stwórz nowe ogłoszenie o badaniu</h2>
-      <form className={styles.researchForm} onSubmit={handleFormSubmit} onReset={handleFormReset}
+      <h2 className="title">Stwórz nowe ogłoszenie o badaniu</h2>
+      <form className="researchForm" onSubmit={handleFormSubmit} onReset={handleFormReset}
             encType="multipart/form-data">
 
-        <div className={styles.formRowTop}>
+        <div className="formRowTop">
           <input onChange={handlePosterImageChange}
                  type="file" id="poster" name="poster" accept="image/png, image/jpeg" hidden />
 
-          <div className={styles.posterButton}>
-            {
-              posterImage != null &&
-              <img alt="poster" src={URL.createObjectURL(posterImage)} className={styles.posterImg} />
-            }
-            <div className={posterImage != null
-              ? styles.posterButtonOverlay
-              : `${styles.posterButtonOverlay} ${styles.overlayActive}`}>
+          <div className="posterButton">
+            {posterImage != null &&
+              <img alt="poster" src={URL.createObjectURL(posterImage)} className="posterImg" />}
+            <div
+              className={posterImage != null ? "posterButtonOverlay" : "posterButtonOverlay overlayActive"}>
 
-              <label htmlFor="poster" className={styles.overlayTile}>
-                <FontAwesomeIcon className={styles.posterIcon} icon={faFileImage} />
-                <span className={styles.posterButtonDesc}>
+              <label htmlFor="poster" className="overlayTile">
+                <FontAwesomeIcon className="posterIcon" icon={faFileImage} />
+                <span className="posterButtonDesc">
                   {posterImage == null ? "Dodaj" : "Zmień"} plakat
                 </span>
               </label>
 
-              {posterImage != null &&
-                <div className={styles.overlayTile} onClick={resetPosterInput}>
-                  <FontAwesomeIcon className={styles.posterIcon} icon={faTrash} />
-                  <span className={styles.posterButtonDesc}>Usuń plakat</span>
-                </div>
-              }
+              {posterImage != null && <div className="overlayTile" onClick={resetPosterInput}>
+                <FontAwesomeIcon className="posterIcon" icon={faTrash} />
+                <span className="posterButtonDesc">Usuń plakat</span>
+              </div>}
 
             </div>
           </div>
 
-          <div className={styles.formRow1Right}>
-            <input className={styles.formInputRegular} onChange={handleTitleChange}
+          <div className="formRow1Right">
+            <input className="formInputRegular" onChange={handleTitleChange}
                    type="text" id="title" name="title" placeholder="Tytuł badania" required />
-            <textarea className={styles.formInputLarge} onChange={handleDescriptionChange}
+            <textarea className="formInputLarge" onChange={handleDescriptionChange}
                       id="desc" name="desc" maxLength="1500" placeholder="Opis badania" required />
           </div>
         </div>
 
-        <div className={styles.formRow}>
-          <div className={styles.inputWithLabel}>
+        <div className="formRow">
+          <div className="inputWithLabel">
             <label htmlFor="date-begin">Data rozpoczęcia badania</label>
-            <input className={styles.formInputRegular} onChange={handleBegDateChange}
+            <input className="formInputRegular" onChange={handleBegDateChange}
                    type="date" id="date-begin" name="date-begin" required />
           </div>
 
-          <div className={styles.inputWithLabel}>
+          <div className="inputWithLabel">
             <label htmlFor="date-end">Data zakończenia badania</label>
-            <input className={styles.formInputRegular} onChange={handleEndDateChange}
+            <input className="formInputRegular" onChange={handleEndDateChange}
                    type="date" id="date-end" name="date-end" required />
           </div>
 
-          <div className={styles.inputWithLabel}>
+          <div className="inputWithLabel">
             <label htmlFor="participant-limit">Ilu uczestników potrzebujesz?</label>
-            <input className={styles.formInputRegular} onChange={handleParticipantLimitChange}
+            <input className="formInputRegular" onChange={handleParticipantLimitChange}
                    type="number" min="0" placeholder="1" id="participant-limit" name="participant-limit" required />
           </div>
         </div>
 
-        <div className={styles.rowContainer}>
-          <label className={styles.formLabel}>W jakiej formie przeprowadzasz badanie?</label>
-          <div className={styles.formRow}>
-            <select onChange={handleResearchFormSelect} className={styles.formInputRegular}
-                    name="form" id="form-select" required>
-              <option value="" disabled selected>Wybierz formę...</option>
+        <div className="rowContainer">
+          <label className="formLabel">W jakiej formie przeprowadzasz badanie?</label>
+          <div className="formRow">
+            <select onChange={handleResearchFormSelect} className="formInputRegular"
+                    name="form" id="form-select" defaultValue={""} required>
+              <option value="" disabled>Wybierz formę...</option>
               <option value="in-place">stacjonarnie</option>
               <option value="remote">zdalnie</option>
             </select>
             {researchForm === "remote" &&
-              <input className={styles.formInputRegular} onChange={handleResearchPlaceChange}
-                     type="text" id="remote-link" name="remote-link" placeholder="Link do zdalnego badania" required />
-            }
+              <input className="formInputRegular" onChange={handleResearchPlaceChange}
+                     type="text" id="remote-link" name="remote-link" placeholder="Link do zdalnego badania" required />}
           </div>
         </div>
-        {researchForm === "in-place" &&
-          <div className={styles.formRow}>
-            <div className={styles.map}>[GOOGLE API MAP]<br />(do wyboru stacjonarnego miejsca badania)</div>
+        {researchForm === "in-place" && <div className="formRow">
+          <div className="map">[GOOGLE API MAP]<br />(do wyboru stacjonarnego miejsca badania)</div>
+        </div>}
+
+        <div className="rowContainer">
+          <label className="formLabel">Nagrody za udział w badaniu</label>
+
+          <div className="formColumn">
+            {renderRewardComponents()}
           </div>
-        }
 
-        <div className={styles.rowContainer}>
-          <label className={styles.formLabel}>Nagrody za udział w badaniu</label>
-          <div className={styles.formRow}>
-
-            {/*<select onChange={handleRewardTypeSelect} className={styles.formInputRegular}*/}
-            {/*        name="reward-type" id="reward-type-select">*/}
-            {/*  <option value="" disabled selected>Wybierz typ nagrody...</option>*/}
-            {/*  <option value="reward-cash">pieniężna</option>*/}
-            {/*  <option value="reward-item">przedmiot / upominek</option>*/}
-            {/*</select>*/}
-
-            {/*{rewardType === "reward-cash" &&*/}
-            {/*  <input className={styles.formInputRegular}*/}
-            {/*         type="number" min="0" step="0.01" id="reward-value" name="reward-value"*/}
-            {/*         placeholder="Kwota w zł" onChange={handleRewardNameSelect}*/}
-            {/*  />*/}
-            {/*}*/}
-
-            {/*{rewardType === "reward-item" &&*/}
-            {/*  <input className={styles.formInputRegular}*/}
-            {/*         type="text" id="reward-value" name="reward-value"*/}
-            {/*         placeholder="Nazwa przedmiotu / upominku" onChange={handleRewardNameSelect}*/}
-            {/*  />*/}
-            {/*}*/}
-
-            <div className={styles.formColumn}>
-              {rewardComponentsList.length > 0
-                ? rewardComponentsList
-                : <div>Twoje badanie obecnie nie oferuje żadnych nagród za udział</div>
-              }
+          <div className="formColumnButton">
+            <div onClick={handleAddRewardButtonClick} className="addRewardReqLabel">
+              <FontAwesomeIcon icon={faPlus} />
+              <span>Dodaj nagrodę</span>
             </div>
-
-            {/*<div onClick={onAddRewardButtonClick} className={styles.addRewardReqLabel}>*/}
-            {/*  <span className={styles.plusSign}>+</span> <span>Dodaj kolejną nagrodę</span>*/}
-            {/*</div>*/}
-
-          </div>
-
-          <div onClick={onAddRewardButtonClick} className={styles.addRewardReqLabel}>
-            <span className={styles.plusSign}>+</span> <span>Dodaj kolejną nagrodę</span>
           </div>
 
         </div>
@@ -371,9 +327,9 @@ function CreateResearchForm() {
         {/*  /!*</div>*!/*/}
         {/*</div>*/}
 
-        <div className={styles.formRow}>
-          <button className={styles.formButton} type="reset">Zacznij od nowa</button>
-          <button className={styles.formButton} type="submit">Dodaj nowe ogłoszenie</button>
+        <div className="formRow">
+          <button className="formButton" type="reset">Zacznij od nowa</button>
+          <button className="formButton" type="submit">Dodaj nowe ogłoszenie</button>
         </div>
 
       </form>
@@ -381,4 +337,4 @@ function CreateResearchForm() {
   );
 }
 
-export default CreateResearchForm;
+export { CreateResearchForm };

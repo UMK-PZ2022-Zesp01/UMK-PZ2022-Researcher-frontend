@@ -1,33 +1,33 @@
 import React from "react";
-import CreateResearchPageStyle from "./CreateResearchPageStyle";
-import CreateResearchForm from "../Form/CreateResearchForm/CreateResearchForm";
+import "./CreateResearchPage.css"
+import { CreateResearchForm } from "../Form/CreateResearchForm/CreateResearchForm";
 import banner from "../../img/banner2.png";
 import { Helmet } from "react-helmet";
 import BookmarksNav from "../BookmarksNav/BookmarksNav";
 
 function CreateResearchPage() {
-  const styles = CreateResearchPageStyle();
 
   return (
-    <div className={styles.container}>
+    <div className="container">
 
       <Helmet>
         <title>Researcher | Nowe badanie</title>
       </Helmet>
 
-      <header className={styles.bookmarksContainer}>
-        <a href="/" className={styles.logo}>
-          <img className={styles.logoImg} src={banner} alt="Researcher Logo" />
+      <header className="bookmarksContainer">
+        <a href="/" className="logo">
+          <img className="logoImg" src={banner} alt="Researcher Logo" />
         </a>
-        <BookmarksNav active="2"/>
+        <BookmarksNav active="research" />
       </header>
 
-      <main className={styles.createResearchPanel}>
+      <main className="createResearchPanel">
         <CreateResearchForm />
       </main>
 
     </div>
   );
+
 }
 
 export default CreateResearchPage;

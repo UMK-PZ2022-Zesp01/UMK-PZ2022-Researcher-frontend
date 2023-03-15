@@ -1,60 +1,55 @@
-import CreateResearchFormRewardStyle from "./CreateResearchFormRewardStyle";
-import { useState } from "react";
+import "./CreateResearchFormReward.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { v4 as uuidv4 } from 'uuid';
 
-function CreateResearchFormReward({ addRewardItem }) {
-  const styles = CreateResearchFormRewardStyle();
+function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
 
-  const [rewardType, setRewardType] = useState("");
-  const [rewardCashValue, setRewardCashValue] = useState(null);
-  const [rewardItemName, setRewardItemName] = useState(null);
-
-  const handleRewardTypeSelect = (event) => {
-    setRewardType(event.target.value);
-  };
-
-  const handleRewardCashValueChange = (event) => {
-    setRewardCashValue(event.target.value);
-  };
-
-  const handleRewardItemNameChange = (event) => {
-    setRewardItemName(event.target.value);
-  };
-
-  const handleRemoveRewardButtonClick = () => {
-
-  };
+  const { type, value } = data;
 
   return (
-    <div className={styles.rewardRow}>
-      <select onChange={handleRewardTypeSelect} className={styles.formInputRegular}
-              name="reward-type" id="reward-type-select" required>
-        <option value="" disabled selected>Wybierz typ nagrody...</option>
-        <option value="reward-cash">pieniężna</option>
-        <option value="reward-item">przedmiot / upominek</option>
+    <div className="rewardRow">
+      <select required className="formInputRegular" id={uuidv4()} name="reward-type" defaultValue={type}
+              onChange={event => handleUpdate(index, { type: event.target.value, value: null })}>
+        <option value="" disabled>Wybierz typ nagrody...</option>
+        <option value="cash">pieniężna</option>
+        <option value="item">przedmiot / upominek</option>
       </select>
 
-      {rewardType === "reward-cash" &&
-        <input className={styles.formInputRegular}
-               type="number" min="0" step="0.01" id="reward-value" name="reward-value"
-               placeholder="Kwota w zł" required onChange={handleRewardCashValueChange}
+      {type === "cash" &&
+        <input required className="formInputRegular" type="number" min="0" step="0.01"
+               id={uuidv4()} name="reward-value" placeholder="Kwota w zł" defaultValue={value}
+               onChange={event => handleUpdate(
+                 index, {
+                   type: type,
+                   value: Number(event.target.value)
+                 }
+               )}
         />
       }
 
-      {rewardType === "reward-item" &&
-        <input className={styles.formInputRegular}
-               type="text" id="reward-value" name="reward-value"
-               placeholder="Nazwa przedmiotu / upominku" required onChange={handleRewardItemNameChange}
+      {type === "item" &&
+        <input required className="formInputRegular" type="text" id={uuidv4()} name="reward-value"
+               placeholder="Nazwa przedmiotu / upominku" defaultValue={value}
+               onChange={event => handleUpdate(
+                 index, {
+                   type: type,
+                   value: event.target.value
+                 }
+               )}
         />
       }
 
-      <div className={styles.removeRewardButton} onClick={handleRemoveRewardButtonClick}
+      <div className="removeRewardButton" onClick={() => handleDelete(index)}
            title="Usuń nagrodę">
-        <FontAwesomeIcon icon={faTrash} className={styles.trashIcon} />
+        <FontAwesomeIcon icon={faTrash} className="trashIcon" />
       </div>
     </div>
   );
 }
+
+CreateResearchFormReward.defaultProps = {
+  data: { type: "", value: null }
+};
 
 export { CreateResearchFormReward };

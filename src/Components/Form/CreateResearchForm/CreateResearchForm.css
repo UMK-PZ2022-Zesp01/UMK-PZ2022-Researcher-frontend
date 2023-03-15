@@ -1,0 +1,318 @@
+.title {
+    width: 100%;
+    display: flex;
+    color: #512C8C;
+    margin-bottom: 20px;
+}
+
+.researchForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.formInputRegular {
+    width: 100%;
+    padding: 10px;
+    background-color: #D6CEF3;
+    outline: none;
+    border: 2px solid #C6B1E7;
+    border-radius: 5px;
+    font-family: sans-serif;
+    transition: .3s;
+}
+
+.formInputRegular:focus {
+    border: 2px solid #512C8C;
+    background-color: #D7C2F8;
+}
+
+.formInputLarge {
+    height: 100%;
+    padding: 10px;
+    background-color: #D6CEF3;
+    outline: none;
+    border: 2px solid #C6B1E7;
+    border-radius: 5px;
+    font-family: sans-serif;
+    resize: none;
+    transition: .3s;
+}
+
+.formInputLarge:focus {
+    border: 2px solid #512C8C;
+    background-color: #D7C2F8;
+}
+
+.rowContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.formRowTop {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.formRowTop label {
+    font-weight: bold;
+    color: #512C8C;
+}
+
+.formRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.formRow label {
+    font-weight: bold;
+    color: #512C8C;
+}
+
+.formColumn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.formColumnButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0 auto;
+}
+
+.formLabel {
+    font-weight: bold;
+    color: #512C8C;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.posterDisplay {
+    width: 25%;
+    height: 250px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.posterImg {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.posterButton {
+    position: relative;
+    width: 25%;
+    height: 250px;
+    border-radius: 5px;
+}
+
+.posterIcon {
+    display: block;
+    position: relative;
+    font-size: 48px;
+}
+
+.posterButtonOverlay {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    color: #512C8C;
+    cursor: pointer;
+    background-color: #D6CEF3;
+    border: 2px solid #C6B1E7;
+    transition: .5s;
+    opacity: 0;
+}
+
+.posterButtonOverlay:hover {
+    opacity: 1;
+}
+
+.overlayActive {
+    opacity: 1;
+}
+
+.overlayTile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    border-radius: 5px;
+    background-color: #D6CEF3;
+    cursor: pointer;
+    transition: background-color .5s;
+}
+
+.overlayTile:hover {
+    background-color: #D7C2F8;
+}
+
+.posterButtonOverlay:hover,
+.posterButtonOverlay:hover .overlayTile {
+    background-color: #D7C2F8;
+}
+
+.posterButton .posterButtonOverlay:hover {
+    border: 2px solid #512C8C;
+}
+
+.posterButtonDesc {
+    display: block;
+    position: relative;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #512C8C;
+}
+
+.formRow1Right {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.inputWithLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 50%;
+    gap: 10px;
+}
+
+.inputWithLabel label {
+    font-weight: bold;
+    color: #512C8C;
+}
+
+.map {
+    width: 100%;
+    height: 400px;
+    background-color: #C6B1E7;
+    border-radius: 5px;
+}
+
+.addRewardReqLabel {
+    /*font-weight: bold;*/
+    /*color: #512C8C;*/
+    /*border: 2px solid #512C8C;*/
+    /*padding: 0 10px 5px 10px;*/
+    /*border-radius: 20px;*/
+    /*cursor: pointer;*/
+    /*transition: .5s;*/
+    padding: 10px;
+    background-color: #D6CEF3;
+    outline: none;
+    border: 2px solid #C6B1E7;
+    border-radius: 5px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #512C8C;
+    transition: .3s;
+}
+
+.addRewardReqLabel:hover {
+    background-color: #D6CEF3;
+}
+
+.plusSign {
+    font-size: 20px;
+}
+
+.noRewardDesc {
+    color: #512C8C;
+    margin-bottom: 10px;
+}
+
+.checkboxLabel {
+    font-size: 14px !important;
+    font-weight: normal !important;
+    color: #000000 !important;
+}
+
+.formButton {
+    width: 100%;
+    background-color: #512C8C;
+    color: #FFF;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    border: 2px solid #512C8C;
+    transition: .3s;
+}
+
+.formButton:hover {
+    background-color: #6D3B9E;
+    border: 2px solid #6D3B9E;
+}
+
+@media (max-width: 500px) {
+    .title {
+        font-size: 1em;
+        justify-content: center;
+    }
+
+    .formRowTop {
+        flex-direction: column;
+    }
+
+    .posterButton {
+        width: 100%;
+        height: 100px;
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .posterIcon {
+        font-size: 48px;
+    }
+
+    .posterButtonDesc {
+        margin: 0;
+    }
+
+    .formRow1Right {
+        width: 100%;
+    }
+
+    .formInputLarge {
+        height: 10em;
+    }
+
+    .formRow {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .inputWithLabel {
+        width: 100%;
+    }
+}
