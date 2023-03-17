@@ -2,11 +2,15 @@ import { createUseStyles } from 'react-jss';
 
 export default createUseStyles({
   researchTile: {
+    display: 'flex',
     position: 'relative',
     height: '350px',
 
-    backgroundColor: 'green',
+    backgroundColor: '#512C8C',
     borderRadius: '5px',
+
+    justifyContent: 'center',
+    alignItems: 'center',
 
     transition: 'transform 0.2s ease-in-out, -webkit-box-shadow 0.2s ease-in-out',
 
@@ -26,8 +30,16 @@ export default createUseStyles({
     boxShadow: '8px 8px 23px 3px rgba(109, 59, 158, 1)',
   },
 
+  poster: {
+    maxWidth: '100%',
+    maxHeight: '100%',
+    borderRadius: '5px',
+  },
+
   tileOverlay: {
     position: 'absolute',
+    display: 'flex',
+    flexDirection: 'column',
     bottom: '0',
     left: '0',
 
@@ -75,13 +87,12 @@ export default createUseStyles({
     height: 0,
     borderRadius: '5px',
 
-    backgroundColor: 'rgb(246,226,255)',
-
     overflow: 'hidden',
+    textOverflow: 'ellipsis',
 
     fontWeight: '400',
 
-    transition: 'height 0.3s ease-in-out',
+    transition: 'height 0.4s ease-in-out',
 
     '-webkit-box-shadow': '8px 8px 23px 3px rgba(109, 59, 158, 1)',
     '-moz-box-shadow': '8px 8px 23px 3px rgba(109, 59, 158, 1)',
@@ -89,68 +100,199 @@ export default createUseStyles({
   },
 
   previewVisible: {
-    height: '400px',
+    height: '30rem',
   },
 
-  previewLevel1: {
+  previewHeader1: {
     display: 'flex',
     flexDirection: 'row',
 
     width: '100%',
     height: '3.5rem',
+    padding: '0.5rem 1rem',
 
     backgroundColor: '#512C8C',
     color: 'white',
   },
 
-  previewLevel2: {
+  previewHeader2: {
     display: 'flex',
     flexDirection: 'row',
 
     width: '100%',
     height: '3.5rem',
+    padding: '0.5rem 1rem',
 
     backgroundColor: '#C6B1E7',
   },
 
-  previewLevel3: {
+  previewBody: {
     display: 'flex',
     flexDirection: 'row',
+    height: '16rem',
 
     width: '100%',
     backgroundColor: '#F4F0FA',
   },
 
-  headerLevelLeft: {
-    padding: '0.5rem 1rem',
-    width: '50%',
+  previewButtonContainer: {
+    height: '5rem',
+    padding: '1rem 0 ',
+  },
 
+  previewRollInContainer: {
+    height: '2rem',
+  },
+
+  headerHalf: {
+    display: 'flex',
+    flexDirection: 'column',
+
+    width: '50%',
+    height: '100%',
+
+    textAlign: 'left',
+    justifyContent: 'center',
+  },
+
+  headerLeft: {
     textAlign: 'left',
   },
 
-  headerLevelRight: {
-    padding: '0.5rem 1rem',
-    width: '50%',
-
+  headerRight: {
     textAlign: 'right',
   },
 
-  bodyLevelLeft: {
+  bodyPart: {
     padding: '0.5rem 1rem',
-    width: '30%',
-    textAlign: 'left',
-  },
-  bodyLevelRight: {
-    padding: '0.5rem 1rem',
-    width: '70%',
+
+    height: '100%',
     textAlign: 'left',
   },
 
-  left: {
-    textAlign: 'left',
+  bodyLeft: {
+    width: '25%',
   },
 
-  right: {
-    textAlign: 'right',
+  bodyRight: {
+    width: '75%',
+  },
+
+  h4: {
+    fontWeight: '700',
+    fontSize: '1rem',
+    color: '#6D3B9E',
+  },
+
+  bold: {
+    fontWeight: '700',
+    fontSize: 'inherit',
+  },
+
+  infoBox: {
+    padding: '0.5rem 0',
+  },
+
+  researchPageButton: {
+    position: 'relative',
+    zIndex: '0',
+
+    padding: '0.7rem 3rem',
+    margin: '0',
+    backgroundColor: '#512C8C',
+
+    color: '#ffffff',
+    fontSize: '1rem',
+    letterSpacing: '1px',
+    fontWeight: '600',
+
+    appearance: 'none',
+    border: 'none',
+    borderRadius: '5px',
+
+    transition: 'translate linear 0.1s ',
+
+    '&::before': {
+      zIndex: '-1',
+      position: 'absolute',
+      content: '""',
+      top: '0',
+      left: '50%',
+      width: '0',
+      height: '100%',
+      transition: 'width ease-in-out 0.3s, left ease-in-out 0.3s',
+      borderRadius: '5px',
+      backgroundColor: '#6D3B9E',
+    },
+
+    '&:hover': {
+      cursor: 'pointer',
+      '&::before': {
+        width: '100%',
+        left: '0',
+      },
+    },
+    '&:active': {
+      backgroundColor: '#512c8c',
+      translate: '0 2px',
+    },
+  },
+
+  rollInButton: {
+    position: 'relative',
+    zIndex: '0',
+
+    width: '100%',
+    height: '2rem',
+
+    backgroundColor: '#C6B1E7',
+
+    color: '#6D3B9E',
+    fontWeight: '600',
+
+    appearance: 'none',
+    border: 'none',
+    borderBottomRightRadius: '5px',
+    borderBottomLeftRadius: '5px',
+
+    transition: 'translate linear 0.1s ',
+
+    backgroundImage:
+      'linear-gradient(135deg, transparent 50%, #6D3B9E 50%),\r\n    linear-gradient(45deg, #6D3B9E 50%, transparent 50%),\r\n    linear-gradient(to right, transparent, transparent)',
+    backgroundPosition: 'calc(50% - 4px),\r\n     calc(50% + 4px),\r\n    50%',
+    backgroundSize: '8px 8px,\r\n    8px 8px,\r\n    2.5em 2.5em',
+    backgroundRepeat: 'no-repeat',
+
+    '&::before': {
+      zIndex: '-1',
+      position: 'absolute',
+      content: '""',
+      top: '0',
+      left: '50%',
+      width: '0',
+      height: '100%',
+      transition: 'width ease-in-out 0.3s, left ease-in-out 0.3s',
+      borderBottomRightRadius: '5px',
+      borderBottomLeftRadius: '5px',
+      backgroundColor: '#F6E2FF',
+
+      backgroundImage:
+        'linear-gradient(135deg, transparent 50%, #6D3B9E 50%),\r\n    linear-gradient(45deg, #6D3B9E 50%, transparent 50%),\r\n    linear-gradient(to right,transparent, transparent)',
+      backgroundPosition: 'calc(50% - 4px),\r\n     calc(50% + 4px),\r\n    50%',
+      backgroundSize: '8px 8px,\r\n    8px 8px,\r\n    2.5em 2.5em',
+      backgroundRepeat: 'no-repeat',
+    },
+
+    '&:hover': {
+      cursor: 'pointer',
+      '&::before': {
+        width: '100%',
+        left: '0',
+      },
+    },
+    // '&:active': {
+    //   backgroundColor: '#512c8c',
+    //   translate: '0 2px',
+    // },
   },
 });
