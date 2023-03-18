@@ -6,6 +6,7 @@ import getApiUrl from '../../../Common/Api';
 import { CreateResearchFormReward } from './Reward/CreateResearchFormReward';
 import { v4 as generateKey } from 'uuid';
 import { useUsername } from '../../../hooks/useAuth';
+import { CreateResearchFormRequirement } from './Requirement/CreateResearchFormRequirement';
 
 function CreateResearchForm() {
   const RESEARCH_ADD_URL = getApiUrl() + 'research/add';
@@ -20,12 +21,7 @@ function CreateResearchForm() {
   const [researchForm, setResearchForm] = useState('');
   const [researchPlace, setResearchPlace] = useState('');
   const [rewardList, setRewardList] = useState([{ type: '', value: null }]);
-  const [requirementType, setRequirementType] = useState('');
-  const [requirementAgeMin, setRequirementAgeMin] = useState(-1);
-  const [requirementAgeMax, setRequirementAgeMax] = useState(-1);
-  const [requirementGender, setRequirementGender] = useState('');
-  const [requirementCustom, setRequirementCustom] = useState('');
-  const [requirementList, setRequirementList] = useState([]);
+  const [requirementList, setRequirementList] = useState([{ type: '', value: null }]);
 
   let research = {
     title: title,
@@ -42,20 +38,20 @@ function CreateResearchForm() {
 
   /*** Rewards Section ***/
 
-  const [reload, setReload] = useState(false);
-  const [keyArray, setKeyArray] = useState([]);
+  const [rewardSectionReload, setRewardSectionReload] = useState(false);
+  const [rewardKeyArray, setRewardKeyArray] = useState([]);
 
   /** Generate New Keys For CreateResearchFormReward Components **/
   useEffect(() => {
-    let newKeyArray = rewardList.reduce(array => [...array, generateKey()], []);
-    setKeyArray(newKeyArray);
-  }, [reload]);
+    let newRewardKeyArray = rewardList.reduce(array => [...array, generateKey()], []);
+    setRewardKeyArray(newRewardKeyArray);
+  }, [rewardSectionReload]);
 
   const renderRewardComponents = () => {
     return rewardList.length > 0 ? (
       rewardList.map((data, index) => (
         <CreateResearchFormReward
-          key={keyArray[index] ? keyArray[index] : generateKey()}
+          key={rewardKeyArray[index] ? rewardKeyArray[index] : generateKey()}
           index={index}
           data={data}
           handleUpdate={updateReward}
@@ -78,16 +74,61 @@ function CreateResearchForm() {
     const rightList = rewardList.slice(index + 1);
 
     setRewardList([...leftList, ...rightList]);
-    setReload(!reload);
+    setRewardSectionReload(!rewardSectionReload);
   };
 
   const handleAddRewardButtonClick = () => {
     setRewardList([...rewardList, { type: '', value: null }]);
-    setReload(!reload);
+    setRewardSectionReload(!rewardSectionReload);
   };
 
   /*** Requirements Section ***/
-  // TODO
+
+  const [requirementSectionReload, setRequirementSectionReload] = useState(false);
+  const [requirementKeyArray, setRequirementKeyArray] = useState([]);
+
+  /** Generate New Keys For CreateResearchFormRequirement Components **/
+  useEffect(() => {
+    let newRequirementKeyArray = requirementList.reduce(array => [...array, generateKey()], []);
+    setRequirementKeyArray(newRequirementKeyArray);
+  }, [requirementSectionReload]);
+
+  const renderRequirementComponents = () => {
+    return requirementList.length > 0 ? (
+      requirementList.map((data, index) => (
+        <CreateResearchFormRequirement
+          key={requirementKeyArray[index] ? requirementKeyArray[index] : generateKey()}
+          index={index}
+          data={data}
+          handleUpdate={updateRequirement}
+          handleDelete={deleteRequirement}
+        />
+      ))
+    ) : (
+      <div className="noRewardDesc">
+        W tej chwili Twoje badanie nie posiada żadnych wymagań udziału
+      </div>
+    );
+  };
+
+  const updateRequirement = (index, requirement) => {
+    let updatedRequirementList = [...requirementList];
+    updatedRequirementList[index] = requirement;
+    setRequirementList(updatedRequirementList);
+  };
+
+  const deleteRequirement = index => {
+    const leftList = requirementList.slice(0, index);
+    const rightList = requirementList.slice(index + 1);
+
+    setRequirementList([...leftList, ...rightList]);
+    setRequirementSectionReload(!requirementSectionReload);
+  };
+
+  const handleAddRequirementButtonClick = () => {
+    setRequirementList([...requirementList, { type: '', value: null }]);
+    setRequirementSectionReload(!requirementSectionReload);
+  };
 
   /*** Functions for Handling Changes in Form ***/
 
@@ -260,7 +301,9 @@ function CreateResearchForm() {
 
         <div className="formRow">
           <div className="inputWithLabel">
-            <label htmlFor="date-begin">Data rozpoczęcia badania</label>
+            <label className="formLabel" htmlFor="date-begin">
+              Data rozpoczęcia badania
+            </label>
             <input
               className="formInputRegular"
               onChange={handleBegDateChange}
@@ -272,7 +315,9 @@ function CreateResearchForm() {
           </div>
 
           <div className="inputWithLabel">
-            <label htmlFor="date-end">Data zakończenia badania</label>
+            <label className="formLabel" htmlFor="date-end">
+              Data zakończenia badania
+            </label>
             <input
               className="formInputRegular"
               onChange={handleEndDateChange}
@@ -284,7 +329,9 @@ function CreateResearchForm() {
           </div>
 
           <div className="inputWithLabel">
-            <label htmlFor="participant-limit">Ilu uczestników potrzebujesz?</label>
+            <label className="formLabel" htmlFor="participant-limit">
+              Ilu uczestników potrzebujesz?
+            </label>
             <input
               className="formInputRegular"
               onChange={handleParticipantLimitChange}
@@ -351,62 +398,21 @@ function CreateResearchForm() {
           </div>
         </div>
 
-        {/*<div className={styles.formColumn}>*/}
-        {/*  /!*{rewardComponentsList}*!/*/}
-        {/*  <CreateResearchFormReward addRewardItem={addRewardItem} />*/}
-        {/*</div>*/}
+        <div className="rowContainer">
+          <label className="formLabel">Wymagania udziału w badaniu</label>
+          <label className="noRewardDesc">
+            Wskaż kryteria, które muszą spełniać uczestnicy Twojego badania.
+          </label>
 
-        {/*<div onClick={onAddRewardButtonClick} className={styles.addRewardReqLabel}>*/}
-        {/*  <span className={styles.plusSign}>+</span> <span>Dodaj kolejną nagrodę</span>*/}
-        {/*</div>*/}
-        {/*</div>*/}
+          <div className="formColumn">{renderRequirementComponents()}</div>
 
-        {/*{rewardList.map(function(value) {*/}
-        {/*  return <div>{value}</div>;*/}
-        {/*})}*/}
-
-        {/*<div className={styles.rowContainer}>*/}
-        {/*  <label className={styles.formLabel}>Wymagania</label>*/}
-        {/*  <div className={styles.formRow}>*/}
-        {/*    <select onChange={handleReqTypeSelect} className={styles.formInputRegular}*/}
-        {/*            name="requirement-type" id="requirement-type-select">*/}
-        {/*      <option value="" disabled selected>Wybierz kryterium...</option>*/}
-        {/*      <option value="req-age">wiek</option>*/}
-        {/*      <option value="req-gender">płeć</option>*/}
-        {/*      /!*<option value="req-sth">??? (dodać coś)</option>*!/*/}
-        {/*    </select>*/}
-        {/*    {reqType === "req-age" &&*/}
-        {/*      <>*/}
-        {/*        <label htmlFor="req-age-min">Minimum: </label>*/}
-        {/*        <input className={styles.formInputRegular}*/}
-        {/*               type="number" min="0" max="130" defaultValue="0" id="req-age-min" name="req-age-min"*/}
-        {/*        />*/}
-        {/*        <label htmlFor="req-age-max">Maksimum: </label>*/}
-        {/*        <input className={styles.formInputRegular}*/}
-        {/*               type="number" min="0" max="130" defaultValue="0" id="req-age-max" name="req-age-max"*/}
-        {/*        />*/}
-        {/*      </>*/}
-        {/*    }*/}
-        {/*    {*/}
-        {/*      reqType === "req-gender" &&*/}
-        {/*      <>*/}
-        {/*        <input type="checkbox" id="req-gender-male" name="req-gender-male" value="MALE" />*/}
-        {/*        <label htmlFor="req-gender-male">Mężczyzna</label>*/}
-        {/*        <input type="checkbox" id="req-gender-female" name="req-gender-female" value="FEMALE" />*/}
-        {/*        <label htmlFor="req-gender-female">Kobieta</label>*/}
-        {/*        <input type="checkbox" id="req-gender-other" name="req-gender-other" value="OTHER" />*/}
-        {/*        <label htmlFor="req-gender-other">Inna</label>*/}
-        {/*      </>*/}
-        {/*    }*/}
-        {/*  </div>*/}
-        {/*  /!*<div className={styles.formLabel}>*!/*/}
-        {/*  /!*  Jeśli nie chcesz, aby kryterium wieku było ograniczone z dwóch stron, to ustaw jedynie wartość kryterium, które Cię interesuje - drugie ustaw na wartość 0!*!/*/}
-        {/*  /!*</div>*!/*/}
-        {/*  /!* lub dodać checkboxy na minimum/maksimum! *!/*/}
-        {/*  /!*<div className={styles.addRewardReqLabel}>*!/*/}
-        {/*  /!*  <span className={styles.plusSign}>+</span> <span>Dodaj kolejne kryterium</span>*!/*/}
-        {/*  /!*</div>*!/*/}
-        {/*</div>*/}
+          <div className="formColumnButton">
+            <div onClick={handleAddRequirementButtonClick} className="addRewardReqButton">
+              <FontAwesomeIcon icon={faPlus} />
+              <span className="addRewardReqButtonDesc">Dodaj kryterium</span>
+            </div>
+          </div>
+        </div>
 
         <div className="formRow">
           <button className="formButton" type="reset">

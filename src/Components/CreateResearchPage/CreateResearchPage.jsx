@@ -1,17 +1,15 @@
-import React from "react";
-import "./CreateResearchPage.css"
-import { CreateResearchForm } from "../Form/CreateResearchForm/CreateResearchForm";
-import banner from "../../img/banner2.png";
-import { Helmet } from "react-helmet";
-import BookmarksNav from "../BookmarksNav/BookmarksNav";
+import React from 'react';
+import './CreateResearchPage.css';
+import { CreateResearchForm } from '../Form/CreateResearchForm/CreateResearchForm';
+import banner from '../../img/banner2.png';
+import { Helmet } from 'react-helmet';
+import BookmarksNav from '../BookmarksNav/BookmarksNav';
 
 function CreateResearchPage() {
-
   return (
     <div className="container">
-
       <Helmet>
-        <title>Researcher | Nowe badanie</title>
+        <title>Nowe badanie | Researcher</title>
       </Helmet>
 
       <header className="bookmarksContainer">
@@ -24,10 +22,8 @@ function CreateResearchPage() {
       <main className="createResearchPanel">
         <CreateResearchForm />
       </main>
-
     </div>
   );
-
 }
 
 export default CreateResearchPage;

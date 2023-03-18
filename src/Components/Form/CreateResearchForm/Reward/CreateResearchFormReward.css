@@ -17,6 +17,7 @@
 .rewardRow {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     gap: 15px;
 }
 
@@ -42,4 +43,11 @@
 
 .invisible {
     display: none;
+}
+
+@media (max-width: 600px) {
+    .rewardRow {
+        display: flex;
+        flex-direction: column;
+    }
 }

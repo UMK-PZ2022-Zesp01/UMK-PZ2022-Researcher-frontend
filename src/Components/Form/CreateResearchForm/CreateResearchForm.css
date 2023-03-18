@@ -59,7 +59,7 @@
     gap: 15px;
 }
 
-.formRowTop label {
+.formRowTop .formLabel {
     font-weight: bold;
     color: #512C8C;
 }
@@ -72,7 +72,7 @@
     gap: 15px;
 }
 
-.formRow label {
+.formRow .formLabel {
     font-weight: bold;
     color: #512C8C;
 }
@@ -225,6 +225,7 @@
     border-radius: 5px;
     font-family: sans-serif;
     font-weight: bold;
+    font-size: 14px;
     color: #512C8C;
     cursor: pointer;
     transition: .3s;
@@ -246,12 +247,6 @@
 .noRewardDesc {
     color: #512C8C;
     margin-bottom: 10px;
-}
-
-.checkboxLabel {
-    font-size: 14px !important;
-    font-weight: normal !important;
-    color: #000000 !important;
 }
 
 .formButton {

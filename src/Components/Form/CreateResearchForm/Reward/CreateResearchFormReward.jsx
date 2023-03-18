@@ -19,7 +19,8 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
           Wybierz typ nagrody...
         </option>
         <option value="cash">pieniężna</option>
-        <option value="item">przedmiot / upominek</option>
+        <option value="item">nagroda rzeczowa</option>
+        <option value="other">inna</option>
       </select>
 
       {type === 'cash' && (
@@ -48,6 +49,23 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
           type="text"
           name="reward-value"
           placeholder="Nazwa przedmiotu / upominku"
+          defaultValue={value}
+          onChange={event =>
+            handleUpdate(index, {
+              type: type,
+              value: event.target.value,
+            })
+          }
+        />
+      )}
+
+      {type === 'other' && (
+        <input
+          required
+          className="formInputRegular"
+          type="text"
+          name="reward-value"
+          placeholder="Nazwa nagrody"
           defaultValue={value}
           onChange={event =>
             handleUpdate(index, {
