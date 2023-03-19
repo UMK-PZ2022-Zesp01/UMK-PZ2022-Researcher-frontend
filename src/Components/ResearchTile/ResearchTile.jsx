@@ -45,7 +45,7 @@ export default function ResearchTile({ tileData, postData }) {
     <>
       {/*SMALL TILE*/}
       <li
-        className={`${styles.researchTile} ${isPreviewed ? styles.previewed : ''}`}
+        className={`${isPreviewed ? styles.previewed : ''} ${styles.researchTile} `}
         onClick={handleTileClicked}
       >
         <img
@@ -91,7 +91,10 @@ export default function ResearchTile({ tileData, postData }) {
               {renderInfo(rewards)}
             </div>
           </div>
-          <article className={`${styles.bodyPart} ${styles.bodyRight}`}>{researchText}</article>
+          <main className={`${styles.bodyPart} ${styles.bodyRight}`}>
+            <div className={styles.h4}>Opis badania:</div>
+            <main>{researchText}</main>
+          </main>
         </div>
         <div className={styles.previewButtonContainer}>
           <button className={styles.researchPageButton}>STRONA BADANIA</button>

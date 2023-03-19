@@ -4,6 +4,7 @@ export default createUseStyles({
   researchTile: {
     display: 'flex',
     position: 'relative',
+    zIndex: '1',
     height: '350px',
 
     backgroundColor: '#512C8C',
@@ -13,6 +14,7 @@ export default createUseStyles({
     alignItems: 'center',
 
     transition: 'transform 0.2s ease-in-out, -webkit-box-shadow 0.2s ease-in-out',
+    cursor: 'pointer',
 
     listStyleType: 'none',
     '-webkit-box-shadow': '5px 5px 20px 0px rgba(66, 68, 90, 1)',
@@ -83,6 +85,7 @@ export default createUseStyles({
     display: 'flex',
     flexDirection: 'column',
     gridColumn: '1/-1',
+    zIndex: '100',
 
     height: 0,
     borderRadius: '5px',
@@ -92,15 +95,17 @@ export default createUseStyles({
 
     fontWeight: '400',
 
-    transition: 'height 0.4s ease-in-out',
-
-    '-webkit-box-shadow': '8px 8px 23px 3px rgba(109, 59, 158, 1)',
-    '-moz-box-shadow': '8px 8px 23px 3px rgba(109, 59, 158, 1)',
-    boxShadow: '8px 8px 23px 3px rgba(109, 59, 158, 1)',
+    transition: 'all 0.4s ease-in-out',
+    '-webkit-box-shadow': '0 0 0 0 rgba(109, 59, 158, 1)',
+    '-moz-box-shadow': '0 0 0 0 rgba(109, 59, 158, 1)',
+    boxShadow: '0 0 0 0 rgba(109, 59, 158, 1)',
   },
 
   previewVisible: {
     height: '30rem',
+    '-webkit-box-shadow': '8px 8px 23px 3px rgba(109, 59, 158, 1)',
+    '-moz-box-shadow': '8px 8px 23px 3px rgba(109, 59, 158, 1)',
+    boxShadow: '8px 8px 23px 3px rgba(109, 59, 158, 1)',
   },
 
   previewHeader1: {
@@ -149,7 +154,7 @@ export default createUseStyles({
     flexDirection: 'column',
 
     width: '50%',
-    height: '100%',
+    height: '2.5rem',
 
     textAlign: 'left',
     justifyContent: 'center',
@@ -164,10 +169,13 @@ export default createUseStyles({
   },
 
   bodyPart: {
+    display: 'flex',
+    flexDirection: 'column',
     padding: '0.5rem 1rem',
 
     height: '100%',
     textAlign: 'left',
+    justifyContent: 'space-between',
   },
 
   bodyLeft: {
@@ -187,10 +195,6 @@ export default createUseStyles({
   bold: {
     fontWeight: '700',
     fontSize: 'inherit',
-  },
-
-  infoBox: {
-    padding: '0.5rem 0',
   },
 
   researchPageButton: {
