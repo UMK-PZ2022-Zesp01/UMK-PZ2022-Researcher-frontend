@@ -117,7 +117,7 @@
 .posterButton {
     position: relative;
     width: 25%;
-    height: 250px;
+    aspect-ratio: 1 / 1.414;
     border-radius: 5px;
 }
 

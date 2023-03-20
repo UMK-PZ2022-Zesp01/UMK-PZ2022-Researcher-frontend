@@ -1,83 +1,89 @@
+.requirementsRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.requirementContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    gap: 10px;
+}
+
+.requirementTitle {
+    font-weight: bold;
+    color: #512C8C;
+    text-align: left;
+}
+
 .checkboxContainer {
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 15px;
 }
 
-.checkboxContainer2 {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    gap: 30px;
+.checkbox {
+    appearance: none;
+    width: 1.2em;
+    height: 1.2em;
+    border: 2px solid #000000;
+    border-radius: 3px;
 }
 
-.checkboxContainerColumn {
+.checkbox::before {
+    display: grid;
+    place-content: center;
+    content: "";
+    width: 1em;
+    height: 1em;;
+    transform: scale(0);
+    transition: .2s transform;
+    box-shadow: inset 1em 1em #512C8C;
+}
+
+.checkbox:checked::before {
+    transform: scale(1);
+}
+
+.checkboxColumn {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.checkboxElement {
-    /*width: 100%;*/
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.checkbox {
-    display: grid;
-    place-content: center;
-    appearance: none;
-    background-color: #FFFFFF;
-    margin: 0;
-    width: 1.2em;
-    height: 1.2em;
-    border: 2px solid #000000;
-    border-radius: 0.2em;
-    cursor: pointer;
-}
-
-.checkbox::before {
-    content: "";
-    width: 1em;
-    height: 1em;
-    background-color: #FFFFFF;
-}
-
-.checkbox:checked::before {
-    background-color: #512C8C;
-}
-
-.checkbox:not(:checked)::before {
-    background-color: #FFFFFF;
-}
-
 .checkboxLabel {
-    width: 100%;
     display: flex;
     flex-direction: row;
     font-weight: normal;
     font-size: 14px;
     color: #000000;
-    margin-left: 0.5rem;
     cursor: pointer;
+    white-space: nowrap;
 }
 
-.checkboxDesc {
-    width: 100%;
+.checkboxElement {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
 }
 
-.disabled {
+.checkboxAge {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.inputDisabled {
     pointer-events: none;
     background-color: #D4D4D4;
     border: 2px solid #BDBDBD;
-}
-
-.ageRow {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
 }

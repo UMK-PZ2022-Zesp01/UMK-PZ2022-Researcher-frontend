@@ -10,8 +10,8 @@ import PersistLogin from './Common/PersistLogin';
 import Layout from './Common/Layout';
 import RegisteredSuccessfullyPage from "./Components/RegisteredSuccessfulyPage/RegisteredSuccessfullyPage";
 import ConfirmEmailPage from "./Components/ConfirmEmailPage/ConfirmEmailPage";
-import UserPage from './Components/UserPage/UserPage'
-import CreateResearchPage from "./Components/CreateResearchPage/CreateResearchPage";
+import UserPage from './Components/UserPage/UserPage';
+import { CreateResearchPage } from './Components/CreateResearchPage/CreateResearchPage';
 
 function App() {
   return (

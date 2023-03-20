@@ -1,19 +1,3 @@
-.formInputRegular {
-    width: 100%;
-    padding: 10px;
-    background-color: #D6CEF3;
-    outline: none;
-    border: 2px solid #C6B1E7;
-    border-radius: 5px;
-    font-family: sans-serif;
-    transition: .3s;
-}
-
-.formInputRegular:focus {
-    border: 2px solid #512C8C;
-    background-color: #D7C2F8;
-}
-
 .rewardRow {
     display: flex;
     flex-direction: row;

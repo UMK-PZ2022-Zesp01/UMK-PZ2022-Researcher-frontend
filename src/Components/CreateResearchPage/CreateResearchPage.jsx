@@ -26,4 +26,4 @@ function CreateResearchPage() {
   );
 }
 
-export default CreateResearchPage;
+export { CreateResearchPage };
