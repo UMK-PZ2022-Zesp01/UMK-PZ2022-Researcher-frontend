@@ -27,20 +27,20 @@ export default function LoginRegisterPage() {
     switch (alert.alertType) {
       case 201:
         return (
-          <Alert onClose={closeAlert} type={'Success'} text={alert.alertText}>
+          <Alert onClose={closeAlert} type={'Success'}>
             {alert.alertText}
           </Alert>
         );
       case 298:
       case 299:
         return (
-          <Alert onClose={closeAlert} type={'Warning'} text={alert.alertText}>
+          <Alert onClose={closeAlert} type={'Warning'}>
             {alert.alertText}
           </Alert>
         );
       default:
         return (
-          <Alert onClose={closeAlert} type={'Error'} text={alert.alertText}>
+          <Alert onClose={closeAlert} type={'Error'}>
             {alert.alertText}
           </Alert>
         );

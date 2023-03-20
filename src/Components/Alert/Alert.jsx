@@ -1,7 +1,7 @@
 import React from 'react';
 import './Alert.css';
 
-function Alert({ type, text, onClose }) {
+function Alert({ type, onClose, children }) {
   const alertClass = `alert alert${type}`;
   const iconClass = `icon icon${type}`;
 
@@ -11,7 +11,7 @@ function Alert({ type, text, onClose }) {
         <div className={'iconContainer'}>
           <div className={iconClass}></div>
         </div>
-        <div className={'textContainer'}>{text}</div>
+        <div className={'textContainer'}>{children}</div>
       </div>
       <div className="toRight">
         <div className={'buttonContainer'}>
@@ -24,7 +24,7 @@ function Alert({ type, text, onClose }) {
 
 Alert.defaultProps = {
   type: 'Error',
-  text: '',
+  children: [],
   onClose: () => {},
 };
 
