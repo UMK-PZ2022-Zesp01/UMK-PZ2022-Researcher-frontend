@@ -17,9 +17,9 @@ export default createUseStyles({
     cursor: 'pointer',
 
     listStyleType: 'none',
-    '-webkit-box-shadow': '5px 5px 20px 0px rgba(66, 68, 90, 1)',
-    '-moz-box-shadow': '5px 5px 20px 0px rgba(66, 68, 90, 1)',
-    boxShadow: '5px 5px 20px 0px rgba(66, 68, 90, 1)',
+    '-webkit-box-shadow': '5px 7px 45px -15px rgba(0,0,0, 1)',
+    '-moz-box-shadow': '5px 7px 45px -15px rgba(0,0,0, 1)',
+    boxShadow: '5px 7px 45px -15px rgba(0,0,0, 1)',
 
     '&:hover': {
       transform: 'scale(1.02)',
@@ -27,9 +27,9 @@ export default createUseStyles({
   },
 
   previewed: {
-    '-webkit-box-shadow': '8px 8px 23px 3px rgba(109, 59, 158, 1)',
-    '-moz-box-shadow': '8px 8px 23px 3px rgba(109, 59, 158, 1)',
-    boxShadow: '8px 8px 23px 3px rgba(109, 59, 158, 1)',
+    '-webkit-box-shadow': '0px 0px 25px 0px rgba(109, 59, 158, 1)',
+    '-moz-box-shadow': '0px 0px 25px 0px rgba(109, 59, 158, 1)',
+    boxShadow: '0px 0px 25px 0px rgba(109, 59, 158, 1)',
   },
 
   poster: {
@@ -96,6 +96,7 @@ export default createUseStyles({
     fontWeight: '400',
 
     transition: 'all 0.4s ease-in-out',
+
     '-webkit-box-shadow': '0 0 0 0 rgba(109, 59, 158, 1)',
     '-moz-box-shadow': '0 0 0 0 rgba(109, 59, 158, 1)',
     boxShadow: '0 0 0 0 rgba(109, 59, 158, 1)',
@@ -103,9 +104,9 @@ export default createUseStyles({
 
   previewVisible: {
     height: '30rem',
-    '-webkit-box-shadow': '8px 8px 23px 3px rgba(109, 59, 158, 1)',
-    '-moz-box-shadow': '8px 8px 23px 3px rgba(109, 59, 158, 1)',
-    boxShadow: '8px 8px 23px 3px rgba(109, 59, 158, 1)',
+    '-webkit-box-shadow': '0px 0px 25px 0px rgba(109, 59, 158, 1)',
+    '-moz-box-shadow': '0px 0px 25px 0px rgba(109, 59, 158, 1)',
+    boxShadow: '0px 0px 25px 0px rgba(109, 59, 158, 1)',
   },
 
   previewHeader1: {
@@ -171,11 +172,11 @@ export default createUseStyles({
   bodyPart: {
     display: 'flex',
     flexDirection: 'column',
+    gap: '1rem',
     padding: '0.5rem 1rem',
 
     height: '100%',
     textAlign: 'left',
-    justifyContent: 'space-between',
   },
 
   bodyLeft: {

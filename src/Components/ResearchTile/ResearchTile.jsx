@@ -14,7 +14,7 @@ export default function ResearchTile({ tileData, postData }) {
     endDate,
     author,
     highlight,
-    researchText,
+    description,
     requirements,
     rewards,
   } = postData;
@@ -93,7 +93,7 @@ export default function ResearchTile({ tileData, postData }) {
           </div>
           <main className={`${styles.bodyPart} ${styles.bodyRight}`}>
             <div className={styles.h4}>Opis badania:</div>
-            <main>{researchText}</main>
+            <main>{description}</main>
           </main>
         </div>
         <div className={styles.previewButtonContainer}>
@@ -125,7 +125,7 @@ ResearchTile.defaultProps = {
     author: '',
     highlight: '',
 
-    researchText: '',
+    description: '',
     requirements: [],
     rewards: [],
   },
