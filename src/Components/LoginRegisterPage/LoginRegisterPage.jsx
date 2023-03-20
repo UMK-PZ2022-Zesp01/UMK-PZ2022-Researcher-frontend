@@ -3,8 +3,9 @@ import LoginRegisterPageStyle from './LoginRegisterPageStyle';
 import BannerWhite from '../Banner/BannerWhite';
 import LoginForm from '../Form/LoginForm';
 import RegisterForm from '../Form/RegisterForm';
-import { Alert, Collapse } from '@mui/material';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
+import { Alert } from '../Alert/Alert';
+import { Popup } from '../Popup/Popup';
 
 export default function LoginRegisterPage() {
   const styles = LoginRegisterPageStyle();
@@ -26,20 +27,20 @@ export default function LoginRegisterPage() {
     switch (alert.alertType) {
       case 201:
         return (
-          <Alert onClose={() => closeAlert()} severity="success">
+          <Alert onClose={closeAlert} type={'Success'}>
             {alert.alertText}
           </Alert>
         );
       case 298:
       case 299:
         return (
-          <Alert onClose={() => closeAlert()} severity="warning">
+          <Alert onClose={closeAlert} type={'Warning'}>
             {alert.alertText}
           </Alert>
         );
       default:
         return (
-          <Alert onClose={() => closeAlert()} severity="error">
+          <Alert onClose={closeAlert} type={'Error'}>
             {alert.alertText}
           </Alert>
         );
@@ -53,7 +54,7 @@ export default function LoginRegisterPage() {
       </Helmet>
       <div className={styles.loginRegisterPanel}>
         <div className={styles.alertOverlay}>
-          <Collapse in={alert.alertOpen}>{showAlert()}</Collapse>
+          <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
         </div>
         <div className={styles.header}>
           <BannerWhite />
@@ -67,4 +68,3 @@ export default function LoginRegisterPage() {
     </div>
   );
 }
-

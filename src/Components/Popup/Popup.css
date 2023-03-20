@@ -1,0 +1,22 @@
+.popupHorizontal{
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+
+    transition: height 250ms ease-in-out;
+
+}
+
+.popupVertical{
+    width: 0;
+    height: 100%;
+    overflow: hidden;
+
+    transition: width 250ms ease-in-out;
+}
+
+.popupEnabled{
+    width: 100%;
+    height: 100%;
+}
+

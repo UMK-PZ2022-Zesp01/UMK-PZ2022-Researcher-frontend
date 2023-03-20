@@ -1,0 +1,170 @@
+.alert{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 0.5rem;
+
+    font-size: 16px;
+
+    border-radius: 5px;
+    background-color: #d6b8ee;
+    box-sizing: border-box;
+}
+
+.toLeft{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+        align-items: center;
+    }
+.toRight{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+}
+
+.alertSuccess{
+    background-color: #f0ffeb;
+}
+
+.alertError{
+    background-color: #ffebeb;
+}
+
+.alertWarning{
+    background-color: #fff7df;
+}
+
+.alertInfo{
+    background-color: #e7fbff;
+}
+
+.iconContainer{
+    display: flex;
+    aspect-ratio: 1/1;
+    content:"";
+    padding: 0.75rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    align-items: center;
+}
+
+.icon{
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+}
+
+.iconSuccess{
+    position: relative;
+    color: green;
+    border: green 2px solid;
+}
+
+.iconSuccess::after{
+    position: absolute;
+    content: "✔";
+    font-size: 2rem;
+    line-height: 1.5rem;
+    top: -0.35rem;
+    left: -0.05rem;
+}
+
+.iconWarning{
+    position: relative;
+    color: #ffc63a;
+    border: #ffc63a 2px solid;
+}
+
+.iconWarning::after{
+    position: absolute;
+    content:"\0021";
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    top: -0.15rem;
+    left: 0.48rem;
+}
+
+.iconError{
+    position: relative;
+    color: #dc4040;
+    border: #dc4040 2px solid;
+}
+.iconError::after{
+    position: absolute;
+    content:"×";
+    font-size: 2rem;
+    line-height: 1.5rem;
+    top: -0.3rem;
+    left: -0.03rem;
+}
+
+.iconInfo{
+    position: relative;
+    color: #4883be;
+    border: #4883be 2px solid;
+}
+
+.iconInfo::after{
+    position: absolute;
+    content:"i";
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    top: -0.15rem;
+    left: 0.52rem;
+}
+
+
+
+
+.textContainer{
+    color: rgba(0,0,0,0.9);
+    display: flex;
+    padding: 1rem;
+    justify-self: flex-start;
+    align-items: center;
+}
+
+.buttonContainer{
+    display: flex;
+    aspect-ratio: 1/1;
+    padding: 0.5rem;
+    justify-self: flex-end;
+}
+
+.closeButton{
+    position: relative;
+    appearance: none;
+    border:none;
+    background-color: transparent;
+
+    aspect-ratio: 1/1;
+    padding: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    align-items: center;
+
+    transition: background-color 100ms ease-in-out;
+}
+
+.closeButton:hover{
+    background-color: rgba(0,0,0,0.1);
+}
+
+.closeButton::after{
+    position: absolute;
+    content:"×";
+    font-size: 2.5rem;
+    line-height: 1rem;
+    top: 0.52rem;
+    left: 0.27rem;
+    color: rgba(0,0,0,0.8);
+}
+
