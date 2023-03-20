@@ -20,6 +20,7 @@ export default createUseStyles({
   alertOverlay: {
     position: 'absolute',
     width: '100%',
+    height: '3.5rem',
     padding: '0 5vw',
     top: '0',
     left: '0',
