@@ -78,9 +78,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
 
             <div
                 className="removeRewardButton"
-                onClick={() => {
-                    handleDelete(index);
-                }}
+                onClick={() => handleDelete(index)}
                 title="Usuń nagrodę"
             >
                 <FontAwesomeIcon icon={faTrash} className="trashIcon" />

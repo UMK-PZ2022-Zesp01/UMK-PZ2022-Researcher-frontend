@@ -1,7 +1,11 @@
 import '../CreateResearchForm.css';
 import '../Reward/CreateResearchFormReward.css';
 import './CreateResearchFormRequirement.css';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { v4 as generateKey } from 'uuid';
+import { CustomRequirement } from './CustomRequirement/CustomRequirement';
 
 function CreateResearchFormRequirement({ sendList }) {
     const [isGenderCheckboxChecked, setIsGenderCheckboxChecked] = useState(false);
@@ -18,46 +22,70 @@ function CreateResearchFormRequirement({ sendList }) {
     const [isMaritalOtherCheckboxChecked, setIsMaritalOtherCheckboxChecked] = useState(false);
 
     const [genderList, setGenderList] = useState([]);
+    const [ageList, setAgeList] = useState([]);
     const [placeList, setPlaceList] = useState([]);
     const [educationList, setEducationList] = useState([]);
     const [maritalList, setMaritalList] = useState([]);
+
     const [ageMin, setAgeMin] = useState(null);
     const [ageMax, setAgeMax] = useState(null);
+    const [placeOtherDesc, setPlaceOtherDesc] = useState('');
+    const [educationOtherDesc, setEducationOtherDesc] = useState('');
+    const [maritalOtherDesc, setMaritalOtherDesc] = useState('');
 
     const [otherRequirementList, setOtherRequirementList] = useState([{ type: '', criteria: '' }]);
 
+    const [requirementSectionReload, setRequirementSectionReload] = useState(false);
+    const [requirementKeyArray, setRequirementKeyArray] = useState([]);
+
+    useEffect(() => {
+        let newRequirementKeyArray = otherRequirementList.reduce(
+            array => [...array, generateKey()],
+            []
+        );
+        setRequirementKeyArray(newRequirementKeyArray);
+    }, [requirementSectionReload]);
+
     useEffect(() => {
         sendList(requirementList.filter(value => value !== false));
-    }, [genderList, placeList, educationList, maritalList]);
+    }, [genderList, ageList, placeList, educationList, maritalList, otherRequirementList]);
 
-    const renderOtherRequirementComponents = () => {
+    const renderCustomComponents = () => {
         return otherRequirementList.length > 0 ? (
-            otherRequirementList.map((value, index) => (
-                <div className="formRow">
-                    <input
-                        className="formInputRegular"
-                        type="text"
-                        id={'requirement-other-category-' + index}
-                        placeholder="Wpisz kategorię..."
-                    />
-
-                    <input
-                        className="formInputRegular"
-                        type="text"
-                        id="requirement-other-desc"
-                        placeholder="Wpisz kryterium..."
-                    />
-                </div>
+            otherRequirementList.map((data, index) => (
+                <CustomRequirement
+                    key={requirementKeyArray[index] ? requirementKeyArray[index] : generateKey()}
+                    index={index}
+                    data={data}
+                    handleUpdate={updateOtherRequirement}
+                    handleDelete={deleteOtherRequirement}
+                />
             ))
         ) : (
-            <></>
+            <div className="noRewardDesc">
+                Twoje badanie nie posiada żadnych dodatkowych kryteriów udziału
+            </div>
         );
     };
+
+    const updateOtherRequirement = (index, req) => {
+        let updatedOtherRequirementList = [...otherRequirementList];
+        updatedOtherRequirementList[index] = req;
+        setOtherRequirementList(updatedOtherRequirementList);
+    };
+
+    const deleteOtherRequirement = index => {
+        let updatedOtherRequirementList = [...otherRequirementList];
+        updatedOtherRequirementList.splice(index, 1);
+        setOtherRequirementList(updatedOtherRequirementList);
+        setRequirementSectionReload(!requirementSectionReload);
+    };
+
+    /*** Send Requirements List to Parent on Each Change in Checkboxes ***/
 
     const handleGenderListChange = event => {
         const value = event.target.value;
         const valueIndex = genderList.indexOf(value);
-        const isValueInList = valueIndex >= 0;
 
         if (event.target.checked) {
             setGenderList([...genderList, value]);
@@ -77,54 +105,47 @@ function CreateResearchFormRequirement({ sendList }) {
     };
 
     const handlePlaceListChange = event => {
-        const valueIndex = placeList.indexOf(event.target.value);
-        const isValueInList = valueIndex >= 0;
+        const value = event.target.value;
+        const valueIndex = placeList.indexOf(value);
 
         if (event.target.checked) {
-            if (!isValueInList) {
-                setPlaceList([...placeList, event.target.value]);
-            }
+            setPlaceList([...placeList, value]);
         } else {
-            if (isValueInList) {
-                const reducedPlaceList = [...placeList];
-                reducedPlaceList.splice(valueIndex, 1);
-                setPlaceList(reducedPlaceList);
-            }
+            let reducedPlaceList = [...placeList];
+            reducedPlaceList.splice(valueIndex, 1);
+            setPlaceList(reducedPlaceList);
         }
     };
 
     const handleEducationListChange = event => {
-        const valueIndex = educationList.indexOf(event.target.value);
-        const isValueInList = valueIndex >= 0;
+        const value = event.target.value;
+        const valueIndex = educationList.indexOf(value);
 
         if (event.target.checked) {
-            if (!isValueInList) {
-                setEducationList([...educationList, event.target.value]);
-            }
+            setEducationList([...educationList, value]);
         } else {
-            if (isValueInList) {
-                const reducedEducationList = [...educationList];
-                reducedEducationList.splice(valueIndex, 1);
-                setEducationList(reducedEducationList);
-            }
+            let reducedEducationList = [...educationList];
+            reducedEducationList.splice(valueIndex, 1);
+            setEducationList(reducedEducationList);
         }
     };
 
     const handleMaritalListChange = event => {
-        const valueIndex = maritalList.indexOf(event.target.value);
-        const isValueInList = valueIndex >= 0;
+        const value = event.target.value;
+        const valueIndex = maritalList.indexOf(value);
 
         if (event.target.checked) {
-            if (!isValueInList) {
-                setMaritalList([...maritalList, event.target.value]);
-            }
+            setMaritalList([...maritalList, value]);
         } else {
-            if (isValueInList) {
-                const reducedMaritalList = [...maritalList];
-                reducedMaritalList.splice(valueIndex, 1);
-                setMaritalList(reducedMaritalList);
-            }
+            let reducedMaritalList = [...maritalList];
+            reducedMaritalList.splice(valueIndex, 1);
+            setMaritalList(reducedMaritalList);
         }
+    };
+
+    const handleAddOtherCriterionButtonClick = () => {
+        setOtherRequirementList([...otherRequirementList, { type: '', criteria: '' }]);
+        setRequirementSectionReload(!requirementSectionReload);
     };
 
     const requirementList = [
@@ -155,7 +176,38 @@ function CreateResearchFormRequirement({ sendList }) {
             type: 'marital',
             criteria: maritalList,
         },
+
+        isOtherCheckboxChecked && {
+            type: 'other',
+            requirementList: otherRequirementList,
+        },
     ];
+
+    /*** Functions for Handling Text Inputs ***/
+
+    /*
+    TODO:
+     * How to store 'other' data from checkboxes?
+     * Storing more than one age interval + validation!
+     * Footer (Component)
+    */
+    const handlePlaceOtherDescChange = event => {
+        setPlaceOtherDesc(event.target.value);
+        let updatedPlaceList = [...placeList];
+        const index = placeList.indexOf(placeList.find(value => value.includes('other:')));
+        index !== -1
+            ? (updatedPlaceList[index] = 'other: ' + placeOtherDesc)
+            : updatedPlaceList.push('other: ' + placeOtherDesc);
+        setPlaceList(updatedPlaceList);
+    };
+
+    const handleEducationOtherDescChange = event => {
+        setEducationOtherDesc(event.target.value);
+    };
+
+    const handleMaritalOtherDescChange = event => {
+        setMaritalOtherDesc(event.target.value);
+    };
 
     /*** Functions for Handling Checkboxes Clicks ***/
 
@@ -526,8 +578,9 @@ function CreateResearchFormRequirement({ sendList }) {
                         <input
                             className="formInputRegular"
                             type="text"
-                            id="place-other-desc"
+                            name="place-other-desc"
                             placeholder="Wpisz inne kryterium..."
+                            onChange={handlePlaceOtherDescChange}
                         />
                     )}
                 </div>
@@ -616,8 +669,9 @@ function CreateResearchFormRequirement({ sendList }) {
                         <input
                             className="formInputRegular"
                             type="text"
-                            id="education-other-desc"
+                            name="education-other-desc"
                             placeholder="Wpisz inne kryterium..."
+                            onChange={handleEducationOtherDescChange}
                         />
                     )}
                 </div>
@@ -748,8 +802,9 @@ function CreateResearchFormRequirement({ sendList }) {
                         <input
                             className="formInputRegular"
                             type="text"
-                            id="marital-other-desc"
+                            name="marital-other-desc"
                             placeholder="Wpisz inne kryterium..."
+                            onChange={handleMaritalOtherDescChange}
                         />
                     )}
                 </div>
@@ -758,20 +813,19 @@ function CreateResearchFormRequirement({ sendList }) {
             {isOtherCheckboxChecked && (
                 <div className="requirementContainer">
                     <label className="requirementTitle">Inne</label>
-                    <div className="formRow">
-                        <input
-                            className="formInputRegular"
-                            type="text"
-                            id="requirement-other-category"
-                            placeholder="Wpisz kategorię..."
-                        />
 
-                        <input
-                            className="formInputRegular"
-                            type="text"
-                            id="requirement-other-desc"
-                            placeholder="Wpisz kryterium..."
-                        />
+                    {renderCustomComponents()}
+
+                    <div className="formColumnButton">
+                        <div className="addRewardReqButton">
+                            <FontAwesomeIcon icon={faPlus} />
+                            <span
+                                onClick={handleAddOtherCriterionButtonClick}
+                                className="addRewardReqButtonDesc"
+                            >
+                                Dodaj kryterium
+                            </span>
+                        </div>
                     </div>
                 </div>
             )}

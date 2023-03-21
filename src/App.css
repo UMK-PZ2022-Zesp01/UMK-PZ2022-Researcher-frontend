@@ -1,8 +1,7 @@
 .App {
   text-align: center;
-  width: 100vw;
-  height: 100vh;
 }
+
 .App::after{
   z-index: -1000;
   content: "";

@@ -88,6 +88,7 @@ function CreateResearchForm() {
 
     const getRequirementList = list => {
         setRequirementList(list);
+        console.log(list);
     };
 
     /*** Functions for Handling Changes in Form ***/
@@ -372,7 +373,6 @@ function CreateResearchForm() {
                     </label>
 
                     <CreateResearchFormRequirement sendList={getRequirementList} />
-                    {/*  TODO: Receive data from the component placed line above */}
                 </div>
 
                 <div className="rowContainer">

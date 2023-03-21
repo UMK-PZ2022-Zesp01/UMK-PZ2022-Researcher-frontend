@@ -14,6 +14,7 @@
 
 .formInputRegular {
     width: 100%;
+    height: 42px;
     padding: 10px;
     background-color: #D6CEF3;
     outline: none;
