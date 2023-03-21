@@ -1,7 +1,7 @@
 import '../CreateResearchForm.css';
 import '../Reward/CreateResearchFormReward.css';
 import './CreateResearchFormRequirement.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function CreateResearchFormRequirement({ sendList }) {
     const [isGenderCheckboxChecked, setIsGenderCheckboxChecked] = useState(false);
@@ -24,56 +24,56 @@ function CreateResearchFormRequirement({ sendList }) {
     const [ageMin, setAgeMin] = useState(null);
     const [ageMax, setAgeMax] = useState(null);
 
-    const [otherRequirementList, setOtherRequirementList] = useState([{type: "", criteria: ""}]);
+    const [otherRequirementList, setOtherRequirementList] = useState([{ type: '', criteria: '' }]);
+
+    useEffect(() => {
+        sendList(requirementList.filter(value => value !== false));
+    }, [genderList, placeList, educationList, maritalList]);
 
     const renderOtherRequirementComponents = () => {
-		return otherRequirementList.length > 0 ?
-			otherRequirementList.map((value, index) =>
-				<div className="formRow">
-					<input
-						className="formInputRegular"
-						type="text"
-						id={"requirement-other-category-" + index}
-						placeholder="Wpisz kategorię..."
-					/>
+        return otherRequirementList.length > 0 ? (
+            otherRequirementList.map((value, index) => (
+                <div className="formRow">
+                    <input
+                        className="formInputRegular"
+                        type="text"
+                        id={'requirement-other-category-' + index}
+                        placeholder="Wpisz kategorię..."
+                    />
 
-					<input
-						className="formInputRegular"
-						type="text"
-						id="requirement-other-desc"
-						placeholder="Wpisz kryterium..."
-					/>
-				</div>
-			)
-	};
+                    <input
+                        className="formInputRegular"
+                        type="text"
+                        id="requirement-other-desc"
+                        placeholder="Wpisz kryterium..."
+                    />
+                </div>
+            ))
+        ) : (
+            <></>
+        );
+    };
 
     const handleGenderListChange = event => {
-        const valueIndex = genderList.indexOf(event.target.value);
+        const value = event.target.value;
+        const valueIndex = genderList.indexOf(value);
         const isValueInList = valueIndex >= 0;
 
         if (event.target.checked) {
-            if (!isValueInList) {
-                setGenderList([...genderList, event.target.value]);
-            }
+            setGenderList([...genderList, value]);
         } else {
-            if (isValueInList) {
-                const reducedGenderList = [...genderList];
-                reducedGenderList.splice(valueIndex, 1);
-                setGenderList(reducedGenderList);
-            }
+            let reducedGenderList = [...genderList];
+            reducedGenderList.splice(valueIndex, 1);
+            setGenderList(reducedGenderList);
         }
-
-        sendList(requirementList.filter(value => value !== false));
     };
 
     const handleAgeMinInputChange = event => {
         setAgeMin(event.target.value);
-        sendList(requirementList.filter(value => value !== false));
     };
 
     const handleAgeMaxInputChange = event => {
         setAgeMax(event.target.value);
-        sendList(requirementList.filter(value => value !== false));
     };
 
     const handlePlaceListChange = event => {
@@ -91,8 +91,6 @@ function CreateResearchFormRequirement({ sendList }) {
                 setPlaceList(reducedPlaceList);
             }
         }
-
-        sendList(requirementList.filter(value => value !== false));
     };
 
     const handleEducationListChange = event => {
@@ -110,8 +108,6 @@ function CreateResearchFormRequirement({ sendList }) {
                 setEducationList(reducedEducationList);
             }
         }
-
-        sendList(requirementList.filter(value => value !== false));
     };
 
     const handleMaritalListChange = event => {
@@ -129,11 +125,9 @@ function CreateResearchFormRequirement({ sendList }) {
                 setMaritalList(reducedMaritalList);
             }
         }
-
-        sendList(requirementList.filter(value => value !== false));
     };
 
-    let requirementList = [
+    const requirementList = [
         isGenderCheckboxChecked && {
             type: 'gender',
             criteria: genderList,
@@ -219,7 +213,7 @@ function CreateResearchFormRequirement({ sendList }) {
                         id="req-gender"
                         name="req-category"
                         value="gender"
-                        onClick={handleGenderCheckboxClick}
+                        onChange={handleGenderCheckboxClick}
                     />
                     <label className="checkboxLabel" htmlFor="req-gender">
                         płeć
@@ -233,7 +227,7 @@ function CreateResearchFormRequirement({ sendList }) {
                         id="req-age"
                         name="req-category"
                         value="age"
-                        onClick={handleAgeCheckboxClick}
+                        onChange={handleAgeCheckboxClick}
                     />
                     <label className="checkboxLabel" htmlFor="req-age">
                         wiek
@@ -247,7 +241,7 @@ function CreateResearchFormRequirement({ sendList }) {
                         id="req-place"
                         name="req-category"
                         value="place"
-                        onClick={handlePlaceCheckboxClick}
+                        onChange={handlePlaceCheckboxClick}
                     />
                     <label className="checkboxLabel" htmlFor="req-place">
                         miejsce zamieszkania
@@ -261,7 +255,7 @@ function CreateResearchFormRequirement({ sendList }) {
                         id="req-education"
                         name="req-category"
                         value="education"
-                        onClick={handleEducationCheckboxClick}
+                        onChange={handleEducationCheckboxClick}
                     />
                     <label className="checkboxLabel" htmlFor="req-education">
                         wykształcenie
@@ -275,7 +269,7 @@ function CreateResearchFormRequirement({ sendList }) {
                         id="req-marital"
                         name="req-category"
                         value="marital"
-                        onClick={handleMaritalCheckboxClick}
+                        onChange={handleMaritalCheckboxClick}
                     />
                     <label className="checkboxLabel" htmlFor="req-marital">
                         stan cywilny
@@ -289,7 +283,7 @@ function CreateResearchFormRequirement({ sendList }) {
                         id="req-other"
                         name="req-category"
                         value="other"
-                        onClick={handleOtherCheckboxClick}
+                        onChange={handleOtherCheckboxClick}
                     />
                     <label className="checkboxLabel" htmlFor="req-other">
                         inne
@@ -309,7 +303,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="gender-male"
                                     name="gender"
                                     value="male"
-                                    onClick={handleGenderListChange}
+                                    onChange={handleGenderListChange}
                                 />
                                 <label htmlFor="gender-male" className="checkboxLabel">
                                     mężczyzna
@@ -323,7 +317,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="gender-other"
                                     name="gender"
                                     value="other"
-                                    onClick={handleGenderListChange}
+                                    onChange={handleGenderListChange}
                                 />
                                 <label htmlFor="gender-other" className="checkboxLabel">
                                     inna
@@ -339,7 +333,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="gender-female"
                                     name="gender"
                                     value="female"
-                                    onClick={handleGenderListChange}
+                                    onChange={handleGenderListChange}
                                 />
                                 <label htmlFor="gender-female" className="checkboxLabel">
                                     kobieta
@@ -353,7 +347,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="gender-notGiven"
                                     name="gender"
                                     value="notGiven"
-                                    onClick={handleGenderListChange}
+                                    onChange={handleGenderListChange}
                                 />
                                 <label htmlFor="gender-notGiven" className="checkboxLabel">
                                     nie podano / nieokreślona
@@ -376,7 +370,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="age-min"
                                     name="age-min"
                                     defaultChecked
-                                    onClick={handleAgeMinCheckboxClick}
+                                    onChange={handleAgeMinCheckboxClick}
                                 />
                                 <label htmlFor="age-min" className="checkboxLabel">
                                     ustaw limit dolny
@@ -405,7 +399,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="age-max"
                                     name="age-max"
                                     defaultChecked
-                                    onClick={handleAgeMaxCheckboxClick}
+                                    onChange={handleAgeMaxCheckboxClick}
                                 />
                                 <label htmlFor="age-max" className="checkboxLabel">
                                     ustaw limit górny
@@ -441,7 +435,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="place-village"
                                     name="place"
                                     value="village"
-                                    onClick={handlePlaceListChange}
+                                    onChange={handlePlaceListChange}
                                 />
                                 <label htmlFor="place-village" className="checkboxLabel">
                                     wieś
@@ -455,7 +449,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="place-cityBetween50kAnd150k"
                                     name="place"
                                     value="cityBetween50kAnd150k"
-                                    onClick={handlePlaceListChange}
+                                    onChange={handlePlaceListChange}
                                 />
                                 <label
                                     htmlFor="place-cityBetween50kAnd150k"
@@ -472,7 +466,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="place-cityAbove500k"
                                     name="place"
                                     value="cityAbove500k"
-                                    onClick={handlePlaceListChange}
+                                    onChange={handlePlaceListChange}
                                 />
                                 <label htmlFor="place-cityAbove500k" className="checkboxLabel">
                                     miasto powyżej 500 tys. mieszkańców
@@ -488,7 +482,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="place-cityBelow50k"
                                     name="place"
                                     value="cityBelow50k"
-                                    onClick={handlePlaceListChange}
+                                    onChange={handlePlaceListChange}
                                 />
                                 <label htmlFor="place-cityBelow50k" className="checkboxLabel">
                                     miasto poniżej 50 tys. mieszkańców
@@ -502,7 +496,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="place-cityBetween150kAnd500k"
                                     name="place"
                                     value="cityBetween150kAnd500k"
-                                    onClick={handlePlaceListChange}
+                                    onChange={handlePlaceListChange}
                                 />
                                 <label
                                     htmlFor="place-cityBetween150kAnd500k"
@@ -519,7 +513,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="place-other"
                                     name="place"
                                     value="other"
-                                    onClick={handlePlaceOtherCheckboxClick}
+                                    onChange={handlePlaceOtherCheckboxClick}
                                 />
                                 <label htmlFor="place-other" className="checkboxLabel">
                                     inne (jakie?)
@@ -551,7 +545,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="education-primary"
                                     name="education"
                                     value="primary"
-                                    onClick={handleEducationListChange}
+                                    onChange={handleEducationListChange}
                                 />
                                 <label htmlFor="education-primary" className="checkboxLabel">
                                     podstawowe
@@ -565,7 +559,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="education-middle"
                                     name="education"
                                     value="middle"
-                                    onClick={handleEducationListChange}
+                                    onChange={handleEducationListChange}
                                 />
                                 <label htmlFor="education-middle" className="checkboxLabel">
                                     średnie
@@ -579,7 +573,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="education-other"
                                     name="education"
                                     value="other"
-                                    onClick={handleEducationOtherCheckboxClick}
+                                    onChange={handleEducationOtherCheckboxClick}
                                 />
                                 <label htmlFor="education-other" className="checkboxLabel">
                                     inne (jakie?)
@@ -595,7 +589,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="education-vocational"
                                     name="education"
                                     value="vocational"
-                                    onClick={handleEducationListChange}
+                                    onChange={handleEducationListChange}
                                 />
                                 <label htmlFor="education-vocational" className="checkboxLabel">
                                     zasadnicze zawodowe
@@ -609,7 +603,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="education-college"
                                     name="education"
                                     value="college"
-                                    onClick={handleEducationListChange}
+                                    onChange={handleEducationListChange}
                                 />
                                 <label htmlFor="education-college" className="checkboxLabel">
                                     wyższe
@@ -641,7 +635,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="marital-single"
                                     name="marital"
                                     value="single"
-                                    onClick={handleMaritalListChange}
+                                    onChange={handleMaritalListChange}
                                 />
                                 <label htmlFor="marital-single" className="checkboxLabel">
                                     singiel / singielka
@@ -655,7 +649,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="marital-engaged"
                                     name="marital"
                                     value="engaged"
-                                    onClick={handleMaritalListChange}
+                                    onChange={handleMaritalListChange}
                                 />
                                 <label htmlFor="marital-engaged" className="checkboxLabel">
                                     zaręczony / zaręczona
@@ -669,7 +663,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="marital-divorced"
                                     name="marital"
                                     value="divorced"
-                                    onClick={handleMaritalListChange}
+                                    onChange={handleMaritalListChange}
                                 />
                                 <label htmlFor="marital-divorced" className="checkboxLabel">
                                     rozwiedziony / rozwiedziona
@@ -683,7 +677,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="marital-inSeparation"
                                     name="marital"
                                     value="inSeparation"
-                                    onClick={handleMaritalListChange}
+                                    onChange={handleMaritalListChange}
                                 />
                                 <label htmlFor="marital-inSeparation" className="checkboxLabel">
                                     w separacji
@@ -699,7 +693,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="marital-inRelationship"
                                     name="marital"
                                     value="inRelationship"
-                                    onClick={handleMaritalListChange}
+                                    onChange={handleMaritalListChange}
                                 />
                                 <label htmlFor="marital-inRelationship" className="checkboxLabel">
                                     w związku partnerskim
@@ -713,7 +707,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="marital-marriage"
                                     name="marital"
                                     value="marriage"
-                                    onClick={handleMaritalListChange}
+                                    onChange={handleMaritalListChange}
                                 />
                                 <label htmlFor="marital-marriage" className="checkboxLabel">
                                     w związku małżeńskim
@@ -727,7 +721,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="place-widowed"
                                     name="place"
                                     value="widowed"
-                                    onClick={handleMaritalListChange}
+                                    onChange={handleMaritalListChange}
                                 />
                                 <label htmlFor="place-widowed" className="checkboxLabel">
                                     wdowiec / wdowa
@@ -741,7 +735,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     id="marital-other"
                                     name="marital"
                                     value="other"
-                                    onClick={handleMaritalOtherCheckboxClick}
+                                    onChange={handleMaritalOtherCheckboxClick}
                                 />
                                 <label htmlFor="marital-other" className="checkboxLabel">
                                     inny (jaki?)

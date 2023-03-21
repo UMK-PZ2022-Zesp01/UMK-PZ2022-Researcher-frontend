@@ -21,7 +21,7 @@ function CreateResearchForm() {
     const [researchForm, setResearchForm] = useState('');
     const [researchPlace, setResearchPlace] = useState('');
     const [rewardList, setRewardList] = useState([{ type: '', value: null }]);
-    const [requirementList, setRequirementList] = useState();
+    const [requirementList, setRequirementList] = useState([]);
 
     let research = {
         title: title,
