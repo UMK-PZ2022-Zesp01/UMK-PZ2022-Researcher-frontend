@@ -4,67 +4,66 @@ import BannerWhite from '../Banner/BannerWhite';
 import LoginForm from '../Form/LoginForm';
 import RegisterForm from '../Form/RegisterForm';
 import { Alert, Collapse } from '@mui/material';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 export default function LoginRegisterPage() {
-  const styles = LoginRegisterPageStyle();
+    const styles = LoginRegisterPageStyle();
 
-  const [alert, setAlert] = React.useState({
-    alertOpen: false,
-    alertType: 0,
-    alertText: '',
-  });
-
-  const closeAlert = () =>
-    setAlert({
-      alertOpen: false,
-      alertType: alert.alertType,
-      alertText: alert.alertText,
+    const [alert, setAlert] = React.useState({
+        alertOpen: false,
+        alertType: 0,
+        alertText: '',
     });
 
-  function showAlert() {
-    switch (alert.alertType) {
-      case 201:
-        return (
-          <Alert onClose={() => closeAlert()} severity="success">
-            {alert.alertText}
-          </Alert>
-        );
-      case 298:
-      case 299:
-        return (
-          <Alert onClose={() => closeAlert()} severity="warning">
-            {alert.alertText}
-          </Alert>
-        );
-      default:
-        return (
-          <Alert onClose={() => closeAlert()} severity="error">
-            {alert.alertText}
-          </Alert>
-        );
+    const closeAlert = () =>
+        setAlert({
+            alertOpen: false,
+            alertType: alert.alertType,
+            alertText: alert.alertText,
+        });
+
+    function showAlert() {
+        switch (alert.alertType) {
+            case 201:
+                return (
+                    <Alert onClose={() => closeAlert()} severity="success">
+                        {alert.alertText}
+                    </Alert>
+                );
+            case 298:
+            case 299:
+                return (
+                    <Alert onClose={() => closeAlert()} severity="warning">
+                        {alert.alertText}
+                    </Alert>
+                );
+            default:
+                return (
+                    <Alert onClose={() => closeAlert()} severity="error">
+                        {alert.alertText}
+                    </Alert>
+                );
+        }
     }
-  }
 
-  return (
-    <div className={styles.loginRegisterPage}>
-      <Helmet>
-        <title>Researcher | Logowanie</title>
-      </Helmet>
-      <div className={styles.loginRegisterPanel}>
-        <div className={styles.alertOverlay}>
-          <Collapse in={alert.alertOpen}>{showAlert()}</Collapse>
+    return (
+        <div className={styles.loginRegisterPage}>
+            <Helmet>
+                <title>Researcher | Logowanie</title>
+            </Helmet>
+            <div className={styles.loginRegisterPanel}>
+                <div className={styles.alertOverlay}>
+                    <Collapse in={alert.alertOpen}>{showAlert()}</Collapse>
+                </div>
+                <div className={styles.header}>
+                    <BannerWhite />
+                </div>
+                <main className={styles.main}>
+                    <LoginForm setters={setAlert} />
+                    <div className={styles.separator} />
+                    <RegisterForm setters={setAlert} />
+                </main>
+            </div>
         </div>
-        <div className={styles.header}>
-          <BannerWhite />
-        </div>
-        <main className={styles.main}>
-          <LoginForm setters={setAlert} />
-          <div className={styles.separator} />
-          <RegisterForm setters={setAlert} />
-        </main>
-      </div>
-    </div>
-  );
+    );
 }
-
