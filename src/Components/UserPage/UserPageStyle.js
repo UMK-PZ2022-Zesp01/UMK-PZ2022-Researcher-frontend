@@ -92,6 +92,7 @@ navbar:{
 },
 
 userData:{
+    backgroundColor: 'rgba(255, 255, 255, 0)',
     maxWidth: '100%',
     padding: '5% 10%',
     display: 'flex',
@@ -101,12 +102,8 @@ userData:{
 },
 
 userResearches:{
-    maxWidth: '100%',
-    padding: '5% 10%',
-    height: 'auto',
-    display:'grid',
-    justifyItems: 'center',
-    gap:'20px',
+
+
 },
 
 dataItem:{
