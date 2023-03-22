@@ -8,6 +8,7 @@ import useAuth from '../../hooks/useAuth';
 import getApiUrl from '../../Common/Api.js';
 import BookmarksNav from "../BookmarksNav/BookmarksNav";
 import UserResearchCard from "../Researches/UserResearchCard";
+import LatestResearchCard from "../Researches/LatestResearchCard";
 import {Helmet} from "react-helmet";
 import {MdLocationOn, MdPhone,MdPostAdd} from 'react-icons/md';
 import {GiFemale, GiMale} from 'react-icons/gi';
@@ -16,7 +17,9 @@ import {FiSettings} from 'react-icons/fi';
 import {GoFlame} from 'react-icons/go';
 import { faFileCirclePlus } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-
+import ReportForm from "../Form/ReportForm";
+import { Link } from 'react-router-dom';
+import { GrClose } from 'react-icons/gr';
 
 
 
@@ -39,6 +42,8 @@ export default function UserPage(props) {
         }
     }
 
+    const[openPopup, setOpenPopup] = useState(false)
+
     const [userData, setUserData] = useState({});
     const {username, accessToken} = useAuth().auth;
 
@@ -60,8 +65,10 @@ export default function UserPage(props) {
             });
     }, []);
 
+
     return (
         <div className="MainContainer">
+            <ReportForm open={openPopup} onClose={()=>setOpenPopup(false)}></ReportForm>
             <div className="Container">
                 <div className={styles.bookmarksContainer}>
                     <div  className={styles.logo}>
@@ -86,20 +93,21 @@ export default function UserPage(props) {
                     <div className="rightContainer">
                         <div className="activityBox">
                             <div className="singleActivity"> <FiSettings/>Edytuj profil</div>
-                            <div className="singleActivity">
+                            <a className="singleActivity" href={"./research/create"}>
                                 <FontAwesomeIcon icon={faFileCirclePlus} />
-                                Dodaj nowe badanie</div>
-                            <div className="singleActivity"><HiOutlineDocumentText className="additionIcon"/>Zobacz nadchodzące badania</div>
-                            <div className="singleActivity"> <GoFlame/>Zgłoś błąd</div>
+                                Dodaj nowe badanie</a>
+                            <div className="singleActivity"><HiOutlineDocumentText className="additionIcon"/>Zobacz swoje badania</div>
+                            <div className="singleActivity" onClick={() => setOpenPopup(true)}> <GoFlame/>Zgłoś błąd</div>
                         </div>
-                        <div className="researches">
-                            <div className="incomingResearch">Nadchodzące badanie i tutaj plakat i całe info</div>
-                            <div className="title">TWOJE BADANIA</div>
+                        <div className="latestResearch">
+                            <LatestResearchCard></LatestResearchCard>
                         </div>
+                        {/*<div className="researches">*/}
+                        {/*    <UserResearchCard></UserResearchCard>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             </div>
         </div>
     );
-
 };

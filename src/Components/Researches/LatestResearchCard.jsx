@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import getApiUrl from "../../Common/Api";
 const USERRESEARCHES_URL = getApiUrl() + 'research/creatorLogin/'
 
-function UserResearchCard(){
+function LatestResearchCard(){
     const styles=userResearchCardStyle();
     const [researches, setResearches] = React.useState([]);
     const login=useUsername();
@@ -15,6 +15,7 @@ function UserResearchCard(){
         const controller = new AbortController();
         const signal = controller.signal;
 
+        console.log(login);
         const getUserResearches = async () => {
             try {
                 await fetch(USERRESEARCHES_URL+login, {
@@ -45,27 +46,26 @@ function UserResearchCard(){
         };
     }, []);
 
-    console.log(researches);
+    const newestResearch = researches.slice(-1)[0];
 
-
-    const showUserResearches = () => {
+    const showUserResearches = (researches) => {
         return researches.map(research =>
-            <div key={research.id} className={styles.researchCard}>
+            <div key={research.id} className={styles.latestResearchCard}>
 
-                <div className={styles.researchHeader}>
+                <div className={styles.latestResearchHeader}>
 
-                <div className={styles.researchTitle}>
-                    <h1 className={styles.title}>{research.title}</h1>
+                    <div className={styles.researchTitle}>
+                        <h2 className={styles.title}>{research.title}</h2>
+                    </div>
+
+                    <div className={styles.researchDate}>
+                        {/*<h3>{research.begDate} - {research.endDate}</h3>*/}
+                    </div>
+
                 </div>
 
-                <div className={styles.researchDate}>
-                    <h2>{research.begDate} - {research.endDate}</h2>
-                </div>
-
-                </div>
-
-                <div className={styles.researchDesc}>
-                    <h3>{research.description}</h3>
+                <div className={styles.latestResearchDesc}>
+                    <h4>{research.description}</h4>
                 </div>
 
             </div>
@@ -73,11 +73,20 @@ function UserResearchCard(){
         );
     };
 
+    const showLastResearch = () => {
+        const newestResearch = researches.slice(-1);
+        return showUserResearches(newestResearch);
+    };
+
     return(
         <div className={styles.researchContainer}>
-            {showUserResearches()}
+
+            {showLastResearch()}
+
         </div>
     );
+
+
 }
 
-export default UserResearchCard;
+export default LatestResearchCard;
