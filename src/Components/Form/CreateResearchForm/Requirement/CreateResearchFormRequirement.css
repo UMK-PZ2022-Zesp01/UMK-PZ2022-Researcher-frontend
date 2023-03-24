@@ -1,8 +1,12 @@
-.requirementsRow {
+.requirementCategoriesBox {
+    display: flex;
+}
+
+.requirementRow {
     width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
 }
 
@@ -11,7 +15,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 5px;
-    gap: 10px;
+    gap: 15px;
 }
 
 .requirementTitle {
@@ -63,7 +67,6 @@
     font-weight: normal;
     font-size: 14px;
     color: #000000;
-    cursor: pointer;
     white-space: nowrap;
 }
 
@@ -75,15 +78,22 @@
 }
 
 .checkboxAge {
-    width: 50%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 15px;
 }
 
-.inputDisabled {
-    pointer-events: none;
-    background-color: #D4D4D4;
-    border: 2px solid #BDBDBD;
+@media (max-width: 700px) {
+    .requirementRow {
+        flex-direction: column;
+    }
+
+    .checkboxContainer {
+        width: fit-content;
+        flex-direction: column;
+        gap: 0;
+    }
+
 }

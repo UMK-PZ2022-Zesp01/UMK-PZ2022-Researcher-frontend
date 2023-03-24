@@ -40,7 +40,7 @@
     background-color: #F4F0FA;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 1000px) {
 
     .container {
         margin: 25px 10px;

@@ -59,7 +59,7 @@ function CreateResearchForm() {
                 />
             ))
         ) : (
-            <div className="noRewardDesc">
+            <div className="requirementDesc">
                 W tej chwili Twoje badanie nie oferuje żadnych nagród za udział
             </div>
         );
@@ -88,7 +88,6 @@ function CreateResearchForm() {
 
     const getRequirementList = list => {
         setRequirementList(list);
-        console.log(list);
     };
 
     /*** Functions for Handling Changes in Form ***/
@@ -214,7 +213,7 @@ function CreateResearchForm() {
                         hidden
                     />
 
-                    <div className="posterButton">
+                    <div className="posterContainer">
                         {posterImage != null && (
                             <img
                                 alt="poster"
@@ -222,30 +221,30 @@ function CreateResearchForm() {
                                 className="posterImg"
                             />
                         )}
-                        <div
-                            className={
-                                posterImage != null
-                                    ? 'posterButtonOverlay'
-                                    : 'posterButtonOverlay overlayActive'
-                            }
-                        >
-                            <label htmlFor="poster" className="overlayTile">
-                                <FontAwesomeIcon className="posterIcon" icon={faFileImage} />
-                                <span className="posterButtonDesc">
-                                    {posterImage == null ? 'Dodaj' : 'Zmień'} plakat
-                                </span>
-                            </label>
 
-                            {posterImage != null && (
-                                <div className="overlayTile" onClick={resetPosterInput}>
-                                    <FontAwesomeIcon className="posterIcon" icon={faTrash} />
-                                    <span className="posterButtonDesc">Usuń plakat</span>
+                        {posterImage == null ? (
+                            <label className="posterOverlay" htmlFor="poster">
+                                <div className="overlayItem">
+                                    <FontAwesomeIcon icon={faFileImage} className="posterIcon" />
+                                    <span className="posterDesc">Dodaj plakat</span>
                                 </div>
-                            )}
-                        </div>
+                            </label>
+                        ) : (
+                            <div className="posterOverlayWithFile">
+                                <label className="overlayItem" htmlFor="poster">
+                                    <FontAwesomeIcon icon={faFileImage} className="posterIcon" />
+                                    <span className="posterDesc">Zmień plakat</span>
+                                </label>
+
+                                <div className="overlayItem" onClick={resetPosterInput}>
+                                    <FontAwesomeIcon icon={faTrash} className="posterIcon" />
+                                    <span className="posterDesc">Usuń plakat</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
-                    <div className="formRow1Right">
+                    <div className="formRowTopRight">
                         <input
                             className="formInputRegular"
                             onChange={handleTitleChange}
@@ -298,7 +297,7 @@ function CreateResearchForm() {
 
                     <div className="inputWithLabel">
                         <label className="formLabel" htmlFor="participant-limit">
-                            Ilu uczestników potrzebujesz?
+                            Liczba uczestników
                         </label>
                         <input
                             className="formInputRegular"
@@ -314,7 +313,7 @@ function CreateResearchForm() {
                 </div>
 
                 <div className="rowContainer">
-                    <label className="formLabel">W jakiej formie przeprowadzasz badanie?</label>
+                    <label className="formLabel">Miejsce przeprowadzania badania</label>
                     <div className="formRow">
                         <select
                             onChange={handleResearchFormSelect}
@@ -359,29 +358,23 @@ function CreateResearchForm() {
                     <div className="formColumn">{renderRewardComponents()}</div>
 
                     <div className="formColumnButton">
-                        <div onClick={handleAddRewardButtonClick} className="addRewardReqButton">
+                        <div onClick={handleAddRewardButtonClick} className="addButton">
                             <FontAwesomeIcon icon={faPlus} />
-                            <span className="addRewardReqButtonDesc">Dodaj nagrodę</span>
+                            <span className="addButtonDesc">Dodaj nagrodę</span>
                         </div>
                     </div>
                 </div>
 
                 <div className="rowContainer">
                     <label className="formLabel">Wymagania udziału w badaniu</label>
-                    <label className="noRewardDesc">
+                    <label className="requirementDesc">
                         Zaznacz kryteria, które muszą spełniać uczestnicy Twojego badania.
                     </label>
 
                     <CreateResearchFormRequirement sendList={getRequirementList} />
                 </div>
 
-                <div className="rowContainer">
-                    <label htmlFor="" className="formLabel">
-                        Dodatkowe informacje
-                    </label>
-                </div>
-
-                <div className="formRow">
+                <div className="formRow margin">
                     <button className="formButton" type="reset">
                         Zacznij od nowa
                     </button>

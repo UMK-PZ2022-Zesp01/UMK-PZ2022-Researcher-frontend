@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { v4 as generateKey } from 'uuid';
 import { CustomRequirement } from './CustomRequirement/CustomRequirement';
+import { AgeInterval } from './AgeInterval/AgeInterval';
 
 function CreateResearchFormRequirement({ sendList }) {
     const [isGenderCheckboxChecked, setIsGenderCheckboxChecked] = useState(false);
@@ -15,29 +16,35 @@ function CreateResearchFormRequirement({ sendList }) {
     const [isMaritalCheckboxChecked, setIsMaritalCheckboxChecked] = useState(false);
     const [isOtherCheckboxChecked, setIsOtherCheckboxChecked] = useState(false);
 
-    const [isAgeMinCheckboxChecked, setIsAgeMinCheckboxChecked] = useState(true);
-    const [isAgeMaxCheckboxChecked, setIsAgeMaxCheckboxChecked] = useState(true);
     const [isPlaceOtherCheckboxChecked, setIsPlaceOtherCheckboxChecked] = useState(false);
     const [isEducationOtherCheckboxChecked, setIsEducationOtherCheckboxChecked] = useState(false);
     const [isMaritalOtherCheckboxChecked, setIsMaritalOtherCheckboxChecked] = useState(false);
 
     const [genderList, setGenderList] = useState([]);
-    const [ageList, setAgeList] = useState([]);
+    const [ageList, setAgeList] = useState([{ ageMin: null, ageMax: null }]);
     const [placeList, setPlaceList] = useState([]);
     const [educationList, setEducationList] = useState([]);
     const [maritalList, setMaritalList] = useState([]);
+    const [otherRequirementList, setOtherRequirementList] = useState([
+        { type: '', description: '' },
+    ]);
 
-    const [ageMin, setAgeMin] = useState(null);
-    const [ageMax, setAgeMax] = useState(null);
     const [placeOtherDesc, setPlaceOtherDesc] = useState('');
     const [educationOtherDesc, setEducationOtherDesc] = useState('');
     const [maritalOtherDesc, setMaritalOtherDesc] = useState('');
 
-    const [otherRequirementList, setOtherRequirementList] = useState([{ type: '', criteria: '' }]);
-
+    const [ageSectionReload, setAgeSectionReload] = useState(false);
+    const [ageKeyArray, setAgeKeyArray] = useState([]);
     const [requirementSectionReload, setRequirementSectionReload] = useState(false);
     const [requirementKeyArray, setRequirementKeyArray] = useState([]);
 
+    /** Generating New Keys for Other Requirement Inputs **/
+    useEffect(() => {
+        let newAgeKeyArray = ageList.reduce(array => [...array, generateKey()], []);
+        setAgeKeyArray(newAgeKeyArray);
+    }, [ageSectionReload]);
+
+    /** Generating New Keys for Other Requirement Inputs **/
     useEffect(() => {
         let newRequirementKeyArray = otherRequirementList.reduce(
             array => [...array, generateKey()],
@@ -46,9 +53,104 @@ function CreateResearchFormRequirement({ sendList }) {
         setRequirementKeyArray(newRequirementKeyArray);
     }, [requirementSectionReload]);
 
+    /*** Use Effects for Custom Place Requirement ***/
+
+    useEffect(() => {
+        let updatedPlaceList = [...placeList];
+        const index = placeList.indexOf(placeList.find(value => value.includes('other: ')));
+        index !== -1
+            ? (updatedPlaceList[index] = 'other: ' + placeOtherDesc)
+            : updatedPlaceList.push('other: ' + placeOtherDesc);
+        setPlaceList(updatedPlaceList);
+    }, [placeOtherDesc]);
+
+    useEffect(() => {
+        if (!isPlaceOtherCheckboxChecked) {
+            let reducedPlaceList = [...placeList];
+            const index = placeList.indexOf(placeList.find(value => value.includes('other: ')));
+            reducedPlaceList.splice(index, 1);
+            setPlaceList(reducedPlaceList);
+        }
+    }, [isPlaceOtherCheckboxChecked]);
+
+    /*** Use Effects for Custom Education Requirement ***/
+
+    useEffect(() => {
+        let updatedEducationList = [...educationList];
+        const index = educationList.indexOf(educationList.find(value => value.includes('other: ')));
+        index !== -1
+            ? (updatedEducationList[index] = 'other: ' + educationOtherDesc)
+            : updatedEducationList.push('other: ' + educationOtherDesc);
+        setEducationList(updatedEducationList);
+    }, [educationOtherDesc]);
+
+    useEffect(() => {
+        if (!isEducationOtherCheckboxChecked) {
+            let reducedEducationList = [...educationList];
+            const index = educationList.indexOf(
+                educationList.find(value => value.includes('other: '))
+            );
+            reducedEducationList.splice(index, 1);
+            setEducationList(reducedEducationList);
+        }
+    }, [isEducationOtherCheckboxChecked]);
+
+    /*** Use Effects for Custom Marital Requirement ***/
+
+    useEffect(() => {
+        let updatedMaritalList = [...maritalList];
+        const index = maritalList.indexOf(maritalList.find(value => value.includes('other: ')));
+        index !== -1
+            ? (updatedMaritalList[index] = 'other: ' + maritalOtherDesc)
+            : updatedMaritalList.push('other: ' + maritalOtherDesc);
+        setMaritalList(updatedMaritalList);
+    }, [maritalOtherDesc]);
+
+    useEffect(() => {
+        if (!isMaritalOtherCheckboxChecked) {
+            let reducedMaritalList = [...maritalList];
+            const index = maritalList.indexOf(maritalList.find(value => value.includes('other: ')));
+            reducedMaritalList.splice(index, 1);
+            setMaritalList(reducedMaritalList);
+        }
+    }, [isMaritalOtherCheckboxChecked]);
+
+    /*** Send Data to CRForm Component ***/
+
     useEffect(() => {
         sendList(requirementList.filter(value => value !== false));
     }, [genderList, ageList, placeList, educationList, maritalList, otherRequirementList]);
+
+    const renderAgeIntervalComponents = () => {
+        return ageList.length > 0 ? (
+            ageList.map((data, index) => (
+                <AgeInterval
+                    key={ageKeyArray[index] ? ageKeyArray[index] : generateKey()}
+                    index={index}
+                    data={data}
+                    handleUpdate={updateAgeInterval}
+                    handleDelete={deleteAgeInterval}
+                />
+            ))
+        ) : (
+            <div className="requirementDesc">
+                Twoje badanie nie posiada żadnych przedziałów określających wiek badanych
+            </div>
+        );
+    };
+
+    const updateAgeInterval = (index, ageInterval) => {
+        let updatedAgeList = [...ageList];
+        updatedAgeList[index] = ageInterval;
+        setAgeList(updatedAgeList);
+    };
+
+    const deleteAgeInterval = index => {
+        let updatedAgeList = [...ageList];
+        updatedAgeList.splice(index, 1);
+        setAgeList(updatedAgeList);
+        setAgeSectionReload(!ageSectionReload);
+    };
 
     const renderCustomComponents = () => {
         return otherRequirementList.length > 0 ? (
@@ -62,7 +164,7 @@ function CreateResearchFormRequirement({ sendList }) {
                 />
             ))
         ) : (
-            <div className="noRewardDesc">
+            <div className="requirementDesc">
                 Twoje badanie nie posiada żadnych dodatkowych kryteriów udziału
             </div>
         );
@@ -96,12 +198,9 @@ function CreateResearchFormRequirement({ sendList }) {
         }
     };
 
-    const handleAgeMinInputChange = event => {
-        setAgeMin(event.target.value);
-    };
-
-    const handleAgeMaxInputChange = event => {
-        setAgeMax(event.target.value);
+    const handleAddAgeIntervalButtonClick = () => {
+        setAgeList([...ageList, { ageMin: null, ageMax: null }]);
+        setAgeSectionReload(!ageSectionReload);
     };
 
     const handlePlaceListChange = event => {
@@ -144,7 +243,7 @@ function CreateResearchFormRequirement({ sendList }) {
     };
 
     const handleAddOtherCriterionButtonClick = () => {
-        setOtherRequirementList([...otherRequirementList, { type: '', criteria: '' }]);
+        setOtherRequirementList([...otherRequirementList, { type: '', description: '' }]);
         setRequirementSectionReload(!requirementSectionReload);
     };
 
@@ -156,10 +255,7 @@ function CreateResearchFormRequirement({ sendList }) {
 
         isAgeCheckboxChecked && {
             type: 'age',
-            criteria: {
-                ageMin: isAgeMinCheckboxChecked ? Number(ageMin) : null,
-                ageMax: isAgeMaxCheckboxChecked ? Number(ageMax) : null,
-            },
+            criteria: ageList,
         },
 
         isPlaceCheckboxChecked && {
@@ -179,7 +275,7 @@ function CreateResearchFormRequirement({ sendList }) {
 
         isOtherCheckboxChecked && {
             type: 'other',
-            requirementList: otherRequirementList,
+            criteria: otherRequirementList,
         },
     ];
 
@@ -187,18 +283,12 @@ function CreateResearchFormRequirement({ sendList }) {
 
     /*
     TODO:
-     * How to store 'other' data from checkboxes?
+     * How to store 'other' data from checkboxes? (one-step delay!)
      * Storing more than one age interval + validation!
      * Footer (Component)
     */
     const handlePlaceOtherDescChange = event => {
         setPlaceOtherDesc(event.target.value);
-        let updatedPlaceList = [...placeList];
-        const index = placeList.indexOf(placeList.find(value => value.includes('other:')));
-        index !== -1
-            ? (updatedPlaceList[index] = 'other: ' + placeOtherDesc)
-            : updatedPlaceList.push('other: ' + placeOtherDesc);
-        setPlaceList(updatedPlaceList);
     };
 
     const handleEducationOtherDescChange = event => {
@@ -235,14 +325,6 @@ function CreateResearchFormRequirement({ sendList }) {
         setIsOtherCheckboxChecked(!isOtherCheckboxChecked);
     };
 
-    const handleAgeMinCheckboxClick = () => {
-        setIsAgeMinCheckboxChecked(!isAgeMinCheckboxChecked);
-    };
-
-    const handleAgeMaxCheckboxClick = () => {
-        setIsAgeMaxCheckboxChecked(!isAgeMaxCheckboxChecked);
-    };
-
     const handlePlaceOtherCheckboxClick = () => {
         setIsPlaceOtherCheckboxChecked(!isPlaceOtherCheckboxChecked);
     };
@@ -257,7 +339,7 @@ function CreateResearchFormRequirement({ sendList }) {
 
     return (
         <>
-            <div className="requirementsRow">
+            <div className="requirementRow">
                 <div className="checkboxElement">
                     <input
                         className="checkbox"
@@ -345,7 +427,7 @@ function CreateResearchFormRequirement({ sendList }) {
 
             {isGenderCheckboxChecked && (
                 <div className="requirementContainer">
-                    <label className="requirementTitle">Płeć</label>
+                    <label className="formLabel">Płeć</label>
                     <div className="checkboxContainer">
                         <div className="checkboxColumn">
                             <div className="checkboxElement">
@@ -413,63 +495,18 @@ function CreateResearchFormRequirement({ sendList }) {
             {isAgeCheckboxChecked && (
                 <div className="requirementContainer">
                     <label className="requirementTitle">Wiek</label>
-                    <div className="checkboxContainer">
-                        <div className="checkboxAge">
-                            <div className="checkboxElement">
-                                <input
-                                    className="checkbox"
-                                    type="checkbox"
-                                    id="age-min"
-                                    name="age-min"
-                                    defaultChecked
-                                    onChange={handleAgeMinCheckboxClick}
-                                />
-                                <label htmlFor="age-min" className="checkboxLabel">
-                                    ustaw limit dolny
-                                </label>
-                            </div>
-                            <input
-                                className={
-                                    isAgeMinCheckboxChecked
-                                        ? 'formInputRegular'
-                                        : 'formInputRegular inputDisabled'
-                                }
-                                type="number"
-                                min="1"
-                                max="130"
-                                name="age-min-value"
-                                placeholder="Wpisz wiek..."
-                                onChange={handleAgeMinInputChange}
-                            />
-                        </div>
 
-                        <div className="checkboxAge">
-                            <div className="checkboxElement">
-                                <input
-                                    className="checkbox"
-                                    type="checkbox"
-                                    id="age-max"
-                                    name="age-max"
-                                    defaultChecked
-                                    onChange={handleAgeMaxCheckboxClick}
-                                />
-                                <label htmlFor="age-max" className="checkboxLabel">
-                                    ustaw limit górny
-                                </label>
-                            </div>
-                            <input
-                                className={
-                                    isAgeMaxCheckboxChecked
-                                        ? 'formInputRegular'
-                                        : 'formInputRegular inputDisabled'
-                                }
-                                type="number"
-                                min="1"
-                                max="130"
-                                name="age-max-value"
-                                placeholder="Wpisz wiek..."
-                                onChange={handleAgeMaxInputChange}
-                            />
+                    {renderAgeIntervalComponents()}
+
+                    <div className="formColumnButton">
+                        <div className="addButton">
+                            <FontAwesomeIcon icon={faPlus} />
+                            <span
+                                onClick={handleAddAgeIntervalButtonClick}
+                                className="addButtonDesc"
+                            >
+                                Dodaj przedział
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -750,7 +787,7 @@ function CreateResearchFormRequirement({ sendList }) {
                                     onChange={handleMaritalListChange}
                                 />
                                 <label htmlFor="marital-inRelationship" className="checkboxLabel">
-                                    w związku partnerskim
+                                    w związku
                                 </label>
                             </div>
 
@@ -758,12 +795,12 @@ function CreateResearchFormRequirement({ sendList }) {
                                 <input
                                     className="checkbox"
                                     type="checkbox"
-                                    id="marital-marriage"
+                                    id="marital-married"
                                     name="marital"
-                                    value="marriage"
+                                    value="married"
                                     onChange={handleMaritalListChange}
                                 />
-                                <label htmlFor="marital-marriage" className="checkboxLabel">
+                                <label htmlFor="marital-married" className="checkboxLabel">
                                     w związku małżeńskim
                                 </label>
                             </div>
@@ -817,11 +854,11 @@ function CreateResearchFormRequirement({ sendList }) {
                     {renderCustomComponents()}
 
                     <div className="formColumnButton">
-                        <div className="addRewardReqButton">
+                        <div className="addButton">
                             <FontAwesomeIcon icon={faPlus} />
                             <span
                                 onClick={handleAddOtherCriterionButtonClick}
-                                className="addRewardReqButtonDesc"
+                                className="addButtonDesc"
                             >
                                 Dodaj kryterium
                             </span>

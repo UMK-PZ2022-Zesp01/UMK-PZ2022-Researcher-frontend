@@ -5,7 +5,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 
 function CustomRequirement({ index, data, handleUpdate, handleDelete }) {
-    const { type, criteria } = data;
+    const { type, description } = data;
 
     return (
         <div className="formRow">
@@ -19,7 +19,7 @@ function CustomRequirement({ index, data, handleUpdate, handleDelete }) {
                 onChange={event =>
                     handleUpdate(index, {
                         type: event.target.value,
-                        criteria: criteria,
+                        description: description,
                     })
                 }
             />
@@ -30,18 +30,18 @@ function CustomRequirement({ index, data, handleUpdate, handleDelete }) {
                 type="text"
                 name="other-req-desc"
                 placeholder="Wpisz kryterium..."
-                defaultValue={criteria}
+                defaultValue={description}
                 onChange={event =>
                     handleUpdate(index, {
                         type: type,
-                        criteria: event.target.value,
+                        description: event.target.value,
                     })
                 }
             />
 
             <div
                 onClick={() => handleDelete(index)}
-                className="removeRewardButton"
+                className="removeRequirementButton"
                 title="Usuń kryterium"
             >
                 <FontAwesomeIcon icon={faTrash} className="trashIcon" />
@@ -51,7 +51,7 @@ function CustomRequirement({ index, data, handleUpdate, handleDelete }) {
 }
 
 CustomRequirement.defaultProps = {
-    data: { type: '', criteria: '' },
+    data: { type: '', description: '' },
 };
 
 export { CustomRequirement };

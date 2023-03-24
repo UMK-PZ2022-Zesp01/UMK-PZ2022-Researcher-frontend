@@ -7,7 +7,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
     const { type, value } = data;
 
     return (
-        <div className="rewardRow">
+        <div className="rewardContainer">
             <select
                 required
                 className="formInputRegular"
@@ -19,7 +19,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
                     Wybierz typ nagrody...
                 </option>
                 <option value="cash">pieniężna</option>
-                <option value="item">nagroda rzeczowa</option>
+                <option value="item">upominek</option>
                 <option value="other">inna</option>
             </select>
 
@@ -32,11 +32,11 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
                     step="0.01"
                     name="reward-value"
                     placeholder="Kwota w zł"
-                    defaultValue={value}
+                    defaultValue={Number(value) / 100}
                     onChange={event =>
                         handleUpdate(index, {
                             type: type,
-                            value: event.target.value,
+                            value: Math.round((Number(event.target.value) + Number.EPSILON) * 100),
                         })
                     }
                 />
@@ -48,7 +48,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
                     className="formInputRegular"
                     type="text"
                     name="reward-value"
-                    placeholder="Nazwa przedmiotu / upominku"
+                    placeholder="Podaj nazwę..."
                     defaultValue={value}
                     onChange={event =>
                         handleUpdate(index, {
@@ -65,7 +65,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
                     className="formInputRegular"
                     type="text"
                     name="reward-value"
-                    placeholder="Nazwa nagrody"
+                    placeholder="Podaj nazwę..."
                     defaultValue={value}
                     onChange={event =>
                         handleUpdate(index, {
