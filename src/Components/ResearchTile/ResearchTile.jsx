@@ -6,20 +6,38 @@ export default function ResearchTile({ tileData, postData }) {
 
   const { tileNumber, previewed, setPreviewed } = tileData;
   const {
-    researchImage,
-    locationForm,
-    address,
+    poster,
     title,
+    author,
+    description,
+
+    location,
+
     begDate,
     endDate,
-    author,
+
     highlight,
-    description,
+
     requirements,
     rewards,
   } = postData;
 
   const isPreviewed = previewed === tileNumber;
+
+  const translate = {
+    author: 'Autor',
+    poster: 'Poster',
+    title: 'Tytuł badania',
+    description: 'Opis badania',
+
+    gender: 'Płeć',
+    place: 'Miejsce zamieszkania',
+    education: 'Wykształcenie',
+    marital: 'Stan cywilny',
+
+    cash: 'Pieniądze',
+    item: 'Upominek',
+  };
 
   const handleTileClicked = () => {
     if (isPreviewed) {
@@ -32,10 +50,10 @@ export default function ResearchTile({ tileData, postData }) {
   const renderInfo = (array = []) => {
     return [...array].map(item => (
       <>
-        <b key={`${item?.type} ${item?.value}`} className={styles.bold}>
-          {`${item?.type}: `}
-        </b>
-        {item?.value} {item?.type === 'Piniendze' ? 'zł' : ''}
+        <span key={`${item.type} ${item.value}`} className={styles.bold}>
+          {`${translate[item.type.toLowerCase()]}: `}
+        </span>
+        {item.value} {item.type.toLowerCase() === 'cash' ? 'zł' : ''}
         <br />
       </>
     ));
@@ -48,11 +66,7 @@ export default function ResearchTile({ tileData, postData }) {
         className={`${isPreviewed ? styles.previewed : ''} ${styles.researchTile} `}
         onClick={handleTileClicked}
       >
-        <img
-          className={styles.poster}
-          alt={'poster'}
-          src={`data:image/jpeg;base64,${researchImage}`}
-        />
+        <img className={styles.poster} alt={'poster'} src={`data:image/jpeg;base64,${poster}`} />
         <div className={styles.tileOverlay}>
           <p className={styles.tileOverlayTitle}>{title}</p>
           <p className={styles.tileOverlayAuthor}>{author}</p>
@@ -78,9 +92,9 @@ export default function ResearchTile({ tileData, postData }) {
             <div className={styles.infoBox}>
               <div className={styles.h4}>Dostęp</div>
               <b className={styles.bold}>Forma: </b>{' '}
-              {locationForm === 'Remote' ? 'zdalnie' : 'na miejscu'}
+              {location.form.toLowerCase() === 'remote' ? 'zdalnie' : 'na miejscu'}
               <br />
-              <b className={styles.bold}>Adres: </b> {address}
+              <b className={styles.bold}>Adres: </b> {location.address}
             </div>
             <div className={styles.infoBox}>
               <div className={styles.h4}>Wymagania</div>
@@ -114,19 +128,22 @@ ResearchTile.defaultProps = {
   },
 
   postData: {
-    researchImage: '',
-    locationForm: '',
-    address: '',
-
+    poster: '',
     title: '',
+    description: '',
+    author: '',
+
     begDate: '',
     endDate: '',
 
-    author: '',
-    highlight: '',
+    location: {
+      form: '',
+      address: '',
+    },
 
-    description: '',
-    requirements: [],
     rewards: [],
+    requirements: [],
+
+    highlight: '',
   },
 };
