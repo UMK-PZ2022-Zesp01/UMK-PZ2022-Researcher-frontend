@@ -370,9 +370,11 @@ export default function UserPage(props) {
                                     Zgłoś błąd
                                 </div>
                             </div>
+
                             {/*<div className="latestResearch">*/}
                             {/*    <LatestResearchCard></LatestResearchCard>*/}
                             {/*</div>*/}
+
                         </div>
                         {/*<div className="researches">*/}
                         {/*    <UserResearchCard></UserResearchCard>*/}
