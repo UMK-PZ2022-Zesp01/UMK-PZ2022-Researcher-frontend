@@ -1,0 +1,324 @@
+.researchForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.title {
+    width: 100%;
+    display: flex;
+    color: #512C8C;
+    margin-bottom: 20px;
+}
+
+.formRowTop {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.formRowTop .formLabel {
+    font-weight: bold;
+    color: #512C8C;
+}
+
+.posterContainer {
+    position: relative;
+    width: 25%;
+    aspect-ratio: 1 / 1.414;
+    border-radius: 5px;
+    background-color: #D6CEF3;
+    border: 2px solid #C6B1E7;
+    transition: .3s;
+}
+
+.posterContainer:hover {
+    background-color: #D7C2F8;
+    border: 2px solid #512C8C;
+}
+
+.posterImg {
+    aspect-ratio: 1 / 1.414;
+    width: 100%;
+    margin: 0;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.posterIcon {
+    display: block;
+    position: relative;
+    font-size: 20px;
+    color: #512C8C;
+}
+
+.posterOverlay {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    color: #512C8C;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.posterOverlay .overlayItem {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.posterOverlay .posterIcon {
+    font-size: 48px;
+}
+
+.posterOverlay .posterDesc {
+    font-size: 20px;
+}
+
+.posterOverlayWithFile {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    color: #512C8C;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.posterOverlayWithFile .overlayItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: rgba(214, 206, 243, 0.75);
+    padding: 10px;
+    transition: background-color .3s;
+}
+
+.posterOverlayWithFile .overlayItem:hover {
+    background-color: #D7C2F8;
+}
+
+.posterDesc {
+    display: block;
+    position: relative;
+    font-size: 16px;
+    font-weight: bold;
+    color: #512C8C;
+}
+
+.formRowTopRight {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formInputRegular {
+    width: 100%;
+    height: 42px;
+    padding: 10px;
+    background-color: #D6CEF3;
+    outline: none;
+    border: 2px solid #C6B1E7;
+    border-radius: 5px;
+    font-family: sans-serif;
+    transition: .3s;
+}
+
+.formInputRegular:focus {
+    border: 2px solid #512C8C;
+    background-color: #D7C2F8;
+}
+
+.formInputLarge {
+    height: 100%;
+    padding: 10px;
+    background-color: #D6CEF3;
+    outline: none;
+    border: 2px solid #C6B1E7;
+    border-radius: 5px;
+    font-family: sans-serif;
+    resize: none;
+    transition: .3s;
+}
+
+.formInputLarge:focus {
+    border: 2px solid #512C8C;
+    background-color: #D7C2F8;
+}
+
+.formRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.formRow .formLabel {
+    font-weight: bold;
+    color: #512C8C;
+}
+
+.rowContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.formLabel {
+    width: 100%;
+    font-weight: bold;
+    color: #512C8C;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.formColumn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.formColumnButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0 auto;
+}
+
+.inputWithLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 50%;
+    gap: 10px;
+}
+
+.inputWithLabel label {
+    font-weight: bold;
+    color: #512C8C;
+}
+
+.map {
+    width: 100%;
+    height: 400px;
+    background-color: #C6B1E7;
+    border-radius: 5px;
+}
+
+.addButton {
+    padding: 10px;
+    background-color: #D6CEF3;
+    outline: none;
+    border: 2px solid #C6B1E7;
+    border-radius: 5px;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    color: #512C8C;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.addButton:hover {
+    background-color: #D7C2F8;
+    border: 2px solid #512C8C;
+}
+
+.addButtonDesc {
+    margin-left: 5px;
+}
+
+.plusSign {
+    font-size: 20px;
+}
+
+.requirementDesc {
+    color: #512C8C;
+    margin-bottom: 10px;
+}
+
+.formButton {
+    width: 100%;
+    background-color: #512C8C;
+    color: #FFF;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    border: 2px solid #512C8C;
+    transition: .3s;
+}
+
+.formButton:hover {
+    background-color: #6D3B9E;
+    border: 2px solid #6D3B9E;
+}
+
+.margin {
+    margin-top: 25px;
+}
+
+@media (max-width: 700px) {
+    .title {
+        font-size: 1em;
+        justify-content: center;
+    }
+
+    .formRow {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .inputWithLabel {
+        width: 100%;
+    }
+
+    .rowContainer {
+        gap: 5px;
+    }
+
+    .formRowTop {
+        flex-direction: column;
+    }
+
+    .posterImg {
+        aspect-ratio: 1 / 1;
+    }
+
+    .posterContainer {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+    }
+
+    .formRowTopRight {
+        width: 100%;
+    }
+
+    .formInputLarge {
+        height: 15em;
+    }
+}

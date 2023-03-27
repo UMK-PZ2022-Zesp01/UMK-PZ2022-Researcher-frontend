@@ -2,17 +2,15 @@ import './App.css';
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-
 import MainPage from './Components/MainPage/MainPage';
 import LoginRegisterPage from './Components/LoginRegisterPage/LoginRegisterPage';
 import RequireAuth from './Common/RequireAuth';
 import PersistLogin from './Common/PersistLogin';
 import Layout from './Common/Layout';
-import RegisteredSuccessfullyPage from './Components/RegisteredSuccessfulyPage/RegisteredSuccessfullyPage';
-import ConfirmEmailPage from './Components/ConfirmEmailPage/ConfirmEmailPage';
+import RegisteredSuccessfullyPage from "./Components/RegisteredSuccessfulyPage/RegisteredSuccessfullyPage";
+import ConfirmEmailPage from "./Components/ConfirmEmailPage/ConfirmEmailPage";
 import UserPage from './Components/UserPage/UserPage';
-import CreateResearchPageStyle from './Components/CreateResearchPage/CreateResearchPageStyle';
-import CreateResearchPage from './Components/CreateResearchPage/CreateResearchPage';
+import { CreateResearchPage } from './Components/CreateResearchPage/CreateResearchPage';
 
 function App() {
     return (

@@ -13,14 +13,14 @@ export default function LoginRegisterPage() {
   const [alert, setAlert] = React.useState({
     alertOpen: false,
     alertType: 0,
-    alertText: '',
+    alertText: ""
   });
 
   const closeAlert = () =>
     setAlert({
       alertOpen: false,
       alertType: alert.alertType,
-      alertText: alert.alertText,
+      alertText: alert.alertText
     });
 
   function showAlert() {
