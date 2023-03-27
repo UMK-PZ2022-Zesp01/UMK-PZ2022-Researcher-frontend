@@ -184,6 +184,10 @@ function CreateResearchForm() {
 
     const handleFormReset = () => {
         resetPosterInput();
+        setResearchForm('');
+        setResearchPlace('');
+        setRewardList([{ type: '', value: null }]);
+        setRequirementList([]);
     };
 
     const handleFormSubmit = event => {
@@ -246,22 +250,22 @@ function CreateResearchForm() {
 
                     <div className="formRowTopRight">
                         <input
+                            required
                             className="formInputRegular"
                             onChange={handleTitleChange}
                             type="text"
                             id="title"
                             name="title"
                             placeholder="Tytuł badania"
-                            required
                         />
                         <textarea
+                            required
                             className="formInputLarge"
                             onChange={handleDescriptionChange}
                             id="desc"
                             name="desc"
                             maxLength="1500"
                             placeholder="Opis badania"
-                            required
                         />
                     </div>
                 </div>
@@ -272,12 +276,12 @@ function CreateResearchForm() {
                             Data rozpoczęcia badania
                         </label>
                         <input
+                            required
                             className="formInputRegular"
                             onChange={handleBegDateChange}
                             type="date"
                             id="date-begin"
                             name="date-begin"
-                            required
                         />
                     </div>
 
@@ -286,12 +290,12 @@ function CreateResearchForm() {
                             Data zakończenia badania
                         </label>
                         <input
+                            required
                             className="formInputRegular"
                             onChange={handleEndDateChange}
                             type="date"
                             id="date-end"
                             name="date-end"
-                            required
                         />
                     </div>
 
@@ -300,6 +304,7 @@ function CreateResearchForm() {
                             Liczba uczestników
                         </label>
                         <input
+                            required
                             className="formInputRegular"
                             onChange={handleParticipantLimitChange}
                             type="number"
@@ -307,7 +312,6 @@ function CreateResearchForm() {
                             placeholder="1"
                             id="participant-limit"
                             name="participant-limit"
-                            required
                         />
                     </div>
                 </div>
@@ -316,12 +320,12 @@ function CreateResearchForm() {
                     <label className="formLabel">Miejsce przeprowadzania badania</label>
                     <div className="formRow">
                         <select
+                            required
                             onChange={handleResearchFormSelect}
                             className="formInputRegular"
                             name="form"
                             id="form-select"
                             defaultValue={''}
-                            required
                         >
                             <option value="" disabled>
                                 Wybierz formę...
@@ -331,13 +335,13 @@ function CreateResearchForm() {
                         </select>
                         {researchForm === 'remote' && (
                             <input
+                                required
                                 className="formInputRegular"
                                 onChange={handleResearchPlaceChange}
                                 type="text"
                                 id="remote-link"
                                 name="remote-link"
                                 placeholder="Link do zdalnego badania"
-                                required
                             />
                         )}
                     </div>

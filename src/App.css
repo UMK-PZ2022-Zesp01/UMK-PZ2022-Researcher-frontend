@@ -1,15 +1,14 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
-.App::after{
-  z-index: -1000;
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(135deg, rgba(148,205,233,1) 0%, rgba(92,19,116,1) 100%);
+.App::after {
+    z-index: -1000;
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(148, 205, 233, 1) 0%, rgba(92, 19, 116, 1) 100%);
 }
-

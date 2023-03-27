@@ -9,8 +9,8 @@
 .activeBookmarkItem {
     display: flex;
     align-items: center;
-    background-color: #F4F0FA;
-    color: #512C8C;
+    background-color: #f4f0fa;
+    color: #512c8c;
     padding: 20px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -28,29 +28,36 @@
 
 .activeIconDesc {
     margin-left: 10px;
-    color: #512C8C;
+    color: #512c8c;
     font-weight: bold;
 }
 
 .loggedUserBookmarkItem {
     display: flex;
     align-items: center;
-    background-color: #D6CEF3;
-    color: #512C8C;
-    padding: 20px;
+    background-color: #debdef;
+    color: #512c8c;
+    padding: 5px 20px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     text-decoration: none;
-    transition: background-color .5s;
+    transition: background-color 0.3s;
 }
 
 .loggedUserBookmarkItem:hover {
-    background-color: #F4F0FA;
+    background-color: #f4f0fa;
 }
 
 .loggedUserBookmarkDesc {
-    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     margin-left: 10px;
+    gap: 0;
+}
+
+.loggedUserBookmarkData {
+    font-weight: bold;
     text-wrap: avoid;
 }
 
@@ -60,18 +67,18 @@
     align-items: center;
     max-width: 60px;
     height: 64px;
-    background-color: #512C8C;
-    color: #FFF;
+    background-color: #512c8c;
+    color: #fff;
     text-decoration: none;
     cursor: pointer;
     padding: 20px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    transition: max-width .5s;
+    transition: 0.5s;
 }
 
 .bookmarkItem:hover {
-    background-color: #6D3B9E;
+    background-color: #6d3b9e;
     max-width: 185px;
 }
 
@@ -86,8 +93,8 @@
     pointer-events: none;
     opacity: 0;
     position: relative;
-    transition: .25s linear;
-    transition-delay: .5s;
+    transition: 0.25s linear;
+    transition-delay: 0.4s;
     text-wrap: avoid;
 }
 
@@ -99,9 +106,169 @@
     transition: none;
 }
 
+.bookmarksMobileViewBackground {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(0px);
+    z-index: 99;
+    transition: backdrop-filter 0.3s;
+}
+
+.bookmarksMobileViewBackgroundVisible {
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    z-index: 99;
+    transition: backdrop-filter 0.3s;
+}
+
+.bookmarksContainerMobileView {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: -70%;
+    height: 100%;
+    width: 70%;
+    color: #f4f0fa;
+    background-color: #512c8c;
+    border-left: 4px solid #ca97e6;
+    z-index: 100;
+    transition: 0.3s;
+}
+
+.bookmarksContainerMobileViewVisible {
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 70%;
+    color: #f4f0fa;
+    background-color: #512c8c;
+    border-left: 4px solid #ca97e6;
+    z-index: 100;
+    transition: 0.3s;
+}
+
+.bookmarkTopRow {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.closeButton {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.bookmarkItemMobileView {
+    display: none;
+}
+
+.logoContainer {
+    width: 100%;
+}
+
+.bookmarkLogo {
+    width: 10em;
+}
+
+.currentPageText {
+    font-weight: bold;
+    font-size: 1.25em;
+}
+
+.bookmarkMiddleRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+
+.userAvatar {
+    width: 5em;
+    height: 100%;
+    border-radius: 2.5em;
+    border: 3px solid #ca97e6;
+    padding: 3px;
+    margin-bottom: 0.5em;
+}
+
+.name {
+    color: #ca97e6;
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.userDescription {
+    color: #f4f0fa;
+    font-size: 0.9em;
+    margin-top: 0.25em;
+}
+
+.bookmarkBottomRow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+    margin-bottom: 4em;
+}
+
+.bookmarkButtonMobile {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.3em;
+    color: #512c8c;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #d6cef3;
+    padding: 0.5em;
+    border-radius: 0.3em;
+    transition: background-color 0.3s;
+}
+
+.bookmarkButtonMobile:hover {
+    background-color: #ca97e6;
+}
+
+.bookmarkButtonMobileText {
+    width: 100%;
+}
+
 @media (max-width: 1000px) {
-    .bookmarks {
+    .bookmarkItemNormalView {
         display: none;
         visibility: hidden;
+    }
+
+    .bookmarkItemMobileView {
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .bookmarksMobileViewBackground {
+        display: none;
+    }
+
+    .bookmarksContainerMobileView {
+        padding: 1.5em;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 }
