@@ -1,30 +1,27 @@
 import './UserPage.css';
 import dude from '../../img/dude.png';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
 import getApiUrl from '../../Common/Api.js';
-import {MdLocationOn, MdPhone} from 'react-icons/md';
-import {GiFemale, GiMale} from 'react-icons/gi';
-import {HiOutlineMail, HiOutlineDocumentText} from 'react-icons/hi';
-import {BsCameraFill} from 'react-icons/bs';
-import {GrClose} from 'react-icons/gr';
-import {Helmet} from 'react-helmet';
-import {Gmap} from './Map';
+import { MdLocationOn, MdPhone } from 'react-icons/md';
+import { GiFemale, GiMale } from 'react-icons/gi';
+import { HiOutlineMail, HiOutlineDocumentText } from 'react-icons/hi';
+import { BsCameraFill } from 'react-icons/bs';
+import { GrClose } from 'react-icons/gr';
+import { Helmet } from 'react-helmet';
+import { Gmap } from './Map';
 import ReportForm from '../Form/ReportForm';
 import LatestResearchCard from '../Researches/LatestResearchCard';
-import {GoFlame} from 'react-icons/go';
-import {faFileCirclePlus} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { GoFlame } from 'react-icons/go';
+import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function UserPage(props) {
-    /*DAWIDOWE*/
-
-
     /*user data*/
     const [userData, setUserData] = useState({});
 
     /*access token*/
-    const {username, accessToken} = useAuth().auth;
+    const { username, accessToken } = useAuth().auth;
 
     /*edit button value*/
     const [clickedEdit, setIsClickedEdit] = useState(false);
@@ -46,12 +43,6 @@ export default function UserPage(props) {
 
     /*report popup*/
     const [openPopup, setOpenPopup] = useState(false);
-
-    // /*image*/
-    // const PHOTO_UPLOAD_URL = getApiUrl() + 'image/upload';
-    // const [image, setImage] = useState(null)
-    // const [imageJson,setImageJson]=useState({image:null})
-    // const [recivedImage,setRecivedImage]=useState()
 
     /*dynamic change of displayed data*/
     const [phoneState, setPhoneState] = useState(userData.phone);
@@ -92,8 +83,6 @@ export default function UserPage(props) {
         if (emailInput.length !== 0) {
             isEmailRegexValid = emailRegex.test(String(emailInput));
         }
-        isPhoneRegexValid?console.log("phone ok"):console.log("phone wrong")
-        isEmailRegexValid?console.log("email ok"):console.log("email wrong")
         console.log(isEmailRegexValid && isPhoneRegexValid);
         return isEmailRegexValid && isPhoneRegexValid;
     };
@@ -106,19 +95,22 @@ export default function UserPage(props) {
     };
 
     const saveButtonCheck = () => {
-        if(validateInputs()){
-            if(phoneInput.length>0)
-                setPhoneState(phoneInput)
-            if(emailInput.length>0)
-                setEmailState(emailInput)
-            SendToDatabase()
+        if (validateInputs()) {
+            dataReload();
+            setIsClickedEdit(!clickedEdit);
+            setIsClickedEmail(false);
+            setIsClickedLocation(false);
+            setIsClickedPhone(false);
+            console.log('wszystko ok');
+        } else {
+            console.log('ups cos sie zjebalo');
         }
     };
 
     let putTemplate = {
         phone: phoneInput,
         email: emailInput,
-        location:locationInput,
+        //location:locationInput,
     };
 
     useEffect(() => {
@@ -143,7 +135,7 @@ export default function UserPage(props) {
 
     const requestOptions = {
         method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(putTemplate),
     };
 
@@ -153,7 +145,7 @@ export default function UserPage(props) {
 
     /* WDROZYC VALIDATEINPUTS*/
     async function SendToDatabase() {
-        if (phoneInput === '' && emailInput === ''&& locationInput === '') {
+        if (phoneInput === '' && emailInput === '') {
             console.log('brak danych');
             return;
         }
@@ -164,9 +156,6 @@ export default function UserPage(props) {
         }
         console.log('JAZDA Z BZSTYLER NO I W PYTĘ');
     }
-    //const avatarid="FY5oFd";
-
-   // console.log(recivedImage)
 
     return (
         <div className="MainContainer">
@@ -176,28 +165,17 @@ export default function UserPage(props) {
             <ReportForm open={openPopup} onClose={() => setOpenPopup(false)}></ReportForm>
             <div className="Container">
                 <div className={isClickedLocation ? 'mapBoxVisible' : 'mapBoxHide'}>
-                    <Gmap exit={exit} setLocationState={setLocationState}/>
+                    <Gmap exit={exit} setLocationState={setLocationState} />
                 </div>
                 <div className="UserBox">
                     <div className="leftContainer">
                         <div className="infoWithoutEdit">
-                            {/*<input type="file" accept="image/png, image/jpeg" onChange={event => setImage(event.target.files[0])}/>*/}
-                            {/*<button onClick={async () => {*/}
-                            {/*    const formData = new FormData();*/}
-                            {/*    formData.append('image', image);*/}
-                            {/*    formData.append('type', 'user-avatar');*/}
-                            {/*    await fetch(PHOTO_UPLOAD_URL, {*/}
-                            {/*        method: 'POST',*/}
-                            {/*        body: formData,*/}
-                            {/*    });*/}
-                            {/*}}>wyślij*/}
-                            {/*</button>*/}
                             <div className="mainInfo">
-                                <div className="avatarBox">
+                                <div className="x">
                                     <img src={dude} className="avatar" alt="avatar"></img>
                                     <div className="editProfilePicture">
                                         <div className="editProfileIcon">
-                                            <BsCameraFill/>
+                                            <BsCameraFill />
                                         </div>
                                     </div>
                                 </div>
@@ -209,25 +187,25 @@ export default function UserPage(props) {
 
                             <div className="profileDescription">
                                 <div className="desc">
-                                    <MdLocationOn className="icon"/>
+                                    <MdLocationOn className="icon" />
                                     {locationState}
                                 </div>
                                 <div className="desc">
-                                    <HiOutlineMail className="icon"/>
+                                    <HiOutlineMail className="icon" />
                                     {emailState}
                                 </div>
                                 <div className="desc">
-                                    <MdPhone className="icon"/>
+                                    <MdPhone className="icon" />
                                     {phoneState}
                                 </div>
                                 {userData.gender === 'male' ? (
                                     <div className="desc">
-                                        <GiMale className="icon"/>
+                                        <GiMale className="icon" />
                                         Mężczyzna
                                     </div>
                                 ) : (
                                     <div className="desc">
-                                        <GiFemale className="icon"/>
+                                        <GiFemale className="icon" />
                                         Kobieta
                                     </div>
                                 )}
@@ -259,7 +237,7 @@ export default function UserPage(props) {
                                         setIsClickedPhone(false);
                                     }}
                                 >
-                                    <GrClose/>
+                                    <GrClose />
                                 </button>
                                 <div className="editField">
                                     <div
@@ -361,15 +339,16 @@ export default function UserPage(props) {
                         <div className={clickedEdit ? 'rightHide' : 'right'}>
                             <div className="activityBox">
                                 <a className="singleActivity" href={'./research/create'}>
-                                    <FontAwesomeIcon icon={faFileCirclePlus}/>
+                                    <FontAwesomeIcon icon={faFileCirclePlus} />
                                     Dodaj nowe badanie
                                 </a>
                                 <div className="singleActivity">
-                                    <HiOutlineDocumentText className="additionIcon"/>
+                                    <HiOutlineDocumentText className="additionIcon" />
                                     Zobacz swoje badania
                                 </div>
                                 <div className="singleActivity" onClick={() => setOpenPopup(true)}>
-                                    <GoFlame/>
+                                    {' '}
+                                    <GoFlame />
                                     Zgłoś błąd
                                 </div>
                             </div>
