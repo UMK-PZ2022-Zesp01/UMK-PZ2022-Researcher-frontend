@@ -1,10 +1,11 @@
-import React from "react";
-import LoginRegisterPageStyle from "./LoginRegisterPageStyle";
-import BannerWhite from "../Banner/BannerWhite";
-import LoginForm from "../Form/LoginForm";
-import RegisterForm from "../Form/RegisterForm";
-import { Alert, Collapse } from "@mui/material";
-import { Helmet } from "react-helmet";
+import React from 'react';
+import LoginRegisterPageStyle from './LoginRegisterPageStyle';
+import BannerWhite from '../Banner/BannerWhite';
+import LoginForm from '../Form/LoginForm';
+import RegisterForm from '../Form/RegisterForm';
+import { Helmet } from 'react-helmet';
+import { Alert } from '../Alert/Alert';
+import { Popup } from '../Popup/Popup';
 
 export default function LoginRegisterPage() {
   const styles = LoginRegisterPageStyle();
@@ -53,7 +54,7 @@ export default function LoginRegisterPage() {
       </Helmet>
       <div className={styles.loginRegisterPanel}>
         <div className={styles.alertOverlay}>
-          <Collapse in={alert.alertOpen}>{showAlert()}</Collapse>
+          <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
         </div>
         <div className={styles.header}>
           <BannerWhite />
@@ -67,4 +68,3 @@ export default function LoginRegisterPage() {
     </div>
   );
 }
-

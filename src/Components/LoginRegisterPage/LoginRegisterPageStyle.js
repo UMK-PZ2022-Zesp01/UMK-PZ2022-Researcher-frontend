@@ -18,11 +18,12 @@ export default createUseStyles({
     borderRadius: "10px"
   },
   alertOverlay: {
-    position: "absolute",
-    width: "100%",
-    padding: "0 5vw",
-    top: "0",
-    left: "0"
+    position: 'absolute',
+    width: '100%',
+    height: '3.5rem',
+    padding: '0 5vw',
+    top: '0',
+    left: '0',
   },
   header: {
     width: "30%",
