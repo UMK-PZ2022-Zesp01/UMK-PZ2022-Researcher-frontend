@@ -94,10 +94,6 @@ function Gmap({ exit, setLocationState }) {
                 <div className="location">Wybrana lokalizacja:</div>
                 <div className="location color">{address}</div>
             </div>
-            {/*<div>*/}
-            {/*    Marker position: {lat}, {lng}*/}
-            {/*</div>*/}
-            {/*<div>Address: {address}</div>*/}
         </div>
     );
 }
