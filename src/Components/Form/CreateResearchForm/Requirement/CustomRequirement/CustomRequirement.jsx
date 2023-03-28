@@ -1,5 +1,4 @@
-import '../../CreateResearchForm.css';
-import './CustomRequirement.css';
+import styles from './CustomRequirement.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
@@ -8,10 +7,10 @@ function CustomRequirement({ index, data, handleUpdate, handleDelete }) {
     const { type, description } = data;
 
     return (
-        <div className="formRow">
+        <div className={styles.formRow}>
             <input
                 required
-                className="formInputRegular"
+                className={styles.formInputRegular}
                 type="text"
                 name="other-req-category"
                 placeholder="Wpisz kategorię..."
@@ -26,7 +25,7 @@ function CustomRequirement({ index, data, handleUpdate, handleDelete }) {
 
             <input
                 required
-                className="formInputRegular"
+                className={styles.formInputRegular}
                 type="text"
                 name="other-req-desc"
                 placeholder="Wpisz kryterium..."
@@ -41,10 +40,10 @@ function CustomRequirement({ index, data, handleUpdate, handleDelete }) {
 
             <div
                 onClick={() => handleDelete(index)}
-                className="removeRequirementButton"
+                className={styles.removeRequirementButton}
                 title="Usuń kryterium"
             >
-                <FontAwesomeIcon icon={faTrash} className="trashIcon" />
+                <FontAwesomeIcon icon={faTrash} className={styles.trashIcon} />
             </div>
         </div>
     );

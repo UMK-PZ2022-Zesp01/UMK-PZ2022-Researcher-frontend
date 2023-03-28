@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './CreateResearchForm.css';
+import styles from './CreateResearchForm.module.css';
 import { faFileImage, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getApiUrl from '../../../Common/Api';
@@ -59,7 +59,7 @@ function CreateResearchForm() {
                 />
             ))
         ) : (
-            <div className="requirementDesc">
+            <div className={styles.requirementDesc}>
                 W tej chwili Twoje badanie nie oferuje żadnych nagród za udział
             </div>
         );
@@ -200,14 +200,14 @@ function CreateResearchForm() {
 
     return (
         <>
-            <h2 className="title">Stwórz nowe ogłoszenie o badaniu</h2>
+            <h2 className={styles.title}>Stwórz nowe ogłoszenie o badaniu</h2>
             <form
-                className="researchForm"
+                className={styles.researchForm}
                 onSubmit={handleFormSubmit}
                 onReset={handleFormReset}
                 encType="multipart/form-data"
             >
-                <div className="formRowTop">
+                <div className={styles.formRowTop}>
                     <input
                         onChange={handlePosterImageChange}
                         type="file"
@@ -217,41 +217,47 @@ function CreateResearchForm() {
                         hidden
                     />
 
-                    <div className="posterContainer">
+                    <div className={styles.posterContainer}>
                         {posterImage != null && (
                             <img
                                 alt="poster"
                                 src={URL.createObjectURL(posterImage)}
-                                className="posterImg"
+                                className={styles.posterImg}
                             />
                         )}
 
                         {posterImage == null ? (
-                            <label className="posterOverlay" htmlFor="poster">
-                                <div className="overlayItem">
-                                    <FontAwesomeIcon icon={faFileImage} className="posterIcon" />
-                                    <span className="posterDesc">Dodaj plakat</span>
+                            <label className={styles.posterOverlay} htmlFor="poster">
+                                <div className={styles.overlayItem}>
+                                    <FontAwesomeIcon
+                                        icon={faFileImage}
+                                        className={styles.posterIcon}
+                                    />
+                                    <span className={styles.posterDesc}>Dodaj plakat</span>
                                 </div>
                             </label>
                         ) : (
-                            <div className="posterOverlayWithFile">
-                                <label className="overlayItem" htmlFor="poster">
-                                    <FontAwesomeIcon icon={faFileImage} className="posterIcon" />
-                                    <span className="posterDesc">Zmień plakat</span>
+                            <div className={styles.posterOverlayWithFile}>
+                                <label className={styles.overlayItem} htmlFor="poster">
+                                    <FontAwesomeIcon
+                                        icon={faFileImage}
+                                        className={styles.posterIcon}
+                                    />
+                                    <span className={styles.posterDesc}>Zmień plakat</span>
                                 </label>
 
-                                <div className="overlayItem" onClick={resetPosterInput}>
-                                    <FontAwesomeIcon icon={faTrash} className="posterIcon" />
-                                    <span className="posterDesc">Usuń plakat</span>
+                                <div className={styles.overlayItem} onClick={resetPosterInput}>
+                                    <FontAwesomeIcon icon={faTrash} className={styles.posterIcon} />
+                                    <span className={styles.posterDesc}>Usuń plakat</span>
                                 </div>
                             </div>
                         )}
                     </div>
 
-                    <div className="formRowTopRight">
+                    <div className={styles.formRowTopRight}>
                         <input
                             required
-                            className="formInputRegular"
+                            className={styles.formInputRegular}
                             onChange={handleTitleChange}
                             type="text"
                             id="title"
@@ -260,7 +266,7 @@ function CreateResearchForm() {
                         />
                         <textarea
                             required
-                            className="formInputLarge"
+                            className={styles.formInputLarge}
                             onChange={handleDescriptionChange}
                             id="desc"
                             name="desc"
@@ -270,14 +276,14 @@ function CreateResearchForm() {
                     </div>
                 </div>
 
-                <div className="formRow">
-                    <div className="inputWithLabel">
-                        <label className="formLabel" htmlFor="date-begin">
+                <div className={styles.formRow}>
+                    <div className={styles.inputWithLabel}>
+                        <label className={styles.formLabel} htmlFor="date-begin">
                             Data rozpoczęcia badania
                         </label>
                         <input
                             required
-                            className="formInputRegular"
+                            className={styles.formInputRegular}
                             onChange={handleBegDateChange}
                             type="date"
                             id="date-begin"
@@ -285,13 +291,13 @@ function CreateResearchForm() {
                         />
                     </div>
 
-                    <div className="inputWithLabel">
-                        <label className="formLabel" htmlFor="date-end">
+                    <div className={styles.inputWithLabel}>
+                        <label className={styles.formLabel} htmlFor="date-end">
                             Data zakończenia badania
                         </label>
                         <input
                             required
-                            className="formInputRegular"
+                            className={styles.formInputRegular}
                             onChange={handleEndDateChange}
                             type="date"
                             id="date-end"
@@ -299,13 +305,13 @@ function CreateResearchForm() {
                         />
                     </div>
 
-                    <div className="inputWithLabel">
-                        <label className="formLabel" htmlFor="participant-limit">
+                    <div className={styles.inputWithLabel}>
+                        <label className={styles.formLabel} htmlFor="participant-limit">
                             Liczba uczestników
                         </label>
                         <input
                             required
-                            className="formInputRegular"
+                            className={styles.formInputRegular}
                             onChange={handleParticipantLimitChange}
                             type="number"
                             min="0"
@@ -316,13 +322,13 @@ function CreateResearchForm() {
                     </div>
                 </div>
 
-                <div className="rowContainer">
-                    <label className="formLabel">Miejsce przeprowadzania badania</label>
-                    <div className="formRow">
+                <div className={styles.rowContainer}>
+                    <label className={styles.formLabel}>Miejsce przeprowadzania badania</label>
+                    <div className={styles.formRow}>
                         <select
                             required
                             onChange={handleResearchFormSelect}
-                            className="formInputRegular"
+                            className={styles.formInputRegular}
                             name="form"
                             id="form-select"
                             defaultValue={''}
@@ -336,7 +342,7 @@ function CreateResearchForm() {
                         {researchForm === 'remote' && (
                             <input
                                 required
-                                className="formInputRegular"
+                                className={styles.formInputRegular}
                                 onChange={handleResearchPlaceChange}
                                 type="text"
                                 id="remote-link"
@@ -347,8 +353,8 @@ function CreateResearchForm() {
                     </div>
                 </div>
                 {researchForm === 'in-place' && (
-                    <div className="formRow">
-                        <div className="map">
+                    <div className={styles.formRow}>
+                        <div className={styles.map}>
                             [GOOGLE API MAP]
                             <br />
                             (do wyboru stacjonarnego miejsca badania)
@@ -356,33 +362,33 @@ function CreateResearchForm() {
                     </div>
                 )}
 
-                <div className="rowContainer">
-                    <label className="formLabel">Nagrody za udział w badaniu</label>
+                <div className={styles.rowContainer}>
+                    <label className={styles.formLabel}>Nagrody za udział w badaniu</label>
 
-                    <div className="formColumn">{renderRewardComponents()}</div>
+                    <div className={styles.formColumn}>{renderRewardComponents()}</div>
 
-                    <div className="formColumnButton">
-                        <div onClick={handleAddRewardButtonClick} className="addButton">
+                    <div className={styles.formColumnButton}>
+                        <div onClick={handleAddRewardButtonClick} className={styles.addButton}>
                             <FontAwesomeIcon icon={faPlus} />
-                            <span className="addButtonDesc">Dodaj nagrodę</span>
+                            <span className={styles.addButtonDesc}>Dodaj nagrodę</span>
                         </div>
                     </div>
                 </div>
 
-                <div className="rowContainer">
-                    <label className="formLabel">Wymagania udziału w badaniu</label>
-                    <label className="requirementDesc">
+                <div className={styles.rowContainer}>
+                    <label className={styles.formLabel}>Wymagania udziału w badaniu</label>
+                    <label className={styles.requirementDesc}>
                         Zaznacz kryteria, które muszą spełniać uczestnicy Twojego badania.
                     </label>
 
                     <CreateResearchFormRequirement sendList={getRequirementList} />
                 </div>
 
-                <div className="formRow margin">
-                    <button className="formButton" type="reset">
+                <div className={`${styles.formRow} ${styles.margin}`}>
+                    <button className={styles.formButton} type="reset">
                         Zacznij od nowa
                     </button>
-                    <button className="formButton" type="submit">
+                    <button className={styles.formButton} type="submit">
                         Dodaj nowe ogłoszenie
                     </button>
                 </div>
