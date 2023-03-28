@@ -9,7 +9,7 @@
     font-size: 16px;
 
     border-radius: 5px;
-    background-color: #d6b8ee;
+    background-color: #ffffff;
     box-sizing: border-box;
 }
 
@@ -27,19 +27,19 @@
     align-items: center;
 }
 
-.alert .success {
+.alert.success {
     background-color: #f0ffeb;
 }
 
-.alert .error {
+.alert.error {
     background-color: #ffebeb;
 }
 
-.alert .warning {
+.alert.warning {
     background-color: #fff7df;
 }
 
-.alert .info {
+.alert.info {
     background-color: #e7fbff;
 }
 
@@ -60,13 +60,13 @@
     border-radius: 50%;
 }
 
-.icon .success {
+.icon.success {
     position: relative;
     color: green;
     border: green 2px solid;
 }
 
-.icon .success::after {
+.icon.success::after {
     position: absolute;
     content: '✔';
     font-size: 2rem;
@@ -75,13 +75,13 @@
     left: -0.05rem;
 }
 
-.icon .warning {
+.icon.warning {
     position: relative;
     color: #ffc63a;
     border: #ffc63a 2px solid;
 }
 
-.icon .warning::after {
+.icon.warning::after {
     position: absolute;
     content: '\0021';
     font-weight: 500;
@@ -91,13 +91,13 @@
     left: 0.48rem;
 }
 
-.icon .error {
+.icon.error {
     position: relative;
     color: #dc4040;
     border: #dc4040 2px solid;
 }
 
-.icon .error::after {
+.icon.error::after {
     position: absolute;
     content: '×';
     font-size: 2rem;
@@ -106,13 +106,13 @@
     left: -0.03rem;
 }
 
-.icon .info {
+.icon.info {
     position: relative;
     color: #4883be;
     border: #4883be 2px solid;
 }
 
-.icon .info::after {
+.icon.info::after {
     position: absolute;
     content: 'i';
     font-weight: 500;
