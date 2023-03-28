@@ -24,7 +24,6 @@ import useAuth from '../../hooks/useAuth';
 // * 4 = Logout Button
 
 function BookmarksNav({ active /*, loggedUser*/ }) {
-    // TODO: Get info whether someone is logged in (i.e. using props)
     const [loggedUser, setLoggedUser] = useState({});
     const { username, accessToken } = useAuth().auth;
 
@@ -77,7 +76,7 @@ function BookmarksNav({ active /*, loggedUser*/ }) {
                 }
                 key="1"
             >
-                <FontAwesomeIcon className="icon" icon={faHouse} />
+                <FontAwesomeIcon className="bookmarkIcon" icon={faHouse} />
                 {activeBookmarkIndex !== 1 && <span className="iconDesc">Strona główna</span>}
             </a>,
 
@@ -90,7 +89,7 @@ function BookmarksNav({ active /*, loggedUser*/ }) {
                 }
                 key="2"
             >
-                <FontAwesomeIcon className="icon" icon={faFileCirclePlus} />
+                <FontAwesomeIcon className="bookmarkIcon" icon={faFileCirclePlus} />
                 {activeBookmarkIndex !== 2 && <span className="iconDesc">Dodaj badanie</span>}
             </a>,
 
@@ -103,12 +102,12 @@ function BookmarksNav({ active /*, loggedUser*/ }) {
                 }
                 key="3"
             >
-                <FontAwesomeIcon className="icon" icon={faGear} />
+                <FontAwesomeIcon className="bookmarkIcon" icon={faGear} />
                 {activeBookmarkIndex !== 3 && <span className="iconDesc">Ustawienia</span>}
             </a>,
 
             <a className="bookmarkItem bookmarkItemNormalView" href="/logout" key="4">
-                <FontAwesomeIcon className="icon" icon={faRightFromBracket} />
+                <FontAwesomeIcon className="bookmarkIcon" icon={faRightFromBracket} />
                 <span className="iconDesc">Wyloguj</span>
             </a>,
         ];
@@ -131,7 +130,7 @@ function BookmarksNav({ active /*, loggedUser*/ }) {
                         href={isSomeoneLoggedIn ? '/profile' : '/login'}
                         className="activeBookmarkItem bookmarkItemNormalView"
                     >
-                        <FontAwesomeIcon className="icon" icon={faUser} />
+                        <FontAwesomeIcon className="bookmarkIcon" icon={faUser} />
                     </a>
                 ) : (
                     <a
@@ -143,7 +142,7 @@ function BookmarksNav({ active /*, loggedUser*/ }) {
                                 : 'Kliknij, aby się zalogować'
                         }
                     >
-                        <FontAwesomeIcon className="icon" icon={faUser} />
+                        <FontAwesomeIcon className="bookmarkIcon" icon={faUser} />
                         <span className="loggedUserBookmarkDesc">
                             {isSomeoneLoggedIn ? (
                                 <>
@@ -167,7 +166,7 @@ function BookmarksNav({ active /*, loggedUser*/ }) {
                     onClick={handleMobileMenuTriggerClick}
                     className="bookmarkItem bookmarkItemMobileView"
                 >
-                    <FontAwesomeIcon className="icon" icon={faBars} />
+                    <FontAwesomeIcon className="bookmarkIcon" icon={faBars} />
                 </div>
             </nav>
 
@@ -186,8 +185,8 @@ function BookmarksNav({ active /*, loggedUser*/ }) {
                     }
                 >
                     <div className="bookmarkTopRow">
-                        <div onClick={handleMobileMenuTriggerClick} className="closeButton">
-                            <FontAwesomeIcon icon={faXmark} />
+                        <div onClick={handleMobileMenuTriggerClick} className="bookmarkCloseButton">
+                            <FontAwesomeIcon className="bookmarkIcon" icon={faXmark} />
                         </div>
 
                         <div className="logoContainer">

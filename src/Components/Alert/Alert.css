@@ -1,4 +1,4 @@
-.alert{
+.alert {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -13,39 +13,40 @@
     box-sizing: border-box;
 }
 
-.toLeft{
+.toLeft {
     display: flex;
     flex-direction: row;
     justify-content: left;
-        align-items: center;
-    }
-.toRight{
+    align-items: center;
+}
+
+.toRight {
     display: flex;
     flex-direction: row;
     justify-content: right;
     align-items: center;
 }
 
-.alertSuccess{
+.alertSuccess {
     background-color: #f0ffeb;
 }
 
-.alertError{
+.alertError {
     background-color: #ffebeb;
 }
 
-.alertWarning{
+.alertWarning {
     background-color: #fff7df;
 }
 
-.alertInfo{
+.alertInfo {
     background-color: #e7fbff;
 }
 
-.iconContainer{
+.iconContainer {
     display: flex;
     aspect-ratio: 1/1;
-    content:"";
+    content: '';
     padding: 0.75rem;
     width: 3rem;
     height: 3rem;
@@ -53,36 +54,36 @@
     align-items: center;
 }
 
-.icon{
+.alertIcon {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
 }
 
-.iconSuccess{
+.iconSuccess {
     position: relative;
     color: green;
     border: green 2px solid;
 }
 
-.iconSuccess::after{
+.iconSuccess::after {
     position: absolute;
-    content: "✔";
+    content: '✔';
     font-size: 2rem;
     line-height: 1.5rem;
     top: -0.35rem;
     left: -0.05rem;
 }
 
-.iconWarning{
+.iconWarning {
     position: relative;
     color: #ffc63a;
     border: #ffc63a 2px solid;
 }
 
-.iconWarning::after{
+.iconWarning::after {
     position: absolute;
-    content:"\0021";
+    content: '\0021';
     font-weight: 500;
     font-size: 1.2rem;
     line-height: 1.5rem;
@@ -90,29 +91,30 @@
     left: 0.48rem;
 }
 
-.iconError{
+.iconError {
     position: relative;
     color: #dc4040;
     border: #dc4040 2px solid;
 }
-.iconError::after{
+
+.iconError::after {
     position: absolute;
-    content:"×";
+    content: '×';
     font-size: 2rem;
     line-height: 1.5rem;
     top: -0.3rem;
     left: -0.03rem;
 }
 
-.iconInfo{
+.iconInfo {
     position: relative;
     color: #4883be;
     border: #4883be 2px solid;
 }
 
-.iconInfo::after{
+.iconInfo::after {
     position: absolute;
-    content:"i";
+    content: 'i';
     font-weight: 500;
     font-size: 1.2rem;
     line-height: 1.5rem;
@@ -120,28 +122,25 @@
     left: 0.52rem;
 }
 
-
-
-
-.textContainer{
-    color: rgba(0,0,0,0.9);
+.textContainer {
+    color: rgba(0, 0, 0, 0.9);
     display: flex;
     padding: 1rem;
     justify-self: flex-start;
     align-items: center;
 }
 
-.buttonContainer{
+.buttonContainer {
     display: flex;
     aspect-ratio: 1/1;
     padding: 0.5rem;
     justify-self: flex-end;
 }
 
-.closeButton{
+.closeButton {
     position: relative;
     appearance: none;
-    border:none;
+    border: none;
     background-color: transparent;
 
     aspect-ratio: 1/1;
@@ -154,17 +153,16 @@
     transition: background-color 100ms ease-in-out;
 }
 
-.closeButton:hover{
-    background-color: rgba(0,0,0,0.1);
+.closeButton:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-.closeButton::after{
+.closeButton::after {
     position: absolute;
-    content:"×";
+    content: '×';
     font-size: 2.5rem;
     line-height: 1rem;
     top: 0.52rem;
     left: 0.27rem;
-    color: rgba(0,0,0,0.8);
+    color: rgba(0, 0, 0, 0.8);
 }
-

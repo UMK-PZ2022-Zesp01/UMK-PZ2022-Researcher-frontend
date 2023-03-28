@@ -168,7 +168,7 @@ export default function UserPage(props) {
     return (
         <div className="MainContainer">
             <Helmet>
-                <title>Profile | Researcher</title>
+                <title>Profil | Researcher</title>
             </Helmet>
             <ReportForm open={openPopup} onClose={() => setOpenPopup(false)}></ReportForm>
             <div className="Container">
@@ -374,7 +374,6 @@ export default function UserPage(props) {
                             {/*<div className="latestResearch">*/}
                             {/*    <LatestResearchCard></LatestResearchCard>*/}
                             {/*</div>*/}
-
                         </div>
                         {/*<div className="researches">*/}
                         {/*    <UserResearchCard></UserResearchCard>*/}

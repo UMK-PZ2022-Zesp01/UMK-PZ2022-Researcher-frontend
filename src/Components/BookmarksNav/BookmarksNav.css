@@ -82,7 +82,7 @@
     max-width: 185px;
 }
 
-.icon {
+.bookmarkIcon {
     font-size: 20px;
     pointer-events: none;
 }
@@ -167,7 +167,7 @@
     flex-direction: column;
 }
 
-.closeButton {
+.bookmarkCloseButton {
     width: 100%;
     display: flex;
     justify-content: flex-end;
