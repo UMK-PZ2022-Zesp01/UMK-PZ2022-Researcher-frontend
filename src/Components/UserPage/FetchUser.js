@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
-import getApiUrl from "../../Common/Api";
-
+import getApiUrl from '../../Common/Api';
 
 ////////////////////////////////////
 // na pózniej - na razie nie używać
 //////////////////////////////////////
+const USER_URL = getApiUrl() + 'user/current';
 
 function GetUserData() {
     const [userData, setUserData] = useState({});
     const { username, accessToken } = useAuth().auth;
-    console.log(accessToken)
+    console.log(accessToken);
 
     useEffect(() => {
-        fetch(getApiUrl() + 'user/current', {
-            method:'GET',
+        fetch(USER_URL, {
+            method: 'GET',
             credentials: 'include',
             headers: {
-                'Authorization': accessToken,
+                Authorization: accessToken,
                 'Content-Type': 'application/json; charset:UTF-8',
-            }
+            },
         })
-            .then(response => response.json().then(data=>{setUserData(data)}))
+            .then(response =>
+                response.json().then(data => {
+                    setUserData(data);
+                })
+            )
             // .then(data => {
             //     setUserData(data);
             // })
@@ -31,10 +35,9 @@ function GetUserData() {
     }, []);
 
     return (
-
         // dane
 
-        <div/>
+        <div />
     );
 }
 

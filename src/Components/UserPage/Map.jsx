@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import styles from './UserPage.module.css';
 import { Loader } from '@googlemaps/js-api-loader';
 import { GrClose } from 'react-icons/gr';
 
@@ -75,24 +76,26 @@ function Gmap({ exit, setLocationState }) {
     }, []);
 
     return (
-        <div className="mapContainer">
-            <button className="exitBtn" onClick={exit}>
+        <div className={styles.mapContainer}>
+            <button className={styles.exitBtn} onClick={exit}>
                 <GrClose />
             </button>
-            <div className="useDescription">Wyszukaj lokalizację lub zaznacz ją na mapie</div>
+            <div className={styles.useDescription}>
+                Wyszukaj lokalizację lub zaznacz ją na mapie
+            </div>
 
             <input
-                className="mapSearchBar"
+                className={styles.mapSearchBar}
                 ref={inputRef}
                 type="text"
                 placeholder="Wyszukaj lokalizację"
             />
 
-            <div className="map" ref={mapRef}></div>
+            <div className={styles.map} ref={mapRef}></div>
 
-            <div className="locationBox">
-                <div className="location">Wybrana lokalizacja:</div>
-                <div className="location color">{address}</div>
+            <div className={styles.locationBox}>
+                <div className={styles.location}>Wybrana lokalizacja:</div>
+                <div className={`${styles.location} ${styles.color}`}>{address}</div>
             </div>
             {/*<div>*/}
             {/*    Marker position: {lat}, {lng}*/}

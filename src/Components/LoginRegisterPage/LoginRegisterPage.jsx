@@ -1,11 +1,12 @@
 import React from 'react';
-import './LoginRegisterPage.css';
 import BannerWhite from '../Banner/BannerWhite';
-import LoginForm from '../Form/LoginForm';
-import RegisterForm from '../Form/RegisterForm';
+import LoginForm from '../Form/LoginRegisterForm/LoginForm';
+import RegisterForm from '../Form/LoginRegisterForm/RegisterForm';
 import { Helmet } from 'react-helmet';
 import { Alert } from '../Alert/Alert';
 import { Popup } from '../Popup/Popup';
+
+import styles from './LoginRegisterPage.module.css';
 
 export default function LoginRegisterPage() {
     const [alert, setAlert] = React.useState({
@@ -46,20 +47,20 @@ export default function LoginRegisterPage() {
     }
 
     return (
-        <div className="loginRegisterPage">
+        <div className={styles.loginRegisterPage}>
             <Helmet>
                 <title>Zaloguj się | Researcher</title>
             </Helmet>
-            <div className="loginRegisterPanel">
-                <div className="alertOverlay">
+            <div className={styles.loginRegisterPanel}>
+                <div className={styles.alertOverlay}>
                     <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
                 </div>
-                <div className="header">
+                <div className={styles.header}>
                     <BannerWhite />
                 </div>
-                <main className="main">
+                <main className={styles.main}>
                     <LoginForm setters={setAlert} />
-                    <div className="separator" />
+                    <div className={styles.separator} />
                     <RegisterForm setters={setAlert} />
                 </main>
             </div>

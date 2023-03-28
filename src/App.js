@@ -1,4 +1,4 @@
-import './App.css';
+import './App.module.css';
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
@@ -19,10 +19,11 @@ function App() {
                 <Route path="/login" element={<LoginRegisterPage />} />
                 <Route element={<PersistLogin />}>
                     <Route path="/" index element={<MainPage />} />
-                    <Route path="/profile" element={<UserPage />} />
-                    <Route path="/research/create" element={<CreateResearchPage />} />
+
                     <Route element={<RequireAuth />}>
                         <Route path="/authTest" element={<MainPage />} />
+                        <Route path="/profile" element={<UserPage />} />
+                        <Route path="/research/create" element={<CreateResearchPage />} />
                     </Route>
                 </Route>
 

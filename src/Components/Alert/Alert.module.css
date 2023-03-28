@@ -27,19 +27,19 @@
     align-items: center;
 }
 
-.alertSuccess {
+.alert .success {
     background-color: #f0ffeb;
 }
 
-.alertError {
+.alert .error {
     background-color: #ffebeb;
 }
 
-.alertWarning {
+.alert .warning {
     background-color: #fff7df;
 }
 
-.alertInfo {
+.alert .info {
     background-color: #e7fbff;
 }
 
@@ -54,19 +54,19 @@
     align-items: center;
 }
 
-.alertIcon {
+.icon {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 50%;
 }
 
-.iconSuccess {
+.icon .success {
     position: relative;
     color: green;
     border: green 2px solid;
 }
 
-.iconSuccess::after {
+.icon .success::after {
     position: absolute;
     content: '✔';
     font-size: 2rem;
@@ -75,13 +75,13 @@
     left: -0.05rem;
 }
 
-.iconWarning {
+.icon .warning {
     position: relative;
     color: #ffc63a;
     border: #ffc63a 2px solid;
 }
 
-.iconWarning::after {
+.icon .warning::after {
     position: absolute;
     content: '\0021';
     font-weight: 500;
@@ -91,13 +91,13 @@
     left: 0.48rem;
 }
 
-.iconError {
+.icon .error {
     position: relative;
     color: #dc4040;
     border: #dc4040 2px solid;
 }
 
-.iconError::after {
+.icon .error::after {
     position: absolute;
     content: '×';
     font-size: 2rem;
@@ -106,13 +106,13 @@
     left: -0.03rem;
 }
 
-.iconInfo {
+.icon .info {
     position: relative;
     color: #4883be;
     border: #4883be 2px solid;
 }
 
-.iconInfo::after {
+.icon .info::after {
     position: absolute;
     content: 'i';
     font-weight: 500;

@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import styles from './MainPage.module.css';
 import MainPageStyle from './MainPageStyle';
 import { useEffect } from 'react';
 import getApiUrl from '../../Common/Api';
@@ -56,7 +57,7 @@ const fakeApiPosts = [
 ];
 
 function MainPage() {
-    const styles = MainPageStyle();
+    // const styles = MainPageStyle();
     const [username, setUsername] = React.useState(useUsername());
     const logout = useLogout();
     const [posts, setPosts] = React.useState([]);

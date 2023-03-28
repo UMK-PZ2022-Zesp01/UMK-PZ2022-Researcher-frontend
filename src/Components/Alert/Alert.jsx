@@ -1,21 +1,21 @@
 import React from 'react';
-import './Alert.css';
+import styles from './Alert.module.css';
 
 function Alert({ type, onClose, children }) {
-    const alertClass = `alert alert${type}`;
-    const iconClass = `alertIcon icon${type}`;
+    const alertClass = `${styles.alert} ${styles[type]}`;
+    const iconClass = `${styles.icon} ${styles[type]}`;
 
     return (
         <div className={alertClass}>
-            <div className="toLeft">
-                <div className={'iconContainer'}>
+            <div className={styles.toLeft}>
+                <div className={styles.iconContainer}>
                     <div className={iconClass}></div>
                 </div>
-                <div className={'textContainer'}>{children}</div>
+                <div className={styles.textContainer}>{children}</div>
             </div>
-            <div className="toRight">
-                <div className={'buttonContainer'}>
-                    <button onClick={onClose} className={'closeButton'}></button>
+            <div className={styles.toRight}>
+                <div className={styles.buttonContainer}>
+                    <button onClick={onClose} className={styles.closeButton}></button>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@ function Alert({ type, onClose, children }) {
 }
 
 Alert.defaultProps = {
-    type: 'Error',
+    type: 'error',
     children: [],
     onClose: () => {},
 };

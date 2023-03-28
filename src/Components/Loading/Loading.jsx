@@ -1,24 +1,26 @@
-import React from "react";
+import React from 'react';
 
-import LoadingStyle from "./LoadingStyle";
+import styles from './Loading.module.css';
+import LoadingStyle from './LoadingStyle';
 
-export default function Loading(props) {
-  const styles = LoadingStyle();
+export function Loading(props) {
+    // const styles = LoadingStyle();
 
-  const { isLoading, isSuccessful } = props;
+    const { isLoading, isSuccessful } = props;
 
-  const getChungusStyle = () => {
-    return `${styles.chungus} ${isLoading ?
-      styles.chungusLoad : (
-        isSuccessful ?
-          styles.chungusCheck :
-          styles.chungusCross
-      )}`;
-  };
-  return <div className={getChungusStyle()}></div>;
+    const getChungusStyle = () => {
+        return `${styles.chungus} ${
+            isLoading
+                ? styles.chungusLoad
+                : isSuccessful
+                ? styles.chungusCheck
+                : styles.chungusCross
+        }`;
+    };
+    return <div className={getChungusStyle()}></div>;
 }
 
 Loading.defaultProps = {
-  isLoading: true,
-  isSuccessful: false
+    isLoading: true,
+    isSuccessful: false,
 };

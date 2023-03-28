@@ -1,0 +1,51 @@
+.chungus {
+    width: 7rem;
+    height: 7rem;
+    position: relative;
+    border-radius: 100%;
+    font-size: 6rem;
+}
+
+.chungus::after {
+    position: absolute;
+    line-height: 0;
+    margin: 0;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+.chungusLoad {
+    border: 0.4rem dashed #512c8c;
+    animation-name: spin;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+}
+
+.chungusCheck {
+    color: #58a23c;
+    border: 0.4rem solid #58a23c;
+}
+
+.chungusCheck::after {
+    top: 3rem;
+    left: 0.5rem;
+    content: "✔";
+}
+
+.chungusCross {
+    color: #b63434;
+    border: 0.4rem solid #b63434;
+}
+
+.chungusCross::after {
+    top: 2.2rem;
+    left: 1.75rem;
+    content: "x";
+}

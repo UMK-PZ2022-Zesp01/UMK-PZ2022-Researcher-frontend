@@ -1,4 +1,4 @@
-import FormStyle from './FormStyle';
+import FormStyle from '../LoginRegisterForm/FormStyle';
 import { GrClose } from 'react-icons/gr';
 
 const ReportForm = ({ open, onClose }) => {

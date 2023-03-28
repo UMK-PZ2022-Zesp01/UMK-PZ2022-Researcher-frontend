@@ -1,4 +1,4 @@
-import './UserPage.css';
+import styles from './UserPage.module.css';
 import dude from '../../img/dude.png';
 import React, { useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
@@ -10,11 +10,13 @@ import { BsCameraFill } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
 import { Helmet } from 'react-helmet';
 import { Gmap } from './Map';
-import ReportForm from '../Form/ReportForm';
+import ReportForm from '../Form/ReportForm/ReportForm';
 import LatestResearchCard from '../Researches/LatestResearchCard';
 import { GoFlame } from 'react-icons/go';
 import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const USER_URL = getApiUrl() + 'user/current';
 
 export default function UserPage(props) {
     /*DAWIDOWE*/
@@ -119,7 +121,7 @@ export default function UserPage(props) {
     };
 
     useEffect(() => {
-        fetch(getApiUrl() + 'user/current', {
+        fetch(USER_URL, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -161,23 +163,24 @@ export default function UserPage(props) {
         }
         console.log('JAZDA Z BZSTYLER NO I W PYTĘ');
     }
+
     //const avatarid="FY5oFd";
 
     // console.log(recivedImage)
 
     return (
-        <div className="MainContainer">
+        <div className={styles.MainContainer}>
             <Helmet>
                 <title>Profil | Researcher</title>
             </Helmet>
             <ReportForm open={openPopup} onClose={() => setOpenPopup(false)}></ReportForm>
-            <div className="Container">
-                <div className={isClickedLocation ? 'mapBoxVisible' : 'mapBoxHide'}>
+            <div className={styles.Container}>
+                <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
                     <Gmap exit={exit} setLocationState={setLocationState} />
                 </div>
-                <div className="UserBox">
-                    <div className="leftContainer">
-                        <div className="infoWithoutEdit">
+                <div className={styles.UserBox}>
+                    <div className={styles.leftContainer}>
+                        <div className={styles.infoWithoutEdit}>
                             {/*<input type="file" accept="image/png, image/jpeg" onChange={event => setImage(event.target.files[0])}/>*/}
                             {/*<button onClick={async () => {*/}
                             {/*    const formData = new FormData();*/}
@@ -189,50 +192,52 @@ export default function UserPage(props) {
                             {/*    });*/}
                             {/*}}>wyślij*/}
                             {/*</button>*/}
-                            <div className="mainInfo">
-                                <div className="avatarBox">
-                                    <img src={dude} className="avatar" alt="avatar"></img>
-                                    <div className="editProfilePicture">
-                                        <div className="editProfileIcon">
+                            <div className={styles.mainInfo}>
+                                <div className={styles.avatar}>
+                                    <img src={dude} className={styles.avatar} alt="avatar"></img>
+                                    <div className={styles.editProfilePicture}>
+                                        <div className={styles.editProfileIcon}>
                                             <BsCameraFill />
                                         </div>
                                     </div>
                                 </div>
-                                <div className="nameDiv">
-                                    <div className="nameAndSurname">{userData.firstName}</div>
-                                    <div className="nameAndSurname">{userData.lastName}</div>
+                                <div className={styles.nameDiv}>
+                                    <div className={styles.nameAndSurname}>
+                                        {userData.firstName}
+                                    </div>
+                                    <div className={styles.nameAndSurname}>{userData.lastName}</div>
                                 </div>
                             </div>
 
-                            <div className="profileDescription">
-                                <div className="desc">
-                                    <MdLocationOn className="icon" />
+                            <div className={styles.profileDescription}>
+                                <div className={styles.desc}>
+                                    <MdLocationOn className={styles.icon} />
                                     {locationState}
                                 </div>
-                                <div className="desc">
-                                    <HiOutlineMail className="icon" />
+                                <div className={styles.desc}>
+                                    <HiOutlineMail className={styles.icon} />
                                     {emailState}
                                 </div>
-                                <div className="desc">
-                                    <MdPhone className="icon" />
+                                <div className={styles.desc}>
+                                    <MdPhone className={styles.icon} />
                                     {phoneState}
                                 </div>
                                 {userData.gender === 'male' ? (
-                                    <div className="desc">
-                                        <GiMale className="icon" />
+                                    <div className={styles.desc}>
+                                        <GiMale className={styles.icon} />
                                         Mężczyzna
                                     </div>
                                 ) : (
-                                    <div className="desc">
-                                        <GiFemale className="icon" />
+                                    <div className={styles.desc}>
+                                        <GiFemale className={styles.icon} />
                                         Kobieta
                                     </div>
                                 )}
                             </div>
                         </div>
-                        <div className="edit">
+                        <div className={styles.edit}>
                             <button
-                                className={!clickedEdit ? 'editBtn' : 'editBtnHide'}
+                                className={!clickedEdit ? styles.editBtn : styles.editBtnHide}
                                 onClick={event => {
                                     setIsClickedEdit(!clickedEdit);
                                 }}
@@ -241,14 +246,14 @@ export default function UserPage(props) {
                             </button>
                         </div>
                     </div>
-                    <div className="divider">
-                        <div className="line"></div>
+                    <div className={styles.divider}>
+                        <div className={styles.line}></div>
                     </div>
-                    <div className="rightContainer">
-                        <div className={clickedEdit ? 'Box' : 'BoxHide'}>
-                            <div className={clickedEdit ? 'editBox' : 'editBoxHide'}>
+                    <div className={styles.rightContainer}>
+                        <div className={clickedEdit ? styles.Box : styles.Box}>
+                            <div className={clickedEdit ? styles.editBox : styles.editBoxHide}>
                                 <button
-                                    className={clickedEdit ? 'exitBtn' : 'exitBtnHide'}
+                                    className={clickedEdit ? styles.exitBtn : styles.exitBtnHide}
                                     onClick={event => {
                                         setIsClickedEdit(!clickedEdit);
                                         setIsClickedEmail(false);
@@ -258,12 +263,20 @@ export default function UserPage(props) {
                                 >
                                     <GrClose />
                                 </button>
-                                <div className="editField">
+                                <div className={styles.editField}>
                                     <div
-                                        className={isClickedEmail ? 'editTileResized' : 'editTile'}
+                                        className={
+                                            isClickedEmail
+                                                ? styles.editTileResized
+                                                : styles.editTile
+                                        }
                                     >
                                         <div
-                                            className={clickedEdit ? 'valueEdit' : 'valueEditHide'}
+                                            className={
+                                                clickedEdit
+                                                    ? styles.valueEdit
+                                                    : styles.valueEditHide
+                                            }
                                             onClick={event => {
                                                 if (canExit === true) {
                                                     setIsClickedEmail(!isClickedEmail);
@@ -271,11 +284,17 @@ export default function UserPage(props) {
                                                 }
                                             }}
                                         >
-                                            <div className={isClickedEmail ? 'text' : 'textSmall'}>
+                                            <div
+                                                className={
+                                                    isClickedEmail ? styles.text : styles.textSmall
+                                                }
+                                            >
                                                 E-mail
                                             </div>
                                             <input
-                                                className={isClickedEmail ? 'val' : 'valHide'}
+                                                className={
+                                                    isClickedEmail ? styles.val : styles.valHide
+                                                }
                                                 value={emailInput}
                                                 onMouseEnter={() => {
                                                     setCanExit(false);
@@ -294,10 +313,18 @@ export default function UserPage(props) {
                                     </div>
 
                                     <div
-                                        className={isClickedPhone ? 'editTileResized' : 'editTile'}
+                                        className={
+                                            isClickedPhone
+                                                ? styles.editTileResized
+                                                : styles.editTile
+                                        }
                                     >
                                         <div
-                                            className={clickedEdit ? 'valueEdit' : 'valueEditHide'}
+                                            className={
+                                                clickedEdit
+                                                    ? styles.valueEdit
+                                                    : styles.valueEditHide
+                                            }
                                             onClick={event => {
                                                 if (canExit === true) {
                                                     setIsClickedPhone(!isClickedPhone);
@@ -305,11 +332,17 @@ export default function UserPage(props) {
                                                 }
                                             }}
                                         >
-                                            <div className={isClickedPhone ? 'text' : 'textSmall'}>
+                                            <div
+                                                className={
+                                                    isClickedPhone ? styles.text : styles.textSmall
+                                                }
+                                            >
                                                 Telefon
                                             </div>
                                             <input
-                                                className={isClickedPhone ? 'val' : 'valHide'}
+                                                className={
+                                                    isClickedPhone ? styles.val : styles.valHide
+                                                }
                                                 onMouseEnter={() => {
                                                     setCanExit(false);
                                                 }}
@@ -327,11 +360,17 @@ export default function UserPage(props) {
 
                                     <div
                                         className={
-                                            isClickedLocation ? 'editTileLocation' : 'editTile'
+                                            isClickedLocation
+                                                ? styles.editTileLocation
+                                                : styles.editTile
                                         }
                                     >
                                         <div
-                                            className={clickedEdit ? 'valueEdit' : 'valueEditHide'}
+                                            className={
+                                                clickedEdit
+                                                    ? styles.valueEdit
+                                                    : styles.valueEditHide
+                                            }
                                             onClick={event => {
                                                 if (canExit === true) {
                                                     setIsClickedLocation(!isClickedLocation);
@@ -340,7 +379,11 @@ export default function UserPage(props) {
                                             }}
                                         >
                                             <div
-                                                className={isClickedLocation ? 'text' : 'textSmall'}
+                                                className={
+                                                    isClickedLocation
+                                                        ? styles.text
+                                                        : styles.textSmall
+                                                }
                                             >
                                                 Lokalizacja
                                             </div>
@@ -348,24 +391,27 @@ export default function UserPage(props) {
                                     </div>
                                 </div>
                                 <button
-                                    className={clickedEdit ? 'saveBtn' : 'saveBtnHide'}
+                                    className={clickedEdit ? styles.saveBtn : styles.saveBtnHide}
                                     onClick={saveButtonCheck}
                                 >
                                     Zapisz
                                 </button>
                             </div>
                         </div>
-                        <div className={clickedEdit ? 'rightHide' : 'right'}>
-                            <div className="activityBox">
-                                <a className="singleActivity" href={'./research/create'}>
+                        <div className={clickedEdit ? styles.rightHide : styles.right}>
+                            <div className={styles.activityBox}>
+                                <a className={styles.singleActivity} href={'./research/create'}>
                                     <FontAwesomeIcon icon={faFileCirclePlus} />
                                     Dodaj nowe badanie
                                 </a>
-                                <div className="singleActivity">
-                                    <HiOutlineDocumentText className="additionIcon" />
+                                <div className={styles.singleActivity}>
+                                    <HiOutlineDocumentText className={styles.additionIcon} />
                                     Zobacz swoje badania
                                 </div>
-                                <div className="singleActivity" onClick={() => setOpenPopup(true)}>
+                                <div
+                                    className={styles.singleActivity}
+                                    onClick={() => setOpenPopup(true)}
+                                >
                                     <GoFlame />
                                     Zgłoś błąd
                                 </div>

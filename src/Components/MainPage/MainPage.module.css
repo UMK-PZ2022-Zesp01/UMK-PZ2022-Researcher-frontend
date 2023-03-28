@@ -1,0 +1,52 @@
+.mainPage {
+    max-width: 1000px;
+    margin: 100px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    background-color: #512c8c;
+    padding: 10px 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: background-color 0.5s;
+}
+
+.logo:hover {
+    background-color: #6d3b9e;
+}
+
+.logoImg {
+    height: 40px;
+}
+
+.bookmarksContainer {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+}
+
+.mainPagePanel {
+    width: 100%;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    border-radius: 10px;
+    background-color: #f4f0fa;
+}
+
+.tileGrid {
+    display: grid;
+
+    width: 100%;
+    padding: 0;
+    gap: 0.5rem 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+
+    grid-auto-flow: dense;
+}

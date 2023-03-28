@@ -1,9 +1,9 @@
 import { Outlet } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import styles from '../App.module.css';
 
 const Layout = () => {
     return (
-        <main className="App">
+        <main className={styles.App}>
             <Outlet />
         </main>
     );
