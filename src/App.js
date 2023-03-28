@@ -2,7 +2,7 @@ import './App.module.css';
 
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import MainPage from './Components/MainPage/MainPage';
+import { MainPage } from './Components/MainPage/MainPage';
 import LoginRegisterPage from './Components/LoginRegisterPage/LoginRegisterPage';
 import RequireAuth from './Common/RequireAuth';
 import PersistLogin from './Common/PersistLogin';
@@ -38,4 +38,4 @@ function App() {
     );
 }
 
-export default App;
+export { App };

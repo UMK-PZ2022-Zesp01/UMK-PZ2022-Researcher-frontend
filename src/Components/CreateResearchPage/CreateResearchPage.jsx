@@ -3,7 +3,8 @@ import styles from './CreateResearchPage.module.css';
 import { CreateResearchForm } from '../Form/CreateResearchForm/CreateResearchForm';
 import researcherLogo from '../../img/banner2.png';
 import { Helmet } from 'react-helmet';
-import BookmarksNav from '../BookmarksNav/BookmarksNav';
+import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
+import { Link } from 'react-router-dom';
 
 function CreateResearchPage() {
     return (
@@ -13,9 +14,9 @@ function CreateResearchPage() {
             </Helmet>
 
             <header className={styles.bookmarksContainer}>
-                <a href="/" className={styles.logo}>
+                <Link to="/" className={styles.logo}>
                     <img className={styles.logoImg} src={researcherLogo} alt="Researcher Logo" />
-                </a>
+                </Link>
                 <BookmarksNav active="research" />
             </header>
 

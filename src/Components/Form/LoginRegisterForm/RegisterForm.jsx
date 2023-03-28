@@ -1,5 +1,6 @@
 import React from 'react';
-import FormStyle from './FormStyle';
+// import FormStyle from './FormStyle';
+import styles from './LoginRegisterForm.module.css';
 import getApiUrl from '../../../Common/Api.js';
 import { useRef } from 'react';
 import PasswordStrengthBar from 'react-password-strength-bar';
@@ -8,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const REGISTER_URL = getApiUrl() + 'user/register';
 
 function RegisterForm(props) {
-    const styles = FormStyle();
+    // const styles = FormStyle();
 
     const navigate = useNavigate();
 
@@ -210,7 +211,7 @@ function RegisterForm(props) {
                         ref={el => (confirmPasswordRef.current = el)}
                     />
                 </div>
-                <div className={styles.flexRow}>
+                <div className={`${styles.flexRow} ${styles.pwdStrengthBar}`}>
                     <PasswordStrengthBar
                         onChangeScore={(score, feedback) => handleScoreChanged(score, feedback)}
                         setPasswordScore={setPasswordScore}
@@ -224,7 +225,7 @@ function RegisterForm(props) {
                     <select
                         onChange={event => handleGenderChanged(event)}
                         id="gender"
-                        className={styles.select}
+                        className={styles.textInput}
                         defaultValue="Wybierz płeć:"
                         required
                     >
@@ -273,4 +274,4 @@ function RegisterForm(props) {
     );
 }
 
-export default RegisterForm;
+export { RegisterForm };

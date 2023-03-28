@@ -1,5 +1,6 @@
 import React from 'react';
-import FormStyle from './FormStyle';
+// import FormStyle from './FormStyle';
+import styles from './LoginRegisterForm.module.css';
 import getApiUrl from '../../../Common/Api.js';
 import useAuth from '../../../hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -14,7 +15,7 @@ function LoginForm(props) {
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
 
-    const styles = FormStyle();
+    // const styles = FormStyle();
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
 
@@ -140,7 +141,7 @@ function LoginForm(props) {
                     autoFocus
                     id="usernameLog"
                     type="text"
-                    placeholder="Login lub adres email"
+                    placeholder="Login lub adres e-mail"
                     className={styles.textInput}
                     required
                 />
@@ -169,4 +170,4 @@ function LoginForm(props) {
     );
 }
 
-export default LoginForm;
+export { LoginForm };

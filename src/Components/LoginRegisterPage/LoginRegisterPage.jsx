@@ -1,7 +1,7 @@
 import React from 'react';
-import BannerWhite from '../Banner/BannerWhite';
-import LoginForm from '../Form/LoginRegisterForm/LoginForm';
-import RegisterForm from '../Form/LoginRegisterForm/RegisterForm';
+import { BannerWhite } from '../Banner/BannerWhite';
+import { LoginForm } from '../Form/LoginRegisterForm/LoginForm';
+import { RegisterForm } from '../Form/LoginRegisterForm/RegisterForm';
 import { Helmet } from 'react-helmet';
 import { Alert } from '../Alert/Alert';
 import { Popup } from '../Popup/Popup';

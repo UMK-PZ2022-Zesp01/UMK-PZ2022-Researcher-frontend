@@ -78,15 +78,9 @@ function LatestResearchCard(){
         return showUserResearches(newestResearch);
     };
 
-    return(
-        <div className={styles.researchContainer}>
-
-            {showLastResearch()}
-
-        </div>
-    );
+    return <div className={styles.researchContainer}>{showLastResearch()}</div>;
 
 
 }
 
-export default LatestResearchCard;
+export { LatestResearchCard };

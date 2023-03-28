@@ -1,14 +1,14 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import styles from './MainPage.module.css';
-import MainPageStyle from './MainPageStyle';
 import { useEffect } from 'react';
 import getApiUrl from '../../Common/Api';
 import useLogout from '../../hooks/useLogout';
 import { useUsername } from '../../hooks/useAuth';
 import ResearchTile from '../ResearchTile/ResearchTile';
-import BookmarksNav from '../BookmarksNav/BookmarksNav';
+import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
 import banner from '../../img/banner2.png';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 
 const RESEARCHES_URL = getApiUrl() + 'researches';
 
@@ -130,9 +130,9 @@ function MainPage() {
                 <title>Strona główna | Researcher</title>
             </Helmet>
             <div className={styles.bookmarksContainer}>
-                <a href="/" className={styles.logo}>
+                <Link to="/" className={styles.logo}>
                     <img className={styles.logoImg} src={banner} alt="Researcher Logo" />
-                </a>
+                </Link>
                 <BookmarksNav active="home" />
             </div>
             <main className={styles.mainPagePanel}>
@@ -142,4 +142,4 @@ function MainPage() {
     );
 }
 
-export default MainPage;
+export { MainPage };

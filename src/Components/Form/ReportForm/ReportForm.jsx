@@ -28,4 +28,4 @@ const ReportForm = ({ open, onClose }) => {
     );
 };
 
-export default ReportForm;
+export { ReportForm };

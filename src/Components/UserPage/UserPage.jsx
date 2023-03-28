@@ -10,8 +10,8 @@ import { BsCameraFill } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
 import { Helmet } from 'react-helmet';
 import { Gmap } from './Map';
-import ReportForm from '../Form/ReportForm/ReportForm';
-import LatestResearchCard from '../Researches/LatestResearchCard';
+import { ReportForm } from '../Form/ReportForm/ReportForm';
+// import LatestResearchCard from '../Researches/LatestResearchCard';
 import { GoFlame } from 'react-icons/go';
 import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -158,10 +158,9 @@ export default function UserPage(props) {
         }
         const response = await fetch(EDIT_URL, requestOptions);
         if (!response.ok) {
-            console.log('COS SIE ZJEBALO');
+            console.log('Blad!');
             return;
         }
-        console.log('JAZDA Z BZSTYLER NO I W PYTĘ');
     }
 
     //const avatarid="FY5oFd";

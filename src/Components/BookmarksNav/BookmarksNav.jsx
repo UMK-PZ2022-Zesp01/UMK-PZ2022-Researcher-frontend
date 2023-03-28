@@ -15,6 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import getApiUrl from '../../Common/Api';
 import useAuth from '../../hooks/useAuth';
+import { Link } from 'react-router-dom';
 
 // Props "active":
 // * 0 = Profile Page
@@ -67,8 +68,8 @@ function BookmarksNav({ active }) {
 
     const generateNav = () => {
         let bookmarksList = [
-            <a
-                href="/"
+            <Link
+                to="/"
                 className={
                     activeBookmarkIndex === 1
                         ? `${styles.activeBookmarkItem} ${styles.bookmarkItemNormalView}`
@@ -80,14 +81,18 @@ function BookmarksNav({ active }) {
                 {activeBookmarkIndex !== 1 && (
                     <span className={styles.iconDesc}>Strona główna</span>
                 )}
-            </a>,
+            </Link>,
 
-            <a
-                href="/research/create"
+            <Link
+                to="/research/create"
                 className={
                     activeBookmarkIndex === 2
-                        ? `${styles.activeBookmarkItem} ${styles.bookmarkItemNormalView}`
-                        : `${styles.bookmarkItem} ${styles.bookmarkItemNormalView}`
+                        ? `${styles.activeBookmarkItem} ${styles.bookmarkItemNormalView} ${
+                              !isSomeoneLoggedIn && styles.hidden
+                          }`
+                        : `${styles.bookmarkItem} ${styles.bookmarkItemNormalView} ${
+                              !isSomeoneLoggedIn && styles.hidden
+                          }`
                 }
                 key="2"
             >
@@ -95,29 +100,35 @@ function BookmarksNav({ active }) {
                 {activeBookmarkIndex !== 2 && (
                     <span className={styles.iconDesc}>Dodaj badanie</span>
                 )}
-            </a>,
+            </Link>,
 
-            <a
-                href="/settings"
+            <Link
+                to="/settings"
                 className={
                     activeBookmarkIndex === 3
-                        ? `${styles.activeBookmarkItem} ${styles.bookmarkItemNormalView}`
-                        : `${styles.bookmarkItem} ${styles.bookmarkItemNormalView}`
+                        ? `${styles.activeBookmarkItem} ${styles.bookmarkItemNormalView} ${
+                              !isSomeoneLoggedIn && styles.hidden
+                          }`
+                        : `${styles.bookmarkItem} ${styles.bookmarkItemNormalView} ${
+                              !isSomeoneLoggedIn && styles.hidden
+                          }`
                 }
                 key="3"
             >
                 <FontAwesomeIcon className={styles.bookmarkIcon} icon={faGear} />
                 {activeBookmarkIndex !== 3 && <span className={styles.iconDesc}>Ustawienia</span>}
-            </a>,
+            </Link>,
 
-            <a
-                className={`${styles.bookmarkItem} ${styles.bookmarkItemNormalView}`}
-                href="/logout"
+            <Link
+                className={`${styles.bookmarkItem} ${styles.bookmarkItemNormalView} ${
+                    !isSomeoneLoggedIn && styles.hidden
+                }`}
+                to="/logout"
                 key="4"
             >
                 <FontAwesomeIcon className={styles.bookmarkIcon} icon={faRightFromBracket} />
                 <span className={styles.iconDesc}>Wyloguj</span>
-            </a>,
+            </Link>,
         ];
 
         /*** Set Active Bookmark at the Beginning ***/
@@ -134,15 +145,15 @@ function BookmarksNav({ active }) {
         <>
             <nav className={styles.bookmarks}>
                 {activeBookmarkIndex === bookmarksMap.get('profile') ? (
-                    <a
-                        href={isSomeoneLoggedIn ? '/profile' : '/login'}
+                    <Link
+                        to={isSomeoneLoggedIn ? '/profile' : '/login'}
                         className={`${styles.activeBookmarkItem} ${styles.bookmarkItemNormalView}`}
                     >
                         <FontAwesomeIcon className={styles.bookmarkIcon} icon={faUser} />
-                    </a>
+                    </Link>
                 ) : (
-                    <a
-                        href={isSomeoneLoggedIn ? '/profile' : '/login'}
+                    <Link
+                        to={isSomeoneLoggedIn ? '/profile' : '/login'}
                         className={`${styles.loggedUserBookmarkItem} ${styles.bookmarkItemNormalView}`}
                         title={
                             isSomeoneLoggedIn
@@ -165,7 +176,7 @@ function BookmarksNav({ active }) {
                                 <div className={styles.loggedUserBookmarkData}>Zaloguj się</div>
                             )}
                         </span>
-                    </a>
+                    </Link>
                 )}
 
                 {generateNav()}
@@ -213,7 +224,7 @@ function BookmarksNav({ active }) {
                         <span className={styles.currentPageText}>Nowe badanie</span>
                     </div>
 
-                    <a href="/profile" className={styles.bookmarkMiddleRow}>
+                    <Link to="/profile" className={styles.bookmarkMiddleRow}>
                         <img src={userAvatar} alt="user-avatar" className={styles.userAvatar} />
                         <span className={styles.name}>
                             {isSomeoneLoggedIn ? loggedUser.firstName : 'Zaloguj się'}
@@ -226,30 +237,30 @@ function BookmarksNav({ active }) {
                                 </span>
                             </>
                         )}
-                    </a>
+                    </Link>
 
                     <div className={styles.bookmarkBottomRow}>
-                        <a href="/" className={styles.bookmarkButtonMobile}>
+                        <Link to="/" className={styles.bookmarkButtonMobile}>
                             <FontAwesomeIcon icon={faHouse} />
                             <span className={styles.bookmarkButtonMobileText}>Strona główna</span>
-                        </a>
+                        </Link>
 
-                        <a href="/settings" className={styles.bookmarkButtonMobile}>
+                        <Link to="/settings" className={styles.bookmarkButtonMobile}>
                             <FontAwesomeIcon icon={faGear} />
                             <span className={styles.bookmarkButtonMobileText}>
                                 Ustawienia konta
                             </span>
-                        </a>
+                        </Link>
 
-                        <a href="/" className={styles.bookmarkButtonMobile}>
+                        <Link to="/" className={styles.bookmarkButtonMobile}>
                             <FontAwesomeIcon icon={faBug} />
                             <span className={styles.bookmarkButtonMobileText}>Zgłoś błąd</span>
-                        </a>
+                        </Link>
 
-                        <a href="/logout" className={styles.bookmarkButtonMobile}>
+                        <Link to="/logout" className={styles.bookmarkButtonMobile}>
                             <FontAwesomeIcon icon={faRightFromBracket} />
                             <span className={styles.bookmarkButtonMobileText}>Wyloguj</span>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -257,4 +268,4 @@ function BookmarksNav({ active }) {
     );
 }
 
-export default BookmarksNav;
+export { BookmarksNav };

@@ -73,11 +73,7 @@ function UserResearchCard(){
         );
     };
 
-    return(
-        <div className={styles.researchContainer}>
-            {showUserResearches()}
-        </div>
-    );
+    return <div className={styles.researchContainer}>{showUserResearches()}</div>;
 }
 
-export default UserResearchCard;
+export { UserResearchCard };

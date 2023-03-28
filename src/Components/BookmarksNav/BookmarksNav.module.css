@@ -250,6 +250,10 @@
     width: 100%;
 }
 
+.hidden {
+    display: none;
+}
+
 @media (max-width: 1000px) {
     .bookmarkItemNormalView {
         display: none;

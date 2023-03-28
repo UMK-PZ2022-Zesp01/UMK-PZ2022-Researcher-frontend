@@ -9,4 +9,4 @@ function BannerPurple() {
     );
 }
 
-export default BannerPurple;
+export { BannerPurple };
