@@ -1,5 +1,5 @@
 import React from 'react';
-import './Alert.css';
+import styles from './Alert.module.css';
 
 function Alert({ type, onClose, children }) {
     const alertClass = `alert alert${type}`;

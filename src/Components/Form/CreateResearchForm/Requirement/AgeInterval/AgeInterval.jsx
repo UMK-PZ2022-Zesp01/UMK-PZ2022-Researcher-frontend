@@ -1,18 +1,18 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import './AgeInterval.css';
+import styles from './AgeInterval.module.css';
 
 function AgeInterval({ index, data, handleUpdate, handleDelete }) {
     const { ageMin, ageMax } = data;
 
     return (
-        <div className="ageIntervalContainer">
-            <div className="checkboxAge">
-                <label className="checkboxLabel">limit dolny:</label>
+        <div className={styles.ageIntervalContainer}>
+            <div className={styles.checkboxAge}>
+                <label className={styles.checkboxLabel}>limit dolny:</label>
                 <input
                     required
-                    className="formInputRegular"
+                    className={styles.formInputRegular}
                     type="number"
                     min="1"
                     max="130"
@@ -28,13 +28,13 @@ function AgeInterval({ index, data, handleUpdate, handleDelete }) {
                 />
             </div>
 
-            <div className="checkboxAge">
-                <div className="checkboxElement">
-                    <label className="checkboxLabel">limit górny:</label>
+            <div className={styles.checkboxAge}>
+                <div className={styles.checkboxElement}>
+                    <label className={styles.checkboxLabel}>limit górny:</label>
                 </div>
                 <input
                     required
-                    className="formInputRegular"
+                    className={styles.formInputRegular}
                     type="number"
                     min="1"
                     max="130"
@@ -52,10 +52,10 @@ function AgeInterval({ index, data, handleUpdate, handleDelete }) {
 
             <div
                 onClick={() => handleDelete(index)}
-                className="removeRequirementButton"
+                className={styles.removeRequirementButton}
                 title="Usuń kryterium"
             >
-                <FontAwesomeIcon icon={faTrash} className="trashIcon" />
+                <FontAwesomeIcon icon={faTrash} className={styles.trashIcon} />
             </div>
         </div>
     );

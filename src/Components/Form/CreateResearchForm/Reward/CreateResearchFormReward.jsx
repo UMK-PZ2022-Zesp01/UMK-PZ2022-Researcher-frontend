@@ -1,5 +1,5 @@
 import React from 'react';
-import './CreateResearchFormReward.css';
+import styles from './CreateResearchFormReward.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -7,10 +7,10 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
     const { type, value } = data;
 
     return (
-        <div className="rewardContainer">
+        <div className={styles.rewardContainer}>
             <select
                 required
-                className="formInputRegular"
+                className={styles.formInputRegular}
                 name="reward-type"
                 defaultValue={type}
                 onChange={event => handleUpdate(index, { type: event.target.value, value: null })}
@@ -26,7 +26,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
             {type === 'cash' && (
                 <input
                     required
-                    className="formInputRegular"
+                    className={styles.formInputRegular}
                     type="number"
                     min="0"
                     step="0.01"
@@ -45,7 +45,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
             {type === 'item' && (
                 <input
                     required
-                    className="formInputRegular"
+                    className={styles.formInputRegular}
                     type="text"
                     name="reward-value"
                     placeholder="Podaj nazwę..."
@@ -62,7 +62,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
             {type === 'other' && (
                 <input
                     required
-                    className="formInputRegular"
+                    className={styles.formInputRegular}
                     type="text"
                     name="reward-value"
                     placeholder="Podaj nazwę..."
@@ -77,11 +77,11 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
             )}
 
             <div
-                className="removeRewardButton"
+                className={styles.removeRewardButton}
                 onClick={() => handleDelete(index)}
                 title="Usuń nagrodę"
             >
-                <FontAwesomeIcon icon={faTrash} className="trashIcon" />
+                <FontAwesomeIcon icon={faTrash} className={styles.trashIcon} />
             </div>
         </div>
     );

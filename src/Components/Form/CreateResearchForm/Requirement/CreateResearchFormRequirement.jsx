@@ -1,6 +1,4 @@
-import '../CreateResearchForm.css';
-import '../Reward/CreateResearchFormReward.css';
-import './CreateResearchFormRequirement.css';
+import styles from './CreateResearchFormRequirement.module.css';
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -133,7 +131,7 @@ function CreateResearchFormRequirement({ sendList }) {
                 />
             ))
         ) : (
-            <div className="requirementDesc">
+            <div className={styles.requirementDesc}>
                 Twoje badanie nie posiada żadnych przedziałów określających wiek badanych
             </div>
         );
@@ -164,7 +162,7 @@ function CreateResearchFormRequirement({ sendList }) {
                 />
             ))
         ) : (
-            <div className="requirementDesc">
+            <div className={styles.requirementDesc}>
                 Twoje badanie nie posiada żadnych dodatkowych kryteriów udziału
             </div>
         );
@@ -281,12 +279,6 @@ function CreateResearchFormRequirement({ sendList }) {
 
     /*** Functions for Handling Text Inputs ***/
 
-    /*
-    TODO:
-     * How to store 'other' data from checkboxes? (one-step delay!)
-     * Storing more than one age interval + validation!
-     * Footer (Component)
-    */
     const handlePlaceOtherDescChange = event => {
         setPlaceOtherDesc(event.target.value);
     };
@@ -339,151 +331,151 @@ function CreateResearchFormRequirement({ sendList }) {
 
     return (
         <>
-            <div className="requirementRow">
-                <div className="checkboxElement">
+            <div className={styles.requirementRow}>
+                <div className={styles.checkboxElement}>
                     <input
-                        className="checkbox"
+                        className={styles.checkbox}
                         type="checkbox"
                         id="req-gender"
                         name="req-category"
                         value="gender"
                         onChange={handleGenderCheckboxClick}
                     />
-                    <label className="checkboxLabel" htmlFor="req-gender">
+                    <label className={styles.checkboxLabel} htmlFor="req-gender">
                         płeć
                     </label>
                 </div>
 
-                <div className="checkboxElement">
+                <div className={styles.checkboxElement}>
                     <input
-                        className="checkbox"
+                        className={styles.checkbox}
                         type="checkbox"
                         id="req-age"
                         name="req-category"
                         value="age"
                         onChange={handleAgeCheckboxClick}
                     />
-                    <label className="checkboxLabel" htmlFor="req-age">
+                    <label className={styles.checkboxLabel} htmlFor="req-age">
                         wiek
                     </label>
                 </div>
 
-                <div className="checkboxElement">
+                <div className={styles.checkboxElement}>
                     <input
-                        className="checkbox"
+                        className={styles.checkbox}
                         type="checkbox"
                         id="req-place"
                         name="req-category"
                         value="place"
                         onChange={handlePlaceCheckboxClick}
                     />
-                    <label className="checkboxLabel" htmlFor="req-place">
+                    <label className={styles.checkboxLabel} htmlFor="req-place">
                         miejsce zamieszkania
                     </label>
                 </div>
 
-                <div className="checkboxElement">
+                <div className={styles.checkboxElement}>
                     <input
-                        className="checkbox"
+                        className={styles.checkbox}
                         type="checkbox"
                         id="req-education"
                         name="req-category"
                         value="education"
                         onChange={handleEducationCheckboxClick}
                     />
-                    <label className="checkboxLabel" htmlFor="req-education">
+                    <label className={styles.checkboxLabel} htmlFor="req-education">
                         wykształcenie
                     </label>
                 </div>
 
-                <div className="checkboxElement">
+                <div className={styles.checkboxElement}>
                     <input
-                        className="checkbox"
+                        className={styles.checkbox}
                         type="checkbox"
                         id="req-marital"
                         name="req-category"
                         value="marital"
                         onChange={handleMaritalCheckboxClick}
                     />
-                    <label className="checkboxLabel" htmlFor="req-marital">
+                    <label className={styles.checkboxLabel} htmlFor="req-marital">
                         stan cywilny
                     </label>
                 </div>
 
-                <div className="checkboxElement">
+                <div className={styles.checkboxElement}>
                     <input
-                        className="checkbox"
+                        className={styles.checkbox}
                         type="checkbox"
                         id="req-other"
                         name="req-category"
                         value="other"
                         onChange={handleOtherCheckboxClick}
                     />
-                    <label className="checkboxLabel" htmlFor="req-other">
+                    <label className={styles.checkboxLabel} htmlFor="req-other">
                         inne
                     </label>
                 </div>
             </div>
 
             {isGenderCheckboxChecked && (
-                <div className="requirementContainer">
-                    <label className="formLabel">Płeć</label>
-                    <div className="checkboxContainer">
-                        <div className="checkboxColumn">
-                            <div className="checkboxElement">
+                <div className={styles.requirementContainer}>
+                    <label className={styles.formLabel}>Płeć</label>
+                    <div className={styles.checkboxContainer}>
+                        <div className={styles.checkboxColumn}>
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="gender-male"
                                     name="gender"
                                     value="male"
                                     onChange={handleGenderListChange}
                                 />
-                                <label htmlFor="gender-male" className="checkboxLabel">
+                                <label htmlFor="gender-male" className={styles.checkboxLabel}>
                                     mężczyzna
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="gender-other"
                                     name="gender"
                                     value="other"
                                     onChange={handleGenderListChange}
                                 />
-                                <label htmlFor="gender-other" className="checkboxLabel">
+                                <label htmlFor="gender-other" className={styles.checkboxLabel}>
                                     inna
                                 </label>
                             </div>
                         </div>
 
-                        <div className="checkboxColumn">
-                            <div className="checkboxElement">
+                        <div className={styles.checkboxColumn}>
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="gender-female"
                                     name="gender"
                                     value="female"
                                     onChange={handleGenderListChange}
                                 />
-                                <label htmlFor="gender-female" className="checkboxLabel">
+                                <label htmlFor="gender-female" className={styles.checkboxLabel}>
                                     kobieta
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="gender-notGiven"
                                     name="gender"
                                     value="notGiven"
                                     onChange={handleGenderListChange}
                                 />
-                                <label htmlFor="gender-notGiven" className="checkboxLabel">
+                                <label htmlFor="gender-notGiven" className={styles.checkboxLabel}>
                                     nie podano / nieokreślona
                                 </label>
                             </div>
@@ -493,17 +485,17 @@ function CreateResearchFormRequirement({ sendList }) {
             )}
 
             {isAgeCheckboxChecked && (
-                <div className="requirementContainer">
-                    <label className="requirementTitle">Wiek</label>
+                <div className={styles.requirementContainer}>
+                    <label className={styles.requirementTitle}>Wiek</label>
 
                     {renderAgeIntervalComponents()}
 
-                    <div className="formColumnButton">
-                        <div className="addButton">
+                    <div className={styles.formColumnButton}>
+                        <div className={styles.addButton}>
                             <FontAwesomeIcon icon={faPlus} />
                             <span
                                 onClick={handleAddAgeIntervalButtonClick}
-                                className="addButtonDesc"
+                                className={styles.addButtonDesc}
                             >
                                 Dodaj przedział
                             </span>
@@ -513,27 +505,27 @@ function CreateResearchFormRequirement({ sendList }) {
             )}
 
             {isPlaceCheckboxChecked && (
-                <div className="requirementContainer">
-                    <label className="requirementTitle">Miejsce zamieszkania</label>
-                    <div className="checkboxContainer">
-                        <div className="checkboxColumn">
-                            <div className="checkboxElement">
+                <div className={styles.requirementContainer}>
+                    <label className={styles.requirementTitle}>Miejsce zamieszkania</label>
+                    <div className={styles.checkboxContainer}>
+                        <div className={styles.checkboxColumn}>
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="place-village"
                                     name="place"
                                     value="village"
                                     onChange={handlePlaceListChange}
                                 />
-                                <label htmlFor="place-village" className="checkboxLabel">
+                                <label htmlFor="place-village" className={styles.checkboxLabel}>
                                     wieś
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="place-cityBetween50kAnd150k"
                                     name="place"
@@ -542,45 +534,51 @@ function CreateResearchFormRequirement({ sendList }) {
                                 />
                                 <label
                                     htmlFor="place-cityBetween50kAnd150k"
-                                    className="checkboxLabel"
+                                    className={styles.checkboxLabel}
                                 >
                                     miasto od 50 tys. do 150 tys. mieszkańców
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="place-cityAbove500k"
                                     name="place"
                                     value="cityAbove500k"
                                     onChange={handlePlaceListChange}
                                 />
-                                <label htmlFor="place-cityAbove500k" className="checkboxLabel">
+                                <label
+                                    htmlFor="place-cityAbove500k"
+                                    className={styles.checkboxLabel}
+                                >
                                     miasto powyżej 500 tys. mieszkańców
                                 </label>
                             </div>
                         </div>
 
-                        <div className="checkboxColumn">
-                            <div className="checkboxElement">
+                        <div className={styles.checkboxColumn}>
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="place-cityBelow50k"
                                     name="place"
                                     value="cityBelow50k"
                                     onChange={handlePlaceListChange}
                                 />
-                                <label htmlFor="place-cityBelow50k" className="checkboxLabel">
+                                <label
+                                    htmlFor="place-cityBelow50k"
+                                    className={styles.checkboxLabel}
+                                >
                                     miasto poniżej 50 tys. mieszkańców
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="place-cityBetween150kAnd500k"
                                     name="place"
@@ -589,22 +587,22 @@ function CreateResearchFormRequirement({ sendList }) {
                                 />
                                 <label
                                     htmlFor="place-cityBetween150kAnd500k"
-                                    className="checkboxLabel"
+                                    className={styles.checkboxLabel}
                                 >
                                     miasto od 150 tys. do 500 tys. mieszkańców
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="place-other"
                                     name="place"
                                     value="other"
                                     onChange={handlePlaceOtherCheckboxClick}
                                 />
-                                <label htmlFor="place-other" className="checkboxLabel">
+                                <label htmlFor="place-other" className={styles.checkboxLabel}>
                                     inne (jakie?)
                                 </label>
                             </div>
@@ -613,7 +611,7 @@ function CreateResearchFormRequirement({ sendList }) {
 
                     {isPlaceOtherCheckboxChecked && (
                         <input
-                            className="formInputRegular"
+                            className={styles.formInputRegular}
                             type="text"
                             name="place-other-desc"
                             placeholder="Wpisz inne kryterium..."
@@ -624,78 +622,81 @@ function CreateResearchFormRequirement({ sendList }) {
             )}
 
             {isEducationCheckboxChecked && (
-                <div className="requirementContainer">
-                    <label className="requirementTitle">Wykształcenie</label>
-                    <div className="checkboxContainer">
-                        <div className="checkboxColumn">
-                            <div className="checkboxElement">
+                <div className={styles.requirementContainer}>
+                    <label className={styles.requirementTitle}>Wykształcenie</label>
+                    <div className={styles.checkboxContainer}>
+                        <div className={styles.checkboxColumn}>
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="education-primary"
                                     name="education"
                                     value="primary"
                                     onChange={handleEducationListChange}
                                 />
-                                <label htmlFor="education-primary" className="checkboxLabel">
+                                <label htmlFor="education-primary" className={styles.checkboxLabel}>
                                     podstawowe
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="education-middle"
                                     name="education"
                                     value="middle"
                                     onChange={handleEducationListChange}
                                 />
-                                <label htmlFor="education-middle" className="checkboxLabel">
+                                <label htmlFor="education-middle" className={styles.checkboxLabel}>
                                     średnie
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="education-other"
                                     name="education"
                                     value="other"
                                     onChange={handleEducationOtherCheckboxClick}
                                 />
-                                <label htmlFor="education-other" className="checkboxLabel">
+                                <label htmlFor="education-other" className={styles.checkboxLabel}>
                                     inne (jakie?)
                                 </label>
                             </div>
                         </div>
 
-                        <div className="checkboxColumn">
-                            <div className="checkboxElement">
+                        <div className={styles.checkboxColumn}>
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="education-vocational"
                                     name="education"
                                     value="vocational"
                                     onChange={handleEducationListChange}
                                 />
-                                <label htmlFor="education-vocational" className="checkboxLabel">
+                                <label
+                                    htmlFor="education-vocational"
+                                    className={styles.checkboxLabel}
+                                >
                                     zasadnicze zawodowe
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="education-college"
                                     name="education"
                                     value="college"
                                     onChange={handleEducationListChange}
                                 />
-                                <label htmlFor="education-college" className="checkboxLabel">
+                                <label htmlFor="education-college" className={styles.checkboxLabel}>
                                     wyższe
                                 </label>
                             </div>
@@ -704,7 +705,7 @@ function CreateResearchFormRequirement({ sendList }) {
 
                     {isEducationOtherCheckboxChecked && (
                         <input
-                            className="formInputRegular"
+                            className={styles.formInputRegular}
                             type="text"
                             name="education-other-desc"
                             placeholder="Wpisz inne kryterium..."
@@ -715,120 +716,126 @@ function CreateResearchFormRequirement({ sendList }) {
             )}
 
             {isMaritalCheckboxChecked && (
-                <div className="requirementContainer">
-                    <label className="requirementTitle">Stan cywilny</label>
-                    <div className="checkboxContainer">
-                        <div className="checkboxColumn">
-                            <div className="checkboxElement">
+                <div className={styles.requirementContainer}>
+                    <label className={styles.requirementTitle}>Stan cywilny</label>
+                    <div className={styles.checkboxContainer}>
+                        <div className={styles.checkboxColumn}>
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="marital-single"
                                     name="marital"
                                     value="single"
                                     onChange={handleMaritalListChange}
                                 />
-                                <label htmlFor="marital-single" className="checkboxLabel">
+                                <label htmlFor="marital-single" className={styles.checkboxLabel}>
                                     singiel / singielka
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="marital-engaged"
                                     name="marital"
                                     value="engaged"
                                     onChange={handleMaritalListChange}
                                 />
-                                <label htmlFor="marital-engaged" className="checkboxLabel">
+                                <label htmlFor="marital-engaged" className={styles.checkboxLabel}>
                                     zaręczony / zaręczona
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="marital-divorced"
                                     name="marital"
                                     value="divorced"
                                     onChange={handleMaritalListChange}
                                 />
-                                <label htmlFor="marital-divorced" className="checkboxLabel">
+                                <label htmlFor="marital-divorced" className={styles.checkboxLabel}>
                                     rozwiedziony / rozwiedziona
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="marital-inSeparation"
                                     name="marital"
                                     value="inSeparation"
                                     onChange={handleMaritalListChange}
                                 />
-                                <label htmlFor="marital-inSeparation" className="checkboxLabel">
+                                <label
+                                    htmlFor="marital-inSeparation"
+                                    className={styles.checkboxLabel}
+                                >
                                     w separacji
                                 </label>
                             </div>
                         </div>
 
-                        <div className="checkboxColumn">
-                            <div className="checkboxElement">
+                        <div className={styles.checkboxColumn}>
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="marital-inRelationship"
                                     name="marital"
                                     value="inRelationship"
                                     onChange={handleMaritalListChange}
                                 />
-                                <label htmlFor="marital-inRelationship" className="checkboxLabel">
+                                <label
+                                    htmlFor="marital-inRelationship"
+                                    className={styles.checkboxLabel}
+                                >
                                     w związku
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="marital-married"
                                     name="marital"
                                     value="married"
                                     onChange={handleMaritalListChange}
                                 />
-                                <label htmlFor="marital-married" className="checkboxLabel">
+                                <label htmlFor="marital-married" className={styles.checkboxLabel}>
                                     w związku małżeńskim
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="place-widowed"
-                                    name="place"
+                                    name="marital"
                                     value="widowed"
                                     onChange={handleMaritalListChange}
                                 />
-                                <label htmlFor="place-widowed" className="checkboxLabel">
+                                <label htmlFor="marital-widowed" className={styles.checkboxLabel}>
                                     wdowiec / wdowa
                                 </label>
                             </div>
 
-                            <div className="checkboxElement">
+                            <div className={styles.checkboxElement}>
                                 <input
-                                    className="checkbox"
+                                    className={styles.checkbox}
                                     type="checkbox"
                                     id="marital-other"
                                     name="marital"
                                     value="other"
                                     onChange={handleMaritalOtherCheckboxClick}
                                 />
-                                <label htmlFor="marital-other" className="checkboxLabel">
+                                <label htmlFor="marital-other" className={styles.checkboxLabel}>
                                     inny (jaki?)
                                 </label>
                             </div>
@@ -837,7 +844,7 @@ function CreateResearchFormRequirement({ sendList }) {
 
                     {isMaritalOtherCheckboxChecked && (
                         <input
-                            className="formInputRegular"
+                            className={styles.formInputRegular}
                             type="text"
                             name="marital-other-desc"
                             placeholder="Wpisz inne kryterium..."
@@ -848,17 +855,17 @@ function CreateResearchFormRequirement({ sendList }) {
             )}
 
             {isOtherCheckboxChecked && (
-                <div className="requirementContainer">
-                    <label className="requirementTitle">Inne</label>
+                <div className={styles.requirementContainer}>
+                    <label className={styles.requirementTitle}>Inne</label>
 
                     {renderCustomComponents()}
 
-                    <div className="formColumnButton">
-                        <div className="addButton">
+                    <div className={styles.formColumnButton}>
+                        <div className={styles.addButton}>
                             <FontAwesomeIcon icon={faPlus} />
                             <span
                                 onClick={handleAddOtherCriterionButtonClick}
-                                className="addButtonDesc"
+                                className={styles.addButtonDesc}
                             >
                                 Dodaj kryterium
                             </span>
