@@ -7,9 +7,13 @@ function Gmap({exit, setLocationState, setCoords}) {
     const mapRef = useRef(null);
     const inputRef = useRef(null);
     const [marker, setMarker] = useState(null);
-    const [address, setAddress] = useState('');
+    const [autocomplete, setAutocomplete] = useState(null);
     const [lng, setLng] = useState(18.6057);
     const [lat, setLat] = useState(53.015331);
+
+    const [longAddress, setLongAddress] = useState('')
+    const [shortAddress, setShortAddress] = useState('')
+    const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const loader = new Loader({
@@ -36,16 +40,10 @@ function Gmap({exit, setLocationState, setCoords}) {
                 const geocoder = new window.google.maps.Geocoder();
                 const latLng = event.latLng;
                 geocoder.geocode({location: event.latLng}, (results, status) => {
-                    console.log(results[0])
-                    if(results[0].plus_code){
-                        console.log("pluscode")
-                    }
-                    else{
-                        console.log("formated")
-                    }
                     if (status === 'OK' && results[0]) {
-                        setAddress(results[0].formatted_address);
-                        setLocationState(results[0].formatted_address);
+                        setLongAddress(results[0].formatted_address)
+                        console.log(results[0])
+                        setShortAddress(results[0].formatted_address);
                         marker.setPosition(latLng);
                         setMarker(marker);
                         setLng(latLng.lng);
@@ -55,39 +53,60 @@ function Gmap({exit, setLocationState, setCoords}) {
             });
 
 
-            if (window.google) {
-                // Initialize Autocomplete object
-                const autocompleteInstance = new window.google.maps.places.Autocomplete(inputRef.current);
+            /*USERPANEL ZEBY DZIAŁAŁO ODKOMENTOWAĆ*/
+            //ZMIENNA longAddress trzyma dane o dokładnej lokalizacji
+            // const autocompleteInstance = new window.google.maps.places.Autocomplete(inputRef.current);
+            // autocompleteInstance.setFields(['address_components', 'geometry']);
+            // autocompleteInstance.setTypes(['(regions)']);
+            // autocompleteInstance.addListener('place_changed', event => {
+            //     const place = autocompleteInstance.getPlace();
+            //     setSearchQuery(place.formatted_address);
+            //     setLat(place.geometry.location.lat());
+            //     setLng(place.geometry.location.lng());
+            //     map.setCenter(place.geometry.location);
+            //     marker.setPosition(place.geometry.location);
+            //     setShortAddress(place.address_components[0].short_name)
+            //     setMarker(marker);
+            // });
 
-                // Set options for Autocomplete object
-                autocompleteInstance.setFields(['address_components', 'geometry']);
-                autocompleteInstance.setTypes(['(regions)']);
 
-                // Add listener to update searchQuery state when a place is selected
-                autocompleteInstance.addListener('place_changed', () => {
-                    const place = autocompleteInstance.getPlace();
-                    //console.log(place)
-                    setSearchQuery(place.formatted_address);
-                    //console.log("pokazuje gowno"+searchQuery);
-                    setAddress(place.address_components[0].short_name)
-                   // console.log(address)
-                    setLat(place.geometry.location.lat());
-                    setLng(place.geometry.location.lng());
-                    map.setCenter(place.geometry.location);
-                    marker.setPosition(place.geometry.location);
-                    setMarker(marker);
+            /**
+             RESEARCH ŻEBY DZIAŁAŁO ODKOMENTOWAĆ
+             ZMIENNA longAddress trzyma dane o dokładnej lokalizacji
+             **/
+            const autocomplete = new window.google.maps.places.Autocomplete(inputRef.current, {
+                types: ['address'],
+            });
 
+            autocomplete.addListener('place_changed', () => {
+                const place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    console.log('No details available for input: ' + place.name);
+                    return;
+                }
+                setLat(place.geometry.location.lat());
+                setLng(place.geometry.location.lng());
+                map.setCenter(place.geometry.location);
+                marker.setPosition(place.geometry.location);
+                setMarker(marker);
+
+                // get the address of the selected place and update the state
+                const geocoder = new window.google.maps.Geocoder();
+                geocoder.geocode({location: place.geometry.location}, (results, status) => {
+                    if (status === 'OK' && results[0]) {
+                        setShortAddress(place.formatted_address)
+                        setLongAddress(place.formatted_address);
+                    }
                 });
-            }
+            });
+            setAutocomplete(autocomplete);
         });
-
     }, []);
 
-
     console.log(loader.status)
-    if(loader.status===2){
+    if (loader.status === 2) {
         const geocoder = new window.google.maps.Geocoder();
-        geocoder.geocode({address: address}, (results, status) => {
+        geocoder.geocode({address: shortAddress}, (results, status) => {
             if (status === 'OK' && results[0]) {
                 // Extract the city name from the address_components array
                 const addressComponents = results[0].address_components;
@@ -101,16 +120,17 @@ function Gmap({exit, setLocationState, setCoords}) {
                     }
                 }
                 setCity(city)
-                setLocationState(city)
             }
         });
-        setCoords(lat)
     }
 
 
     return (
         <div className={styles.mapContainer}>
-            <button className={styles.exitBtn} onClick={()=>{exit(); window.document.body.style.overflowY='visible'}}>
+            <button className={styles.exitBtn} onClick={() => {
+                exit();
+                window.document.body.style.overflowY = 'visible'
+            }}>
                 <GrClose/>
             </button>
             <div className={styles.useDescription}>
@@ -130,11 +150,7 @@ function Gmap({exit, setLocationState, setCoords}) {
                 <div className={styles.location}>Wybrana lokalizacja:</div>
                 <div className={`${styles.location} ${styles.color}`}>{city}</div>
             </div>
-            {/*<div>*/}
-            {/*    Marker position: {lat}, {lng}*/}
-            {/*</div>*/}
-            {/*<div>Address: {address}</div>*/}
-            {/*<div>Miasto: {city}</div>*/}
+            <div>Dokładny: {longAddress}</div>
         </div>
     );
 }
