@@ -1,4 +1,5 @@
 import styles from './UserPage.module.css';
+import { Popup } from '../Popup/Popup';
 import dude from '../../img/dude.png';
 import React, { useState, useEffect } from 'react';
 import useAuth from '../../hooks/useAuth';
@@ -20,13 +21,11 @@ import {UserResearchCard} from "../Researches/UserResearchCard";
 import {Link} from "react-router-dom";
 import researcherLogo from "../../img/banner2.png";
 import {BookmarksNav} from "../BookmarksNav/BookmarksNav";
+import {Alert} from "../Alert/Alert";
 
 const USER_URL = getApiUrl() + 'user/current';
 
 export default function UserPage(props) {
-    /*DAWIDOWE*/
-
-
     /*user data*/
     const [userData, setUserData] = useState({});
 
@@ -57,16 +56,55 @@ export default function UserPage(props) {
     /*coordinates*/
     const [coords,setCoords]=useState(0)
 
-    // /*image*/
-    // const PHOTO_UPLOAD_URL = getApiUrl() + 'image/upload';
-    // const [image, setImage] = useState(null)
-    // const [imageJson,setImageJson]=useState({image:null})
-    // const [recivedImage,setRecivedImage]=useState()
-
     /*dynamic change of displayed data*/
     const [phoneState, setPhoneState] = useState(userData.phone);
     const [emailState, setEmailState] = useState(userData.email);
     const [locationState, setLocationState] = useState('TO DO');
+
+    /*ALERTY OD RIMBIBIMBI*/
+
+    const [alert, setAlert] = React.useState({
+        alertOpen: false,
+        alertType: 0,
+        alertText: '',
+    });
+
+    const closeAlert = () =>
+        setAlert({
+            alertOpen: false,
+            alertType: alert.alertType,
+            alertText: alert.alertText,
+        });
+
+    function showAlert() {
+        switch (alert.alertType) {
+            case 204:
+                return (
+                    <Alert onClose={() => closeAlert()} type="success">
+                        {alert.alertText}
+                    </Alert>
+                );
+            case 298:
+            case 299:
+                return (
+                    <Alert onClose={() => closeAlert()} type="warning">
+                        {alert.alertText}
+                    </Alert>
+                );
+            case 500:
+                return (
+                    <Alert onClose={() => closeAlert()} type="error">
+                        {alert.alertText}
+                    </Alert>
+                );
+            default:
+                return (
+                    <Alert onClose={() => closeAlert()} type="error">
+                        {alert.alertText}
+                    </Alert>
+                );
+        }
+    }
 
     /*handlers*/
     const handlePhoneChange = event => {
@@ -114,7 +152,8 @@ export default function UserPage(props) {
                 setPhoneState(phoneInput)
             if(emailInput.length>0)
                 setEmailState(emailInput)
-            SendToDatabase().catch(e=>(console.log('whoops')))
+            SendToDatabase().catch(e=>(setAlert({alertOpen: true,alertType: 500,alertText: "Błąd serwera"})))
+            setAlert({alertOpen: true,alertType: 204,alertText: "Zaktualizowano dane"})
             exit()
         }
     };
@@ -177,6 +216,9 @@ export default function UserPage(props) {
             <Helmet>
                 <title>Profile | Researcher</title>
             </Helmet>
+            <div className={styles.alertOverlay}>
+                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
+            </div>
             <ReportForm open={openPopup} onClose={() => setOpenPopup(false)}/>
                 <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
                     <Gmap latitude={53.015331} longitude={18.6057} type={'user-page'} exit={exit} setLocationState={setLocationState} setCoords={setCoords}/>
