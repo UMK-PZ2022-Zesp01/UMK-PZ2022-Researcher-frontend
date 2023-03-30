@@ -9,7 +9,7 @@ import { HiOutlineMail, HiOutlineDocumentText } from 'react-icons/hi';
 import { BsCameraFill } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
 import { Helmet } from 'react-helmet';
-import { Gmap } from './Map';
+import { Gmap } from '../GoogleMap/GoogleMap';
 import { ReportForm } from '../Form/ReportForm/ReportForm';
 // import LatestResearchCard from '../Researches/LatestResearchCard';
 import { GoFlame } from 'react-icons/go';
@@ -179,7 +179,7 @@ export default function UserPage(props) {
             </Helmet>
             <ReportForm open={openPopup} onClose={() => setOpenPopup(false)}/>
                 <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
-                    <Gmap exit={exit} setLocationState={setLocationState} setCoords={setCoords}/>
+                    <Gmap latitude={53.015331} longitude={18.6057} type={'user-page'} exit={exit} setLocationState={setLocationState} setCoords={setCoords}/>
                 </div>
             <div className='Container'>
                 <header className={styles.bookmarksContainer}>
