@@ -29,6 +29,11 @@
     background-color: #512c8c;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    transition: 0.3s;
+}
+
+.header:hover {
+    background-color: #6d3b9e;
 }
 
 .main {

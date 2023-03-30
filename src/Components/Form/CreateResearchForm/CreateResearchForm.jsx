@@ -7,21 +7,44 @@ import { CreateResearchFormReward } from './Reward/CreateResearchFormReward';
 import { v4 as generateKey } from 'uuid';
 import { useUsername } from '../../../hooks/useAuth';
 import { CreateResearchFormRequirement } from './Requirement/CreateResearchFormRequirement';
+import { Alert } from '../../Alert/Alert';
+import { Popup } from '../../Popup/Popup';
+import { GoogleMap } from '../../GoogleMap/GoogleMap';
 
 function CreateResearchForm() {
     const RESEARCH_ADD_URL = getApiUrl() + 'research/add';
     const PHOTO_UPLOAD_URL = getApiUrl() + 'image/upload';
 
+    const acceptedPosterExtensions = ['png', 'jpg', 'jpeg', 'bmp'];
+
     const [posterImage, setPosterImage] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [begDate, setBegDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [begDate, setBegDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
     const [participantLimit, setParticipantLimit] = useState(0);
     const [researchForm, setResearchForm] = useState('');
     const [researchPlace, setResearchPlace] = useState('');
+    const [researchPlaceAddress, setResearchPlaceAddress] = useState('');
     const [rewardList, setRewardList] = useState([{ type: '', value: null }]);
     const [requirementList, setRequirementList] = useState([]);
+
+    const [isResearchSent, setIsResearchSent] = useState(false);
+
+    useEffect(() => {
+        let begD = begDate != null ? new Date(begDate.toString()).getTime() : null;
+        let endD = endDate != null ? new Date(endDate.toString()).getTime() : null;
+
+        if (begD == null || endD == null) return;
+
+        if (begD > endD) {
+            setAlert({
+                alertOpen: true,
+                alertType: 499,
+                alertText: 'Data rozpoczęcia badania jest późniejsza niż data zakończenia',
+            });
+        }
+    }, [begDate, endDate]);
 
     let research = {
         title: title,
@@ -34,6 +57,44 @@ function CreateResearchForm() {
         location: null,
         rewards: null,
         requirements: null,
+    };
+
+    /*** Alerts Section ***/
+
+    const [alert, setAlert] = React.useState({
+        alertOpen: false,
+        alertType: 0,
+        alertText: '',
+    });
+
+    const closeAlert = () =>
+        setAlert({
+            alertOpen: false,
+            alertType: alert.alertType,
+            alertText: alert.alertText,
+        });
+
+    const showAlert = () => {
+        switch (alert.alertType) {
+            case 201:
+                return (
+                    <Alert onClose={closeAlert} type="success">
+                        {alert.alertText}
+                    </Alert>
+                );
+            case 499:
+                return (
+                    <Alert onClose={closeAlert} type="warning">
+                        {alert.alertText}
+                    </Alert>
+                );
+            default:
+                return (
+                    <Alert onClose={closeAlert} type="error">
+                        {alert.alertText}
+                    </Alert>
+                );
+        }
     };
 
     /*** Rewards Section ***/
@@ -129,9 +190,65 @@ function CreateResearchForm() {
     };
 
     /*** Send New Research to Backend ***/
-    // TODO: Handle Cases in 'switch' & Add Alerts
 
     const addNewResearch = async () => {
+        /** If poster is not uploaded, send research itself **/
+        if (posterImage == null) {
+            try {
+                const response = await fetch(RESEARCH_ADD_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json; charset:UTF-8',
+                    },
+                    body: JSON.stringify(research),
+                });
+
+                console.log(response.status);
+                switch (response.status) {
+                    case 201:
+                        setIsResearchSent(true);
+                        setAlert({
+                            alertOpen: true,
+                            alertType: response.status,
+                            alertText:
+                                'Twoje ogłoszenie o badaniu zostało dodane! Kliknij, aby przejść na stronę' +
+                                ' badania',
+                        });
+                        break;
+
+                    default:
+                        setAlert({
+                            alertOpen: true,
+                            alertType: response.status,
+                            alertText: 'Coś poszło nie tak...',
+                        });
+                        break;
+                }
+            } catch (e) {
+                setAlert({
+                    alertOpen: true,
+                    alertType: 500,
+                    alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później.',
+                });
+            }
+            return;
+        }
+
+        /** Handle correct poster file extensions **/
+        if (!acceptedPosterExtensions.includes(posterImage.name.split('.').at(1).toLowerCase())) {
+            const acceptedPosterExtensionsString = acceptedPosterExtensions
+                .map(value => value.toUpperCase())
+                .join(', ');
+            setAlert({
+                alertOpen: true,
+                alertType: 400,
+                alertText:
+                    'Akceptowane są wyłącznie plakaty z następującymi rozszerzeniami: ' +
+                    acceptedPosterExtensionsString,
+            });
+            return;
+        }
+
         /** Photo Upload **/
 
         const formData = new FormData();
@@ -149,6 +266,7 @@ function CreateResearchForm() {
                     research.posterId = await response.json();
 
                     /** Research Add **/
+                    console.log('dodano badanie');
 
                     try {
                         const response = await fetch(RESEARCH_ADD_URL, {
@@ -159,13 +277,25 @@ function CreateResearchForm() {
                             body: JSON.stringify(research),
                         });
 
+                        console.log(response.status);
                         switch (response.status) {
                             case 201:
-                                // success
+                                setIsResearchSent(true);
+                                setAlert({
+                                    alertOpen: true,
+                                    alertType: response.status,
+                                    alertText:
+                                        'Twoje ogłoszenie o badaniu zostało dodane! Kliknij, aby przejść na stronę' +
+                                        ' badania',
+                                });
                                 break;
 
                             default:
-                                // default
+                                setAlert({
+                                    alertOpen: true,
+                                    alertType: response.status,
+                                    alertText: 'Coś poszło nie tak...',
+                                });
                                 break;
                         }
                     } catch (e) {
@@ -174,11 +304,19 @@ function CreateResearchForm() {
                     break;
 
                 default:
-                    // default
+                    setAlert({
+                        alertOpen: true,
+                        alertType: response.status,
+                        alertText: 'Coś poszło nie tak...',
+                    });
                     break;
             }
         } catch (e) {
-            console.log(e);
+            setAlert({
+                alertOpen: true,
+                alertType: 500,
+                alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później.',
+            });
         }
     };
 
@@ -200,6 +338,9 @@ function CreateResearchForm() {
 
     return (
         <>
+            <div className={styles.alertOverlay}>
+                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
+            </div>
             <h2 className={styles.title}>Stwórz nowe ogłoszenie o badaniu</h2>
             <form
                 className={styles.researchForm}
@@ -355,9 +496,12 @@ function CreateResearchForm() {
                 {researchForm === 'in-place' && (
                     <div className={styles.formRow}>
                         <div className={styles.map}>
-                            [GOOGLE API MAP]
-                            <br />
-                            (do wyboru stacjonarnego miejsca badania)
+                            {/*<GoogleMap*/}
+                            {/*    latitude={'53.015331'}*/}
+                            {/*    longitude={'18.6057'}*/}
+                            {/*    setLocationState={setResearchPlaceAddress}*/}
+                            {/*    sendCoords={setResearchPlace}*/}
+                            {/*/>*/}
                         </div>
                     </div>
                 )}
@@ -388,8 +532,15 @@ function CreateResearchForm() {
                     <button className={styles.formButton} type="reset">
                         Zacznij od nowa
                     </button>
-                    <button className={styles.formButton} type="submit">
-                        Dodaj nowe ogłoszenie
+                    <button
+                        className={
+                            isResearchSent
+                                ? `${styles.formButton} ${styles.sent}`
+                                : styles.formButton
+                        }
+                        type="submit"
+                    >
+                        {isResearchSent ? 'Ogłoszenie zostało dodane' : 'Dodaj nowe ogłoszenie'}
                     </button>
                 </div>
             </form>

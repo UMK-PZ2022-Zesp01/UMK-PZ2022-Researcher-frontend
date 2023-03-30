@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import styles from './UserPage.module.css';
+import styles from '../Components/UserPage/UserPage.module.css';
 import { Loader } from '@googlemaps/js-api-loader';
 import { GrClose } from 'react-icons/gr';
 
-function Gmap({ exit, setLocationState }) {
+function GoogleMap({ exit, setLocationState }) {
     const mapRef = useRef(null);
     const inputRef = useRef(null);
     const [marker, setMarker] = useState(null);
@@ -105,4 +105,4 @@ function Gmap({ exit, setLocationState }) {
     );
 }
 
-export { Gmap };
+export { GoogleMap };
