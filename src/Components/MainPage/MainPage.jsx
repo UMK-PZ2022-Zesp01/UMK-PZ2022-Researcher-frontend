@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './MainPage.module.css';
 import { useEffect } from 'react';
 import getApiUrl from '../../Common/Api';
-import useLogout from '../../hooks/useLogout';
 import { useUsername } from '../../hooks/useAuth';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
@@ -59,7 +58,6 @@ const fakeApiPosts = [
 function MainPage() {
     // const styles = MainPageStyle();
     const [username, setUsername] = React.useState(useUsername());
-    const logout = useLogout();
     const [posts, setPosts] = React.useState([]);
     const [previewed, setPreviewed] = React.useState(null);
 
@@ -105,11 +103,6 @@ function MainPage() {
             controller.abort();
         };
     }, []);
-
-    const signOut = async () => {
-        await logout();
-        setUsername('');
-    };
 
     const cutText = (text, toLength) =>
         [...text].length > toLength ? text.substring(0, toLength) : text;

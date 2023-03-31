@@ -14,7 +14,8 @@ import {
     faBug,
 } from '@fortawesome/free-solid-svg-icons';
 import getApiUrl from '../../Common/Api';
-import useAuth from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
+import { useLogout } from '../../hooks/useLogout';
 import { Link } from 'react-router-dom';
 
 // Props "active":
@@ -25,6 +26,9 @@ import { Link } from 'react-router-dom';
 // * 4 = Logout Button
 
 function BookmarksNav({ active }) {
+    const { auth } = useAuth();
+    const logout = useLogout();
+
     const [loggedUser, setLoggedUser] = useState({});
     const { username, accessToken } = useAuth().auth;
 
@@ -48,7 +52,7 @@ function BookmarksNav({ active }) {
                 console.error(error);
                 setIsSomeoneLoggedIn(false);
             });
-    }, []);
+    }, [auth]);
 
     const bookmarksMap = new Map();
 
@@ -119,16 +123,16 @@ function BookmarksNav({ active }) {
                 {activeBookmarkIndex !== 3 && <span className={styles.iconDesc}>Ustawienia</span>}
             </Link>,
 
-            <Link
+            <div
                 className={`${styles.bookmarkItem} ${styles.bookmarkItemNormalView} ${
                     !isSomeoneLoggedIn && styles.hidden
                 }`}
-                to="/logout"
                 key="4"
+                onClick={logout}
             >
                 <FontAwesomeIcon className={styles.bookmarkIcon} icon={faRightFromBracket} />
                 <span className={styles.iconDesc}>Wyloguj</span>
-            </Link>,
+            </div>,
         ];
 
         /*** Set Active Bookmark at the Beginning ***/
@@ -257,10 +261,10 @@ function BookmarksNav({ active }) {
                             <span className={styles.bookmarkButtonMobileText}>Zgłoś błąd</span>
                         </Link>
 
-                        <Link to="/logout" className={styles.bookmarkButtonMobile}>
+                        <div onClick={logout} className={styles.bookmarkButtonMobile}>
                             <FontAwesomeIcon icon={faRightFromBracket} />
                             <span className={styles.bookmarkButtonMobileText}>Wyloguj</span>
-                        </Link>
+                        </div>
                     </div>
                 </div>
             </div>

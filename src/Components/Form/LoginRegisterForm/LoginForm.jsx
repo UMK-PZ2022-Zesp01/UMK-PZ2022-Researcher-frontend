@@ -2,7 +2,7 @@ import React from 'react';
 // import FormStyle from './FormStyle';
 import styles from './LoginRegisterForm.module.css';
 import getApiUrl from '../../../Common/Api.js';
-import useAuth from '../../../hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const LOGIN_URL = getApiUrl() + 'login';

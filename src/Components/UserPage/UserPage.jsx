@@ -1,7 +1,7 @@
 import styles from './UserPage.module.css';
 import dude from '../../img/dude.png';
 import React, { useState, useEffect } from 'react';
-import useAuth from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import getApiUrl from '../../Common/Api.js';
 import { MdLocationOn, MdPhone } from 'react-icons/md';
 import { GiFemale, GiMale } from 'react-icons/gi';
@@ -138,7 +138,7 @@ export default function UserPage(props) {
             .catch(error => {
                 console.error(error);
             });
-    }, []);
+    }, [accessToken]);
 
     const requestOptions = {
         method: 'PUT',
@@ -219,7 +219,11 @@ export default function UserPage(props) {
                                 </div>
                                 <div className={styles.desc}>
                                     <MdPhone className={styles.icon} />
-                                    {phoneState}
+                                    {phoneState || (
+                                        <span onClick={() => setIsClickedEdit(true)}>
+                                            Dodaj numer
+                                        </span>
+                                    )}
                                 </div>
                                 {userData.gender === 'male' ? (
                                     <div className={styles.desc}>

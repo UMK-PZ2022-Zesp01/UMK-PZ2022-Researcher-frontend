@@ -90,52 +90,48 @@ function RegisterForm(props) {
     async function SubmitButtonClicked(event) {
         event.preventDefault();
         try {
-            await fetch(REGISTER_URL, {
+            const response = await fetch(REGISTER_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json; charset:UTF-8',
                 },
                 body: JSON.stringify(user),
-            })
-                .then(response => {
-                    if (response.ok) {
-                        //OK or CREATED
-                        let text;
-                        switch (response.status) {
-                            case 201:
-                                text = 'Rejestracja przebiegła pomyślnie.';
-                                navigate('/registeredSuccessfully', {
-                                    replace: false,
-                                    state: { username },
-                                });
-                                break;
-                            case 299:
-                                text = 'Ten email jest już zajęty.';
-                                break;
-                            case 298:
-                                text = 'Ta nazwa użytkownika jest już zajęta.';
-                                break;
-                            default:
-                                text = 'Co to się stanęło?';
-                        }
-                        setAlert({
-                            alertOpen: true,
-                            alertType: response.status,
-                            alertText: text,
+            });
+
+            if (response.ok) {
+                //OK or CREATED
+                let text;
+                switch (response.status) {
+                    case 201:
+                        text = 'Rejestracja przebiegła pomyślnie.';
+                        navigate('/registeredSuccessfully', {
+                            replace: false,
+                            state: { username },
                         });
-                    } else {
-                        console.log(response.status);
-                    }
-                })
-                .catch(() => {
-                    setAlert({
-                        alertOpen: true,
-                        alertType: 999,
-                        alertText: 'Coś poszło nie tak.',
-                    });
+                        break;
+                    case 299:
+                        text = 'Ten email jest już zajęty.';
+                        break;
+                    case 298:
+                        text = 'Ta nazwa użytkownika jest już zajęta.';
+                        break;
+                    default:
+                        throw new Error();
+                }
+                setAlert({
+                    alertOpen: true,
+                    alertType: response.status,
+                    alertText: text,
                 });
+            } else {
+                throw new Error();
+            }
         } catch (error) {
-            console.log(error);
+            setAlert({
+                alertOpen: true,
+                alertType: 999,
+                alertText: 'Coś poszło nie tak.',
+            });
         }
     }
 
@@ -154,6 +150,7 @@ function RegisterForm(props) {
                         placeholder="Imię"
                         className={styles.textInput}
                         maxLength={32}
+                        pattern="^([a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+[,.]?[ ]?|[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+['-]?)+$"
                         required
                     />
                     <div className={styles.flexColumnSep}></div>
@@ -164,6 +161,7 @@ function RegisterForm(props) {
                         placeholder="Nazwisko"
                         className={styles.textInput}
                         maxLength={32}
+                        pattern="^([a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+[,.]?[ ]?|[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+['-]?)+$"
                         required
                     />
                 </div>
@@ -175,6 +173,7 @@ function RegisterForm(props) {
                         placeholder="Nazwa użytkownika"
                         className={styles.textInput}
                         maxLength={32}
+                        pattern="^[a-zA-Z][a-zA-Z0-9]*$"
                         required
                     />
                     <div className={styles.flexColumnSep}></div>
@@ -185,6 +184,7 @@ function RegisterForm(props) {
                         placeholder="Adres e-mail"
                         className={styles.textInput}
                         maxLength={64}
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"
                         required
                     />
                 </div>
@@ -197,6 +197,8 @@ function RegisterForm(props) {
                         className={styles.textInput}
                         required
                         maxLength={32}
+                        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                        title="Hasło musi mieć przynajmniej 8 znaków, w tym cyfrę, małą oraz wielką literę."
                         ref={el => (passwordRef.current = el)}
                     />
                     <div className={styles.flexColumnSep}></div>
@@ -217,7 +219,7 @@ function RegisterForm(props) {
                         setPasswordScore={setPasswordScore}
                         className={styles.fullWidth}
                         password={password}
-                        scoreWords={['Słabe', 'Słabe', 'Ok', 'Silne', 'Bardzo Silne']}
+                        scoreWords={['Za słabe', 'Za słabe', 'Ok', 'Silne', 'Bardzo Silne']}
                         shortScoreWord={'Zbyt krótkie'}
                     ></PasswordStrengthBar>
                 </div>
