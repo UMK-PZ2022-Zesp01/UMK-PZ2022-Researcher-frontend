@@ -32,7 +32,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
                     step="0.01"
                     name="reward-value"
                     placeholder="Kwota w zł"
-                    defaultValue={Number(value) / 100}
+                    defaultValue={Number(value) > 0 ? Number(value) / 100 : ''}
                     onChange={event =>
                         handleUpdate(index, {
                             type: type,

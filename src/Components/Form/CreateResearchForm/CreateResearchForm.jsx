@@ -9,14 +9,17 @@ import { useUsername } from '../../../hooks/useAuth';
 import { CreateResearchFormRequirement } from './Requirement/CreateResearchFormRequirement';
 import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
-import { GoogleMap } from '../../GoogleMap/GoogleMap';
+import { Gmap } from '../../GoogleMap/GoogleMap';
 
 function CreateResearchForm() {
     const RESEARCH_ADD_URL = getApiUrl() + 'research/add';
-    const PHOTO_UPLOAD_URL = getApiUrl() + 'image/upload';
 
     const acceptedPosterExtensions = ['png', 'jpg', 'jpeg', 'bmp'];
+    const acceptedPosterExtensionsString = acceptedPosterExtensions
+        .map(value => value.toUpperCase())
+        .join(', ');
 
+    const [researchCode, setResearchCode] = useState(null);
     const [posterImage, setPosterImage] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -25,17 +28,18 @@ function CreateResearchForm() {
     const [participantLimit, setParticipantLimit] = useState(0);
     const [researchForm, setResearchForm] = useState('');
     const [researchPlace, setResearchPlace] = useState('');
-    const [researchPlaceAddress, setResearchPlaceAddress] = useState('');
     const [rewardList, setRewardList] = useState([{ type: '', value: null }]);
     const [requirementList, setRequirementList] = useState([]);
 
+    const [areBegEndDatesCorrect, setAreBegEndDatesCorrect] = useState(false);
+    const [areAllAgeIntervalsCorrect, setAreAllAgeIntervalsCorrect] = useState(false);
     const [isResearchSent, setIsResearchSent] = useState(false);
 
-    useEffect(() => {
-        let begD = begDate != null ? new Date(begDate.toString()).getTime() : null;
-        let endD = endDate != null ? new Date(endDate.toString()).getTime() : null;
+    const catchIncorrectBegEndDates = () => {
+        const begD = begDate != null ? new Date(begDate.toString()).getTime() : null;
+        const endD = endDate != null ? new Date(endDate.toString()).getTime() : null;
 
-        if (begD == null || endD == null) return;
+        if (begD == null || endD == null) setAreBegEndDatesCorrect(false);
 
         if (begD > endD) {
             setAlert({
@@ -43,14 +47,39 @@ function CreateResearchForm() {
                 alertType: 499,
                 alertText: 'Data rozpoczęcia badania jest późniejsza niż data zakończenia',
             });
+            setAreBegEndDatesCorrect(false);
+        } else {
+            setAreBegEndDatesCorrect(true);
         }
+    };
+
+    // TODO: Finish this shit
+    const catchIncorrectAgeIntervals = () => {
+        const ageIntervals = requirementList.filter(value => value.type === 'age');
+        ageIntervals.forEach(value => {
+            if (value.ageMin == null || value.ageMax == null) {
+                setAreAllAgeIntervalsCorrect(false);
+                return;
+            } else if (value.ageMin > value.ageMax) {
+                setAreAllAgeIntervalsCorrect(false);
+                return;
+            }
+        });
+        setAreAllAgeIntervalsCorrect(true);
+    };
+
+    useEffect(() => {
+        catchIncorrectBegEndDates();
     }, [begDate, endDate]);
+
+    useEffect(() => {
+        catchIncorrectAgeIntervals();
+    }, [requirementList]);
 
     let research = {
         title: title,
         description: description,
         creatorLogin: useUsername(),
-        posterId: null,
         begDate: begDate,
         endDate: endDate,
         participantLimit: participantLimit,
@@ -82,6 +111,7 @@ function CreateResearchForm() {
                         {alert.alertText}
                     </Alert>
                 );
+            case 299:
             case 499:
                 return (
                     <Alert onClose={closeAlert} type="warning">
@@ -154,6 +184,31 @@ function CreateResearchForm() {
     /*** Functions for Handling Changes in Form ***/
 
     const handlePosterImageChange = event => {
+        /** Handle correct poster file extensions **/
+        if (
+            !acceptedPosterExtensions.includes(
+                event.target.files[0].name.split('.').at(1).toLowerCase()
+            )
+        ) {
+            setAlert({
+                alertOpen: true,
+                alertType: 400,
+                alertText:
+                    'Akceptowane są wyłącznie plakaty z następującymi rozszerzeniami: ' +
+                    acceptedPosterExtensionsString,
+            });
+            return;
+        }
+
+        if (event.target.files[0].size > 1048576) {
+            setAlert({
+                alertOpen: true,
+                alertType: 400,
+                alertText: 'Zbyt duży plakat! Maksymalny rozmiar plakatu to 1 MB!',
+            });
+            return;
+        }
+
         setPosterImage(event.target.files[0]);
     };
 
@@ -192,122 +247,38 @@ function CreateResearchForm() {
     /*** Send New Research to Backend ***/
 
     const addNewResearch = async () => {
-        /** If poster is not uploaded, send research itself **/
-        if (posterImage == null) {
-            try {
-                const response = await fetch(RESEARCH_ADD_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json; charset:UTF-8',
-                    },
-                    body: JSON.stringify(research),
-                });
-
-                console.log(response.status);
-                switch (response.status) {
-                    case 201:
-                        setIsResearchSent(true);
-                        setAlert({
-                            alertOpen: true,
-                            alertType: response.status,
-                            alertText:
-                                'Twoje ogłoszenie o badaniu zostało dodane! Kliknij, aby przejść na stronę' +
-                                ' badania',
-                        });
-                        break;
-
-                    default:
-                        setAlert({
-                            alertOpen: true,
-                            alertType: response.status,
-                            alertText: 'Coś poszło nie tak...',
-                        });
-                        break;
-                }
-            } catch (e) {
-                setAlert({
-                    alertOpen: true,
-                    alertType: 500,
-                    alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później.',
-                });
-            }
-            return;
-        }
-
-        /** Handle correct poster file extensions **/
-        if (!acceptedPosterExtensions.includes(posterImage.name.split('.').at(1).toLowerCase())) {
-            const acceptedPosterExtensionsString = acceptedPosterExtensions
-                .map(value => value.toUpperCase())
-                .join(', ');
-            setAlert({
-                alertOpen: true,
-                alertType: 400,
-                alertText:
-                    'Akceptowane są wyłącznie plakaty z następującymi rozszerzeniami: ' +
-                    acceptedPosterExtensionsString,
-            });
-            return;
-        }
-
-        /** Photo Upload **/
-
         const formData = new FormData();
-        formData.append('image', posterImage);
-        formData.append('type', 'research-poster');
+        formData.append(
+            'researchProperties',
+            new Blob([JSON.stringify(research)], {
+                type: 'application/json',
+            })
+        );
+        formData.append('posterImage', posterImage);
 
         try {
-            const response = await fetch(PHOTO_UPLOAD_URL, {
+            const response = await fetch(RESEARCH_ADD_URL, {
                 method: 'POST',
                 body: formData,
             });
 
             switch (response.status) {
-                case 201: // CREATED
-                    research.posterId = await response.json();
-
-                    /** Research Add **/
-                    console.log('dodano badanie');
-
-                    try {
-                        const response = await fetch(RESEARCH_ADD_URL, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json; charset:UTF-8',
-                            },
-                            body: JSON.stringify(research),
-                        });
-
-                        console.log(response.status);
-                        switch (response.status) {
-                            case 201:
-                                setIsResearchSent(true);
-                                setAlert({
-                                    alertOpen: true,
-                                    alertType: response.status,
-                                    alertText:
-                                        'Twoje ogłoszenie o badaniu zostało dodane! Kliknij, aby przejść na stronę' +
-                                        ' badania',
-                                });
-                                break;
-
-                            default:
-                                setAlert({
-                                    alertOpen: true,
-                                    alertType: response.status,
-                                    alertText: 'Coś poszło nie tak...',
-                                });
-                                break;
-                        }
-                    } catch (e) {
-                        console.log(e);
-                    }
-                    break;
-
-                default:
+                case 201:
+                    setResearchCode(await response.json());
+                    setIsResearchSent(true);
                     setAlert({
                         alertOpen: true,
                         alertType: response.status,
-                        alertText: 'Coś poszło nie tak...',
+                        alertText: 'Twoje ogłoszenie o badaniu zostało dodane!',
+                    });
+                    break;
+                default:
+                    setAlert({
+                        alertOpen: true,
+                        alertType: 400,
+                        alertText:
+                            'Nie udało się dodać badania! Upewnij się, że wszystkie dane są wpisane w' +
+                            ' odpowiednim formacie',
                     });
                     break;
             }
@@ -315,7 +286,7 @@ function CreateResearchForm() {
             setAlert({
                 alertOpen: true,
                 alertType: 500,
-                alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później.',
+                alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później',
             });
         }
     };
@@ -330,22 +301,41 @@ function CreateResearchForm() {
 
     const handleFormSubmit = event => {
         event.preventDefault();
+
+        catchIncorrectBegEndDates();
+        if (!areBegEndDatesCorrect) return;
+
+        catchIncorrectAgeIntervals();
+        if (!areAllAgeIntervalsCorrect) return;
+
         research.location = { form: researchForm, place: researchPlace };
         research.rewards = rewardList;
         research.requirements = requirementList;
+
+        if (posterImage == null) {
+            setAlert({
+                alertOpen: true,
+                alertType: 400,
+                alertText:
+                    'Dodaj plakat badania! Akceptowane są plakaty z następującymi rozszerzeniami: ' +
+                    acceptedPosterExtensionsString,
+            });
+            return;
+        }
+
         addNewResearch().then(null);
     };
 
     return (
         <>
-            <div className={styles.alertOverlay}>
+            <div className={alert.alertOpen ? styles.alertOverlay : styles.hidden}>
                 <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
             </div>
             <h2 className={styles.title}>Stwórz nowe ogłoszenie o badaniu</h2>
             <form
-                className={styles.researchForm}
                 onSubmit={handleFormSubmit}
                 onReset={handleFormReset}
+                className={styles.researchForm}
                 encType="multipart/form-data"
             >
                 <div className={styles.formRowTop}>
@@ -496,12 +486,11 @@ function CreateResearchForm() {
                 {researchForm === 'in-place' && (
                     <div className={styles.formRow}>
                         <div className={styles.map}>
-                            {/*<GoogleMap*/}
-                            {/*    latitude={'53.015331'}*/}
-                            {/*    longitude={'18.6057'}*/}
-                            {/*    setLocationState={setResearchPlaceAddress}*/}
-                            {/*    sendCoords={setResearchPlace}*/}
-                            {/*/>*/}
+                            <Gmap
+                                setCoords={setResearchPlace}
+                                setLocationState={() => {}}
+                                usedStylesheet={1}
+                            />
                         </div>
                     </div>
                 )}

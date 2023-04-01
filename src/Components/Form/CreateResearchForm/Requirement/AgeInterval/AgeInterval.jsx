@@ -1,13 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import styles from './AgeInterval.module.css';
+import { Alert } from '../../../../Alert/Alert';
+import { Popup } from '../../../../Popup/Popup';
 
 function AgeInterval({ index, data, handleUpdate, handleDelete }) {
-    const { ageMin, ageMax } = data;
+    const [ageMin, setAgeMin] = useState(data.ageMin);
+    const [ageMax, setAgeMax] = useState(data.ageMax);
+
+    useEffect(() => {
+        if (ageMin == null || ageMax == null) return;
+        if (ageMin > ageMax) {
+            setAlert({
+                alertOpen: true,
+                alertType: 499,
+                alertText: 'Limit dolny wieku jest większy niż limit górny',
+            });
+        }
+    }, [ageMin, ageMax]);
+
+    /*** Alerts Section ***/
+
+    const [alert, setAlert] = React.useState({
+        alertOpen: false,
+        alertType: 0,
+        alertText: '',
+    });
+
+    const closeAlert = () =>
+        setAlert({
+            alertOpen: false,
+            alertType: alert.alertType,
+            alertText: alert.alertText,
+        });
+
+    const showAlert = () => {
+        switch (alert.alertType) {
+            case 499:
+                return (
+                    <Alert onClose={closeAlert} type="warning">
+                        {alert.alertText}
+                    </Alert>
+                );
+            default:
+                return (
+                    <Alert onClose={closeAlert} type="error">
+                        {alert.alertText}
+                    </Alert>
+                );
+        }
+    };
 
     return (
         <div className={styles.ageIntervalContainer}>
+            <div className={alert.alertOpen ? styles.alertOverlay : styles.hidden}>
+                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
+            </div>
             <div className={styles.checkboxAge}>
                 <label className={styles.checkboxLabel}>limit dolny:</label>
                 <input
@@ -19,12 +68,13 @@ function AgeInterval({ index, data, handleUpdate, handleDelete }) {
                     name="age-min-value"
                     placeholder="Wpisz wiek..."
                     defaultValue={ageMin}
-                    onChange={event =>
+                    onChange={event => {
+                        setAgeMin(event.target.value);
                         handleUpdate(index, {
                             ageMin: Number(event.target.value),
-                            ageMax: ageMax,
-                        })
-                    }
+                            ageMax: Number(ageMax),
+                        });
+                    }}
                 />
             </div>
 
@@ -41,12 +91,13 @@ function AgeInterval({ index, data, handleUpdate, handleDelete }) {
                     name="age-max-value"
                     placeholder="Wpisz wiek..."
                     defaultValue={ageMax}
-                    onChange={event =>
+                    onChange={event => {
+                        setAgeMax(event.target.value);
                         handleUpdate(index, {
-                            ageMin: ageMin,
+                            ageMin: Number(ageMin),
                             ageMax: Number(event.target.value),
-                        })
-                    }
+                        });
+                    }}
                 />
             </div>
 

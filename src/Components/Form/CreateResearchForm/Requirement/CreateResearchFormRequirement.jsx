@@ -5,8 +5,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { v4 as generateKey } from 'uuid';
 import { CustomRequirement } from './CustomRequirement/CustomRequirement';
 import { AgeInterval } from './AgeInterval/AgeInterval';
-import { Alert } from '../../../Alert/Alert';
-import { Popup } from '../../../Popup/Popup';
 
 function CreateResearchFormRequirement({ sendList }) {
     const [isGenderCheckboxChecked, setIsGenderCheckboxChecked] = useState(false);
@@ -335,49 +333,8 @@ function CreateResearchFormRequirement({ sendList }) {
         setIsMaritalOtherCheckboxChecked(!isMaritalOtherCheckboxChecked);
     };
 
-    /*** Alerts Section ***/
-
-    const [alert, setAlert] = React.useState({
-        alertOpen: false,
-        alertType: 0,
-        alertText: '',
-    });
-
-    const closeAlert = () =>
-        setAlert({
-            alertOpen: false,
-            alertType: alert.alertType,
-            alertText: alert.alertText,
-        });
-
-    const showAlert = () => {
-        switch (alert.alertType) {
-            case 201:
-                return (
-                    <Alert onClose={closeAlert} type="success">
-                        {alert.alertText}
-                    </Alert>
-                );
-            case 499:
-                return (
-                    <Alert onClose={closeAlert} type="warning">
-                        {alert.alertText}
-                    </Alert>
-                );
-            default:
-                return (
-                    <Alert onClose={closeAlert} type="error">
-                        {alert.alertText}
-                    </Alert>
-                );
-        }
-    };
-
     return (
         <>
-            <div className={styles.alertOverlay}>
-                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
-            </div>
             <div className={styles.requirementRow}>
                 <div className={styles.checkboxElement}>
                     <input
