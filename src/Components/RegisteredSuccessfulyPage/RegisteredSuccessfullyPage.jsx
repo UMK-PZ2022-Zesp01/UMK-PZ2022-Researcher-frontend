@@ -22,7 +22,7 @@ export default function RegisteredSuccessfullyPage() {
 
     const demandVerificationMail = async () => {
         try {
-            const response = await fetch(`${DEMAND_URL}?username=${username}`, {
+            const response = await fetch(`${DEMAND_URL}?login=${username}`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {

@@ -184,7 +184,7 @@ function RegisterForm(props) {
                         placeholder="Adres e-mail"
                         className={styles.textInput}
                         maxLength={64}
-                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"
+                        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                         required
                     />
                 </div>
