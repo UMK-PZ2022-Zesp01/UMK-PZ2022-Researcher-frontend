@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import styles from './RegisteredSuccessfullyPage.module.css';
-// import RegisteredSuccessfullyPageStyle from './RegisteredSuccessfullyPageStyle';
 import { useLocation, useNavigate } from 'react-router-dom';
 import getApiUrl from '../../Common/Api';
 import { Loading } from '../Loading/Loading';
@@ -8,8 +7,6 @@ import { Loading } from '../Loading/Loading';
 const DEMAND_URL = `${getApiUrl()}user/sendVerificationMail`;
 
 export default function RegisteredSuccessfullyPage() {
-    // const styles = RegisteredSuccessfullyPageStyle();
-
     const location = useLocation();
     const navigate = useNavigate();
 

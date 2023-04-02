@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import styles from './ConfirmEmailPage.module.css';
-import ConfirmEmailPageStyle from './ConfirmEmailPageStyle';
 import { useNavigate, useParams } from 'react-router-dom';
 import getApiUrl from '../../Common/Api';
 import { Loading } from '../Loading/Loading';

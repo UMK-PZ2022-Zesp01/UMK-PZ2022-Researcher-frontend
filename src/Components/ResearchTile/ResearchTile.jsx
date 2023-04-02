@@ -1,15 +1,12 @@
 import React from 'react';
 import styles from './ResearchTile.module.css';
-// import ResearchTileStyle from './ResearchTileStyle';
 
 export default function ResearchTile({ tileData, postData }) {
-    // const styles = ResearchTileStyle();
-
     const { tileNumber, previewed, setPreviewed } = tileData;
     const {
         poster,
         title,
-        author,
+        creatorLogin,
         description,
 
         location,
@@ -22,6 +19,8 @@ export default function ResearchTile({ tileData, postData }) {
         requirements,
         rewards,
     } = postData;
+
+    console.log(postData);
 
     const isPreviewed = previewed === tileNumber;
 
@@ -54,7 +53,9 @@ export default function ResearchTile({ tileData, postData }) {
                 <span key={`${item.type} ${item.value}`} className={styles.bold}>
                     {`${translate[item.type.toLowerCase()]}: `}
                 </span>
-                {item.value} {item.type.toLowerCase() === 'cash' ? 'zł' : ''}
+                {item.type.toLowerCase() === 'cash'
+                    ? `${Number(item.value / 100).toFixed(2)}zł`
+                    : item.value}
                 <br />
             </>
         ));
@@ -71,10 +72,11 @@ export default function ResearchTile({ tileData, postData }) {
                     className={styles.poster}
                     alt={'poster'}
                     src={`data:image/jpeg;base64,${poster}`}
+                    // src={URL.createObjectURL(poster?.data)}
                 />
                 <div className={styles.tileOverlay}>
                     <p className={styles.tileOverlayTitle}>{title}</p>
-                    <p className={styles.tileOverlayAuthor}>{author}</p>
+                    <p className={styles.tileOverlayAuthor}>{creatorLogin}</p>
                     <p className={styles.tileOverlayDate}>otwarte do: {endDate}</p>
                 </div>
             </li>
@@ -89,7 +91,9 @@ export default function ResearchTile({ tileData, postData }) {
                     </div>
                 </div>
                 <div className={styles.previewHeader2}>
-                    <div className={`${styles.headerHalf} ${styles.headerLeft}`}>{author}</div>
+                    <div className={`${styles.headerHalf} ${styles.headerLeft}`}>
+                        {creatorLogin}
+                    </div>
                     <div className={`${styles.headerHalf} ${styles.headerRight}`}>{highlight}</div>
                 </div>
                 <div className={styles.previewBody}>
@@ -97,9 +101,9 @@ export default function ResearchTile({ tileData, postData }) {
                         <div className={styles.infoBox}>
                             <div className={styles.h4}>Dostęp</div>
                             <b className={styles.bold}>Forma: </b>{' '}
-                            {location.form.toLowerCase() === 'remote' ? 'zdalnie' : 'na miejscu'}
+                            {location?.form.toLowerCase() === 'remote' ? 'zdalnie' : 'na miejscu'}
                             <br />
-                            <b className={styles.bold}>Adres: </b> {location.address}
+                            <b className={styles.bold}>Adres: </b> {location?.address}
                         </div>
                         <div className={styles.infoBox}>
                             <div className={styles.h4}>Wymagania</div>

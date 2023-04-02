@@ -1,11 +1,7 @@
 import React from 'react';
-
 import styles from './Loading.module.css';
-import LoadingStyle from './LoadingStyle';
 
 export function Loading(props) {
-    // const styles = LoadingStyle();
-
     const { isLoading, isSuccessful } = props;
 
     const getChungusStyle = () => {

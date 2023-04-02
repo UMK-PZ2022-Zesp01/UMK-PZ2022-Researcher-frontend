@@ -15,4 +15,4 @@ Popup.defaultProps = {
     direction: 'horizontal',
 };
 
-export { Popup };
+export {Popup};
