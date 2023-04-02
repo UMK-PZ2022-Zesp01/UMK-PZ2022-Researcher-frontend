@@ -17,6 +17,7 @@ function App() {
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route path="/login" element={<LoginRegisterPage />} />
+
                 <Route element={<PersistLogin />}>
                     <Route path="/" index element={<MainPage />} />
 

@@ -14,7 +14,7 @@ import { Gmap } from '../GoogleMap/GoogleMap';
 import { ReportForm } from '../Form/ReportForm/ReportForm';
 // import LatestResearchCard from '../Researches/LatestResearchCard';
 import { GoFlame } from 'react-icons/go';
-import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faFileCirclePlus, faArrowTurnDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {LatestResearchCard} from "../Researches/LatestResearchCard";
 import {UserResearchCard} from "../Researches/UserResearchCard";
@@ -22,8 +22,10 @@ import {Link} from "react-router-dom";
 import researcherLogo from "../../img/banner2.png";
 import {BookmarksNav} from "../BookmarksNav/BookmarksNav";
 import {Alert} from "../Alert/Alert";
+import ResearchTile from "../ResearchTile/ResearchTile";
 
 const USER_URL = getApiUrl() + 'user/current';
+const RESEARCHES_URL = getApiUrl() + 'researches';
 
 export default function UserPage(props) {
     /*user data*/
@@ -31,6 +33,9 @@ export default function UserPage(props) {
 
     /*access token*/
     const {username, accessToken} = useAuth().auth;
+
+    /*researches button value*/
+    const [clickedResearches, setIsClickedResearches] = useState(false);
 
     /*edit button value*/
     const [clickedEdit, setIsClickedEdit] = useState(false);
@@ -55,6 +60,10 @@ export default function UserPage(props) {
 
     /*coordinates*/
     const [coords,setCoords]=useState(0)
+
+    /*user's posts*/
+    const [posts, setPosts] = React.useState([]);
+    const [previewed, setPreviewed] = React.useState(null);
 
     /*dynamic change of displayed data*/
     const [phoneState, setPhoneState] = useState(userData.phone);
@@ -165,6 +174,12 @@ export default function UserPage(props) {
     };
 
     useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController();
+        const signal = controller.signal;
+
+
+
         fetch(getApiUrl() + 'user/current', {
             method: 'GET',
             credentials: 'include',
@@ -182,7 +197,42 @@ export default function UserPage(props) {
             .catch(error => {
                 console.error(error);
             });
+
+        const getPosts = async () => {
+            try {
+                await fetch(RESEARCHES_URL, {
+                    signal,
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json;charset:UTF-8',
+                    },
+                })
+                    .then(response =>
+                        response.json().then(result => {
+                            isMounted && setPosts(result);
+                        })
+                    )
+                    .catch(error => {
+                        console.error(error);
+                    });
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        getPosts();
+
     }, []);
+
+    const showPosts = () => {
+        return posts.map((post, index) => (
+            <ResearchTile
+                key={post}
+                tileData={{ previewed: previewed, setPreviewed: setPreviewed, tileNumber: index }}
+                postData={post}
+            ></ResearchTile>
+        ));
+    };
 
     const requestOptions = {
         method: 'PUT',
@@ -231,6 +281,16 @@ export default function UserPage(props) {
                     <BookmarksNav active="profile" />
                 </header>
                 <div className={styles.UserBox}>
+
+                    <div className={clickedResearches ? styles.userResearches : styles.userResearchesHide}>
+                        <button className={styles.exitResBtn} onClick={()=>setIsClickedResearches(false)}><FontAwesomeIcon className={styles.arrowIcon} icon={faArrowTurnDown}/></button>
+                        <div className={styles.userResearchCard}>
+                            {showPosts()}
+                        </div>
+                    </div>
+
+                    <div className={clickedResearches ? styles.userDataHide : styles.userData}>
+
                     <div className={styles.leftContainer}>
                         <div className={styles.infoWithoutEdit}>
                             <div className={styles.mainInfo}>
@@ -401,7 +461,7 @@ export default function UserPage(props) {
                                     <span>Dodaj nowe badanie</span>
 
                                 </a>
-                                <div className={styles.singleActivity}>
+                                <div className={styles.singleActivity} onClick={() => setIsClickedResearches(true)}>
                                     <HiOutlineDocumentText className={styles.additionIconResearches}/>
                                     <span>Zobacz swoje badania</span>
                                 </div>
@@ -415,6 +475,7 @@ export default function UserPage(props) {
                             </div>
                         </div>
                     </div>
+                        </div>
                 </div>
             </div>
 

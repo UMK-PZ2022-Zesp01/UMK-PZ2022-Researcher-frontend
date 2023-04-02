@@ -100,6 +100,7 @@
     -webkit-box-shadow: 0 0 0 0 rgba(109, 59, 158, 1);
     -moz-box-shadow: 0 0 0 0 rgba(109, 59, 158, 1);
     box-shadow: 0 0 0 0 rgba(109, 59, 158, 1);
+
 }
 
 .previewVisible {
@@ -107,6 +108,8 @@
     -webkit-box-shadow: 0px 0px 25px 0px rgba(109, 59, 158, 1);
     -moz-box-shadow: 0px 0px 25px 0px rgba(109, 59, 158, 1);
     box-shadow: 0px 0px 25px 0px rgba(109, 59, 158, 1);
+
+    scroll-snap-align: center;
 }
 
 .previewHeader1 {

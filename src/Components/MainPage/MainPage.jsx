@@ -97,8 +97,8 @@ function MainPage() {
             }
         };
 
-        // getPosts();
-        isMounted && setPosts(fakeApiPosts);
+         getPosts();
+       // isMounted && setPosts(fakeApiPosts);
 
         return () => {
             isMounted = false;
