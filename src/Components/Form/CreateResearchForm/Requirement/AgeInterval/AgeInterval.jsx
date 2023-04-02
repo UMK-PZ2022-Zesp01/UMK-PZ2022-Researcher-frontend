@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import styles from './AgeInterval.module.css';
@@ -9,16 +9,26 @@ function AgeInterval({ index, data, handleUpdate, handleDelete }) {
     const [ageMin, setAgeMin] = useState(data.ageMin);
     const [ageMax, setAgeMax] = useState(data.ageMax);
 
-    useEffect(() => {
-        if (ageMin == null || ageMax == null) return;
-        if (ageMin > ageMax) {
-            setAlert({
-                alertOpen: true,
-                alertType: 499,
-                alertText: 'Limit dolny wieku jest większy niż limit górny',
-            });
+    const ageMinRef = useRef(null);
+    // const ageMaxRef = useRef(null);
+
+    const validateAgeInterval = () => {
+        let minA = ageMinRef.current;
+        // let maxA = ageMaxRef.current;
+
+        // if(ageMin == null || ageMax == null){
+        //     minA.setCustomValidity('');
+        //     // maxA.setCustomValidity('');
+        // }
+        if(Number(ageMin) > Number(ageMax)) {
+            minA.setCustomValidity('Limit dolny nie może być większy niż limit górny')
+        } else {
+            minA.setCustomValidity('');
         }
-    }, [ageMin, ageMax]);
+
+    };
+
+    useEffect(validateAgeInterval, [ageMin, ageMax]);
 
     /*** Alerts Section ***/
 
@@ -68,6 +78,7 @@ function AgeInterval({ index, data, handleUpdate, handleDelete }) {
                     name="age-min-value"
                     placeholder="Wpisz wiek..."
                     defaultValue={ageMin}
+                    ref={element => (ageMinRef.current = element)}
                     onChange={event => {
                         setAgeMin(event.target.value);
                         handleUpdate(index, {

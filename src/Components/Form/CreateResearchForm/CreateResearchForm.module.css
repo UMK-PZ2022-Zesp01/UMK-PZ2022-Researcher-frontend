@@ -27,7 +27,7 @@
 .posterContainer {
     position: relative;
     width: 25%;
-    aspect-ratio: 1 / 1.414;
+    height: 20rem;
     border-radius: 5px;
     background-color: #d6cef3;
     border: 2px solid #c6b1e7;
@@ -40,7 +40,7 @@
 }
 
 .posterImg {
-    aspect-ratio: 1 / 1.414;
+    height: 100%;
     width: 100%;
     margin: 0;
     border-radius: 5px;
@@ -267,6 +267,7 @@
     padding: 10px;
     outline: none;
     cursor: pointer;
+    text-decoration: none;
     border: 2px solid #512c8c;
     transition: 0.3s;
 }

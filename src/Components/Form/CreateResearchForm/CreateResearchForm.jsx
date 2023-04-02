@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import styles from './CreateResearchForm.module.css';
 import { faFileImage, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,6 +10,7 @@ import { CreateResearchFormRequirement } from './Requirement/CreateResearchFormR
 import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
 import { Gmap } from '../../GoogleMap/GoogleMap';
+import { Link } from "react-router-dom";
 
 function CreateResearchForm() {
     const RESEARCH_ADD_URL = getApiUrl() + 'research/add';
@@ -19,62 +20,21 @@ function CreateResearchForm() {
         .map(value => value.toUpperCase())
         .join(', ');
 
-    const [researchCode, setResearchCode] = useState(null);
     const [posterImage, setPosterImage] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [begDate, setBegDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [begDate, setBegDate] = useState(new Date().toISOString().split('T').at(0));
+    const [endDate, setEndDate] = useState(new Date().toISOString().split('T').at(0));
     const [participantLimit, setParticipantLimit] = useState(0);
     const [researchForm, setResearchForm] = useState('');
     const [researchPlace, setResearchPlace] = useState('');
     const [rewardList, setRewardList] = useState([{ type: '', value: null }]);
     const [requirementList, setRequirementList] = useState([]);
 
-    const [areBegEndDatesCorrect, setAreBegEndDatesCorrect] = useState(false);
-    const [areAllAgeIntervalsCorrect, setAreAllAgeIntervalsCorrect] = useState(false);
+    const begDateRef = useRef(null);
+    const endDateRef = useRef(null);
+
     const [isResearchSent, setIsResearchSent] = useState(false);
-
-    const catchIncorrectBegEndDates = () => {
-        const begD = begDate != null ? new Date(begDate.toString()).getTime() : null;
-        const endD = endDate != null ? new Date(endDate.toString()).getTime() : null;
-
-        if (begD == null || endD == null) setAreBegEndDatesCorrect(false);
-
-        if (begD > endD) {
-            setAlert({
-                alertOpen: true,
-                alertType: 499,
-                alertText: 'Data rozpoczęcia badania jest późniejsza niż data zakończenia',
-            });
-            setAreBegEndDatesCorrect(false);
-        } else {
-            setAreBegEndDatesCorrect(true);
-        }
-    };
-
-    // TODO: Finish this shit
-    const catchIncorrectAgeIntervals = () => {
-        const ageIntervals = requirementList.filter(value => value.type === 'age');
-        ageIntervals.forEach(value => {
-            if (value.ageMin == null || value.ageMax == null) {
-                setAreAllAgeIntervalsCorrect(false);
-                return;
-            } else if (value.ageMin > value.ageMax) {
-                setAreAllAgeIntervalsCorrect(false);
-                return;
-            }
-        });
-        setAreAllAgeIntervalsCorrect(true);
-    };
-
-    useEffect(() => {
-        catchIncorrectBegEndDates();
-    }, [begDate, endDate]);
-
-    useEffect(() => {
-        catchIncorrectAgeIntervals();
-    }, [requirementList]);
 
     let research = {
         title: title,
@@ -264,12 +224,20 @@ function CreateResearchForm() {
 
             switch (response.status) {
                 case 201:
-                    setResearchCode(await response.json());
+                    const json = await response.json();
+                    const researchCode = json.researchCode;
+                    // TODO: Solve 'undefined' value
                     setIsResearchSent(true);
                     setAlert({
                         alertOpen: true,
                         alertType: response.status,
-                        alertText: 'Twoje ogłoszenie o badaniu zostało dodane!',
+                        alertText:
+                            <span>
+                                Twoje ogłoszenie o badaniu zostało dodane!
+                                <Link to={`/research/${researchCode}`}>
+                                     Kliknij, aby przejść na stronę ogłoszenia
+                                </Link>
+                            </span>,
                     });
                     break;
                 default:
@@ -291,22 +259,32 @@ function CreateResearchForm() {
         }
     };
 
+    const validateBegEndDate = () => {
+        let begD = begDateRef.current;
+        if(begDate > endDate) {
+            begD.setCustomValidity('Data rozpoczęcia badania nie może być późniejsza niż data zakończenia');
+        } else begD.setCustomValidity('');
+    };
+
+    useEffect(() => validateBegEndDate(), [begDate, endDate])
+
     const handleFormReset = () => {
         resetPosterInput();
         setResearchForm('');
         setResearchPlace('');
         setRewardList([{ type: '', value: null }]);
         setRequirementList([]);
+        setIsResearchSent(false);
     };
 
     const handleFormSubmit = event => {
         event.preventDefault();
 
-        catchIncorrectBegEndDates();
-        if (!areBegEndDatesCorrect) return;
+        // catchIncorrectBegEndDates();
+        // if (!areBegEndDatesCorrect) return;
 
-        catchIncorrectAgeIntervals();
-        if (!areAllAgeIntervalsCorrect) return;
+        // catchIncorrectAgeIntervals();
+        // if (!areAllAgeIntervalsCorrect) return;
 
         research.location = { form: researchForm, place: researchPlace };
         research.rewards = rewardList;
@@ -328,7 +306,7 @@ function CreateResearchForm() {
 
     return (
         <>
-            <div className={alert.alertOpen ? styles.alertOverlay : styles.hidden}>
+            <div className={styles.alertOverlay}>
                 <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
             </div>
             <h2 className={styles.title}>Stwórz nowe ogłoszenie o badaniu</h2>
@@ -419,6 +397,8 @@ function CreateResearchForm() {
                             type="date"
                             id="date-begin"
                             name="date-begin"
+                            defaultValue={begDate}
+                            ref={element => (begDateRef.current = element)}
                         />
                     </div>
 
@@ -433,6 +413,8 @@ function CreateResearchForm() {
                             type="date"
                             id="date-end"
                             name="date-end"
+                            defaultValue={endDate}
+                            ref={element => (endDateRef.current = element)}
                         />
                     </div>
 
