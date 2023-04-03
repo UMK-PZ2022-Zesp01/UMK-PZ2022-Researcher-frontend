@@ -52,7 +52,7 @@
 .userResearches, .userResearchesHide {
     position: relative;
     opacity:1;
-    width: 100%;
+    width: 1000px;
     height: 500px;
     gap: 5px;
     scrollbar-gutter: stable;
@@ -701,7 +701,7 @@
 }
 
 @media only screen and (max-width: 1100px) {
-    .UserBox, .userData, .userDataHide{
+    .UserBox, .userData, .userDataHide, .userResearches, .userResearchesHide{
         width:900px;
     }
 
@@ -711,7 +711,7 @@
 }
 
 @media only screen and (max-width: 1000px) {
-    .UserBox, .userData, .userDataHide {
+    .UserBox, .userData, .userDataHide, .userResearches, .userResearchesHide {
         flex-direction: column;
         width: 500px;
     }
@@ -753,7 +753,7 @@
 
 
 @media only screen and (max-width: 600px) {
-    .UserBox, .userData, .userDataHide {
+    .UserBox, .userData, .userDataHide, .userResearches, .userResearchesHide {
         width: 300px;
     }
 
