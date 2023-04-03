@@ -1,10 +1,10 @@
-import React from 'react';
-import styles from './CreateResearchPage.module.css';
-import { CreateResearchForm } from '../Form/CreateResearchForm/CreateResearchForm';
-import researcherLogo from '../../img/banner2.png';
-import { Helmet } from 'react-helmet';
-import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
-import { Link } from 'react-router-dom';
+import React from "react";
+import styles from "./CreateResearchPage.module.css";
+import { CreateResearchForm } from "../Form/CreateResearchForm/CreateResearchForm";
+import researcherLogo from "../../img/banner2.png";
+import { Helmet } from "react-helmet";
+import { BookmarksNav } from "../BookmarksNav/BookmarksNav";
+import { Link } from "react-router-dom";
 
 function CreateResearchPage() {
     return (

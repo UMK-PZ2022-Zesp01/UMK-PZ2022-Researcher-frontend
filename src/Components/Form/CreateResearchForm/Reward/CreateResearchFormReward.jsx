@@ -13,7 +13,12 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
                 className={styles.formInputRegular}
                 name="reward-type"
                 defaultValue={type}
-                onChange={event => handleUpdate(index, { type: event.target.value, value: null })}
+                onChange={event =>
+                    handleUpdate(index, {
+                        type: event.target.value,
+                        value: null,
+                    })
+                }
             >
                 <option value="" disabled>
                     Wybierz typ nagrody...
@@ -32,7 +37,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
                     step="0.01"
                     name="reward-value"
                     placeholder="Kwota w zł"
-                    defaultValue={Number(value) / 100}
+                    defaultValue={Number(value) > 0 ? Number(value) / 100 : ''}
                     onChange={event =>
                         handleUpdate(index, {
                             type: type,

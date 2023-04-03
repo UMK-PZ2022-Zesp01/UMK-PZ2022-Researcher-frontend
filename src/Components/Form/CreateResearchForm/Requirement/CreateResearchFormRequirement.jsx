@@ -119,6 +119,10 @@ function CreateResearchFormRequirement({ sendList }) {
         sendList(requirementList.filter(value => value !== false));
     }, [genderList, ageList, placeList, educationList, maritalList, otherRequirementList]);
 
+    useEffect(() => {
+        // TODO: Check Age Intervals
+    }, [ageList]);
+
     const renderAgeIntervalComponents = () => {
         return ageList.length > 0 ? (
             ageList.map((data, index) => (

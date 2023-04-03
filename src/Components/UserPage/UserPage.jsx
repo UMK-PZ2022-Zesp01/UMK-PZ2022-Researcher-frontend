@@ -33,7 +33,7 @@ export default function UserPage(props) {
     const [userData, setUserData] = useState({});
 
     /*access token*/
-    const {username, accessToken} = useAuth().auth;
+    const { username, accessToken } = useAuth().auth;
 
     /*researches button value*/
     const [clickedResearches, setIsClickedResearches] = useState(false);
@@ -155,7 +155,6 @@ export default function UserPage(props) {
         setIsClickedEmail(false);
         setIsClickedLocation(false);
         setIsClickedPhone(false);
-
     };
 
     const login = useUsername()
@@ -482,7 +481,6 @@ export default function UserPage(props) {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }

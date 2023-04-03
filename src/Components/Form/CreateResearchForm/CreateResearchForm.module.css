@@ -8,7 +8,7 @@
 .title {
     width: 100%;
     display: flex;
-    color: #512C8C;
+    color: #512c8c;
     margin-bottom: 20px;
 }
 
@@ -21,26 +21,26 @@
 
 .formRowTop .formLabel {
     font-weight: bold;
-    color: #512C8C;
+    color: #512c8c;
 }
 
 .posterContainer {
     position: relative;
     width: 25%;
-    aspect-ratio: 1 / 1.414;
+    height: 20rem;
     border-radius: 5px;
-    background-color: #D6CEF3;
-    border: 2px solid #C6B1E7;
-    transition: .3s;
+    background-color: #d6cef3;
+    border: 2px solid #c6b1e7;
+    transition: 0.3s;
 }
 
 .posterContainer:hover {
-    background-color: #D7C2F8;
-    border: 2px solid #512C8C;
+    background-color: #d7c2f8;
+    border: 2px solid #512c8c;
 }
 
 .posterImg {
-    aspect-ratio: 1 / 1.414;
+    height: 100%;
     width: 100%;
     margin: 0;
     border-radius: 5px;
@@ -51,7 +51,7 @@
     display: block;
     position: relative;
     font-size: 20px;
-    color: #512C8C;
+    color: #512c8c;
 }
 
 .posterOverlay {
@@ -65,9 +65,9 @@
     height: 100%;
     padding: 10px;
     border-radius: 5px;
-    color: #512C8C;
+    color: #512c8c;
     cursor: pointer;
-    transition: .3s;
+    transition: 0.3s;
 }
 
 .posterOverlay .overlayItem {
@@ -94,9 +94,9 @@
     width: 100%;
     height: 100%;
     border-radius: 5px;
-    color: #512C8C;
+    color: #512c8c;
     cursor: pointer;
-    transition: .3s;
+    transition: 0.3s;
 }
 
 .posterOverlayWithFile .overlayItem {
@@ -107,11 +107,11 @@
     gap: 10px;
     background-color: rgba(214, 206, 243, 0.75);
     padding: 10px;
-    transition: background-color .3s;
+    transition: background-color 0.3s;
 }
 
 .posterOverlayWithFile .overlayItem:hover {
-    background-color: #D7C2F8;
+    background-color: #d7c2f8;
 }
 
 .posterDesc {
@@ -119,7 +119,7 @@
     position: relative;
     font-size: 16px;
     font-weight: bold;
-    color: #512C8C;
+    color: #512c8c;
 }
 
 .formRowTopRight {
@@ -133,34 +133,34 @@
     width: 100%;
     height: 42px;
     padding: 10px;
-    background-color: #D6CEF3;
+    background-color: #d6cef3;
     outline: none;
-    border: 2px solid #C6B1E7;
+    border: 2px solid #c6b1e7;
     border-radius: 5px;
     font-family: sans-serif;
-    transition: .3s;
+    transition: 0.3s;
 }
 
 .formInputRegular:focus {
-    border: 2px solid #512C8C;
-    background-color: #D7C2F8;
+    border: 2px solid #512c8c;
+    background-color: #d7c2f8;
 }
 
 .formInputLarge {
     height: 100%;
     padding: 10px;
-    background-color: #D6CEF3;
+    background-color: #d6cef3;
     outline: none;
-    border: 2px solid #C6B1E7;
+    border: 2px solid #c6b1e7;
     border-radius: 5px;
     font-family: sans-serif;
     resize: none;
-    transition: .3s;
+    transition: 0.3s;
 }
 
 .formInputLarge:focus {
-    border: 2px solid #512C8C;
-    background-color: #D7C2F8;
+    border: 2px solid #512c8c;
+    background-color: #d7c2f8;
 }
 
 .formRow {
@@ -173,7 +173,7 @@
 
 .formRow .formLabel {
     font-weight: bold;
-    color: #512C8C;
+    color: #512c8c;
 }
 
 .rowContainer {
@@ -186,7 +186,7 @@
 .formLabel {
     width: 100%;
     font-weight: bold;
-    color: #512C8C;
+    color: #512c8c;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -217,33 +217,31 @@
 
 .inputWithLabel label {
     font-weight: bold;
-    color: #512C8C;
+    color: #512c8c;
 }
 
 .map {
     width: 100%;
-    height: 400px;
-    background-color: #C6B1E7;
-    border-radius: 5px;
+    height: 550px;
 }
 
 .addButton {
     padding: 10px;
-    background-color: #D6CEF3;
+    background-color: #d6cef3;
     outline: none;
-    border: 2px solid #C6B1E7;
+    border: 2px solid #c6b1e7;
     border-radius: 5px;
     font-family: sans-serif;
     font-weight: bold;
     font-size: 14px;
-    color: #512C8C;
+    color: #512c8c;
     cursor: pointer;
-    transition: .3s;
+    transition: 0.3s;
 }
 
 .addButton:hover {
-    background-color: #D7C2F8;
-    border: 2px solid #512C8C;
+    background-color: #d7c2f8;
+    border: 2px solid #512c8c;
 }
 
 .addButtonDesc {
@@ -255,31 +253,68 @@
 }
 
 .requirementDesc {
-    color: #512C8C;
+    color: #512c8c;
     margin-bottom: 10px;
 }
 
 .formButton {
     width: 100%;
-    background-color: #512C8C;
-    color: #FFF;
+    background-color: #512c8c;
+    color: #fff;
     font-weight: bold;
     text-transform: uppercase;
     border-radius: 5px;
     padding: 10px;
     outline: none;
     cursor: pointer;
-    border: 2px solid #512C8C;
-    transition: .3s;
+    text-decoration: none;
+    border: 2px solid #512c8c;
+    transition: 0.3s;
 }
 
 .formButton:hover {
-    background-color: #6D3B9E;
-    border: 2px solid #6D3B9E;
+    background-color: #6d3b9e;
+    border: 2px solid #6d3b9e;
 }
 
 .margin {
     margin-top: 25px;
+}
+
+.alertOverlay {
+    position: fixed;
+    width: 100%;
+    height: 3.5rem;
+    padding: 0 5vw;
+    top: 0;
+    left: 0;
+    z-index: 50;
+}
+
+.alertLink {
+    color: darkgreen;
+    text-decoration: underline transparent;
+    transition: 0.3s;
+}
+
+.alertLink:hover {
+    text-decoration: underline darkgreen;
+}
+
+.hidden {
+    display: none;
+}
+
+.sent {
+    background-color: #414141;
+    border: 2px solid #414141;
+    pointer-events: none;
+}
+
+@media (max-width: 1000px) {
+    .alertOverlay {
+        padding: 0;
+    }
 }
 
 @media (max-width: 700px) {

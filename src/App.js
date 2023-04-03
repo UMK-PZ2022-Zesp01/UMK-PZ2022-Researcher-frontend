@@ -20,6 +20,7 @@ function App() {
 
                 <Route element={<PersistLogin />}>
                     <Route path="/" index element={<MainPage />} />
+                    {/*<Route path="/research/create" element={<CreateResearchPage />} />*/}
 
                     <Route element={<RequireAuth />}>
                         <Route path="/authTest" element={<MainPage />} />

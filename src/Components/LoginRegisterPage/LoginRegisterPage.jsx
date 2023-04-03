@@ -7,6 +7,7 @@ import { Alert } from '../Alert/Alert';
 import { Popup } from '../Popup/Popup';
 
 import styles from './LoginRegisterPage.module.css';
+import { Link } from 'react-router-dom';
 
 export default function LoginRegisterPage() {
     const [alert, setAlert] = React.useState({
@@ -55,9 +56,9 @@ export default function LoginRegisterPage() {
                 <div className={styles.alertOverlay}>
                     <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
                 </div>
-                <div className={styles.header}>
+                <Link to="/" className={styles.header}>
                     <BannerWhite />
-                </div>
+                </Link>
                 <main className={styles.main}>
                     <LoginForm setters={setAlert} />
                     <div className={styles.separator} />

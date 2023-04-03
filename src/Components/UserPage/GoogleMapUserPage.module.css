@@ -13,19 +13,21 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 100%;
+    width: 450px;
     height: 60px;
-    color: #512c8c;
+    color: #6d3b9e;
+    font-size: 18px;
     border-radius: 5px;
 }
 
 .location {
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: bolder;
+    min-height: 24px;
 }
 
 .location.color {
-    font-size: 18px;
-    color: #028634;
+    color: #0b6e4f;
 }
 
 .mapBoxVisible,
@@ -52,7 +54,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #512c8c;
+    font-size: 20px;
+    color: #6d3b9e;
     font-weight: bold;
 }
 
@@ -63,44 +66,64 @@
 }
 
 .mapSearchBar {
-    width: 50%;
-    height: 42px;
-    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 300px;
+    height: 40px;
     background-color: #d6cef3;
     outline: none;
-    border: 2px solid #c6b1e7;
+    border: 2px solid #6d3b9e;
     border-radius: 5px;
     font-family: sans-serif;
-    transition: 0.3s;
-}
-
-.mapSearchBar:focus {
-    border: 2px solid #512c8c;
-    background-color: #d7c2f8;
+    opacity: 1;
+    transition: all 0.4s ease-in-out;
 }
 
 .map {
-    border: 2px solid #c6b1e7;
-    border-radius: 5px;
-    z-index: 10;
-    width: 90%;
-    height: 70%;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 20px;
+    z-index: 100;
+    width: 80%;
+    height: 65%;
 }
 
 .exitBtn {
-    display: none;
+    position: absolute;
+    opacity: 1;
+    right: 15px;
+    top: 10px;
+    color: black;
+    letter-spacing: 1px;
+    font-size: 20px;
+    aspect-ratio: 1/1;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: all 0.3s ease-in-out;
 }
 
-@media (max-width: 700px) {
+@media only screen and (max-width: 1000px) {
+    .mapBoxVisible,
+    .mapBoxHide {
+        width: 500px;
+        height: 64rem;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .mapBoxVisible,
+    .mapBoxHide {
+        width: 300px;
+        height: 64.2rem;
+    }
+
     .mapSearchBar {
-        width: 100%;
-    }
-
-    .map {
-        width: 100%;
-    }
-
-    .location.color {
-        font-size: 1em;
+        width: 200px;
     }
 }
