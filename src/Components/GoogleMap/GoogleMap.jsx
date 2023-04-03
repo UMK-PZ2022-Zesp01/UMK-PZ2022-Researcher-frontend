@@ -41,7 +41,8 @@ function Gmap({ exit, setLocationState, setCoords, usedStylesheet }) {
                 const latLng = event.latLng;
                 geocoder.geocode({ location: event.latLng }, (results, status) => {
                     if (status === 'OK' && results[0]) {
-                        setAddress(results[0].formatted_address);
+                        const lastComa = results[0].formatted_address.lastIndexOf(', ');
+                        setAddress(results[0].formatted_address.substring(0, lastComa));
                         setLocationState(results[0].formatted_address);
                         marker.setPosition(latLng);
                         setMarker(marker);
@@ -176,7 +177,7 @@ function Gmap({ exit, setLocationState, setCoords, usedStylesheet }) {
                             : `${styleResearchForm.location} ${styleResearchForm.color}`
                     }
                 >
-                    {usedStylesheet === 0 ? city : address}
+                    {usedStylesheet === 0 ? city || '[nie wybrano]' : address || '[nie wybrano]'}
                 </div>
             </div>
             {/*<div>*/}

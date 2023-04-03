@@ -291,6 +291,16 @@
     z-index: 50;
 }
 
+.alertLink {
+    color: darkgreen;
+    text-decoration: underline transparent;
+    transition: 0.3s;
+}
+
+.alertLink:hover {
+    text-decoration: underline darkgreen;
+}
+
 .hidden {
     display: none;
 }

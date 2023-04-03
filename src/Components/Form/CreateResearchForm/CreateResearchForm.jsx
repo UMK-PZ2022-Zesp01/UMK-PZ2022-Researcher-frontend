@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './CreateResearchForm.module.css';
 import { faFileImage, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,7 +10,7 @@ import { CreateResearchFormRequirement } from './Requirement/CreateResearchFormR
 import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
 import { Gmap } from '../../GoogleMap/GoogleMap';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 function CreateResearchForm() {
     const RESEARCH_ADD_URL = getApiUrl() + 'research/add';
@@ -31,10 +31,9 @@ function CreateResearchForm() {
     const [rewardList, setRewardList] = useState([{ type: '', value: null }]);
     const [requirementList, setRequirementList] = useState([]);
 
-    const begDateRef = useRef(null);
-    const endDateRef = useRef(null);
-
     const [isResearchSent, setIsResearchSent] = useState(false);
+
+    /** Research data Object  **/
 
     let research = {
         title: title,
@@ -47,6 +46,21 @@ function CreateResearchForm() {
         rewards: null,
         requirements: null,
     };
+
+    /** BegDate & EndDate Validation **/
+
+    const begDateRef = useRef(null);
+
+    const validateBegEndDate = () => {
+        let begD = begDateRef.current;
+        if (begDate > endDate) {
+            begD.setCustomValidity(
+                'Data rozpoczęcia badania nie może być późniejsza niż data zakończenia'
+            );
+        } else begD.setCustomValidity('');
+    };
+
+    useEffect(() => validateBegEndDate(), [begDate, endDate]);
 
     /*** Alerts Section ***/
 
@@ -164,7 +178,7 @@ function CreateResearchForm() {
             setAlert({
                 alertOpen: true,
                 alertType: 400,
-                alertText: 'Zbyt duży plakat! Maksymalny rozmiar plakatu to 1 MB!',
+                alertText: 'Zbyt duży plakat! Maksymalny rozmiar plakatu to 1 MB',
             });
             return;
         }
@@ -193,7 +207,7 @@ function CreateResearchForm() {
     };
 
     const handleParticipantLimitChange = event => {
-        setParticipantLimit(event.target.value);
+        setParticipantLimit(Number(event.target.value));
     };
 
     const handleResearchFormSelect = event => {
@@ -224,20 +238,19 @@ function CreateResearchForm() {
 
             switch (response.status) {
                 case 201:
-                    const json = await response.json();
-                    const researchCode = json.researchCode;
-                    // TODO: Solve 'undefined' value
+                    const researchCode = await response.json();
                     setIsResearchSent(true);
                     setAlert({
                         alertOpen: true,
                         alertType: response.status,
-                        alertText:
+                        alertText: (
                             <span>
-                                Twoje ogłoszenie o badaniu zostało dodane!
-                                <Link to={`/research/${researchCode}`}>
-                                     Kliknij, aby przejść na stronę ogłoszenia
+                                Twoje ogłoszenie o badaniu zostało dodane!{' '}
+                                <Link to={`/research/${researchCode}`} className={styles.alertLink}>
+                                    Kliknij, aby przejść na stronę ogłoszenia
                                 </Link>
-                            </span>,
+                            </span>
+                        ),
                     });
                     break;
                 default:
@@ -259,14 +272,7 @@ function CreateResearchForm() {
         }
     };
 
-    const validateBegEndDate = () => {
-        let begD = begDateRef.current;
-        if(begDate > endDate) {
-            begD.setCustomValidity('Data rozpoczęcia badania nie może być późniejsza niż data zakończenia');
-        } else begD.setCustomValidity('');
-    };
-
-    useEffect(() => validateBegEndDate(), [begDate, endDate])
+    /** Handlers for Reset & Submit Buttons  **/
 
     const handleFormReset = () => {
         resetPosterInput();
@@ -279,12 +285,6 @@ function CreateResearchForm() {
 
     const handleFormSubmit = event => {
         event.preventDefault();
-
-        // catchIncorrectBegEndDates();
-        // if (!areBegEndDatesCorrect) return;
-
-        // catchIncorrectAgeIntervals();
-        // if (!areAllAgeIntervalsCorrect) return;
 
         research.location = { form: researchForm, place: researchPlace };
         research.rewards = rewardList;
@@ -414,7 +414,6 @@ function CreateResearchForm() {
                             id="date-end"
                             name="date-end"
                             defaultValue={endDate}
-                            ref={element => (endDateRef.current = element)}
                         />
                     </div>
 
@@ -428,7 +427,7 @@ function CreateResearchForm() {
                             onChange={handleParticipantLimitChange}
                             type="number"
                             min="0"
-                            placeholder="1"
+                            placeholder="Wpisz liczbę..."
                             id="participant-limit"
                             name="participant-limit"
                         />
