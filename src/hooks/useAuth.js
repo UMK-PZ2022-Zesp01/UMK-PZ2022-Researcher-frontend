@@ -9,8 +9,4 @@ export const useUsername = () => {
   return useContext(AuthContext)?.auth?.username;
 };
 
-export const useId = () => {
-  return useContext(AuthContext)?.auth?.id;
-};
-
 export default useAuth;

@@ -4,7 +4,7 @@ import styleResearchForm from '../Form/CreateResearchForm/GoogleMapResearchForm.
 import {Loader} from '@googlemaps/js-api-loader';
 import {GrClose} from 'react-icons/gr';
 
-function Gmap({exit, latitude,longitude,type}) {
+function Gmap({exit, latitude, longitude, type, setLocationInput,setGmapExit}) {
     const mapRef = useRef(null);
     const inputRef = useRef(null);
     const [marker, setMarker] = useState(null);
@@ -12,9 +12,9 @@ function Gmap({exit, latitude,longitude,type}) {
     const [searchQuery, setSearchQuery] = useState('');
     const [lat, setLat] = useState(latitude);
     const [lng, setLng] = useState(longitude);
-    const [longAddress, setLongAddress] = useState('')
+    const [longAddress, setLongAddress] = useState('[nie wybrano]')
     const [shortAddress, setShortAddress] = useState('')
-    const [city, setCity] = useState('');
+    const [city, setCity] = useState('[nie wybrano]');
 
 
     const loader = new Loader({
@@ -102,7 +102,7 @@ function Gmap({exit, latitude,longitude,type}) {
         });
     }, []);
 
-    console.log(loader.status)
+    // console.log(loader.status)
     if (loader.status === 2) {
         const geocoder = new window.google.maps.Geocoder();
         geocoder.geocode({address: shortAddress}, (results, status) => {
@@ -119,6 +119,7 @@ function Gmap({exit, latitude,longitude,type}) {
                     }
                 }
                 setCity(city)
+                setLocationInput(city)
             }
         });
     }
@@ -129,7 +130,8 @@ function Gmap({exit, latitude,longitude,type}) {
             <button className={type === 'user-page' ? styleUserPage.exitBtn : styleResearchForm.exitBtn}
                     onClick={() => {
                         exit();
-                        window.document.body.style.overflowY = 'visible'
+                        window.document.body.style.overflowY = 'visible';
+                        setGmapExit(true)
                     }}>
                 <GrClose/>
             </button>
@@ -152,7 +154,7 @@ function Gmap({exit, latitude,longitude,type}) {
                 </div>
                 <div
                     className={type === 'user-page' ? `${styleUserPage.location} ${styleUserPage.color}` : `${styleResearchForm.location} ${styleResearchForm.color}`}>
-                    {type==='user-page'?city:longAddress}
+                    {type === 'user-page' ? city : longAddress}
                 </div>
             </div>
         </div>

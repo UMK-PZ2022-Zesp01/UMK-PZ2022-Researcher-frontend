@@ -3,7 +3,7 @@ import userResearchCardStyle from './UserResearchCardStyle.js';
 import { useUsername } from "../../hooks/useAuth";
 import { useEffect } from 'react';
 import getApiUrl from "../../Common/Api";
-const USERRESEARCHES_URL = getApiUrl() + 'research/creatorLogin/'
+const USERRESEARCHES_URL = getApiUrl() + 'research/creator/'
 
 function LatestResearchCard(){
     const styles=userResearchCardStyle();
@@ -50,7 +50,7 @@ function LatestResearchCard(){
 
     const showUserResearches = (researches) => {
         return researches.map(research =>
-            <div key={research.id} className={styles.latestResearchCard}>
+            <div key={research.researchCode} className={styles.latestResearchCard}>
 
                 <div className={styles.latestResearchHeader}>
 
