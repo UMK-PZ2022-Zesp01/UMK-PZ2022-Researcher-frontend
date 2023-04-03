@@ -49,7 +49,6 @@ function BookmarksNav({ active }) {
                 setIsSomeoneLoggedIn(true);
             })
             .catch(error => {
-                console.error(error);
                 setIsSomeoneLoggedIn(false);
             });
     }, [auth]);
@@ -106,22 +105,22 @@ function BookmarksNav({ active }) {
                 )}
             </Link>,
 
-            <Link
-                to="/settings"
-                className={
-                    activeBookmarkIndex === 3
-                        ? `${styles.activeBookmarkItem} ${styles.bookmarkItemNormalView} ${
-                              !isSomeoneLoggedIn && styles.hidden
-                          }`
-                        : `${styles.bookmarkItem} ${styles.bookmarkItemNormalView} ${
-                              !isSomeoneLoggedIn && styles.hidden
-                          }`
-                }
-                key="3"
-            >
-                <FontAwesomeIcon className={styles.bookmarkIcon} icon={faGear} />
-                {activeBookmarkIndex !== 3 && <span className={styles.iconDesc}>Ustawienia</span>}
-            </Link>,
+            // <Link
+            //     to="/settings"
+            //     className={
+            //         activeBookmarkIndex === 3
+            //             ? `${styles.activeBookmarkItem} ${styles.bookmarkItemNormalView} ${
+            //                   !isSomeoneLoggedIn && styles.hidden
+            //               }`
+            //             : `${styles.bookmarkItem} ${styles.bookmarkItemNormalView} ${
+            //                   !isSomeoneLoggedIn && styles.hidden
+            //               }`
+            //     }
+            //     key="3"
+            // >
+            //     <FontAwesomeIcon className={styles.bookmarkIcon} icon={faGear} />
+            //     {activeBookmarkIndex !== 3 && <span className={styles.iconDesc}>Ustawienia</span>}
+            // </Link>,
 
             <div
                 className={`${styles.bookmarkItem} ${styles.bookmarkItemNormalView} ${
@@ -249,14 +248,14 @@ function BookmarksNav({ active }) {
                             <span className={styles.bookmarkButtonMobileText}>Strona główna</span>
                         </Link>
 
-                        {isSomeoneLoggedIn && (
-                            <Link to="/settings" className={styles.bookmarkButtonMobile}>
-                                <FontAwesomeIcon icon={faGear} />
-                                <span className={styles.bookmarkButtonMobileText}>
-                                    Ustawienia konta
-                                </span>
-                            </Link>
-                        )}
+                        {/*{isSomeoneLoggedIn && (*/}
+                        {/*    <Link to="/settings" className={styles.bookmarkButtonMobile}>*/}
+                        {/*        <FontAwesomeIcon icon={faGear} />*/}
+                        {/*        <span className={styles.bookmarkButtonMobileText}>*/}
+                        {/*            Ustawienia konta*/}
+                        {/*        </span>*/}
+                        {/*    </Link>*/}
+                        {/*)}*/}
 
                         <Link to="/" className={styles.bookmarkButtonMobile}>
                             <FontAwesomeIcon icon={faBug} />

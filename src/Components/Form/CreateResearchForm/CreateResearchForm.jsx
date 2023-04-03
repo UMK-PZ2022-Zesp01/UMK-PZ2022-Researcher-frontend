@@ -192,7 +192,7 @@ function CreateResearchForm() {
 
     const handleTitleChange = event => {
         setTitle(event.target.value);
-        console.log(rewardList);
+        console.log(researchPlace);
     };
 
     const handleDescriptionChange = event => {
@@ -469,9 +469,13 @@ function CreateResearchForm() {
                     <div className={styles.formRow}>
                         <div className={styles.map}>
                             <Gmap
-                                setCoords={setResearchPlace}
-                                setLocationState={() => {}}
-                                usedStylesheet={1}
+                                latitude={53.015331}
+                                longitude={18.6057}
+                                type={'research-form'}
+                                exit={() => {}}
+                                setLocationInput={() => {}}
+                                setGmapExit={() => {}}
+                                setResearchPlace={setResearchPlace}
                             />
                         </div>
                     </div>

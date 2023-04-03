@@ -1,9 +1,937 @@
+/*.MainContainer {*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%);*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    !*margin: 200px auto;*!*/
+/*    font-size: 16px;*/
+/*    transition: all 0.5s ease-in-out;*/
+/*    overflow-y: hidden;*/
+/*}*/
+
+/*.Container {*/
+/*    width: 100%;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*    transition: all 0.5s ease-in-out;*/
+/*}*/
+
+/*!* USER PANEL *!*/
+/*.UserBox {*/
+/*    position: relative;*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    user-select: none;*/
+/*    max-width: 1000px;*/
+/*    background-color: white;*/
+/*    border-radius: 10px;*/
+/*    min-height: 31rem;*/
+/*    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,*/
+/*        rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,*/
+/*        rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;*/
+/*    transition: all 0.5s ease-in-out;*/
+/*}*/
+
+/*.userData,*/
+/*.userDataHide {*/
+/*    position: absolute;*/
+/*    opacity: 1;*/
+/*    width: 1000px;*/
+/*    background-color: white;*/
+/*    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,*/
+/*        rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,*/
+/*        rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;*/
+/*    border-radius: 10px;*/
+/*    min-height: 500px;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    user-select: none;*/
+/*    transition: opacity 0.3s ease-in-out;*/
+/*}*/
+
+/*.userDataHide {*/
+/*    opacity: 0;*/
+/*    pointer-events: none;*/
+/*    transition: opacity 0.3s ease-in-out;*/
+/*}*/
+
+/*.userResearches,*/
+/*.userResearchesHide {*/
+/*    position: relative;*/
+/*    opacity: 1;*/
+/*    width: 1000px;*/
+/*    height: 500px;*/
+/*    gap: 5px;*/
+/*    scrollbar-gutter: stable;*/
+/*    !*padding: 0% 5%;*!*/
+/*    display: grid;*/
+/*    justify-items: center;*/
+/*    transition: opacity 0.5s ease-in-out;*/
+/*}*/
+
+/*.userResearchesHide {*/
+/*    opacity: 0;*/
+/*    pointer-events: none;*/
+/*    height: 500px;*/
+/*    transition: opacity 0.5s ease-in-out;*/
+/*}*/
+
+/*.userResearchCard {*/
+/*    display: grid;*/
+/*    gap: 0.5rem 1rem;*/
+/*    padding: 20px;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    overflow-y: scroll;*/
+/*    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));*/
+/*    grid-auto-flow: dense;*/
+/*    scroll-snap-type: y mandatory;*/
+/*}*/
+
+/*.exitResBtn {*/
+/*    display: flex;*/
+/*    z-index: 50;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    position: absolute;*/
+/*    background-color: #debdef;*/
+/*    font-size: 1.5rem;*/
+/*    font-weight: bold;*/
+/*    padding: 20px;*/
+/*    width: 10%;*/
+/*    height: 20px;*/
+/*    opacity: 50%;*/
+/*    margin-top: 10px;*/
+/*    color: #512c8c;*/
+/*    border: 0px;*/
+/*    border-radius: 10px 10px 10px 10px;*/
+/*    transition: all 0.3s ease-in-out;*/
+/*    cursor: pointer;*/
+/*}*/
+/*.exitResBtn:hover {*/
+/*    !*width:100%;*!*/
+/*    opacity: 100%;*/
+/*}*/
+
+/*.arrowIcon {*/
+/*    transform: rotate(90deg);*/
+/*}*/
+
+/*::-webkit-scrollbar {*/
+/*    display: none;*/
+/*}*/
+
+/*.leftContainer {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    flex-direction: column;*/
+/*    width: 25rem;*/
+/*    gap: 2rem;*/
+/*}*/
+
+/*.rightContainer {*/
+/*    position: relative;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*    width: 37.5rem;*/
+/*    height: 31rem;*/
+/*    color: white;*/
+/*    font-size: 16px;*/
+/*}*/
+
+/*.infoWithoutEdit {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: flex-start;*/
+/*    align-items: center;*/
+/*    gap: 2rem;*/
+/*    width: 100%;*/
+/*}*/
+
+/*.mainInfo {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    justify-content: flex-start;*/
+/*    align-items: center;*/
+/*    padding-top: 2rem;*/
+/*    width: 25rem;*/
+/*    gap: 1.5rem;*/
+/*}*/
+
+/*!*AVATAR*!*/
+/*.avatarBox {*/
+/*    position: relative;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    width: max-content;*/
+/*    margin-left: 2rem;*/
+/*    aspect-ratio: 1/1;*/
+/*}*/
+
+/*.avatarImage {*/
+/*    pointer-events: none;*/
+/*    aspect-ratio: 1 / 1;*/
+/*    width: 8rem;*/
+/*    border-radius: 50%;*/
+/*    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,*/
+/*        rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,*/
+/*        rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;*/
+/*}*/
+
+/*.editAvatarButton {*/
+/*    position: absolute;*/
+/*    cursor: pointer;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    aspect-ratio: 1/1;*/
+/*    bottom: 0;*/
+/*    right: 0;*/
+/*    width: 2.15rem;*/
+/*    border-radius: 50%;*/
+/*    background-color: rgb(81, 44, 140);*/
+/*    transition: all 0.3s ease-in-out;*/
+/*}*/
+
+/*.editAvatarButton:hover {*/
+/*    background-color: #7d41b7;*/
+/*}*/
+
+/*.avatarIcon {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    font-size: 1.1rem;*/
+/*    filter: invert(100%) sepia(0%) saturate(7485%) hue-rotate(349deg) brightness(104%)*/
+/*        contrast(103%);*/
+/*}*/
+
+/*!* NAME SECTION*!*/
+
+/*.nameDiv {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
+
+/*.nameAndSurname {*/
+/*    display: flex;*/
+/*    justify-content: flex-start;*/
+/*    align-items: flex-start;*/
+/*    word-break: break-all;*/
+/*    height: 2.5rem;*/
+/*    width: 100%;*/
+/*    font-size: 1.8rem;*/
+/*    font-weight: 500;*/
+/*}*/
+
+/*.profileDescription {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: flex-start;*/
+/*    word-break: break-all;*/
+/*    width: 25rem;*/
+/*    height: max-content;*/
+/*    padding-left: 2.25rem;*/
+/*    gap: 1.2rem;*/
+/*}*/
+
+/*.desc {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: flex-start;*/
+/*    width: 100%;*/
+/*    font-weight: 500;*/
+/*    font-size: 1.125rem;*/
+/*}*/
+
+/*.icon {*/
+/*    filter: invert(19%) sepia(27%) saturate(4336%) hue-rotate(245deg) brightness(95%) contrast(96%);*/
+/*    font-size: 1.875rem;*/
+/*    margin-right: 0.625rem;*/
+/*}*/
+
+/*.additionIconResearches {*/
+/*    font-size: 1.6rem;*/
+/*}*/
+
+/*.additionIcon {*/
+/*    font-size: 1.4rem;*/
+/*}*/
+
+/*.editDiv {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    width: 100%;*/
+/*    padding-bottom: 2rem;*/
+/*}*/
+
+/*.editButton,*/
+/*.editButtonHide {*/
+/*    color: white;*/
+/*    cursor: pointer;*/
+/*    border: none;*/
+/*    letter-spacing: 1px;*/
+/*    font-size: 1rem;*/
+/*    width: 50%;*/
+/*    height: 2rem;*/
+/*    background-color: rgb(81, 44, 140);*/
+/*    border-radius: 10px;*/
+/*    transition: all 0.3s ease-in-out;*/
+/*    opacity: 1;*/
+/*    backface-visibility: hidden;*/
+/*    will-change: transform;*/
+/*}*/
+
+/*.editButton:hover {*/
+/*    transform: scale(105%);*/
+/*    background-color: #6d3b9e;*/
+/*    transform-origin: center;*/
+/*}*/
+
+/*.editButtonHide {*/
+/*    visibility: hidden;*/
+/*    opacity: 0;*/
+/*    transition: all 0.3s ease-in-out;*/
+/*}*/
+
+/*!*MOJE*!*/
+/*.editBox,*/
+/*.editBoxHide {*/
+/*    position: absolute;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*    border-radius: 10px;*/
+/*    width: 80%;*/
+/*    height: 80%;*/
+/*    gap: 1.15rem;*/
+/*    -webkit-box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);*/
+/*    -moz-box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);*/
+/*    box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);*/
+/*    transition: all 0.5s ease-in-out;*/
+/*}*/
+
+/*.editBoxHide {*/
+/*    opacity: 0;*/
+/*}*/
+
+/*.exitBtn,*/
+/*.exitBtnHide {*/
+/*    position: absolute;*/
+/*    opacity: 1;*/
+/*    right: 15px;*/
+/*    top: 10px;*/
+/*    color: black;*/
+/*    letter-spacing: 1px;*/
+/*    font-size: 20px;*/
+/*    aspect-ratio: 1/1;*/
+/*    width: fit-content;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    cursor: pointer;*/
+/*    border: none;*/
+/*    background: transparent;*/
+/*    transition: all 0.3s ease-in-out;*/
+/*}*/
+
+/*.exitBtnHide {*/
+/*    opacity: 0;*/
+/*}*/
+
+/*.saveBtn,*/
+/*.saveBtnHide {*/
+/*    color: white;*/
+/*    letter-spacing: 1px;*/
+/*    font-size: 15px;*/
+/*    width: 25%;*/
+/*    height: 8%;*/
+/*    cursor: pointer;*/
+/*    border: none;*/
+/*    background-color: rgb(81, 44, 140);*/
+/*    transition: all 0.1s ease-in-out;*/
+/*    border-radius: 10px;*/
+/*    backface-visibility: hidden;*/
+/*    will-change: transform;*/
+/*}*/
+
+/*.saveBtnHide {*/
+/*    visibility: hidden;*/
+/*}*/
+
+/*.saveBtn:hover {*/
+/*    transform: scale(105%);*/
+/*    background-color: #6d3b9e;*/
+/*    transform-origin: center;*/
+/*}*/
+
+/*.editField {*/
+/*    display: flex;*/
+/*    justify-content: space-evenly;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*    width: 90%;*/
+/*    height: 80%;*/
+/*}*/
+
+/*.editTile {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    width: 60%;*/
+/*    height: 15%;*/
+/*    color: #512c8c;*/
+/*    border-radius: 10px;*/
+/*    transition: all 0.5s ease-in-out;*/
+/*    background: #d6cef3;*/
+/*}*/
+
+/*.editTileResized {*/
+/*    color: #512c8c;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    width: 80%;*/
+/*    height: 25%;*/
+/*    border-radius: 10px;*/
+/*    transition: all 0.5s ease-in-out;*/
+/*    background: #d6cef3;*/
+/*}*/
+
+/*.editTileLocation {*/
+/*    opacity: 1;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    width: 60%;*/
+/*    height: 15%;*/
+/*    color: #512c8c;*/
+/*    border-radius: 10px;*/
+/*    transition: all 0.5s ease-in-out;*/
+/*    background: #d6cef3;*/
+/*}*/
+
+/*.valueEdit {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    height: 100%;*/
+/*    width: 100%;*/
+/*    gap: 5%;*/
+/*    border-radius: 10px;*/
+/*    transition: 0.3s ease-in-out;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.valueEdit:hover {*/
+/*    background-color: #c7acef;*/
+/*}*/
+
+/*.valueEditHide {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    height: 100%;*/
+/*    font-size: 0px;*/
+/*    width: 100%;*/
+/*    gap: 5%;*/
+/*}*/
+
+/*.val,*/
+/*.valHide {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    text-align: center;*/
+/*    width: 60%;*/
+/*    padding: 5px;*/
+/*    height: 50%;*/
+/*    background-color: #d6cef3;*/
+/*    outline: none;*/
+/*    border: 2px solid #c6b1e7;*/
+/*    border-radius: 5px;*/
+/*    font-family: sans-serif;*/
+/*    opacity: 1;*/
+/*    margin-top: -10px;*/
+/*    margin-bottom: 10px;*/
+/*    transition: all 0.5s ease-in-out;*/
+/*}*/
+
+/*.val:focus,*/
+/*.mapSearchBar:focus {*/
+/*    border-color: #512c8c;*/
+/*    background-color: #d7c2f8;*/
+/*}*/
+
+/*.valHide {*/
+/*    pointer-events: none;*/
+/*    opacity: 0;*/
+/*    height: 0;*/
+/*    font-size: 0;*/
+/*}*/
+
+/*.text {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    border-radius: 10px;*/
+/*    font-weight: 700;*/
+/*    min-height: 48px;*/
+/*    width: 75%;*/
+/*    transition: 0.3s ease-in-out;*/
+/*}*/
+
+/*.textSmall {*/
+/*    font-weight: 700;*/
+/*    cursor: pointer;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    border-radius: 10px;*/
+/*    min-height: 48px;*/
+/*    width: 100%;*/
+/*    transition: 0.3s ease-in-out;*/
+/*}*/
+
+/*.divider {*/
+/*    visibility: hidden;*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 42%;*/
+/*    transform: translate(-50%, -50%);*/
+/*}*/
+
+/*.line {*/
+/*    height: 27rem;*/
+/*    border: 2px solid #512c8c;*/
+/*    border-radius: 10px;*/
+/*}*/
+
+/*.activityBox {*/
+/*    box-shadow: -6px 5px 22px -14px rgba(66, 68, 90, 1);*/
+/*    min-height: 250px;*/
+/*    background-color: white;*/
+/*    border-radius: 10px;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    gap: 20px;*/
+/*    width: 85%;*/
+/*    padding: 15px;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.singleActivity {*/
+/*    border-radius: 10px;*/
+/*    font-size: 20px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    width: 70%;*/
+/*    min-height: 50px;*/
+/*    background-color: rgb(81, 44, 140);*/
+/*    transition: all 0.3s ease-in-out;*/
+/*    cursor: pointer;*/
+/*    color: white;*/
+/*    gap: 15px;*/
+/*    text-decoration: none;*/
+/*    backface-visibility: hidden;*/
+/*    will-change: transform;*/
+/*}*/
+
+/*.singleActivity:hover {*/
+/*    transform: scale(103%);*/
+/*    background-color: #6d3b9e;*/
+/*    transform-origin: center;*/
+/*}*/
+
+/*.latestResearch {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    flex-direction: column;*/
+/*    width: 85%;*/
+/*    height: 120px;*/
+/*    margin-top: 60px;*/
+/*    color: black;*/
+/*}*/
+
+/*.right,*/
+/*.rightHide {*/
+/*    position: absolute;*/
+/*    opacity: 1;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    transition: opacity 0.3s ease-in-out;*/
+/*}*/
+
+/*.rightHide {*/
+/*    opacity: 0;*/
+/*    pointer-events: none;*/
+/*}*/
+
+/*!*MAPA*!*/
+
+/*.mapContainer {*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*    gap: 10px;*/
+/*}*/
+
+/*.locationBox {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*    width: 450px;*/
+/*    height: 60px;*/
+/*    color: #6d3b9e;*/
+/*    font-size: 18px;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+/*.location {*/
+/*    font-size: 16px;*/
+/*    font-weight: bolder;*/
+/*    min-height: 24px;*/
+/*    transition: 0.3s;*/
+/*}*/
+
+/*.location.color {*/
+/*    color: #0b6e4f;*/
+/*}*/
+/*.location.margin {*/
+/*    margin-top: -8px;*/
+/*}*/
+/*.location.hidden {*/
+/*    opacity: 0;*/
+/*}*/
+
+/*.mapBoxVisible,*/
+/*.mapBoxHide {*/
+/*    z-index: 2;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*    position: absolute;*/
+/*    opacity: 1;*/
+/*    margin-top: -30px;*/
+/*    width: 1000px;*/
+/*    height: 600px;*/
+/*    border-radius: 10px;*/
+/*    background-color: #ffffff;*/
+/*    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,*/
+/*        rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,*/
+/*        rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;*/
+/*    transition: 0.6s ease-in-out;*/
+/*}*/
+
+/*.useDescription {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    font-size: 20px;*/
+/*    color: #6d3b9e;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.mapBoxHide {*/
+/*    pointer-events: none;*/
+/*    opacity: 0;*/
+/*    transition: 0.4s ease-in-out;*/
+/*}*/
+
+/*.mapSearchBar {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    text-align: center;*/
+/*    width: 300px;*/
+/*    height: 40px;*/
+/*    background-color: #d6cef3;*/
+/*    outline: none;*/
+/*    border: 2px solid #6d3b9e;*/
+/*    border-radius: 5px;*/
+/*    font-family: sans-serif;*/
+/*    opacity: 1;*/
+/*    transition: all 0.4s ease-in-out;*/
+/*}*/
+
+/*.map {*/
+/*    border: 2px solid rgb(255, 255, 255);*/
+/*    border-radius: 10px;*/
+/*    z-index: 100;*/
+/*    width: 80%;*/
+/*    height: 65%;*/
+/*}*/
+
+/*.bookmarksContainer {*/
+/*    padding: 0;*/
+/*    margin: 0 auto;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    width: 90%;*/
+/*}*/
+
+/*.logo {*/
+/*    background-color: #512c8c;*/
+/*    padding: 10px 15px;*/
+/*    border-top-left-radius: 10px;*/
+/*    border-top-right-radius: 10px;*/
+/*    transition: background-color 0.5s;*/
+/*}*/
+
+/*.logo:hover {*/
+/*    background-color: #6d3b9e;*/
+/*}*/
+
+/*.logoImg {*/
+/*    max-height: 40px;*/
+/*}*/
+
+/*.alertOverlay {*/
+/*    position: absolute;*/
+/*    width: 100%;*/
+/*    height: 3.5rem;*/
+/*    padding: 0 5vw;*/
+/*    top: 0;*/
+/*    left: 0;*/
+/*}*/
+
+/*@media only screen and (max-width: 1100px) {*/
+/*    .MainContainer {*/
+/*        all: unset;*/
+/*        display: flex;*/
+/*        justify-content: center;*/
+/*        margin: 200px auto;*/
+/*        font-size: 16px;*/
+/*        transition: all 0.5s ease-in-out;*/
+/*    }*/
+
+/*    .UserBox,*/
+/*    .userData,*/
+/*    .userDataHide,*/
+/*    .userResearches,*/
+/*    .userResearchesHide {*/
+/*        width: 900px;*/
+/*    }*/
+
+/*    .rightContainer {*/
+/*        width: 55%;*/
+/*    }*/
+/*}*/
+
+/*@media only screen and (max-width: 1000px) {*/
+/*    .UserBox,*/
+/*    .userData,*/
+/*    .userDataHide,*/
+/*    .userResearches,*/
+/*    .userResearchesHide {*/
+/*        flex-direction: column;*/
+/*        width: 500px;*/
+/*    }*/
+
+/*    .mapBoxVisible,*/
+/*    .mapBoxHide {*/
+/*        width: 500px;*/
+/*        height: 64rem;*/
+/*    }*/
+
+/*    .leftContainer {*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    .rightContainer {*/
+/*        width: 100%;*/
+/*    }*/
+
+/*    .divider {*/
+/*        visibility: visible;*/
+/*        top: 50%;*/
+/*        left: 50%;*/
+/*    }*/
+
+/*    .line {*/
+/*        height: 2px;*/
+/*        width: 27rem;*/
+/*    }*/
+
+/*    .editDiv {*/
+/*        padding-bottom: 0;*/
+/*    }*/
+
+/*    .editBox,*/
+/*    .editBoxHide,*/
+/*    .activityBox {*/
+/*        margin-top: 1.5rem;*/
+/*    }*/
+/*}*/
+
+/*@media only screen and (max-width: 600px) {*/
+/*    .UserBox,*/
+/*    .userData,*/
+/*    .userDataHide,*/
+/*    .userResearches,*/
+/*    .userResearchesHide {*/
+/*        width: 300px;*/
+/*    }*/
+
+/*    .mapBoxVisible,*/
+/*    .mapBoxHide {*/
+/*        width: 300px;*/
+/*        height: 64.2rem;*/
+/*    }*/
+
+/*    .mapSearchBar {*/
+/*        width: 200px;*/
+/*    }*/
+
+/*    .line {*/
+/*        width: 15rem;*/
+/*    }*/
+
+/*    .mainInfo {*/
+/*        width: 100%;*/
+/*        flex-direction: column;*/
+/*        gap: 1rem;*/
+/*    }*/
+
+/*    .avatarBox {*/
+/*        margin-left: 0;*/
+/*    }*/
+
+/*    .avatarImage {*/
+/*        width: 7rem;*/
+/*    }*/
+
+/*    .editAvatarButton {*/
+/*        width: 1.9rem;*/
+/*    }*/
+
+/*    .avatarIcon {*/
+/*        font-size: 0.9rem;*/
+/*    }*/
+
+/*    .nameDiv {*/
+/*        gap: 1rem;*/
+/*    }*/
+
+/*    .nameAndSurname {*/
+/*        justify-content: center;*/
+/*        height: 1rem;*/
+/*        font-size: 1.6rem;*/
+/*    }*/
+
+/*    .infoWithoutEdit {*/
+/*        gap: 2.6rem;*/
+/*    }*/
+
+/*    .profileDescription {*/
+/*        width: 100%;*/
+/*        padding-left: 4.5rem;*/
+/*        gap: 0.6rem;*/
+/*    }*/
+
+/*    .desc {*/
+/*        width: 100%;*/
+/*        font-size: 0.9rem;*/
+/*    }*/
+
+/*    .icon {*/
+/*        filter: invert(19%) sepia(27%) saturate(4336%) hue-rotate(245deg) brightness(95%)*/
+/*            contrast(96%);*/
+/*        font-size: 1.6rem;*/
+/*        margin-right: 0.625rem;*/
+/*    }*/
+
+/*    .editButton,*/
+/*    .editButtonHide {*/
+/*        font-size: 0.8rem;*/
+/*        height: 1.6rem;*/
+/*        border-radius: 5px;*/
+/*    }*/
+
+/*    .activityBox {*/
+/*        margin-top: 0;*/
+/*        min-height: 3rem;*/
+/*        gap: 1rem;*/
+/*    }*/
+
+/*    .singleActivity {*/
+/*        font-size: 0.9rem;*/
+/*        width: 90%;*/
+/*        min-height: 2rem;*/
+/*        gap: 1rem;*/
+/*    }*/
+
+/*    .singleActivity:hover {*/
+/*        transform: scale(103%);*/
+/*        background-color: #6d3b9e;*/
+/*    }*/
+
+/*    .additionIconResearches {*/
+/*        font-size: 1.3rem;*/
+/*    }*/
+
+/*    .additionIcon {*/
+/*        font-size: 0.95rem;*/
+/*    }*/
+
+/*    .editBoxHide {*/
+/*        height: 0;*/
+/*    }*/
+
+/*    .right,*/
+/*    .rightHide {*/
+/*        margin-top: -6rem;*/
+/*        gap: 3rem;*/
+/*        height: 240px;*/
+/*    }*/
+
+/*    .rightHide {*/
+/*        opacity: 0;*/
+/*        pointer-events: none;*/
+/*    }*/
+
+/*    .latestResearch {*/
+/*        display: flex;*/
+/*        justify-content: space-between;*/
+/*        flex-direction: column;*/
+/*        width: 85%;*/
+/*        height: 2rem;*/
+/*        margin-top: 0;*/
+/*        color: black;*/
+/*    }*/
+/*}*/
+
 .MainContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
-    margin: 200px auto;
+    /*margin: 200px auto;*/
     font-size: 16px;
     transition: all 0.5s ease-in-out;
+    padding: 5rem 0;
 }
 
 .Container {
@@ -31,47 +959,51 @@
     transition: all 0.5s ease-in-out;
 }
 
-.userData, .userDataHide {
+.userData,
+.userDataHide {
     position: absolute;
     opacity: 1;
     width: 1000px;
     background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+        rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+        rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
     border-radius: 10px;
     min-height: 500px;
     display: flex;
     flex-direction: row;
     user-select: none;
-    transition: opacity .3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .userDataHide {
     opacity: 0;
     pointer-events: none;
-    transition: opacity .3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 }
 
-.userResearches, .userResearchesHide {
+.userResearches,
+.userResearchesHide {
     position: relative;
-    opacity:1;
+    opacity: 1;
     width: 1000px;
     height: 500px;
     gap: 5px;
     scrollbar-gutter: stable;
     /*padding: 0% 5%;*/
-    display:grid;
+    display: grid;
     justify-items: center;
-    transition: opacity .5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
 }
 
 .userResearchesHide {
     opacity: 0;
     pointer-events: none;
     height: 500px;
-    transition: opacity .5s ease-in-out;
+    transition: opacity 0.5s ease-in-out;
 }
 
-.userResearchCard{
+.userResearchCard {
     display: grid;
     gap: 0.5rem 1rem;
     padding: 20px;
@@ -100,15 +1032,15 @@
     color: #512c8c;
     border: 0px;
     border-radius: 10px 10px 10px 10px;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
 .exitResBtn:hover {
     /*width:100%;*/
-    opacity:100%;
+    opacity: 100%;
 }
 
-.arrowIcon{
+.arrowIcon {
     transform: rotate(90deg);
 }
 
@@ -583,7 +1515,6 @@
     align-items: center;
     flex-direction: column;
     gap: 10px;
-
 }
 
 .locationBox {
@@ -593,30 +1524,30 @@
     flex-direction: column;
     width: 450px;
     height: 60px;
-    color: #6D3B9E;
+    color: #6d3b9e;
     font-size: 18px;
     border-radius: 5px;
-
 }
 
 .location {
     font-size: 16px;
     font-weight: bolder;
     min-height: 24px;
-    transition: .3s;
+    transition: 0.3s;
 }
 
 .location.color {
-    color: #0B6E4F;
+    color: #0b6e4f;
 }
-.location.margin{
-margin-top: -8px;
+.location.margin {
+    margin-top: -8px;
 }
-.location.hidden{
+.location.hidden {
     opacity: 0;
 }
 
-.mapBoxVisible, .mapBoxHide {
+.mapBoxVisible,
+.mapBoxHide {
     z-index: 2;
     display: flex;
     justify-content: center;
@@ -629,8 +1560,10 @@ margin-top: -8px;
     height: 600px;
     border-radius: 10px;
     background-color: #ffffff;
-    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
-    transition: .6s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+        rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+        rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+    transition: 0.6s ease-in-out;
 }
 
 .useDescription {
@@ -638,14 +1571,14 @@ margin-top: -8px;
     justify-content: center;
     align-items: center;
     font-size: 20px;
-    color: #6D3B9E;
+    color: #6d3b9e;
     font-weight: bold;
 }
 
 .mapBoxHide {
     pointer-events: none;
     opacity: 0;
-    transition: .4s ease-in-out;
+    transition: 0.4s ease-in-out;
 }
 
 .mapSearchBar {
@@ -655,22 +1588,24 @@ margin-top: -8px;
     text-align: center;
     width: 300px;
     height: 40px;
-    background-color: #D6CEF3;
+    background-color: #d6cef3;
     outline: none;
-    border: 2px solid #6D3B9E;
+    border: 2px solid #6d3b9e;
     border-radius: 5px;
     font-family: sans-serif;
     opacity: 1;
-    transition: all .4s ease-in-out;
+    transition: all 0.4s ease-in-out;
 }
 
 .map {
-    border:2px solid rgb(255, 255, 255);
+    border: 2px solid rgb(255, 255, 255);
     border-radius: 10px;
     z-index: 100;
     width: 80%;
     height: 65%;
 }
+
+/**/
 
 .bookmarksContainer {
     padding: 0;
@@ -693,7 +1628,7 @@ margin-top: -8px;
 }
 
 .logoImg {
-    max-height: 40px;
+    max-height: 40px; /* ??? */
 }
 
 .alertOverlay {
@@ -706,17 +1641,25 @@ margin-top: -8px;
 }
 
 @media only screen and (max-width: 1100px) {
-    .UserBox, .userData, .userDataHide, .userResearches, .userResearchesHide{
-        width:900px;
+    .UserBox,
+    .userData,
+    .userDataHide,
+    .userResearches,
+    .userResearchesHide {
+        width: 900px;
     }
 
-    .rightContainer{
-        width: 55%
+    .rightContainer {
+        width: 55%;
     }
 }
 
 @media only screen and (max-width: 1000px) {
-    .UserBox, .userData, .userDataHide, .userResearches, .userResearchesHide {
+    .UserBox,
+    .userData,
+    .userDataHide,
+    .userResearches,
+    .userResearchesHide {
         flex-direction: column;
         width: 500px;
     }
@@ -758,7 +1701,11 @@ margin-top: -8px;
 }
 
 @media only screen and (max-width: 600px) {
-    .UserBox, .userData, .userDataHide, .userResearches, .userResearchesHide {
+    .UserBox,
+    .userData,
+    .userDataHide,
+    .userResearches,
+    .userResearchesHide {
         width: 300px;
     }
 

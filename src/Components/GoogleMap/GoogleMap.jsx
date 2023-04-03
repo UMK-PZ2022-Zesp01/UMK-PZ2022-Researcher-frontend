@@ -1,10 +1,18 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styleUserPage from '../UserPage/UserPage.module.css';
 import styleResearchForm from '../Form/CreateResearchForm/GoogleMapResearchForm.module.css';
-import {Loader} from '@googlemaps/js-api-loader';
-import {GrClose} from 'react-icons/gr';
+import { Loader } from '@googlemaps/js-api-loader';
+import { GrClose } from 'react-icons/gr';
 
-function Gmap({exit, latitude, longitude, type, setLocationInput,setGmapExit}) {
+function Gmap({
+    exit,
+    latitude,
+    longitude,
+    type,
+    setLocationInput,
+    setGmapExit,
+    setResearchPlace,
+}) {
     const mapRef = useRef(null);
     const inputRef = useRef(null);
     const [marker, setMarker] = useState(null);
@@ -12,10 +20,9 @@ function Gmap({exit, latitude, longitude, type, setLocationInput,setGmapExit}) {
     const [searchQuery, setSearchQuery] = useState('');
     const [lat, setLat] = useState(latitude);
     const [lng, setLng] = useState(longitude);
-    const [longAddress, setLongAddress] = useState('[nie wybrano]')
-    const [shortAddress, setShortAddress] = useState('')
+    const [longAddress, setLongAddress] = useState('[nie wybrano]');
+    const [shortAddress, setShortAddress] = useState('');
     const [city, setCity] = useState('[nie wybrano]');
-
 
     const loader = new Loader({
         apiKey: process.env.REACT_APP_API_GOOGLE,
@@ -23,16 +30,15 @@ function Gmap({exit, latitude, longitude, type, setLocationInput,setGmapExit}) {
         libraries: ['places'],
     });
 
-
     useEffect(() => {
         loader.load().then(() => {
             const map = new window.google.maps.Map(mapRef.current, {
-                center: {lat: lat, lng: lng},
+                center: { lat: lat, lng: lng },
                 zoom: 11,
             });
 
             const marker = new window.google.maps.Marker({
-                position: {lat: lat, lng: lng},
+                position: { lat: lat, lng: lng },
                 map: map,
                 draggable: true,
             });
@@ -40,10 +46,10 @@ function Gmap({exit, latitude, longitude, type, setLocationInput,setGmapExit}) {
             window.google.maps.event.addListener(map, 'click', event => {
                 const geocoder = new window.google.maps.Geocoder();
                 const latLng = event.latLng;
-                geocoder.geocode({location: event.latLng}, (results, status) => {
+                geocoder.geocode({ location: event.latLng }, (results, status) => {
                     if (status === 'OK' && results[0]) {
                         //tutaj ustawiasz long address
-                        setLongAddress(results[0].formatted_address)
+                        setLongAddress(results[0].formatted_address);
                         //usuwasz tu
                         setShortAddress(results[0].formatted_address);
                         marker.setPosition(latLng);
@@ -55,7 +61,9 @@ function Gmap({exit, latitude, longitude, type, setLocationInput,setGmapExit}) {
             });
 
             if (type === 'user-page') {
-                const autocompleteInstance = new window.google.maps.places.Autocomplete(inputRef.current);
+                const autocompleteInstance = new window.google.maps.places.Autocomplete(
+                    inputRef.current
+                );
                 autocompleteInstance.setFields(['address_components', 'geometry']);
                 autocompleteInstance.setTypes(['(regions)']);
                 autocompleteInstance.addListener('place_changed', event => {
@@ -65,7 +73,7 @@ function Gmap({exit, latitude, longitude, type, setLocationInput,setGmapExit}) {
                     setLng(place.geometry.location.lng());
                     map.setCenter(place.geometry.location);
                     marker.setPosition(place.geometry.location);
-                    setShortAddress(place.address_components[0].short_name)
+                    setShortAddress(place.address_components[0].short_name);
                     setMarker(marker);
                 });
             }
@@ -88,9 +96,9 @@ function Gmap({exit, latitude, longitude, type, setLocationInput,setGmapExit}) {
 
                     // get the address of the selected place and update the state
                     const geocoder = new window.google.maps.Geocoder();
-                    geocoder.geocode({location: place.geometry.location}, (results, status) => {
+                    geocoder.geocode({ location: place.geometry.location }, (results, status) => {
                         if (status === 'OK' && results[0]) {
-                            setShortAddress(place.formatted_address)
+                            setShortAddress(place.formatted_address);
                             //tutaj ustawiasz long address
                             setLongAddress(place.formatted_address);
                             //usuwasz tu
@@ -104,8 +112,9 @@ function Gmap({exit, latitude, longitude, type, setLocationInput,setGmapExit}) {
 
     // console.log(loader.status)
     if (loader.status === 2) {
+        setResearchPlace(lat + ' ' + lng);
         const geocoder = new window.google.maps.Geocoder();
-        geocoder.geocode({address: shortAddress}, (results, status) => {
+        geocoder.geocode({ address: shortAddress }, (results, status) => {
             if (status === 'OK' && results[0]) {
                 // Extract the city name from the address_components array
                 const addressComponents = results[0].address_components;
@@ -118,42 +127,73 @@ function Gmap({exit, latitude, longitude, type, setLocationInput,setGmapExit}) {
                         break;
                     }
                 }
-                setCity(city)
-                setLocationInput(city)
+                setCity(city);
+                setLocationInput(city);
             }
         });
     }
 
-
     return (
-        <div className={type === 'user-page' ? styleUserPage.mapContainer : styleResearchForm.mapContainer}>
-            <button className={type === 'user-page' ? styleUserPage.exitBtn : styleResearchForm.exitBtn}
-                    onClick={() => {
-                        exit();
-                        window.document.body.style.overflowY = 'visible';
-                        setGmapExit(true)
-                    }}>
-                <GrClose/>
+        <div
+            className={
+                type === 'user-page' ? styleUserPage.mapContainer : styleResearchForm.mapContainer
+            }
+        >
+            <button
+                className={type === 'user-page' ? styleUserPage.exitBtn : styleResearchForm.exitBtn}
+                onClick={() => {
+                    exit();
+                    window.document.body.style.overflowY = 'visible';
+                    setGmapExit(true);
+                }}
+            >
+                <GrClose />
             </button>
-            <div className={type === 'user-page' ? styleUserPage.useDescription : styleResearchForm.useDescription}>
+            <div
+                className={
+                    type === 'user-page'
+                        ? styleUserPage.useDescription
+                        : styleResearchForm.useDescription
+                }
+            >
                 Wyszukaj lokalizację lub zaznacz ją na mapie
             </div>
 
             <input
-                className={type === 'user-page' ? styleUserPage.mapSearchBar : styleResearchForm.mapSearchBar}
+                className={
+                    type === 'user-page'
+                        ? styleUserPage.mapSearchBar
+                        : styleResearchForm.mapSearchBar
+                }
                 ref={inputRef}
                 type="text"
                 placeholder="Wyszukaj lokalizację"
             />
 
-            <div className={type === 'user-page' ? styleUserPage.map : styleResearchForm.map} ref={mapRef}></div>
+            <div
+                className={type === 'user-page' ? styleUserPage.map : styleResearchForm.map}
+                ref={mapRef}
+            ></div>
 
-            <div className={type === 'user-page' ? styleUserPage.locationBox : styleResearchForm.locationBox}>
-                <div className={type === 'user-page' ? styleUserPage.location : styleResearchForm.location}>Wybrana
-                    lokalizacja:
+            <div
+                className={
+                    type === 'user-page' ? styleUserPage.locationBox : styleResearchForm.locationBox
+                }
+            >
+                <div
+                    className={
+                        type === 'user-page' ? styleUserPage.location : styleResearchForm.location
+                    }
+                >
+                    Wybrana lokalizacja:
                 </div>
                 <div
-                    className={type === 'user-page' ? `${styleUserPage.location} ${styleUserPage.color}` : `${styleResearchForm.location} ${styleResearchForm.color}`}>
+                    className={
+                        type === 'user-page'
+                            ? `${styleUserPage.location} ${styleUserPage.color}`
+                            : `${styleResearchForm.location} ${styleResearchForm.color}`
+                    }
+                >
                     {type === 'user-page' ? city : longAddress}
                 </div>
             </div>
@@ -161,4 +201,4 @@ function Gmap({exit, latitude, longitude, type, setLocationInput,setGmapExit}) {
     );
 }
 
-export {Gmap};
+export { Gmap };
