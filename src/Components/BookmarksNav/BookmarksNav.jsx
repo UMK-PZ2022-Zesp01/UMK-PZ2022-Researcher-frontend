@@ -245,22 +245,26 @@ function BookmarksNav({ active }) {
                             <span className={styles.bookmarkButtonMobileText}>Strona główna</span>
                         </Link>
 
-                        <Link to="/settings" className={styles.bookmarkButtonMobile}>
-                            <FontAwesomeIcon icon={faGear} />
-                            <span className={styles.bookmarkButtonMobileText}>
-                                Ustawienia konta
-                            </span>
-                        </Link>
+                        {isSomeoneLoggedIn && (
+                            <Link to="/settings" className={styles.bookmarkButtonMobile}>
+                                <FontAwesomeIcon icon={faGear} />
+                                <span className={styles.bookmarkButtonMobileText}>
+                                    Ustawienia konta
+                                </span>
+                            </Link>
+                        )}
 
                         <Link to="/" className={styles.bookmarkButtonMobile}>
                             <FontAwesomeIcon icon={faBug} />
                             <span className={styles.bookmarkButtonMobileText}>Zgłoś błąd</span>
                         </Link>
 
-                        <Link to="/logout" className={styles.bookmarkButtonMobile}>
-                            <FontAwesomeIcon icon={faRightFromBracket} />
-                            <span className={styles.bookmarkButtonMobileText}>Wyloguj</span>
-                        </Link>
+                        {isSomeoneLoggedIn && (
+                            <Link to="/logout" className={styles.bookmarkButtonMobile}>
+                                <FontAwesomeIcon icon={faRightFromBracket} />
+                                <span className={styles.bookmarkButtonMobileText}>Wyloguj</span>
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>

@@ -192,6 +192,7 @@ function CreateResearchForm() {
 
     const handleTitleChange = event => {
         setTitle(event.target.value);
+        console.log(rewardList);
     };
 
     const handleDescriptionChange = event => {
@@ -379,7 +380,7 @@ function CreateResearchForm() {
                             onChange={handleDescriptionChange}
                             id="desc"
                             name="desc"
-                            maxLength="1500"
+                            maxLength="1000"
                             placeholder="Opis badania"
                         />
                     </div>
@@ -492,7 +493,7 @@ function CreateResearchForm() {
                 <div className={styles.rowContainer}>
                     <label className={styles.formLabel}>Wymagania udziału w badaniu</label>
                     <label className={styles.requirementDesc}>
-                        Zaznacz kryteria, które muszą spełniać uczestnicy Twojego badania.
+                        Zaznacz kryteria, które muszą spełniać uczestnicy Twojego badania
                     </label>
 
                     <CreateResearchFormRequirement sendList={getRequirementList} />

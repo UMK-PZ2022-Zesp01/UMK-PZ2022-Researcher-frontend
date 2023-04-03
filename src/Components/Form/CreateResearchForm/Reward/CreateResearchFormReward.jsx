@@ -13,7 +13,12 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
                 className={styles.formInputRegular}
                 name="reward-type"
                 defaultValue={type}
-                onChange={event => handleUpdate(index, { type: event.target.value, value: null })}
+                onChange={event =>
+                    handleUpdate(index, {
+                        type: event.target.value,
+                        value: null,
+                    })
+                }
             >
                 <option value="" disabled>
                     Wybierz typ nagrody...
