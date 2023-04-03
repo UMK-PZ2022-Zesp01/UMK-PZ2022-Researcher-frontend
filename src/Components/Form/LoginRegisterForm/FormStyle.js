@@ -236,5 +236,102 @@ export default createUseStyles({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between"
-  }
+  },
+  overlay:{
+    display:'flex',
+    zIndex:'100000',
+    background: 'rgba( 255, 255, 255, 0.5 )',
+    position:'absolute',
+    top:'0',
+    width:'100%',
+    height:'100vh',
+    backdropFilter:'blur(10px)',
+    transitionDuration:'1s',
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
+  popupContainer:{
+    maxWidth:'600px',
+    width:'100%',
+    borderRadius: '10px',
+    padding:'10px',
+    position:'fixed',
+    top:'40%',
+    left:'50%',
+    transform:'translate(-50%,-50%)',
+    display:'flex',
+    alignItems:'center',
+    flexDirection:'column',
+    backgroundColor:'white',
+    border:'solid rgb(109, 59, 158) 3px ',
+    boxShadow: '8px 8px 24px 0px rgba(109, 59, 151, 0.37)',
+    '&:hover': {
+      cursor: 'default',
+    },
+  },
+  bugInput:{
+    height: "71px",
+    width:'85%',
+    backgroundColor: "#C6B1E7",
+    outline: "none",
+    border:'solid rgb(109, 59, 158) 1px',
+    borderRadius: "5px",
+    fontFamily: "sans-serif",
+    resize: "none",
+    transition: ".3s",
+    fontSize:'large',
+    "&:focus": {
+      border: "2px solid #512C8C",
+      backgroundColor: "#D7C2F8"
+    }
+  },
+  closeBtn:{
+    position:'fixed',
+    top:'10px',
+    right:'12px',
+
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
+  bugBtn:{
+    position:'relative',
+    zIndex:'0',
+    padding: '0.7rem',
+    margin: '1rem',
+    fontSize:'medium',
+    backgroundColor: '#512c8c',
+    color: '#ffffff',
+    fontWeight: '500',
+    appearance: 'none',
+    border: 'none',
+    borderRadius: '5px',
+    transition:'translate linear 0.1s ',
+
+    '&::before':{
+      zIndex:'-1',
+      position:'absolute',
+      content:'""',
+      top:'0',
+      left:'50%',
+      width:'0',
+      height:'100%',
+      transition:'width ease-in-out 0.3s, left ease-in-out 0.3s',
+      borderRadius:'5px',
+      backgroundColor: '#6D3B9E',
+    },
+
+    '&:hover': {
+      cursor: 'pointer',
+      '&::before':{
+        width:'100%',
+        left:'0',
+      }
+    },
+    '&:active': {
+      backgroundColor:'#512c8c',
+      translate:'0 2px'
+    },
+  },
 });

@@ -8,3 +8,5 @@ export const useAuth = () => {
 export const useUsername = () => {
     return useContext(AuthContext)?.auth?.username;
 };
+
+export default useAuth;
