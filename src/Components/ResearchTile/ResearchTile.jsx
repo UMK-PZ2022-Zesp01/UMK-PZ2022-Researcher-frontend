@@ -1,9 +1,14 @@
 import React from 'react';
 import styles from './ResearchTile.module.css';
+import { ResearchTileRequirement } from '../ResearchTileRequirement/ResearchTileRequirement';
+import { useTranslate } from '../../hooks/useTranslate';
+import { useCapitalize } from '../../hooks/useCapitalize';
+import { ResearchTileReward } from '../ResearchTileReward/ResearchTileReward';
 
 export default function ResearchTile({ tileData, postData }) {
     const { tileNumber, previewed, setPreviewed } = tileData;
     const {
+        researchCode,
         poster,
         title,
         creatorLogin,
@@ -20,24 +25,10 @@ export default function ResearchTile({ tileData, postData }) {
         rewards,
     } = postData;
 
-    console.log(postData);
-
     const isPreviewed = previewed === tileNumber;
 
-    const translate = {
-        author: 'Autor',
-        poster: 'Poster',
-        title: 'Tytuł badania',
-        description: 'Opis badania',
-
-        gender: 'Płeć',
-        place: 'Miejsce zamieszkania',
-        education: 'Wykształcenie',
-        marital: 'Stan cywilny',
-
-        cash: 'Pieniądze',
-        item: 'Upominek',
-    };
+    const translate = useTranslate();
+    const capitalize = useCapitalize();
 
     const handleTileClicked = () => {
         if (isPreviewed) {
@@ -47,24 +38,43 @@ export default function ResearchTile({ tileData, postData }) {
         setPreviewed(tileNumber);
     };
 
-    const renderInfo = (array = []) => {
-        return [...array].map(item => (
-            <>
-                <span key={`${item.type} ${item.value}`} className={styles.bold}>
-                    {`${translate[item.type.toLowerCase()]}: `}
-                </span>
-                {item.type.toLowerCase() === 'cash'
-                    ? `${Number(item.value / 100).toFixed(2)}zł`
-                    : item.value}
-                <br />
-            </>
+    const renderRewards = () => {
+        return postData?.rewards.map((reward, index) => (
+            <ResearchTileReward
+                key={`${researchCode}rew${index}`}
+                researchCode={researchCode}
+                reward={reward}
+            ></ResearchTileReward>
         ));
     };
+
+    const renderRequirements = () => {
+        return postData?.requirements.map((req, index) => (
+            <ResearchTileRequirement
+                key={`${researchCode}req${index}`}
+                researchCode={researchCode}
+                requirement={req}
+            />
+        ));
+    };
+
+    // const renderInfo = (array = []) => {
+    //     return [...array].map(item => (
+    //         <React.Fragment key={`${item.type}${item.value}`}>
+    //             <span className={styles.bold}>{`${translate[item.type.toLowerCase()]}: `}</span>
+    //             {item.type.toLowerCase() === 'cash'
+    //                 ? `${Number(item.value / 100).toFixed(2)}zł`
+    //                 : item.value}
+    //             <br />
+    //         </React.Fragment>
+    //     ));
+    // };
 
     return (
         <>
             {/*SMALL TILE*/}
             <li
+                key={`SmallTile${researchCode}`}
                 className={`${isPreviewed ? styles.previewed : ''} ${styles.researchTile} `}
                 onClick={handleTileClicked}
             >
@@ -82,7 +92,10 @@ export default function ResearchTile({ tileData, postData }) {
             </li>
 
             {/*BIG TILE*/}
-            <li className={`${styles.previewTile} ${isPreviewed ? styles.previewVisible : ''}`}>
+            <li
+                key={`BigTile${researchCode}`}
+                className={`${styles.previewTile} ${isPreviewed ? styles.previewVisible : ''}`}
+            >
                 <div className={styles.previewHeader1}>
                     <header className={`${styles.headerHalf} ${styles.headerLeft}`}>{title}</header>
                     <div className={`${styles.headerHalf} ${styles.headerRight}`}>
@@ -100,18 +113,24 @@ export default function ResearchTile({ tileData, postData }) {
                     <div className={`${styles.bodyPart} ${styles.bodyLeft}`}>
                         <div className={styles.infoBox}>
                             <div className={styles.h4}>Dostęp</div>
-                            <b className={styles.bold}>Forma: </b>{' '}
-                            {location?.form.toLowerCase() === 'remote' ? 'zdalnie' : 'na miejscu'}
-                            <br />
-                            <b className={styles.bold}>Adres: </b> {location?.address}
+                            <ul className={styles.list}>
+                                <li>
+                                    <span className={styles.type}>Forma: </span>
+                                    <span>{translate(location.form)}</span>
+                                </li>
+                                <li>
+                                    <span className={styles.type}>Adres: </span>
+                                    <span>{location?.place}</span>
+                                </li>
+                            </ul>
                         </div>
                         <div className={styles.infoBox}>
                             <div className={styles.h4}>Wymagania</div>
-                            {renderInfo(requirements)}
+                            <ul className={styles.requirementsList}>{renderRequirements()}</ul>
                         </div>
                         <div className={styles.infoBox}>
                             <div className={styles.h4}>Nagrody za udział</div>
-                            {renderInfo(rewards)}
+                            <ul className={styles.rewardsList}>{renderRewards()}</ul>
                         </div>
                     </div>
                     <main className={`${styles.bodyPart} ${styles.bodyRight}`}>

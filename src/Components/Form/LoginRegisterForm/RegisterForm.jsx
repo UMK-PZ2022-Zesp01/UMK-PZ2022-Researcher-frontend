@@ -28,9 +28,9 @@ function RegisterForm(props) {
     const confirmPasswordRef = useRef(null);
     const setAlert = props.setters;
 
-    let currentTime = new Date().toISOString().split('T')[0];
+    const currentTime = new Date().toISOString().split('T')[0];
 
-    let user = {
+    const user = {
         login: username,
         password: password,
         firstName: firstName,

@@ -1,0 +1,25 @@
+.researchTileRequirement {
+    display: flex;
+    flex-direction: column;
+}
+
+.type {
+    font-weight: 700;
+}
+
+.criteriaList {
+    padding: 0 0 0 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+
+    list-style-type: disc;
+}
+
+.criteriaList li::marker {
+    color: #512c8c;
+}
+
+.otherCriteria {
+    padding: 0;
+}

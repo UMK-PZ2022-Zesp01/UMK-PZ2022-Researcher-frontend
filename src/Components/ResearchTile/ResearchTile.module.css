@@ -51,7 +51,9 @@
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
 
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(3px);
+
     color: white;
 
     text-align: left;
@@ -182,10 +184,28 @@
 
 .bodyLeft {
     width: 25%;
+    overflow-y: scroll;
+
+    hyphens: auto;
+}
+
+.list,
+.requirementsList,
+.rewardsList {
+    display: flex;
+    flex-direction: column;
+
+    padding: 0 0 0 0.5rem;
+    list-style-type: none;
+}
+
+.type {
+    font-weight: 700;
 }
 
 .bodyRight {
     width: 75%;
+    overflow-y: scroll;
 }
 
 .h4 {
@@ -194,9 +214,13 @@
     color: #6d3b9e;
 }
 
-.bold {
-    font-weight: 700;
-    font-size: inherit;
+.infoBox {
+    display: flex;
+    flex-direction: column;
+}
+.researchTileRequirement {
+    display: flex;
+    flex-direction: column;
 }
 
 .researchPageButton {

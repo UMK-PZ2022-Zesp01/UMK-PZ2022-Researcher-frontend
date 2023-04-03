@@ -1,0 +1,19 @@
+.researchTileReward {
+    display: flex;
+    flex-direction: column;
+}
+
+.type {
+    font-weight: 700;
+}
+.rewardList {
+    padding: 0 0 0 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+
+    list-style-type: disc;
+}
+.rewardList li::marker {
+    color: #512c8c;
+}
