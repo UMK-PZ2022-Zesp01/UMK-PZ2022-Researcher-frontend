@@ -1,3 +1,10 @@
+.PageOverlay{
+    width:100%;
+    height: 100%;
+}
+/* ^^^ potrzebne aby wyświetlać
+       overlay do popupu        */
+
 .MainContainer {
     /*margin: 200px auto;*/
     position: absolute;

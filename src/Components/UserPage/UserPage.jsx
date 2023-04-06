@@ -197,6 +197,8 @@ export default function UserPage(props) {
 
     console.log("isclickedlocation",isClickedLocation)
     return (
+        <div className={styles.PageOverlay}>
+            <ReportForm open={openPopup} onClose={() => setOpenPopup(false)}/>
         <div className={styles.MainContainer}>
             <Helmet>
                 <title>Profil | Researcher</title>
@@ -204,7 +206,6 @@ export default function UserPage(props) {
             <div className={styles.alertOverlay}>
                 <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
             </div>
-            <ReportForm open={openPopup} onClose={() => setOpenPopup(false)}/>
             <div className={styles.UserBox}>
                 <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
                     <Gmap latitude={53.015331} longitude={18.6057} type={'user-page'} exit={exit}
@@ -218,13 +219,16 @@ export default function UserPage(props) {
                         <BookmarksNav active="profile"/>
                     </header>
                     <div className={styles.wrapper}>
+
+                        {/* tutaj posty */}
+
                         <LeftContainer values={sendToLeftContainer}
                         />
                         <RightContainer values={sendToRightContainer}/>
                     </div>
-
                 </div>
             </div>
+        </div>
         </div>
     );
 }
