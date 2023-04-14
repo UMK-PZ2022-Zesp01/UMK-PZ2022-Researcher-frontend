@@ -256,13 +256,14 @@ function RegisterForm(props) {
                     />
                 </div>
 
-                <div className={styles.agreementBox}>
+                <div className={styles.checkboxRow}>
                     <input
-                        onChange={() => handleAgreementChanged()}
                         id="agreement"
                         type="checkbox"
-                        className={styles.checkboxInput}
+                        defaultChecked={agreement}
+                        onChange={() => handleAgreementChanged()}
                         required
+                        className={styles.checkboxInput}
                     />
                     <label htmlFor="agreement">
                         Wyrażam zgodę na przetwarzanie moich danych osobowych.

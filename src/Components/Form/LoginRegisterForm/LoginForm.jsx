@@ -1,5 +1,4 @@
 import React from 'react';
-// import FormStyle from './FormStyle';
 import styles from './LoginRegisterForm.module.css';
 import getApiUrl from '../../../Common/Api.js';
 import { useAuth } from '../../../hooks/useAuth';
@@ -18,6 +17,7 @@ function LoginForm(props) {
     // const styles = FormStyle();
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [rememberDevice, setRememberDevice] = React.useState(false);
 
     async function SubmitButtonClicked(event) {
         event.preventDefault();
@@ -32,6 +32,7 @@ function LoginForm(props) {
                 body: JSON.stringify({
                     login: username,
                     password: password,
+                    rememberDevice: rememberDevice,
                 }),
             });
 
@@ -74,52 +75,6 @@ function LoginForm(props) {
                 alertText: 'Logowanie nie powiodło się. Prosimy spróbować ponownie później.',
             });
         }
-
-        //   try {
-        //     await fetch(LOGIN_URL, {
-        //       method: 'POST',
-        //       credentials: 'include',
-        //       headers: {
-        //         'Content-Type': 'application/json; charset:UTF-8',
-        //       },
-        //       body: JSON.stringify({
-        //         login: username,
-        //         password: password,
-        //       }),
-        //     })
-        //       .then(response => {
-        //         response.ok
-        //           ? response.json().then(result => {
-        //               const accessToken = result.accessToken;
-        //               setAuth({ username, accessToken });
-        //               setUsername('');
-        //               setPassword('');
-        //               navigate(from, { replace: true });
-        //             })
-        //           : setAlert({
-        //               alertOpen: true,
-        //               alertType: response.status,
-        //               alertText: 'Logowanie nie powiodło się, sprawdź poprawność loginu oraz hasła',
-        //             });
-        //       })
-        //       .catch(reason => {
-        //         console.log(reason);
-        //         setAlert({
-        //           alertOpen: true,
-        //           alertType: 404,
-        //           alertText: 'Logowanie nie powiodło się. Prosimy spróbować ponownie później.',
-        //         });
-        //       });
-        //   } catch (error) {
-        //     if (!error.response) {
-        //       console.log('No server response.');
-        //     } else if (error.response?.status === 400) {
-        //       console.log('Missing username or password.');
-        //     } else if (error.response?.status === 401) {
-        //       console.log('Unauthorized.');
-        //     }
-        //     console.log(error);
-        //   }
     }
 
     const handleUsernameChanged = event => {
@@ -128,6 +83,10 @@ function LoginForm(props) {
 
     const handlePasswordChanged = event => {
         setPassword(event.target.value);
+    };
+
+    const handleRememberDeviceChanged = () => {
+        setRememberDevice(!rememberDevice);
     };
 
     return (
@@ -146,18 +105,29 @@ function LoginForm(props) {
                     required
                 />
                 <input
-                    onChange={event => handlePasswordChanged(event)}
                     type="password"
                     placeholder="Hasło"
+                    onChange={event => handlePasswordChanged(event)}
                     className={styles.textInput}
                     required
                 />
+
                 <a href="/" className={styles.aPurple}>
                     Nie pamiętam hasła
                 </a>
                 <button type="submit" className={styles.submitButton}>
                     ZALOGUJ
                 </button>
+                <div className={styles.checkboxRow}>
+                    <input
+                        id={'rememberDevice'}
+                        type="checkbox"
+                        defaultChecked={rememberDevice}
+                        onChange={handleRememberDeviceChanged}
+                        className={styles.checkboxInput}
+                    />
+                    <label htmlFor={'rememberDevice'}>Zapamiętaj to urządzenie</label>
+                </div>
                 <div className={styles.orLoginWith}>
                     <span>lub</span>
                 </div>

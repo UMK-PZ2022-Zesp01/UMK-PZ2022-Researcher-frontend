@@ -263,10 +263,10 @@ function BookmarksNav({ active }) {
                         </Link>
 
                         {isSomeoneLoggedIn && (
-                            <Link to="/logout" className={styles.bookmarkButtonMobile}>
+                            <div onClick={logout} className={styles.bookmarkButtonMobile}>
                                 <FontAwesomeIcon icon={faRightFromBracket} />
                                 <span className={styles.bookmarkButtonMobileText}>Wyloguj</span>
-                            </Link>
+                            </div>
                         )}
                     </div>
                 </div>
