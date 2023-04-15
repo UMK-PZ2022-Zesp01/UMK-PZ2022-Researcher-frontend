@@ -73,13 +73,12 @@
 }
 
 .userResearches, .userResearchesHide {
-    position: relative;
+    position: absolute;
     opacity: 1;
-    width: 1000px;
-    height: 500px;
-    gap: 5px;
+    z-index: 300;
+    width: 100%;
+    height: 100%;
     scrollbar-gutter: stable;
-    /*padding: 0% 5%;*/
     display: grid;
     justify-items: center;
     transition: opacity .5s ease-in-out;
@@ -88,7 +87,6 @@
 .userResearchesHide {
     opacity: 0;
     pointer-events: none;
-    height: 500px;
     transition: opacity .5s ease-in-out;
 }
 
@@ -99,6 +97,8 @@
     width: 100%;
     height: 100%;
     overflow-y: scroll;
+    border-radius: 10px;
+    background-color: #f4f0fa;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-auto-flow: dense;
     scroll-snap-type: y mandatory;

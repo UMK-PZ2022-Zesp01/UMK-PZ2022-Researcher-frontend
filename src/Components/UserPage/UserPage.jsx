@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styles from './UserPage.module.css';
 import {Popup} from '../Popup/Popup';
 import {LeftContainer} from "./Containers/LeftContainer";
@@ -12,6 +12,11 @@ import {Helmet} from 'react-helmet';
 import {Link} from "react-router-dom";
 import getApiUrl from '../../Common/Api.js';
 import researcherLogo from "../../img/banner2.png";
+import { faFileCirclePlus, faArrowTurnDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ResearchTile from "../ResearchTile/ResearchTile";
+
+const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 
 export default function UserPage(props) {
     /*user data*/
@@ -125,9 +130,37 @@ export default function UserPage(props) {
             .catch(error => {
                 console.error(error);
             });
-        /***const getPosts = async () => {
+
+    //     const getPosts = async () => {
+    //         try {
+    //             await fetch(RESEARCHES_URL + username, {
+    //                 signal,
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-Type': 'application/json;charset:UTF-8',
+    //                 },
+    //             })
+    //                 .then(response =>
+    //                     response.json().then(result => {
+    //                         isMounted && setPosts(result);
+    //                     })
+    //                 )
+    //                 .catch(error => {
+    //                     console.error(error);
+    //                 });
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     };
+    //
+    //      getPosts();
+    //
+    // }, []);
+
+
+        const getPosts = async () => {
             try {
-                await fetch(RESEARCHES_URL, {
+                await fetch(RESEARCHES_URL + username, {
                     signal,
                     method: 'GET',
                     headers: {
@@ -136,7 +169,7 @@ export default function UserPage(props) {
                 })
                     .then(response =>
                         response.json().then(result => {
-                            isMounted && setPosts(result);
+                            isMounted && setPosts([...posts, ...result]);
                         })
                     )
                     .catch(error => {
@@ -147,20 +180,24 @@ export default function UserPage(props) {
             }
         };
 
-         getPosts();***/
+        getPosts();
 
+        return () => {
+            isMounted = false;
+            controller.abort();
+        };
     }, []);
 
-    /***Do Poprawienia jest css więc zakomentowane
+   //Do Poprawienia jest css więc zakomentowane
      const showPosts = () => {
         return posts.map((post, index) => (
             <ResearchTile
-                key={post.key}
+                key={`ResearchTile${post.researchCode}`}
                 tileData={{previewed: previewed, setPreviewed: setPreviewed, tileNumber: index}}
                 postData={post}
             ></ResearchTile>
         ));
-    };***/
+    };
     const handleLocationClick = (value) => {
         setIsClickedLocation(value)
     }
@@ -220,11 +257,15 @@ export default function UserPage(props) {
                     </header>
                     <div className={styles.wrapper}>
 
-                        {/* tutaj posty */}
+                        <div className={clickedResearches ? styles.userResearches : styles.userResearchesHide}>
+                            <button className={styles.exitResBtn} onClick={()=>setIsClickedResearches(false)}><FontAwesomeIcon className={styles.arrowIcon} icon={faArrowTurnDown}/></button>
+                            <div className={styles.userResearchCard}>{showPosts()}</div>
+                        </div>
 
                         <LeftContainer values={sendToLeftContainer}
                         />
                         <RightContainer values={sendToRightContainer}/>
+
                     </div>
                 </div>
             </div>
