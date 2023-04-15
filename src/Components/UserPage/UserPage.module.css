@@ -176,7 +176,7 @@
     transform: rotate(90deg);
 }
 
-::-webkit-scrollbar {
+.userResearchCard::-webkit-scrollbar {
     display: none;
 }
 
@@ -192,7 +192,6 @@
     transition: all .5s ease-in-out;
     background: #D6CEF3;
 }
-
 
 .Container {
     display: flex;
