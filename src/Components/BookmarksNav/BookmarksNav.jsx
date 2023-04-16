@@ -8,7 +8,6 @@ import {
     faHouse,
     faRightFromBracket,
     faUser,
-    faGear,
     faBars,
     faXmark,
     faBug,

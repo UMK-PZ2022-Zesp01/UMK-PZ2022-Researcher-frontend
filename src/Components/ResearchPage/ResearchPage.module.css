@@ -57,11 +57,17 @@
 }
 
 .posterContainer {
-    width: 30%;
-    height: 350px;
+    aspect-ratio: 1 / 1.414;
+    height: 325px;
     background-color: #0b6e4f;
     border: 2px solid #512c8c;
     border-radius: 5px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.posterContainer:hover img {
+    transform: scale(1.05);
 }
 
 .posterImg {
@@ -69,12 +75,25 @@
     height: 100%;
     object-fit: cover;
     border-radius: 5px;
+    transition: 0.3s;
+}
+
+.posterFullScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    z-index: 99;
+    overflow-y: hidden;
 }
 
 .basicInfoContainer {
     width: 75%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: flex-start;
     gap: 10px;
 }
@@ -102,6 +121,10 @@
     font-weight: bold;
 }
 
+.categoryValue {
+    font-size: 16px;
+}
+
 .dateContainerLeft {
     display: flex;
     flex-direction: column;
@@ -117,15 +140,36 @@
 .contactDetails {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     text-align: left;
-    justify-content: space-between;
+    gap: 5px;
 }
 
-.contactElementEmail {
+.contactElement {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
 }
 
-.participantsHeader {
+.icon {
+    font-weight: normal;
+    color: #512c8c;
+}
+
+.link {
+    color: #000000;
+    text-decoration: underline 1px transparent;
+    transition: 0.3s;
+}
+
+.link:hover {
+    color: #512c8c;
+    text-decoration: underline 1px #512c8c;
+}
+
+.link .participantsHeader {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -148,7 +192,15 @@
 
 .participantsProgressBar::-webkit-progress-value {
     background-color: #512c8c;
-    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.participantsHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .bottomPageContainer {
@@ -184,6 +236,146 @@
     align-items: flex-start;
 }
 
+.rewardReqElement ul {
+    margin: 5px;
+    padding-left: 15px;
+    text-align: left;
+}
+
+.rewardReqElement ul li::marker {
+    color: #512c8c;
+}
+
+.requirementsContainer {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    text-align: left;
+    align-content: flex-start;
+}
+
+.requirementCategory {
+    color: #512c8c;
+}
+
+.rewardsList {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px;
+    padding-left: 15px;
+    text-align: left;
+}
+
+.rewardsList li {
+    width: 50%;
+}
+
+.rewardsList li::marker {
+    color: #512c8c;
+}
+
+.reqList {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-top: 5px;
+}
+
+.reqElement {
+    margin: 5px;
+    padding-left: 15px;
+    text-align: left;
+}
+
+.reqElement li::marker {
+    color: #512c8c;
+}
+
+.reqElementColumn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.reqDescription {
+    margin: 5px 0;
+}
+
+.enrollContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 0;
+}
+
+.enrollCheckmark {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.enrollButton {
+    width: 50%;
+    background-color: #512c8c;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid #512c8c;
+    transition: 0.3s;
+}
+
+.enrollButton:hover {
+    background-color: #6d3b9e;
+    border: 2px solid #6d3b9e;
+}
+
+.disabled {
+    background-color: #414141;
+    border: 2px solid #414141;
+    pointer-events: none;
+}
+
+.enrollIcon {
+    font-size: 24px;
+}
+
+.enrollDesc {
+    font-weight: bold;
+    text-align: left;
+}
+
+.green {
+    color: #028634;
+}
+
+.red {
+    color: #ad0000;
+}
+
+.alertOverlay {
+    position: fixed;
+    width: 100%;
+    height: 3.5rem;
+    padding: 0 5vw;
+    top: 0;
+    left: 0;
+    z-index: 50;
+}
+
 @media (max-width: 1000px) {
     .container {
         margin: 25px 10px;
@@ -195,5 +387,9 @@
 
     .researchPagePanel {
         padding: 30px;
+    }
+
+    .alertOverlay {
+        padding: 0;
     }
 }
