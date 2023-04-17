@@ -1,0 +1,58 @@
+.container {
+    display: flex;
+
+    width: 100%;
+
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    counter-reset: iDot;
+}
+
+.dot {
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    aspect-ratio: 1/1;
+
+    animation-name: wave;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-duration: 1s;
+
+    counter-increment: iDot;
+}
+
+.dot::after {
+    position: absolute;
+    content: '';
+
+    width: 0.5rem;
+    aspect-ratio: 1/1;
+
+    inset: 0.25rem;
+
+    background-color: #5b5b5b;
+    border-radius: 0.5rem;
+}
+
+.dot:nth-child(3n) {
+    animation-delay: 0.5s;
+}
+
+.dot:nth-child(3n + 2) {
+    animation-delay: 0.25s;
+}
+
+@keyframes wave {
+    0% {
+        transform: translateY(3px);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+    100% {
+        transform: translateY(3px);
+    }
+}

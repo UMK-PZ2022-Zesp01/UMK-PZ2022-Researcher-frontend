@@ -8,6 +8,7 @@ import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
 import banner from '../../img/banner2.png';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import { LoadingDots } from '../LoadingDots/LoadingDots';
 
 const RESEARCHES_URL = getApiUrl() + 'research/';
 
@@ -16,6 +17,7 @@ function MainPage() {
     const [posts, setPosts] = React.useState([]);
     const [previewed, setPreviewed] = React.useState(null);
 
+    const [isLoading, setIsLoading] = React.useState(false);
     const [page, setPage] = React.useState(1);
     const [lastPage, setLastPage] = React.useState(false);
     const urlPageSection = `page/${page}/9`;
@@ -29,6 +31,7 @@ function MainPage() {
 
     useEffect(() => {
         let isMounted = true;
+        setIsLoading(true);
         const controller = new AbortController();
         const signal = controller.signal;
 
@@ -47,6 +50,7 @@ function MainPage() {
                             if (result.length === 9) {
                                 setLastPage(false);
                             }
+                            // setIsLoading(false);
                             isMounted && setPosts([...posts, ...result]);
                         })
                     )
@@ -92,6 +96,7 @@ function MainPage() {
             </div>
             <main className={styles.mainPagePanel}>
                 <ul className={styles.tileGrid}>{showPosts()}</ul>
+                {isLoading && <LoadingDots />}
                 <span ref={triggerRef}></span>
             </main>
         </div>
