@@ -12,11 +12,24 @@
 
 .dot {
     position: relative;
-    width: 1rem;
+
     height: 1rem;
+    aspect-ratio: 3/2;
+}
+
+.dot::after {
+    position: absolute;
+    content: '';
+
+    width: 0.4rem;
     aspect-ratio: 1/1;
 
-    animation-name: wave;
+    inset: 0.3rem 0.55rem;
+
+    background-color: #5b5b5b;
+    border-radius: 0.5rem;
+
+    animation-name: wave, colorShift;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
     animation-duration: 1s;
@@ -24,24 +37,11 @@
     counter-increment: iDot;
 }
 
-.dot::after {
-    position: absolute;
-    content: '';
-
-    width: 0.5rem;
-    aspect-ratio: 1/1;
-
-    inset: 0.25rem;
-
-    background-color: #5b5b5b;
-    border-radius: 0.5rem;
-}
-
-.dot:nth-child(3n) {
+.dot:nth-child(3n)::after {
     animation-delay: 0.5s;
 }
 
-.dot:nth-child(3n + 2) {
+.dot:nth-child(3n + 2)::after {
     animation-delay: 0.25s;
 }
 
@@ -54,5 +54,17 @@
     }
     100% {
         transform: translateY(3px);
+    }
+}
+
+@keyframes colorShift {
+    0% {
+        background-color: #ab50ea;
+    }
+    50% {
+        background-color: #531b64;
+    }
+    100% {
+        background-color: #8113be;
     }
 }

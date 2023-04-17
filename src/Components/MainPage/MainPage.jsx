@@ -50,7 +50,7 @@ function MainPage() {
                             if (result.length === 9) {
                                 setLastPage(false);
                             }
-                            // setIsLoading(false);
+                            setIsLoading(false);
                             isMounted && setPosts([...posts, ...result]);
                         })
                     )
