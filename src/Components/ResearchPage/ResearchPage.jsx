@@ -10,6 +10,7 @@ import {
     faPhone,
     faCircleCheck,
     faCircleXmark,
+    faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useAuth from '../../hooks/useAuth';
@@ -36,6 +37,7 @@ function ResearchPage() {
 
     const [isPosterOnFullScreen, setIsPosterOnFullScreen] = useState(false);
     const [researchGetSuccess, setResearchGetSuccess] = useState(null);
+    const [isSomeoneLoggedIn, setIsSomeoneLoggedIn] = useState(false);
 
     /** Get Research From Database **/
 
@@ -101,8 +103,12 @@ function ResearchPage() {
             .then(response => response.json())
             .then(data => {
                 setLoggedUser(data);
+                setIsSomeoneLoggedIn(true);
             })
-            .catch(() => setResearchGetSuccess(false));
+            .catch(() => {
+                setResearchGetSuccess(false);
+                setIsSomeoneLoggedIn(false);
+            });
     }, [auth]);
 
     /*** Alerts Section ***/
@@ -128,6 +134,7 @@ function ResearchPage() {
                         {alert.alertText}
                     </Alert>
                 );
+            case 298:
             case 299:
                 return (
                     <Alert onClose={closeAlert} type="warning">
@@ -387,12 +394,26 @@ function ResearchPage() {
                         alertText: 'Udało Ci się zapisać na to badanie!',
                     });
                     break;
+                case 298:
+                    setAlert({
+                        alertOpen: true,
+                        alertType: 298,
+                        alertText: 'Nie możesz zapisać się na swoje badanie',
+                    });
+                    break;
                 case 299:
                     setAlert({
                         alertOpen: true,
                         alertType: 299,
                         alertText:
                             'Nie możesz zapisać się na to badanie, ponieważ już jesteś jego uczestnikiem',
+                    });
+                    break;
+                case 403:
+                    setAlert({
+                        alertOpen: true,
+                        alertType: 400,
+                        alertText: 'Zaloguj się, aby zapisać się na badanie',
                     });
                     break;
                 default:
@@ -432,7 +453,28 @@ function ResearchPage() {
             </header>
 
             <main className={styles.researchPagePanel}>
-                {isPosterOnFullScreen && <div className={styles.posterFullScreen}></div>}
+                {isPosterOnFullScreen && (
+                    <div
+                        className={styles.posterFullScreenContainer}
+                        onClick={handleFullScreenModeClose}
+                    >
+                        <div className={styles.btnContainer}>
+                            <button
+                                className={styles.posterFullScreenCloseBtn}
+                                onClick={handleFullScreenModeClose}
+                            >
+                                Wróć do badania
+                            </button>
+                        </div>
+                        <div className={styles.imgContainer}>
+                            <img
+                                alt="poster"
+                                src={`data:image/jpeg;base64,${research.poster}`}
+                                className={styles.posterFullScreen}
+                            />
+                        </div>
+                    </div>
+                )}
 
                 {researchGetSuccess === true && (
                     <>
@@ -521,7 +563,11 @@ function ResearchPage() {
                                             Liczba zajętych miejsc
                                         </label>
                                         <strong
-                                            className={checkForLimitExceedance() <= 2 && styles.red}
+                                            className={
+                                                checkForLimitExceedance() <= 2
+                                                    ? styles.red
+                                                    : undefined
+                                            }
                                         >
                                             {research.participants} / {research.participantLimit}
                                         </strong>
@@ -581,19 +627,19 @@ function ResearchPage() {
 
                             <div className={styles.enrollContainer}>
                                 <div className={styles.enrollCheckmark}>
-                                    {calculateDaysLeft() === 'CLOSED' ? (
+                                    {isSomeoneLoggedIn === false ? (
                                         <>
                                             <FontAwesomeIcon
                                                 icon={faCircleXmark}
                                                 className={`${styles.enrollIcon} ${styles.red}`}
                                             />
                                             <span className={`${styles.enrollDesc} ${styles.red}`}>
-                                                Badanie zakończyło się.
+                                                Zaloguj się, aby móc zapisać się na badanie.
                                             </span>
                                         </>
                                     ) : (
                                         <>
-                                            {checkForLimitExceedance() === 'EXCEEDED' ? (
+                                            {calculateDaysLeft() === 'CLOSED' ? (
                                                 <>
                                                     <FontAwesomeIcon
                                                         icon={faCircleXmark}
@@ -602,12 +648,12 @@ function ResearchPage() {
                                                     <span
                                                         className={`${styles.enrollDesc} ${styles.red}`}
                                                     >
-                                                        Lista uczestników jest już pełna.
+                                                        Badanie zakończyło się.
                                                     </span>
                                                 </>
                                             ) : (
                                                 <>
-                                                    {checkRequirements() !== true ? (
+                                                    {checkForLimitExceedance() === 'EXCEEDED' ? (
                                                         <>
                                                             <FontAwesomeIcon
                                                                 icon={faCircleXmark}
@@ -616,22 +662,40 @@ function ResearchPage() {
                                                             <span
                                                                 className={`${styles.enrollDesc} ${styles.red}`}
                                                             >
-                                                                Nie kwalifikujesz się do udziału w
-                                                                tym badaniu ze względu na{' '}
-                                                                {checkRequirements()}!
+                                                                Lista uczestników jest już pełna.
                                                             </span>
                                                         </>
                                                     ) : (
                                                         <>
-                                                            <FontAwesomeIcon
-                                                                icon={faCircleCheck}
-                                                                className={`${styles.enrollIcon} ${styles.green}`}
-                                                            />
-                                                            <span
-                                                                className={`${styles.enrollDesc} ${styles.green}`}
-                                                            >
-                                                                Możesz wziąć udział w badaniu!
-                                                            </span>
+                                                            {checkRequirements() !== true ? (
+                                                                <>
+                                                                    <FontAwesomeIcon
+                                                                        icon={faCircleXmark}
+                                                                        className={`${styles.enrollIcon} ${styles.red}`}
+                                                                    />
+                                                                    <span
+                                                                        className={`${styles.enrollDesc} ${styles.red}`}
+                                                                    >
+                                                                        Nie kwalifikujesz się do
+                                                                        udziału w tym badaniu ze
+                                                                        względu na{' '}
+                                                                        {checkRequirements()}!
+                                                                    </span>
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <FontAwesomeIcon
+                                                                        icon={faCircleCheck}
+                                                                        className={`${styles.enrollIcon} ${styles.green}`}
+                                                                    />
+                                                                    <span
+                                                                        className={`${styles.enrollDesc} ${styles.green}`}
+                                                                    >
+                                                                        Możesz wziąć udział w
+                                                                        badaniu!
+                                                                    </span>
+                                                                </>
+                                                            )}
                                                         </>
                                                     )}
                                                 </>
@@ -642,6 +706,7 @@ function ResearchPage() {
 
                                 <button
                                     className={
+                                        isSomeoneLoggedIn === false ||
                                         calculateDaysLeft() === 'CLOSED' ||
                                         checkForLimitExceedance() === 'EXCEEDED' ||
                                         checkRequirements() !== true
@@ -658,7 +723,7 @@ function ResearchPage() {
                                 <div className={styles.categoryLabel}>
                                     Sekcja pytań i odpowiedzi
                                 </div>
-                                <span>
+                                <span className={styles.forumInfo}>
                                     Jeśli chcesz zadać autorowi pytanie dotyczące badania, możesz to
                                     zrobić poniżej.
                                 </span>
