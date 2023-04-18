@@ -1,0 +1,548 @@
+/*LEFT CONTAINER*/
+
+.leftContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 40%;
+    gap: 2rem;
+}
+
+.infoWithoutEdit {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+.mainInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 2rem;
+    width: 100%;
+    gap: 1.5rem;
+}
+
+.avatarBox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: max-content;
+    margin-left: 2rem;
+    aspect-ratio: 1/1;
+}
+
+.avatarImage {
+    pointer-events: none;
+    aspect-ratio: 1 / 1;
+    width: 8rem;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+}
+
+.editAvatarButton {
+    position: absolute;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1/1;
+    bottom: 0;
+    right: 0;
+    width: 2.15rem;
+    border-radius: 50%;
+    background-color: rgb(81, 44, 140);
+    transition: all .3s ease-in-out;
+}
+
+.editAvatarButton:hover {
+    background-color: #7d41b7;
+}
+
+.avatarIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    filter: invert(100%) sepia(0%) saturate(7485%) hue-rotate(349deg) brightness(104%) contrast(103%);
+}
+
+.nameDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.nameAndSurname {
+    text-align: left;
+    word-break: break-word;
+    height: fit-content;
+    width: fit-content;
+    font-size: 1.6rem;
+    font-weight: 500;
+}
+
+.profileDescription {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    word-break: break-all;
+    width: 100%;
+    height: max-content;
+    padding-left: 2.25rem;
+    gap: 1.2rem;
+}
+
+.desc {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    font-weight: 500;
+    font-size: 1.125rem;
+}
+
+.desc span {
+    word-break: break-word;
+}
+
+.icon {
+    filter: invert(19%) sepia(27%) saturate(4336%) hue-rotate(245deg) brightness(95%) contrast(96%);
+    font-size: 1.875rem;
+    margin-right: 0.625rem;
+}
+
+.editDiv {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.editButton, .editButtonHide {
+    color: white;
+    cursor: pointer;
+    border: none;
+    letter-spacing: 1px;
+    font-size: 1rem;
+    width: 50%;
+    height: 2rem;
+    background-color: rgb(81, 44, 140);
+    border-radius: 10px;
+    transition: all .3s ease-in-out;
+    opacity: 1;
+    backface-visibility: hidden;
+    will-change: transform;
+
+}
+
+.editButton:hover {
+    transform: scale(105%);
+    background-color: #6D3B9E;
+    transform-origin: center;
+}
+
+
+.editButtonHide {
+    visibility: hidden;
+    opacity: 0;
+    transition: all .3s ease-in-out;
+}
+
+@media only screen and (max-width: 1000px) {
+    .leftContainer {
+        width: 100%;
+    }
+
+    .mainInfo {
+        justify-content: center;
+    }
+
+    .profileDescription {
+        padding-left: 25%;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .editDiv {
+        height: 3rem;
+    }
+
+    .editButton {
+        font-size: 16px;
+        height: 100%;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .mainInfo {
+        flex-direction: column;
+    }
+
+    .avatarBox {
+        margin: 0 auto;
+    }
+
+    .nameDiv {
+        align-items: center;
+        gap: .25em;
+    }
+
+    .nameAndSurname {
+        text-align: center;
+    }
+
+    .editButton {
+        font-size: 13px;
+    }
+}
+/*RIGHT CONTAINER*/
+
+.rightContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 60%;
+    height: 31rem;
+    color: white;
+    font-size: 16px;
+}
+
+.editBox, .editBoxHide {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    width: 80%;
+    height: 80%;
+    gap: 1.15rem;
+    -webkit-box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);
+    box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);
+    transition: all .5s ease-in-out;
+}
+
+.editBoxHide {
+    opacity: 0;
+}
+
+.exitBtn, .exitBtnHide {
+    position: absolute;
+    opacity: 1;
+    right: 15px;
+    top: 10px;
+    color: black;
+    letter-spacing: 1px;
+    font-size: 20px;
+    aspect-ratio: 1/1;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    transition: all .3s ease-in-out;
+}
+
+.exitBtnHide {
+    opacity: 0;
+}
+
+.editField {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    width: 90%;
+    height: 80%;
+}
+
+.editTileResized {
+    color: #512C8C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 25%;
+    border-radius: 10px;
+    transition: all .5s ease-in-out;
+    background: #D6CEF3;
+}
+
+.editTile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    height: 15%;
+    color: #512C8C;
+    border-radius: 10px;
+    transition: all .5s ease-in-out;
+    background: #D6CEF3;
+}
+
+.valueEdit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    gap: 5%;
+    border-radius: 10px;
+    transition: .3s ease-in-out;
+    cursor: pointer;
+}
+
+.valueEdit:hover {
+    background-color: #c7acef;
+}
+
+
+.valueEditHide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    font-size: 0px;
+    width: 100%;
+    gap: 5%;
+}
+
+.val, .valHide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 60%;
+    padding: 5px;
+    height: 50%;
+    background-color: #D6CEF3;
+    outline: none;
+    border: 2px solid #C6B1E7;
+    border-radius: 5px;
+    font-family: sans-serif;
+    opacity: 1;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    transition: all .5s ease-in-out;
+}
+
+.val:focus, .mapSearchBar:focus {
+    border-color: #512C8C;
+    background-color: #D7C2F8;
+}
+
+.valHide {
+    pointer-events: none;
+    opacity: 0;
+    height: 0;
+    font-size: 0;
+}
+
+.text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-weight: 700;
+    min-height: 48px;
+    width: 75%;
+    transition: .3s ease-in-out;
+}
+
+.textSmall {
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    min-height: 48px;
+    width: 100%;
+    transition: .3s ease-in-out;
+}
+
+.saveBtn, .saveBtnHide {
+    color: white;
+    letter-spacing: 1px;
+    font-size: 15px;
+    width: 25%;
+    height: 8%;
+    cursor: pointer;
+    border: none;
+    background-color: rgb(81, 44, 140);
+    transition: all .1s ease-in-out;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+.saveBtnHide {
+    visibility: hidden;
+}
+
+.saveBtn:hover {
+    transform: scale(105%);
+    background-color: #6D3B9E;
+    transform-origin: center;
+}
+
+.location {
+    font-size: 16px;
+    font-weight: bolder;
+    min-height: 24px;
+    transition: .3s;
+}
+
+.location.color {
+    color: #0B6E4F;
+}
+
+.location.margin {
+    margin-top: -8px;
+}
+
+.location.hidden {
+    opacity: 0;
+}
+
+.right, .rightHide {
+    position: absolute;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    transition: opacity .3s ease-in-out;
+}
+
+.rightHide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.activityBox {
+    box-shadow: -6px 5px 22px -14px rgba(66, 68, 90, 1);
+    min-height: 250px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 85%;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.singleActivity {
+    border-radius: 10px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    min-height: 50px;
+    background-color: rgb(81, 44, 140);
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+    color: white;
+    gap: 15px;
+    text-decoration: none;
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+.singleActivity:hover {
+    transform: scale(103%);
+    background-color: #6D3B9E;
+    transform-origin: center;
+}
+
+.additionIconResearches {
+    font-size: 1.6rem;
+}
+
+.latestResearch {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 85%;
+    height: 120px;
+    margin-top: 60px;
+    color: black;
+}
+
+@media only screen and (max-width: 1000px) {
+    .rightContainer {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .singleActivity span {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .singleActivity, .singleActivity span {
+        font-size: 14px;
+    }
+    .additionIcon, .additionIconResearches {
+        font-size: 18px;
+    }
+}
+
+@media only screen and (max-width: 430px) {
+    .singleActivity {
+        flex-direction: column;
+        gap: 4px;
+    }
+    .desc span {
+        font-size: 14px;
+    }
+
+    .icon {
+        font-size: 24px;
+    }
+    .saveBtn {
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width: 350px) {
+    .singleActivity {
+        height: 100%;
+    }
+}
+
+@media only screen and (max-width: 300px) {
+    .singleActivity {
+        height: 100%;
+    }
+}
+
+
+@media only screen and (max-width: 300px) {
+    .profileDescription {
+        width: 80%;
+        padding: 0;
+        gap: 30px;
+    }
+}
+
+@media only screen and (max-height: 653px) {
+    .profileDescription {
+        padding: 0;
+    }
+}

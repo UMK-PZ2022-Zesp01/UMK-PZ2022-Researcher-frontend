@@ -242,8 +242,8 @@ export default createUseStyles({
         background: 'rgba( 255, 255, 255, 0.5 )',
         position: 'absolute',
         top: '0',
-        width: '100vw',
-        height: '100vh',
+        width: '100%',
+        height: '100%',
         backdropFilter: 'blur(10px)',
         transitionDuration: '1s',
         '&:hover': {

@@ -1,9 +1,6 @@
-import FormStyle from '../LoginRegisterForm/FormStyle';
 import { GrClose } from 'react-icons/gr';
-
+import styles from './ReportForm.module.css';
 const ReportForm = ({ open, onClose }) => {
-    const styles = FormStyle();
-
     if (!open) return null;
     return (
         <div className={styles.overlay} onClick={onClose}>

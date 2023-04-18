@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styleUserPage from '../UserPage/UserPage.module.css';
 import styleResearchForm from '../Form/CreateResearchForm/GoogleMapResearchForm.module.css';
-import { Loader } from '@googlemaps/js-api-loader';
-import { GrClose } from 'react-icons/gr';
+import {Loader} from '@googlemaps/js-api-loader';
+import {GrClose} from 'react-icons/gr';
 
-function Gmap({
-    exit,
-    latitude,
-    longitude,
-    type,
-    setLocationInput,
-    setGmapExit,
-    setResearchPlace,
-}) {
+function Gmap({exit,
+                  latitude,
+                  longitude,
+                  type,
+                  setLocationInput,
+                  setGmapExit,
+                  setResearchPlace,
+                  setIsClickedLocation
+              }) {
     const mapRef = useRef(null);
     const inputRef = useRef(null);
     const [marker, setMarker] = useState(null);
@@ -33,12 +33,12 @@ function Gmap({
     useEffect(() => {
         loader.load().then(() => {
             const map = new window.google.maps.Map(mapRef.current, {
-                center: { lat: lat, lng: lng },
+                center: {lat: lat, lng: lng},
                 zoom: 11,
             });
 
             const marker = new window.google.maps.Marker({
-                position: { lat: lat, lng: lng },
+                position: {lat: lat, lng: lng},
                 map: map,
                 draggable: true,
             });
@@ -46,7 +46,7 @@ function Gmap({
             window.google.maps.event.addListener(map, 'click', event => {
                 const geocoder = new window.google.maps.Geocoder();
                 const latLng = event.latLng;
-                geocoder.geocode({ location: event.latLng }, (results, status) => {
+                geocoder.geocode({location: event.latLng}, (results, status) => {
                     if (status === 'OK' && results[0]) {
                         //tutaj ustawiasz long address
                         setLongAddress(results[0].formatted_address);
@@ -96,7 +96,7 @@ function Gmap({
 
                     // get the address of the selected place and update the state
                     const geocoder = new window.google.maps.Geocoder();
-                    geocoder.geocode({ location: place.geometry.location }, (results, status) => {
+                    geocoder.geocode({location: place.geometry.location}, (results, status) => {
                         if (status === 'OK' && results[0]) {
                             setShortAddress(place.formatted_address);
                             //tutaj ustawiasz long address
@@ -110,28 +110,28 @@ function Gmap({
         });
     }, []);
 
-    // console.log(loader.status)
-    if (loader.status === 2) {
-        setResearchPlace(lat + ' ' + lng);
-        const geocoder = new window.google.maps.Geocoder();
-        geocoder.geocode({ address: shortAddress }, (results, status) => {
-            if (status === 'OK' && results[0]) {
-                // Extract the city name from the address_components array
-                const addressComponents = results[0].address_components;
-                let city = '';
+        if (loader.status === 2) {
+            setResearchPlace(lat + ' ' + lng);
+            const geocoder = new window.google.maps.Geocoder();
+            geocoder.geocode({ address: shortAddress }, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                    // Extract the city name from the address_components array
+                    const addressComponents = results[0].address_components;
+                    let city = '';
 
-                for (let i = 0; i < addressComponents.length; i++) {
-                    const types = addressComponents[i].types;
-                    if (types.includes('locality')) {
-                        city = addressComponents[i].long_name;
-                        break;
+                    for (let i = 0; i < addressComponents.length; i++) {
+                        const types = addressComponents[i].types;
+                        if (types.includes('locality')) {
+                            city = addressComponents[i].long_name;
+                            break;
+                        }
                     }
+                    setCity(city);
                 }
-                setCity(city);
-                setLocationInput(city);
-            }
-        });
-    }
+            });
+        }
+
+
 
     return (
         <div
@@ -142,12 +142,13 @@ function Gmap({
             <button
                 className={type === 'user-page' ? styleUserPage.exitBtn : styleResearchForm.exitBtn}
                 onClick={() => {
-                    exit();
-                    window.document.body.style.overflowY = 'visible';
+                    exit()
+                    setLocationInput(city)
+                    setIsClickedLocation(false)
                     setGmapExit(true);
                 }}
             >
-                <GrClose />
+                <GrClose/>
             </button>
             <div
                 className={
@@ -201,4 +202,4 @@ function Gmap({
     );
 }
 
-export { Gmap };
+export {Gmap};
