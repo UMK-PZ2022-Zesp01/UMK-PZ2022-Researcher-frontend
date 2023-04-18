@@ -1,0 +1,485 @@
+.container {
+    max-width: 1000px;
+    margin: 75px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bookmarksContainer {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+}
+
+.logo {
+    background-color: #512c8c;
+    padding: 10px 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: background-color 0.5s;
+}
+
+.logo:hover {
+    background-color: #6d3b9e;
+}
+
+.logoImg {
+    max-height: 40px; /* ??? */
+}
+
+.researchPagePanel {
+    width: 100%;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    gap: 10px;
+    align-items: flex-start;
+    border-radius: 10px;
+    background-color: #f4f0fa;
+}
+
+.title {
+    width: 100%;
+    display: flex;
+    color: #512c8c;
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.researchPageRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.posterContainer {
+    aspect-ratio: 1 / 1.414;
+    height: 325px;
+    border: 2px solid #512c8c;
+    border-radius: 5px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.posterContainer:hover img {
+    transform: scale(1.05);
+}
+
+.posterImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.posterFullScreenContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+    backdrop-filter: blur(10px);
+    z-index: 99;
+    overflow-y: hidden;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.btnContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.posterFullScreenCloseBtn {
+    color: #512c8c;
+    background-color: #debdef;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    outline: none;
+    border: 2px solid #debdef;
+    cursor: pointer;
+    transition: 0.3s;
+    -webkit-box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.5);
+}
+
+.posterFullScreenCloseBtn:hover {
+    background-color: #f4f0fa;
+}
+
+.imgContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.posterFullScreen {
+    max-height: 80%;
+    max-width: 80%;
+    border-radius: 10px;
+    border: 3px solid #512c8c;
+    pointer-events: none;
+    -webkit-box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.5);
+}
+
+.basicInfoContainer {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.basicInfoElement {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.basicInfoElementRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.categoryLabel {
+    color: #512c8c;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.categoryValue {
+    font-size: 16px;
+}
+
+.dateContainerLeft {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.dateContainerRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.contactDetails {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 5px;
+}
+
+.contactElement {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+}
+
+.icon {
+    font-weight: normal;
+    color: #512c8c;
+}
+
+.link {
+    color: #000000;
+    text-decoration: underline 1px transparent;
+    transition: 0.3s;
+}
+
+.link:hover {
+    color: #512c8c;
+    text-decoration: underline 1px #512c8c;
+}
+
+.link .participantsHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.participantsProgressBar {
+    width: 100%;
+    height: 2rem;
+    /*border: 2px solid #512c8c;*/
+    border-radius: 5px;
+    position: relative;
+}
+
+.participantsProgressBar::-webkit-progress-bar {
+    background-color: #debdef;
+    border-radius: 5px;
+}
+
+.participantsProgressBar::-webkit-progress-value {
+    background-color: #512c8c;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.participantsHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.bottomPageContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.researchPageElementColumn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.description {
+    width: 100%;
+    text-align: left;
+}
+
+.rewardReqContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.rewardReqElement {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.rewardReqElement ul {
+    margin: 5px;
+    padding-left: 15px;
+    text-align: left;
+}
+
+.rewardReqElement ul li::marker {
+    color: #512c8c;
+}
+
+.requirementsContainer {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    text-align: left;
+    align-content: flex-start;
+}
+
+.requirementCategory {
+    color: #512c8c;
+}
+
+.rewardsList {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px;
+    padding-left: 15px;
+    text-align: left;
+}
+
+.rewardsList li {
+    width: 50%;
+}
+
+.rewardsList li::marker {
+    color: #512c8c;
+}
+
+.reqList {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-top: 5px;
+}
+
+.reqElement {
+    margin: 5px;
+    padding-left: 15px;
+    text-align: left;
+}
+
+.reqElement li::marker {
+    color: #512c8c;
+}
+
+.reqElementColumn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.reqDescription {
+    margin: 5px 0;
+}
+
+.enrollContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 0;
+}
+
+.enrollCheckmark {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.enrollButton {
+    width: 50%;
+    background-color: #512c8c;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid #512c8c;
+    transition: 0.3s;
+}
+
+.enrollButton:hover {
+    background-color: #6d3b9e;
+    border: 2px solid #6d3b9e;
+}
+
+.disabled {
+    background-color: #414141;
+    border: 2px solid #414141;
+    pointer-events: none;
+}
+
+.enrollIcon {
+    font-size: 24px;
+}
+
+.enrollDesc {
+    font-weight: bold;
+    text-align: left;
+}
+
+.green {
+    color: #028634;
+}
+
+.red {
+    color: #ad0000;
+}
+
+.alertOverlay {
+    position: fixed;
+    width: 100%;
+    height: 3.5rem;
+    padding: 0 5vw;
+    top: 0;
+    left: 0;
+    z-index: 50;
+}
+
+@media (max-width: 1000px) {
+    .container {
+        margin: 25px 10px;
+    }
+
+    .researchPagePanel {
+        padding: 30px;
+    }
+
+    .alertOverlay {
+        padding: 0;
+    }
+
+    .bookmarksContainer {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 700px) {
+    .title {
+        font-size: 1.2rem;
+    }
+
+    .researchPageRow,
+    .basicInfoElementRow {
+        flex-direction: column;
+    }
+
+    .enrollContainer {
+        flex-direction: column;
+        margin: 0.5rem 0;
+        gap: 0.5rem;
+    }
+
+    .basicInfoContainer,
+    .enrollCheckmark,
+    .enrollButton {
+        width: 100%;
+    }
+
+    .dateContainerLeft,
+    .dateContainerRight {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .description,
+    .forumInfo {
+        text-align: left;
+    }
+
+    .rewardsList li,
+    .reqList {
+        width: 100%;
+    }
+}
