@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './BookmarksNav.module.css';
-import researcherLogo from '../../img/banner2.png';
+import researcherLogo from '../../img/logo-white.png';
 import userAvatar from '../../img/user.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom';
 // * 3 = Settings Button
 // * 4 = Logout Button
 
-function BookmarksNav({ active }) {
+function BookmarksNav({ active, desc }) {
     const { auth } = useAuth();
     const logout = useLogout();
 
@@ -47,7 +47,7 @@ function BookmarksNav({ active }) {
                 setLoggedUser(data);
                 setIsSomeoneLoggedIn(true);
             })
-            .catch(error => {
+            .catch(() => {
                 setIsSomeoneLoggedIn(false);
             });
     }, [auth]);
@@ -223,7 +223,7 @@ function BookmarksNav({ active }) {
                             </a>
                         </div>
 
-                        <span className={styles.currentPageText}>Nowe badanie</span>
+                        <span className={styles.currentPageText}>{desc}</span>
                     </div>
 
                     <Link to="/profile" className={styles.bookmarkMiddleRow}>

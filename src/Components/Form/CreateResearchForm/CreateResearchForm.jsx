@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import getApiUrl from '../../../Common/Api';
 import { CreateResearchFormReward } from './Reward/CreateResearchFormReward';
 import { v4 as generateKey } from 'uuid';
-import { useUsername } from '../../../hooks/useAuth';
+import useAuth, { useUsername } from '../../../hooks/useAuth';
 import { CreateResearchFormRequirement } from './Requirement/CreateResearchFormRequirement';
 import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
@@ -31,7 +31,35 @@ function CreateResearchForm() {
     const [rewardList, setRewardList] = useState([{ type: '', value: null }]);
     const [requirementList, setRequirementList] = useState([]);
 
+    const [loggedUser, setLoggedUser] = useState({});
+    const { auth } = useAuth();
+    const { username, accessToken } = useAuth().auth;
+
+    const [email, setEmail] = useState('');
+    const [emailType, setEmailType] = useState('');
+    const [phone, setPhone] = useState('');
+    const [phoneType, setPhoneType] = useState('');
+
     const [isResearchSent, setIsResearchSent] = useState(false);
+
+    /*** Get Logged User Data ***/
+
+    useEffect(() => {
+        fetch(getApiUrl() + 'user/current', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                Authorization: accessToken,
+                'Content-Type': 'application/json; charset:UTF-8',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setLoggedUser(data);
+                setEmail(data.email);
+                setPhone(data.phone);
+            });
+    }, [auth]);
 
     /** Research data Object  **/
 
@@ -39,6 +67,9 @@ function CreateResearchForm() {
         title: title,
         description: description,
         creatorLogin: useUsername(),
+        creatorFullName: `${loggedUser.firstName} ${loggedUser.lastName}`,
+        creatorEmail: email,
+        creatorPhone: phone,
         begDate: begDate,
         endDate: endDate,
         participantLimit: participantLimit,
@@ -219,6 +250,22 @@ function CreateResearchForm() {
         setResearchPlace(event.target.value);
     };
 
+    const handleEmailTypeChangeSelect = event => {
+        setEmailType(event.target.value);
+    };
+
+    const handlePhoneTypeChangeSelect = event => {
+        setPhoneType(event.target.value);
+    };
+
+    const handleEmailChange = event => {
+        setEmail(event.target.value);
+    };
+
+    const handlePhoneChange = event => {
+        setPhone(event.target.value);
+    };
+
     /*** Send New Research to Backend ***/
 
     const addNewResearch = async () => {
@@ -235,6 +282,9 @@ function CreateResearchForm() {
             const response = await fetch(RESEARCH_ADD_URL, {
                 method: 'POST',
                 body: formData,
+                headers: {
+                    Authorization: auth.accessToken,
+                },
             });
 
             switch (response.status) {
@@ -286,6 +336,7 @@ function CreateResearchForm() {
 
     const handleFormSubmit = event => {
         event.preventDefault();
+        console.log(auth);
 
         research.location = { form: researchForm, place: researchPlace };
         research.rewards = rewardList;
@@ -432,6 +483,69 @@ function CreateResearchForm() {
                             id="participant-limit"
                             name="participant-limit"
                         />
+                    </div>
+                </div>
+
+                <div className={styles.formRow}>
+                    <div className={styles.inputWithLabel}>
+                        <label className={styles.formLabel} htmlFor="email-select">
+                            Kontaktowy adres e-mail
+                        </label>
+
+                        <select
+                            required
+                            onChange={handleEmailTypeChangeSelect}
+                            className={styles.formInputRegular}
+                            name="email-form"
+                            id="email-select"
+                            defaultValue={'default'}
+                        >
+                            <option value="default">domyślny ({loggedUser.email})</option>
+                            <option value="new">inny</option>
+                        </select>
+
+                        {emailType === 'new' && (
+                            <input
+                                required
+                                className={styles.formInputRegular}
+                                onChange={handleEmailChange}
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Wprowadź adres e-mail..."
+                            />
+                        )}
+                    </div>
+
+                    <div className={styles.inputWithLabel}>
+                        <label className={styles.formLabel} htmlFor="phone-select">
+                            Kontaktowy numer telefonu
+                        </label>
+
+                        <select
+                            required
+                            onChange={handlePhoneTypeChangeSelect}
+                            className={styles.formInputRegular}
+                            name="phone-form"
+                            id="phone-select"
+                            defaultValue={'default'}
+                        >
+                            <option value="default">domyślny ({loggedUser.phone})</option>
+                            <option value="new">inny</option>
+                        </select>
+
+                        {phoneType === 'new' && (
+                            <input
+                                required
+                                className={styles.formInputRegular}
+                                onChange={handlePhoneChange}
+                                type="text"
+                                id="phone"
+                                name="phone"
+                                placeholder="Wprowadź numer telefonu..."
+                                pattern="[0-9]{3}[ -]?[0-9]{3}[ -]?[0-9]{3}"
+                            />
+                        )}
                     </div>
                 </div>
 

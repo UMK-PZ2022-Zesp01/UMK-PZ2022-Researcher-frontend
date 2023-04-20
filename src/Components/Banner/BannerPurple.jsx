@@ -1,5 +1,5 @@
 import styles from './Banner.module.css';
-import banner from '../../img/banner1.png';
+import banner from '../../img/logo-color.png';
 
 function BannerPurple() {
     return (

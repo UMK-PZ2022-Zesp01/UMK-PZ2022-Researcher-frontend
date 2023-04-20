@@ -5,7 +5,7 @@ import getApiUrl from '../../Common/Api';
 import { useUsername } from '../../hooks/useAuth';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
-import banner from '../../img/banner2.png';
+import banner from '../../img/logo-white.png';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { LoadingDots } from '../LoadingDots/LoadingDots';
@@ -86,13 +86,13 @@ function MainPage() {
     return (
         <div className={styles.mainPage}>
             <Helmet>
-                <title>Strona główna | Researcher</title>
+                <title>Strona główna | JustResearch</title>
             </Helmet>
             <div className={styles.bookmarksContainer}>
                 <Link to="/" className={styles.logo}>
-                    <img className={styles.logoImg} src={banner} alt="Researcher Logo" />
+                    <img className={styles.logoImg} src={banner} alt="just-research-logo" />
                 </Link>
-                <BookmarksNav active="home" />
+                <BookmarksNav active="home" desc="Strona główna" />
             </div>
             <main className={styles.mainPagePanel}>
                 <ul className={styles.tileGrid}>{showPosts()}</ul>

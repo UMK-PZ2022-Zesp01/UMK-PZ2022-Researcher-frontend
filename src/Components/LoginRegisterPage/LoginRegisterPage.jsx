@@ -50,7 +50,7 @@ export default function LoginRegisterPage() {
     return (
         <div className={styles.loginRegisterPage}>
             <Helmet>
-                <title>Zaloguj się | Researcher</title>
+                <title>Zaloguj się | JustResearch</title>
             </Helmet>
             <div className={styles.loginRegisterPanel}>
                 <div className={styles.alertOverlay}>

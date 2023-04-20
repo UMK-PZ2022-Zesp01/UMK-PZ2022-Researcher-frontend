@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ResearchPage.module.css';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import researcherLogo from '../../img/banner2.png';
+import researcherLogo from '../../img/logo-white.png';
 import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
 import { Link, useParams } from 'react-router-dom';
 import getApiUrl from '../../Common/Api';
@@ -437,7 +437,7 @@ function ResearchPage() {
         <div className={styles.container}>
             <HelmetProvider>
                 <Helmet>
-                    <title>{title} | Researcher</title>
+                    <title>{title} | JustResearch</title>
                 </Helmet>
             </HelmetProvider>
 
@@ -449,7 +449,7 @@ function ResearchPage() {
                 <Link to="/" className={styles.logo}>
                     <img className={styles.logoImg} src={researcherLogo} alt="Researcher Logo" />
                 </Link>
-                <BookmarksNav active="research" />
+                <BookmarksNav active="research" desc={title} />
             </header>
 
             <main className={styles.researchPagePanel}>
@@ -540,7 +540,7 @@ function ResearchPage() {
                                                 href={`mailto:${creator.email}`}
                                                 className={styles.link}
                                             >
-                                                {creator.email}
+                                                {research.creatorEmail}
                                             </a>
                                         </span>
                                         <span className={styles.contactElement}>
@@ -549,7 +549,7 @@ function ResearchPage() {
                                                 className={styles.icon}
                                             />
                                             <strong>Numer telefonu: </strong>
-                                            <span>{creator.phone}</span>
+                                            <span>{research.creatorPhone}</span>
                                         </span>
                                     </div>
                                 </div>

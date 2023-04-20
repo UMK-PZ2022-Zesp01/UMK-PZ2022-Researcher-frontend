@@ -3,6 +3,7 @@ import styles from './ConfirmEmailPage.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import getApiUrl from '../../Common/Api';
 import { Loading } from '../Loading/Loading';
+import { Helmet } from 'react-helmet';
 
 const CONFIRM_URL = getApiUrl() + 'user/confirm';
 
@@ -65,6 +66,10 @@ export default function ConfirmEmailPage() {
 
     return (
         <div className={styles.confirmEmailPanel}>
+            <Helmet>
+                <title>Aktywacja konta | JustResearch</title>
+            </Helmet>
+
             <Loading isLoading={isLoading} isSuccessful={isSuccessful} />
             <header className={styles.h2}>{text}</header>
             <div className={styles.flexRow}>

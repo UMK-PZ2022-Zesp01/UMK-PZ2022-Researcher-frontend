@@ -4,6 +4,7 @@ import { ResearchTileRequirement } from '../ResearchTileRequirement/ResearchTile
 import { useTranslate } from '../../hooks/useTranslate';
 import { useCapitalize } from '../../hooks/useCapitalize';
 import { ResearchTileReward } from '../ResearchTileReward/ResearchTileReward';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function ResearchTile({ tileData, postData }) {
     const { tileNumber, previewed, setPreviewed } = tileData;
@@ -29,6 +30,9 @@ export default function ResearchTile({ tileData, postData }) {
 
     const translate = useTranslate();
     const capitalize = useCapitalize();
+
+    const navigate = useNavigate();
+    const webLocation = useLocation();
 
     const handleTileClicked = () => {
         if (isPreviewed) {
@@ -139,7 +143,17 @@ export default function ResearchTile({ tileData, postData }) {
                     </main>
                 </div>
                 <div className={styles.previewButtonContainer}>
-                    <button className={styles.researchPageButton}>STRONA BADANIA</button>
+                    <button
+                        className={styles.researchPageButton}
+                        onClick={() =>
+                            navigate(`/research/${researchCode}`, {
+                                from: webLocation,
+                                replace: false,
+                            })
+                        }
+                    >
+                        STRONA BADANIA
+                    </button>
                 </div>
                 <div className={styles.previewRollInContainer}>
                     <button onClick={handleTileClicked} className={styles.rollInButton}></button>

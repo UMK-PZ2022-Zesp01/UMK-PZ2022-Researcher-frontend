@@ -3,6 +3,7 @@ import styles from './RegisteredSuccessfullyPage.module.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import getApiUrl from '../../Common/Api';
 import { Loading } from '../Loading/Loading';
+import { Helmet } from 'react-helmet';
 
 const DEMAND_URL = `${getApiUrl()}user/sendVerificationMail`;
 
@@ -72,6 +73,9 @@ export default function RegisteredSuccessfullyPage() {
 
     return (
         <div className={styles.registeredSuccessfullyPanel}>
+            <Helmet>
+                <title>Aktywacja konta | JustResearch</title>
+            </Helmet>
             <Loading isLoading={isLoading} isSuccessful={isSuccessful}></Loading>
             <header className={styles.h2}>{header}</header>
             <section>

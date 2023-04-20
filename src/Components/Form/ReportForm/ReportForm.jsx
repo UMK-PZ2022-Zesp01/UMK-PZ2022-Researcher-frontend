@@ -1,5 +1,6 @@
 import { GrClose } from 'react-icons/gr';
 import styles from './ReportForm.module.css';
+
 const ReportForm = ({ open, onClose }) => {
     if (!open) return null;
     return (
@@ -10,10 +11,13 @@ const ReportForm = ({ open, onClose }) => {
                     e.stopPropagation();
                 }}
             >
-                <GrClose onClick={()=>{
-                onClose();
-                    window.document.body.style.overflowY=`visible`}
-                } className={styles.closeBtn}/>
+                <GrClose
+                    onClick={() => {
+                        onClose();
+                        window.document.body.style.overflowY = `visible`;
+                    }}
+                    className={styles.closeBtn}
+                />
                 <h1>Oops! Coś nie działa?</h1>
                 <h3>Napisz nam, postaramy się to poprawić!</h3>
                 <textarea className={styles.bugInput}></textarea>
