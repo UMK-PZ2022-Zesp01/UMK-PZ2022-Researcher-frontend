@@ -171,7 +171,18 @@ function BookmarksNav({ active, desc }) {
                                 : 'Kliknij, aby się zalogować'
                         }
                     >
-                        <FontAwesomeIcon className={styles.bookmarkIcon} icon={faUser} />
+                        {isSomeoneLoggedIn === false || loggedUser.avatarImage.length === 0 ? (
+                            <FontAwesomeIcon
+                                className={`${styles.bookmarkIcon} ${styles.bookmarkAvatarIcon}`}
+                                icon={faUser}
+                            />
+                        ) : (
+                            <img
+                                alt="user-avatar"
+                                src={`data:image/jpeg;base64,${loggedUser.avatarImage}`}
+                                className={styles.bookmarkAvatarImg}
+                            />
+                        )}
                         <span className={styles.loggedUserBookmarkDesc}>
                             {isSomeoneLoggedIn ? (
                                 <>
@@ -226,7 +237,7 @@ function BookmarksNav({ active, desc }) {
                                 <img
                                     className={styles.bookmarkLogo}
                                     src={researcherLogo}
-                                    alt="Researcher"
+                                    alt="JustResearch"
                                 />
                             </a>
                         </div>
@@ -234,8 +245,21 @@ function BookmarksNav({ active, desc }) {
                         <span className={styles.currentPageText}>{desc}</span>
                     </div>
 
-                    <Link to="/profile" className={styles.bookmarkMiddleRow}>
-                        <img src={userAvatar} alt="user-avatar" className={styles.userAvatar} />
+                    <Link
+                        to={isSomeoneLoggedIn ? '/profile' : '/login'}
+                        className={styles.bookmarkMiddleRow}
+                    >
+                        {isSomeoneLoggedIn ? (
+                            <img
+                                alt="user-avatar"
+                                src={`data:image/jpeg;base64,${loggedUser.avatarImage}`}
+                                className={styles.userAvatarImg}
+                            />
+                        ) : (
+                            <div className={styles.userAvatar}>
+                                <FontAwesomeIcon icon={faUser} className={styles.userAvatarIcon} />
+                            </div>
+                        )}
                         <span className={styles.name}>
                             {isSomeoneLoggedIn ? loggedUser.firstName : 'Zaloguj się'}
                         </span>

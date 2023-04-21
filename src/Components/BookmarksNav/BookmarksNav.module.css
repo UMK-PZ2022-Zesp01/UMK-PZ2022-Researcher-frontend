@@ -106,6 +106,21 @@
     transition: none;
 }
 
+.bookmarkAvatarIcon {
+    aspect-ratio: 1 / 1;
+    border: 2px solid #512c8c;
+    border-radius: 20px;
+    padding: 5px;
+    font-size: 22px;
+}
+
+.bookmarkAvatarImg {
+    height: 34px;
+    aspect-ratio: 1 / 1;
+    border: 2px solid #512c8c;
+    border-radius: 20px;
+}
+
 .bookmarksMobileViewBackground {
     display: none;
     position: fixed;
@@ -193,19 +208,38 @@
 }
 
 .bookmarkMiddleRow {
+    color: #512c8c;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-decoration: none;
 }
 
-.userAvatar {
+.userAvatarImg {
     width: 5em;
-    height: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
     border-radius: 2.5em;
     border: 3px solid #ca97e6;
     padding: 3px;
     margin-bottom: 0.5em;
+}
+
+.userAvatar {
+    width: 5em;
+    height: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2.5em;
+    border: 3px solid #ca97e6;
+    padding: 3px;
+    margin-bottom: 0.5em;
+    background-color: #d6cef3;
+}
+
+.userAvatarIcon {
+    font-size: 3em;
 }
 
 .name {
