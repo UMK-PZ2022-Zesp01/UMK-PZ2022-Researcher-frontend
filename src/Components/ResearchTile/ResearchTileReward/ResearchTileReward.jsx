@@ -1,6 +1,6 @@
 import styles from './ResearchTileReward.module.css';
-import { useCapitalize } from '../../hooks/useCapitalize';
-import { useTranslate } from '../../hooks/useTranslate';
+import { useCapitalize } from '../../../hooks/useCapitalize';
+import { useTranslate } from '../../../hooks/useTranslate';
 
 export const ResearchTileReward = ({ reward }) => {
     const { type, value } = reward;

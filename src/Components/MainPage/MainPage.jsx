@@ -1,8 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import styles from './MainPage.module.css';
 import { useEffect } from 'react';
 import getApiUrl from '../../Common/Api';
-import { useUsername } from '../../hooks/useAuth';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
 import banner from '../../img/banner2.png';
@@ -13,56 +12,58 @@ import { LoadingDots } from '../LoadingDots/LoadingDots';
 const RESEARCHES_URL = getApiUrl() + 'research/';
 
 function MainPage() {
-    const [username, setUsername] = React.useState(useUsername());
     const [posts, setPosts] = React.useState([]);
-    const [previewed, setPreviewed] = React.useState(null);
+    const [previewed, setPreviewed] = React.useState(-1);
 
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(true);
     const [page, setPage] = React.useState(1);
     const [lastPage, setLastPage] = React.useState(false);
     const urlPageSection = `page/${page}/9`;
+
     const triggerRef = useRef(null);
 
     window.onscroll = () => {
-        if (window.innerHeight + window.scrollY + 1 >= document.body.offsetHeight) {
-            if (!lastPage) setPage(page + 1);
+        if (window.innerHeight + window.scrollY + 1 >= triggerRef.current.offsetHeight) {
+            if (!lastPage && !isLoading) {
+                setPage(page + 1);
+            }
         }
     };
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         let isMounted = true;
         setIsLoading(true);
         const controller = new AbortController();
         const signal = controller.signal;
 
+        const filterUnique = (element, index, array) => {
+            return array.indexOf(element) === index;
+        };
+
         const getPosts = async () => {
             try {
                 setLastPage(true);
-                await fetch(RESEARCHES_URL + urlPageSection, {
+                const response = await fetch(RESEARCHES_URL + urlPageSection, {
                     signal,
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json;charset:UTF-8',
                     },
-                })
-                    .then(response =>
-                        response.json().then(result => {
-                            if (result.length === 9) {
-                                setLastPage(false);
-                            }
-                            setIsLoading(false);
-                            isMounted && setPosts([...posts, ...result]);
-                        })
-                    )
-                    .catch(error => {
-                        console.error(error);
-                    });
+                });
+
+                const json = await response.json();
+
+                setIsLoading(false);
+                json.length === 9 && setLastPage(false);
+                isMounted && setPosts([...posts, ...json].filter(filterUnique));
             } catch (error) {
                 console.error(error);
             }
         };
 
-        getPosts();
+        if (!lastPage) {
+            getPosts();
+        }
 
         return () => {
             isMounted = false;
@@ -70,10 +71,10 @@ function MainPage() {
         };
     }, [page]);
 
-    const cutText = (text, toLength) =>
-        [...text].length > toLength ? text.substring(0, toLength) : text;
+    // const cutText = (text, toLength) =>
+    //     [...text].length > toLength ? text.substring(0, toLength) : text;
 
-    const showPosts = () => {
+    const displayPosts = () => {
         return posts.map((post, index) => (
             <ResearchTile
                 key={`ResearchTile${post.researchCode}`}
@@ -94,10 +95,9 @@ function MainPage() {
                 </Link>
                 <BookmarksNav active="home" />
             </div>
-            <main className={styles.mainPagePanel}>
-                <ul className={styles.tileGrid}>{showPosts()}</ul>
-                {isLoading && <LoadingDots />}
-                <span ref={triggerRef}></span>
+            <main ref={triggerRef} className={styles.mainPagePanel}>
+                <ul className={styles.tileGrid}>{displayPosts()}</ul>
+                {isLoading && <LoadingDots></LoadingDots>}
             </main>
         </div>
     );

@@ -1,4 +1,15 @@
 .App {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    min-height: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+
     text-align: center;
 }
 
@@ -11,4 +22,21 @@
     width: 100%;
     height: 100svh;
     background: linear-gradient(135deg, rgba(148, 205, 233, 1) 0%, rgba(92, 19, 116, 1) 100%);
+}
+
+.divider {
+    width: 100%;
+    min-height: 3rem;
+    transition: height 300ms ease-in-out;
+}
+
+.divider::after {
+    content: '';
+    height: 8rem;
+}
+
+@media screen and (max-width: 1050px) {
+    .App {
+        margin: 25px 20px;
+    }
 }

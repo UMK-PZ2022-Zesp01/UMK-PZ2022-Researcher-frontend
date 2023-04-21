@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './ResearchTile.module.css';
-import { ResearchTileRequirement } from '../ResearchTileRequirement/ResearchTileRequirement';
+import { ResearchTileRequirement } from './ResearchTileRequirement/ResearchTileRequirement';
 import { useTranslate } from '../../hooks/useTranslate';
 import { useCapitalize } from '../../hooks/useCapitalize';
-import { ResearchTileReward } from '../ResearchTileReward/ResearchTileReward';
+import { ResearchTileReward } from './ResearchTileReward/ResearchTileReward';
 
 export default function ResearchTile({ tileData, postData }) {
     const { tileNumber, previewed, setPreviewed } = tileData;

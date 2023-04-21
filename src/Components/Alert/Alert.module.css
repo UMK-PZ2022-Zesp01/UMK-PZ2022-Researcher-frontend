@@ -147,6 +147,8 @@
     border-radius: 50%;
     align-items: center;
 
+    cursor: pointer;
+
     transition: background-color 100ms ease-in-out;
 }
 

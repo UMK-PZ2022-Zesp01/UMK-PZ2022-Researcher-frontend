@@ -1,7 +1,7 @@
 import styles from './ResearchTileRequirement.module.css';
 
-import { useTranslate } from '../../hooks/useTranslate';
-import { useCapitalize } from '../../hooks/useCapitalize';
+import { useTranslate } from '../../../hooks/useTranslate';
+import { useCapitalize } from '../../../hooks/useCapitalize';
 
 export const ResearchTileRequirement = ({ requirement, researchCode }) => {
     const { type, criteria } = requirement;
