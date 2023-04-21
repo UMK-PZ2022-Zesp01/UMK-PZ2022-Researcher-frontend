@@ -185,7 +185,6 @@ export default function UserPage(props) {
         };
     }, []);
 
-
     //Do Poprawienia jest css więc zakomentowane
     const showPosts = () => {
         return posts.map((post, index) => (
@@ -213,7 +212,7 @@ export default function UserPage(props) {
         emailState: emailState,
         phoneState: phoneState,
         gender: userData.gender,
-        avatar:userData.avatarImage,
+        avatar: userData.avatarImage,
         clickedEdit: clickedEdit,
         setIsClickedEdit: setIsClickedEdit,
     };

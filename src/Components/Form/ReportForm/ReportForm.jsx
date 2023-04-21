@@ -18,8 +18,8 @@ const ReportForm = ({ open, onClose }) => {
                     }}
                     className={styles.closeBtn}
                 />
-                <h1>Oops! Coś nie działa?</h1>
-                <h3>Napisz nam, postaramy się to poprawić!</h3>
+                <h1>Ups! Coś nie działa?</h1>
+                <h3>Wyślij nam wiadomość, postaramy się to poprawić!</h3>
                 <textarea className={styles.bugInput}></textarea>
                 <button className={styles.bugBtn} onClick={onClose}>
                     ZGŁOŚ BŁĄD

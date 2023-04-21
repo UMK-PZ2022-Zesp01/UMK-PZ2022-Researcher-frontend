@@ -21,6 +21,7 @@ export const useRefreshToken = () => {
                             await setAuth(result);
                         });
                     } else {
+                        setAuth({});
                         // console.log('Access denied');
                     }
                 })

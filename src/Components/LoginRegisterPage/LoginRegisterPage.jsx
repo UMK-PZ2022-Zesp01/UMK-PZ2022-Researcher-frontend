@@ -52,19 +52,19 @@ export default function LoginRegisterPage() {
             <Helmet>
                 <title>Zaloguj się | JustResearch</title>
             </Helmet>
-            <div className={styles.loginRegisterPanel}>
-                <div className={styles.alertOverlay}>
-                    <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
-                </div>
-                <Link to="/" className={styles.header}>
-                    <BannerWhite />
-                </Link>
-                <main className={styles.main}>
-                    <LoginForm setters={setAlert} />
-                    <div className={styles.separator} />
-                    <RegisterForm setters={setAlert} />
-                </main>
+            {/*<div className={styles.loginRegisterPanel}>*/}
+            <div className={styles.alertOverlay}>
+                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
             </div>
+            <Link to="/" className={styles.header}>
+                <BannerWhite />
+            </Link>
+            <main className={styles.main}>
+                <LoginForm setters={setAlert} />
+                <div className={styles.separator} />
+                <RegisterForm setters={setAlert} />
+            </main>
+            {/*</div>*/}
         </div>
     );
 }

@@ -26,30 +26,38 @@ import { Link } from 'react-router-dom';
 
 function BookmarksNav({ active, desc }) {
     const { auth } = useAuth();
+    const { username, accessToken } = auth;
     const logout = useLogout();
 
     const [loggedUser, setLoggedUser] = useState({});
-    const { username, accessToken } = useAuth().auth;
 
     const [isSomeoneLoggedIn, setIsSomeoneLoggedIn] = useState(false);
 
     useEffect(() => {
-        fetch(getApiUrl() + 'user/current', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                Authorization: accessToken,
-                'Content-Type': 'application/json; charset:UTF-8',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                setLoggedUser(data);
+        const getUserData = async () => {
+            try {
+                if (!username) {
+                    throw new Error();
+                }
+                const response = await fetch(getApiUrl() + 'user/current', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        Authorization: accessToken,
+                        'Content-Type': 'application/json; charset:UTF-8',
+                    },
+                });
+
+                const json = await response.json();
+
+                setLoggedUser(json);
                 setIsSomeoneLoggedIn(true);
-            })
-            .catch(() => {
+            } catch (e) {
                 setIsSomeoneLoggedIn(false);
-            });
+            }
+        };
+
+        getUserData();
     }, [auth]);
 
     const bookmarksMap = new Map();
