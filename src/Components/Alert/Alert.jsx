@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import styles from './Alert.module.css';
 
 function Alert({ type, onClose, children }) {

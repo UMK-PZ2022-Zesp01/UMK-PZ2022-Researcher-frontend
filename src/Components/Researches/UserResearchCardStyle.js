@@ -1,6 +1,5 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { hover } from '@testing-library/user-event/dist/hover';
 
 export default createUseStyles({
     researchContainer: {

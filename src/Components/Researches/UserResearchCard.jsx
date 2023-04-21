@@ -1,14 +1,15 @@
-import React from "react";
+import React from 'react';
 import userResearchCardStyle from './UserResearchCardStyle.js';
-import { useUsername } from "../../hooks/useAuth";
+import { useUsername } from '../../hooks/useAuth';
 import { useEffect } from 'react';
-import getApiUrl from "../../Common/Api";
-const USERRESEARCHES_URL = getApiUrl() + 'research/creatorLogin/'
+import getApiUrl from '../../Common/Api';
 
-function UserResearchCard(){
-    const styles=userResearchCardStyle();
+const USERRESEARCHES_URL = getApiUrl() + 'research/creatorLogin/';
+
+function UserResearchCard() {
+    const styles = userResearchCardStyle();
     const [researches, setResearches] = React.useState([]);
-    const login=useUsername();
+    const login = useUsername();
 
     useEffect(() => {
         let isMounted = true;
@@ -17,7 +18,7 @@ function UserResearchCard(){
 
         const getUserResearches = async () => {
             try {
-                await fetch(USERRESEARCHES_URL+login, {
+                await fetch(USERRESEARCHES_URL + login, {
                     signal,
                     method: 'GET',
                     headers: {
@@ -47,30 +48,26 @@ function UserResearchCard(){
 
     console.log(researches);
 
-
     const showUserResearches = () => {
-        return researches.map(research =>
+        return researches.map(research => (
             <div key={research.id} className={styles.researchCard}>
-
                 <div className={styles.researchHeader}>
+                    <div className={styles.researchTitle}>
+                        <h1 className={styles.title}>{research.title}</h1>
+                    </div>
 
-                <div className={styles.researchTitle}>
-                    <h1 className={styles.title}>{research.title}</h1>
-                </div>
-
-                <div className={styles.researchDate}>
-                    <h2>{research.begDate} - {research.endDate}</h2>
-                </div>
-
+                    <div className={styles.researchDate}>
+                        <h2>
+                            {research.begDate} - {research.endDate}
+                        </h2>
+                    </div>
                 </div>
 
                 <div className={styles.researchDesc}>
                     <h3>{research.description}</h3>
                 </div>
-
             </div>
-
-        );
+        ));
     };
 
     return <div className={styles.researchContainer}>{showUserResearches()}</div>;

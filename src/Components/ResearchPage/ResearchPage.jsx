@@ -73,15 +73,18 @@ function ResearchPage() {
                             break;
                         default:
                             setResearchGetSuccess(false);
+                            console.log('333');
                             break;
                     }
 
                     break;
                 case 204:
                     setResearchGetSuccess(false);
+                    console.log('222');
                     break;
                 default:
                     setResearchGetSuccess(false);
+                    console.log('1111');
                     break;
             }
         };

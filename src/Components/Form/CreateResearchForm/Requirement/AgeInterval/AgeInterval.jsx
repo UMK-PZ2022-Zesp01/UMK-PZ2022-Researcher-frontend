@@ -116,7 +116,7 @@ function AgeInterval({ index, data, handleUpdate, handleDelete }) {
 }
 
 AgeInterval.defaultProps = {
-    data: { ageMin: null, ageMax: null },
+    data: { ageMin: null, ageMax: null }
 };
 
 export { AgeInterval };

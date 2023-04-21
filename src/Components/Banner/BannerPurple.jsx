@@ -3,8 +3,8 @@ import banner from '../../img/logo-color.png';
 
 function BannerPurple() {
     return (
-        <div class={styles.bannerBox}>
-            <img src={banner} alt="researcherBanner" class={styles.banner}></img>
+        <div className={styles.bannerBox}>
+            <img src={banner} alt="researcherBanner" className={styles.banner}></img>
         </div>
     );
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-// import FormStyle from './FormStyle';
 import styles from './LoginRegisterForm.module.css';
 import getApiUrl from '../../../Common/Api.js';
 import { useRef } from 'react';
@@ -9,8 +8,6 @@ import { useNavigate } from 'react-router-dom';
 const REGISTER_URL = getApiUrl() + 'user/register';
 
 function RegisterForm(props) {
-    // const styles = FormStyle();
-
     const navigate = useNavigate();
 
     const [firstName, setFirstName] = React.useState('');

@@ -1,4 +1,4 @@
-.ForumContainer{
+.ForumContainer {
     position: relative;
     display: flex;
     justify-content: center;
@@ -7,7 +7,7 @@
     box-sizing: border-box;
 }
 
-.ForumBox,.blurred{
+.ForumBox, .blurred {
     padding: 20px;
     display: flex;
     justify-content: space-around;
@@ -16,15 +16,16 @@
     margin: 0 35px;
     max-width: 1000px;
     width: 100%;
-    height: 70vh ;
+    height: 70vh;
     border-radius: 10px;
     background-color: #f4f0fa;
 }
-.blurred{
+
+.blurred {
     filter: blur(3px);
 }
 
-.QuestionButton{
+.QuestionButton {
     font-size: 1.2rem;
     cursor: pointer;
     color: white;
@@ -39,23 +40,23 @@
     transition: 0.3s;
 }
 
-.QuestionButton:hover{
+.QuestionButton:hover {
     transform: scale(101%);
     background-color: #6d3b9e;
     transform-origin: center;
 }
 
-.QuestionsBox{
+.QuestionsBox {
     display: flex;
     flex-direction: column;
     padding: 20px;
     width: 100%;
     height: 78%;
-    overflow-y:scroll;
+    overflow-y: scroll;
     gap: 1.8rem;
 }
 
-.SingleContainer{
+.SingleContainer {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     background-color: white;
     display: flex;
@@ -64,7 +65,7 @@
     min-height: 30%;
 }
 
-.SingleQuestionContainer{
+.SingleQuestionContainer {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     background-color: white;
     display: flex;
@@ -76,7 +77,7 @@
     height: 100%;
 }
 
-.QuestionTitle,.QuestionAnswer{
+.QuestionTitle, .QuestionAnswer {
     display: flex;
     align-items: center;
     text-align: left;
@@ -89,20 +90,20 @@
     /*background-color: #57545d;*/
 }
 
-.div100{
+.div100 {
     border-radius: 10px;
     width: 100%;
     height: 100%;
 }
 
-.QuestionAnswer{
+.QuestionAnswer {
     border-radius: 10px;
     height: 60%;
     background-color: white;
     color: black;
 }
 
-.NewQuestionBox,.hidden{
+.NewQuestionBox, .hidden {
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     display: flex;
@@ -115,7 +116,7 @@
     height: 30vh;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     border-radius: 10px;
     background-color: white;
     transition: .3s;
@@ -123,7 +124,7 @@
     filter: none;
 }
 
-.AnswerDiv,.AnswerDivHidden{
+.AnswerDiv, .AnswerDivHidden {
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -133,7 +134,7 @@
     height: 30vh;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     border-radius: 10px;
     background-color: white;
     transition: .3s;
@@ -142,17 +143,17 @@
 
 }
 
-.AnswerDivHidden{
+.AnswerDivHidden {
     opacity: 0;
     pointer-events: none;
 
 }
 
-.closeBtn{
+.closeBtn {
     all: unset;
     position: absolute;
     cursor: pointer;
-    top:10px;
+    top: 10px;
     right: 10px;
     color: white;
     filter: invert(1);
@@ -161,17 +162,17 @@
     transition: .3s;
 }
 
-.closeBtn:hover{
+.closeBtn:hover {
     transform: scale(125%);
     transform-origin: center;
 }
 
-.hidden{
+.hidden {
     opacity: 0;
     pointer-events: none;
 }
 
-.NewQuestionBoxTitle{
+.NewQuestionBoxTitle {
     font-size: 18px;
     width: 100%;
     display: flex;
@@ -184,9 +185,9 @@
     height: 20%;
 }
 
-.QuestionArea{
+.QuestionArea {
     border-radius: 10px;
-    resize:none;
+    resize: none;
     width: 80%;
     height: 40%;
     border: 1px solid #512C8C;
@@ -195,14 +196,14 @@
     font-size: 16px;
 }
 
-.QuestionArea:focus{
+.QuestionArea:focus {
     border: 2px solid #461b8a;
     outline: none;
     background-color: #b48fec;
     transform-origin: center;
 }
 
-.QuestionButtonSend{
+.QuestionButtonSend {
     font-size: 0.9rem;
     cursor: pointer;
     color: white;
@@ -218,13 +219,13 @@
     margin-bottom: 20px;
 }
 
-.QuestionButtonSend:hover{
+.QuestionButtonSend:hover {
     transform: scale(101%);
     background-color: #6d3b9e;
     transform-origin: center;
 }
 
-.QuestionAddAnswer{
+.QuestionAddAnswer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -235,7 +236,7 @@
     color: black;
 }
 
-.BtnToAddAnswer{
+.BtnToAddAnswer {
     font-size: 0.9rem;
     cursor: pointer;
     color: white;
@@ -250,7 +251,7 @@
     transition: 0.3s;
 }
 
-.BtnToAddAnswer:hover{
+.BtnToAddAnswer:hover {
     transform: scale(101%);
     background-color: #6d3b9e;
     transform-origin: center;

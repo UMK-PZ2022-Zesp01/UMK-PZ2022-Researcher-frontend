@@ -3,7 +3,7 @@ import styles from './ResearchTile.module.css';
 import { ResearchTileRequirement } from './ResearchTileRequirement/ResearchTileRequirement';
 import { useTranslate } from '../../hooks/useTranslate';
 import { useCapitalize } from '../../hooks/useCapitalize';
-import { ResearchTileReward } from '../ResearchTileReward/ResearchTileReward';
+import { ResearchTileReward } from './ResearchTileReward/ResearchTileReward';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function ResearchTile({ tileData, postData }) {
@@ -14,14 +14,10 @@ export default function ResearchTile({ tileData, postData }) {
         title,
         creatorLogin,
         description,
-
         location,
-
         begDate,
         endDate,
-
         highlight,
-
         requirements,
         rewards,
     } = postData;

@@ -1,14 +1,15 @@
-import React from "react";
+import React from 'react';
 import userResearchCardStyle from './UserResearchCardStyle.js';
-import { useUsername } from "../../hooks/useAuth";
+import { useUsername } from '../../hooks/useAuth';
 import { useEffect } from 'react';
-import getApiUrl from "../../Common/Api";
-const USERRESEARCHES_URL = getApiUrl() + 'research/creator/'
+import getApiUrl from '../../Common/Api';
 
-function LatestResearchCard(){
-    const styles=userResearchCardStyle();
+const USERRESEARCHES_URL = getApiUrl() + 'research/creator/';
+
+function LatestResearchCard() {
+    const styles = userResearchCardStyle();
     const [researches, setResearches] = React.useState([]);
-    const login=useUsername();
+    const login = useUsername();
 
     useEffect(() => {
         let isMounted = true;
@@ -17,7 +18,7 @@ function LatestResearchCard(){
 
         const getUserResearches = async () => {
             try {
-                await fetch(USERRESEARCHES_URL+login, {
+                await fetch(USERRESEARCHES_URL + login, {
                     signal,
                     method: 'GET',
                     headers: {
@@ -47,12 +48,10 @@ function LatestResearchCard(){
 
     const newestResearch = researches.slice(-1)[0];
 
-    const showUserResearches = (researches) => {
-        return researches.map(research =>
+    const showUserResearches = researches => {
+        return researches.map(research => (
             <div key={research.researchCode} className={styles.latestResearchCard}>
-
                 <div className={styles.latestResearchHeader}>
-
                     <div className={styles.researchTitle}>
                         <h2 className={styles.title}>{research.title}</h2>
                     </div>
@@ -60,16 +59,13 @@ function LatestResearchCard(){
                     {/*<div className={styles.researchDate}>*/}
                     {/*    <h3>{research.begDate} - {research.endDate}</h3>*/}
                     {/*</div>*/}
-
                 </div>
 
                 <div className={styles.latestResearchDesc}>
                     <h4>{research.description}</h4>
                 </div>
-
             </div>
-
-        );
+        ));
     };
 
     const showLastResearch = () => {
@@ -78,8 +74,6 @@ function LatestResearchCard(){
     };
 
     return <div className={styles.researchContainer}>{showLastResearch()}</div>;
-
-
 }
 
 export { LatestResearchCard };

@@ -59,7 +59,6 @@ function LoginForm(props) {
                     navigate('/registeredSuccessfully', { replace: false, state: { username } });
                     break;
                 default:
-                    console.log(response);
                     setAlert({
                         alertOpen: true,
                         alertType: 404,
@@ -68,7 +67,6 @@ function LoginForm(props) {
                     });
             }
         } catch (error) {
-            console.log(error);
             setAlert({
                 alertOpen: true,
                 alertType: 404,

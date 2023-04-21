@@ -101,6 +101,7 @@ export default function UserPage(props) {
                 );
         }
     }
+
     const bugPopup = () => {
         setOpenPopup(true);
     };

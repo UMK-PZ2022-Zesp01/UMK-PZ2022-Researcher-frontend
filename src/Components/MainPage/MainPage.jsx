@@ -1,6 +1,5 @@
 import React, { useLayoutEffect, useRef } from 'react';
 import styles from './MainPage.module.css';
-import { useEffect } from 'react';
 import getApiUrl from '../../Common/Api';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
