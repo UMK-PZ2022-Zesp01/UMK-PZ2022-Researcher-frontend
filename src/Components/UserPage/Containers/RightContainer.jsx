@@ -28,7 +28,6 @@ const RightContainer = ({values}) => {
     const [canExit, setCanExit] = useState(true);
 
     const exit = () => {
-        console.log("zamykam")
         values.setIsClickedEdit(false)
         setIsClickedEmail(false);
         setIsClickedLocation(false);
@@ -59,13 +58,11 @@ const RightContainer = ({values}) => {
 
     const saveButtonCheck = async () => {
         if (phoneInput.length < 1 && emailInput.length < 1 && values.locationInput.length < 1) {
-            console.log('nie wysylam')
             values.setGmapExit(false)
             return
         }
         if(values.locationInput.includes('[nie wybrano]')) return
         const response = await fetch(EDIT_URL, requestOptions);
-        console.log(response.status)
         if (response.status === 200) {
             if (phoneInput.length > 0) {
                 values.setPhoneState(phoneInput)

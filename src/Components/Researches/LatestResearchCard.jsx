@@ -15,7 +15,6 @@ function LatestResearchCard(){
         const controller = new AbortController();
         const signal = controller.signal;
 
-        console.log(login);
         const getUserResearches = async () => {
             try {
                 await fetch(USERRESEARCHES_URL+login, {

@@ -185,6 +185,7 @@ export default function UserPage(props) {
         };
     }, []);
 
+
     //Do Poprawienia jest css więc zakomentowane
     const showPosts = () => {
         return posts.map((post, index) => (
@@ -212,6 +213,7 @@ export default function UserPage(props) {
         emailState: emailState,
         phoneState: phoneState,
         gender: userData.gender,
+        avatar:userData.avatarImage,
         clickedEdit: clickedEdit,
         setIsClickedEdit: setIsClickedEdit,
     };
@@ -233,7 +235,6 @@ export default function UserPage(props) {
         setLocationState: setLocationState,
     };
 
-    console.log('isclickedlocation', isClickedLocation);
     return (
         <div className={styles.PageOverlay}>
             <ReportForm open={openPopup} onClose={() => setOpenPopup(false)} />
@@ -245,7 +246,6 @@ export default function UserPage(props) {
                         </title>
                     </Helmet>
                 </HelmetProvider>
-                s
                 <div className={styles.alertOverlay}>
                     <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
                 </div>
