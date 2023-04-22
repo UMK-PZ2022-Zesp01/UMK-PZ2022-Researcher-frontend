@@ -9,6 +9,7 @@ import banner from '../../img/logo-white.png';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { LoadingDots } from '../LoadingDots/LoadingDots';
+import {FirstTimeForm} from "../Form/FirstTimeForm/FirstTimeForm";
 
 const RESEARCHES_URL = getApiUrl() + 'research/';
 
@@ -23,11 +24,36 @@ function MainPage() {
     const urlPageSection = `page/${page}/9`;
     const triggerRef = useRef(null);
 
+    /*first login popup*/
+    const [openPopup, setOpenPopup] = React.useState(true);
+
     window.onscroll = () => {
         if (window.innerHeight + window.scrollY + 1 >= document.body.offsetHeight) {
             if (!lastPage) setPage(page + 1);
         }
     };
+
+    // ****************************************************************
+
+    useEffect(() => {
+        const hasLoggedInBefore = localStorage.getItem("hasLoggedInBefore");
+        if (hasLoggedInBefore) {
+            console.log("User has logged in before!");
+        } else {
+            console.log("User has not logged in before.");
+        }
+    }, []);
+
+    // useEffect(() => {
+    //     const hasLoggedInBefore = localStorage.getItem("hasLoggedInBefore");
+    //     if (hasLoggedInBefore) {
+    //         setOpenPopup(false);
+    //     } else {
+    //         localStorage.setItem("hasLoggedInBefore", true);
+    //     }
+    // }, []);
+
+    // ****************************************************************
 
     useEffect(() => {
         let isMounted = true;
@@ -84,6 +110,8 @@ function MainPage() {
     };
 
     return (
+        <div className={styles.PageOverlay}>
+            <FirstTimeForm open={openPopup} onClose={() => setOpenPopup(false)} />
         <div className={styles.mainPage}>
             <Helmet>
                 <title>Strona główna | JustResearch</title>
@@ -99,6 +127,7 @@ function MainPage() {
                 {isLoading && <LoadingDots />}
                 <span ref={triggerRef}></span>
             </main>
+        </div>
         </div>
     );
 }

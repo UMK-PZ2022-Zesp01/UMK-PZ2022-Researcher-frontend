@@ -11,6 +11,8 @@ import ConfirmEmailPage from './Components/ConfirmEmailPage/ConfirmEmailPage';
 import UserPage from './Components/UserPage/UserPage';
 import { CreateResearchPage } from './Components/CreateResearchPage/CreateResearchPage';
 import { ResearchPage } from './Components/ResearchPage/ResearchPage';
+import OtherUserPage from './Components/UserPage/OtherUserPage';
+import {Users} from "./Components/UserPage/Users";
 
 function App() {
     return (
@@ -21,6 +23,8 @@ function App() {
                 <Route element={<PersistLogin />}>
                     <Route path="/" index element={<MainPage />} />
                     <Route path="/research/:researchCode" element={<ResearchPage />} />
+                    <Route path="/profile/:username" element={<OtherUserPage />} />
+                    <Route path="/users" index element={<Users />} />
                     {/*<Route path="/research/create" element={<CreateResearchPage />} />*/}
 
                     <Route element={<RequireAuth />}>

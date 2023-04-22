@@ -1,12 +1,11 @@
 import React from "react";
-import userResearchCardStyle from './UserResearchCardStyle.js';
+import styles from './ResearchCard.module.css';
 import { useUsername } from "../../hooks/useAuth";
 import { useEffect } from 'react';
 import getApiUrl from "../../Common/Api";
 const USERRESEARCHES_URL = getApiUrl() + 'research/creator/'
 
 function LatestResearchCard(){
-    const styles=userResearchCardStyle();
     const [researches, setResearches] = React.useState([]);
     const login=useUsername();
 

@@ -1,0 +1,87 @@
+
+.researchContainer{
+    display: grid;
+    width: 100%;
+    height: 100%;
+}
+
+.researchHeader{
+    padding: 10px;
+    display: grid;
+    grid-Template-Columns: 60% 40%;
+    background-Color: rgba(109, 59, 158, 0.9);
+    border-Radius: 14px;
+    backdrop-Filter: blur(3.5px);
+}
+
+.latestResearchHeader {
+    /*// height:50px;*/
+    padding: 10px;
+    display: grid;
+    grid-Template-Columns: 60% 40%;
+    background-Color: rgb(81, 44, 140);
+    color: white;
+    border-Radius: 10px;
+    backdrop-Filter: blur(3.5px);
+}
+
+.title{
+    font-Size: large;
+    margin: 0;
+}
+
+.researchCard{
+    margin-Bottom: 20px;
+    box-Shadow: 8px 8px 24px 0px rgba(109, 59, 151, 0.37);
+    backdrop-Filter: blur(3.5px);
+    border-Radius: 15px;
+    border: solid rgb(109, 59, 158) 1px;
+}
+
+.latestResearchCard {
+    box-Shadow: 8px 8px 24px 0px rgba(109, 59, 151, 0.37);
+    border-Radius: 15px;
+    border: solid rgb(109, 59, 158) 1px;
+    transition: all .3s ease-in-out;
+    cursor: pointer;
+}
+
+.latestResearchCard:hover{
+    transform: scale(102%);
+}
+
+
+.researchTitle{
+    display: grid;
+    justify-Content: start;
+    align-Items: center;
+}
+
+.researchDate{
+    display: grid;
+    justify-Content: end;
+    align-Items: center;
+}
+
+.researchDesc{
+    padding: 10px;
+    display: grid;
+    justify-Content: start;
+    height: 150px;
+    overflow: hidden;
+}
+
+.latestResearchDesc{
+    padding: 10px;
+    display: grid;
+    border-Radius: 15px;
+    justify-Content: start;
+    height: 80px;
+
+    overflow: hidden;
+    font-Size: medium;
+}
+
+.researchLocation{
+    background-Color: grey;
+}

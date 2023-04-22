@@ -101,7 +101,7 @@
     background-color: #f4f0fa;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-auto-flow: dense;
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y;
 }
 
 .exitResBtn {
@@ -318,6 +318,32 @@
     left: 0;
 }
 
+.OtherRightContainer {
+    position: relative;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 5px;
+    width: 60%;
+    height: 31rem;
+    font-size: 16px;
+}
+
+.OtherUsersResearches{
+    display: grid;
+    gap: 0.5rem 1.5rem;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    /*border-radius: 10px;*/
+    background-color: #f4f0fa;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-auto-flow: dense;
+    scroll-snap-type: y;
+}
+
 @media only screen and (max-width: 1000px) {
 
     .MainContainer {
@@ -332,6 +358,13 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+    }
+
+    .OtherRightContainer{
+        padding-top:30px;
+        padding-bottom:10px;
+
+        width: 100%;
     }
 
     .mapBoxVisible, .mapBoxHide {
