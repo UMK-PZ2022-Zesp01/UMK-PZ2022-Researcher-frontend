@@ -1,17 +1,20 @@
 import styles from '../Containers/Container.module.css';
-import { GrClose } from 'react-icons/gr';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { HiOutlineDocumentText } from 'react-icons/hi';
-import { GoFlame } from 'react-icons/go';
-import { LatestResearchCard } from '../../Researches/LatestResearchCard';
-import React, { useEffect, useState } from 'react';
-import { useUsername } from '../../../hooks/useAuth';
+import {GrClose} from 'react-icons/gr';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faFileCirclePlus} from '@fortawesome/free-solid-svg-icons';
+import {HiOutlineDocumentText} from 'react-icons/hi';
+import {GoFlame} from 'react-icons/go';
+import {LatestResearchCard} from '../../Researches/LatestResearchCard';
+import React, {useEffect, useState} from 'react';
+import useAuth, {useUsername} from '../../../hooks/useAuth';
 import getApiUrl from '../../../Common/Api';
+import {Alert} from "../../Alert/Alert";
+import {Popup} from "../../Popup/Popup";
 
-const RightContainer = ({ values }) => {
+const RightContainer = ({values}) => {
     const login = useUsername();
-    const EDIT_URL = `${getApiUrl()}user/${login}/update`;
+    const EDIT_URL = `${getApiUrl()}user/current/update`;
+    const { username, accessToken } = useAuth().auth;
 
     /*phone section*/
     const [phoneInput, setPhoneInput] = useState('');
@@ -49,7 +52,10 @@ const RightContainer = ({ values }) => {
 
     const requestOptions = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            Authorization: accessToken,
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(putTemplate),
     };
 
@@ -58,8 +64,46 @@ const RightContainer = ({ values }) => {
             values.setGmapExit(false);
             return;
         }
-        if (values.locationInput.includes('[nie wybrano]')) return;
+        console.log(phoneInput,emailInput)
+        if (values.locationInput.includes('[nie wybrano]')){
+            setAlert({
+                alertOpen: true,
+                alertType: 299,
+                alertText: 'Nie wybrano lokalizacji',
+            })
+            return;
+        }
+        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(emailInput)&&emailInput.length>0){
+            setAlert({
+                alertOpen: true,
+                alertType: 298,
+                alertText: 'Nieprawidłowy format email',
+            })
+            return
+        }
+        if (!/[0-9]{3} [0-9]{3} [0-9]{3}/.test(phoneInput)&&phoneInput.length>0){
+            setAlert({
+                alertOpen: true,
+                alertType: 298,
+                alertText: 'Nieprawidłowy format numeru telefonu',
+            })
+            return
+        }
         const response = await fetch(EDIT_URL, requestOptions);
+        if (response.status===298){
+            setAlert({
+                alertOpen: true,
+                alertType: 298,
+                alertText: 'Ten email jest zajęty, wprowadź poprawny adres email',
+            })
+        }
+        if (response.status===299){
+            setAlert({
+                alertOpen: true,
+                alertType: 299,
+                alertText: 'Ten numer telefonu jest zajęty, wprowadź poprawny numer telefonu',
+            })
+        }
         if (response.status === 200) {
             if (phoneInput.length > 0) {
                 values.setPhoneState(phoneInput);
@@ -77,15 +121,71 @@ const RightContainer = ({ values }) => {
                 // values.setLocationInput('')
                 values.setGmapExit(false);
             }
+            setAlert({
+                alertOpen: true,
+                alertType: 204,
+                alertText: 'Zmiany zostały zapisane',
+            })
+            return
         } else {
             setIsClickedLocation(false);
             setIsClickedEmail(false);
             setIsClickedPhone(false);
+            setEmailInput('');
+            setPhoneInput('');
             values.setGmapExit(false);
         }
     };
+
+    const [alert, setAlert] = React.useState({
+        alertOpen: false,
+        alertType: 0,
+        alertText: '',
+    });
+
+    const closeAlert = () =>
+        setAlert({
+            alertOpen: false,
+            alertType: alert.alertType,
+            alertText: alert.alertText,
+        });
+
+    function showAlert() {
+        switch (alert.alertType) {
+            case 204:
+                return (
+                    <Alert onClose={() => closeAlert()} type="success">
+                        {alert.alertText}
+                    </Alert>
+                );
+            case 298:
+            case 299:
+                return (
+                    <Alert onClose={() => closeAlert()} type="warning">
+                        {alert.alertText}
+                    </Alert>
+                );
+            case 500:
+                return (
+                    <Alert onClose={() => closeAlert()} type="error">
+                        {alert.alertText}
+                    </Alert>
+                );
+            default:
+                return (
+                    <Alert onClose={() => closeAlert()} type="error">
+                        {alert.alertText}
+                    </Alert>
+                );
+        }
+    }
+
+
     return (
         <div className={styles.rightContainer}>
+            <div className={styles.alertOverlay}>
+                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
+            </div>
             <div className={values.clickedEdit ? styles.editBox : styles.editBoxHide}>
                 <button
                     className={values.clickedEdit ? styles.exitBtn : styles.exitBtnHide}
@@ -93,7 +193,7 @@ const RightContainer = ({ values }) => {
                         exit();
                     }}
                 >
-                    <GrClose />
+                    <GrClose/>
                 </button>
                 <div className={styles.editField}>
                     <div className={isClickedEmail ? styles.editTileResized : styles.editTile}>
@@ -123,7 +223,6 @@ const RightContainer = ({ values }) => {
                                 }}
                                 type="email"
                                 placeholder="j.kowalski@example.com"
-                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2, 4}$"
                             />
                         </div>
                     </div>
@@ -164,7 +263,8 @@ const RightContainer = ({ values }) => {
                                 ? styles.editTileResized
                                 : styles.editTile
                         }
-                        onClick={() => {}}
+                        onClick={() => {
+                        }}
                     >
                         <div
                             className={values.clickedEdit ? styles.valueEdit : styles.valueEditHide}
@@ -197,27 +297,27 @@ const RightContainer = ({ values }) => {
             <div className={values.clickedEdit ? styles.rightHide : styles.right}>
                 <div className={styles.activityBox}>
                     <a className={styles.singleActivity} href={'./research/create'}>
-                        <FontAwesomeIcon icon={faFileCirclePlus} />
+                        <FontAwesomeIcon icon={faFileCirclePlus}/>
                         <span>Dodaj nowe badanie</span>
                     </a>
                     <div
                         className={styles.singleActivity}
                         onClick={() => values.setIsClickedResearches(true)}
                     >
-                        <HiOutlineDocumentText className={styles.additionIconResearches} />
+                        <HiOutlineDocumentText className={styles.additionIconResearches}/>
                         <span>Zobacz swoje badania</span>
                     </div>
                     <div className={styles.singleActivity} onClick={values.bugPopup}>
-                        <GoFlame className={styles.additionIcon} />
+                        <GoFlame className={styles.additionIcon}/>
                         <span>Zgłoś błąd</span>
                     </div>
                 </div>
                 <div className={styles.latestResearch}>
-                    <LatestResearchCard />
+                    <LatestResearchCard/>
                 </div>
             </div>
         </div>
     );
 };
 
-export { RightContainer };
+export {RightContainer};

@@ -1,22 +1,32 @@
 import styles from './Forum.module.css';
 import React from 'react';
 
-const SingleQuestion = ({ question, canEdit, handleAnswerCall, setQuestionId }) => {
+const SingleQuestion = ({username, question, canEdit, handleAnswerCall, setQuestionCode,handleQuestionCall }) => {
     return (
         <div className={styles.div100}>
             {!canEdit ? (
                 <div className={styles.SingleQuestionContainer}>
                     <div className={styles.QuestionTitle}>
-                        {question.question} {question.researchOwnerLogin}
+                        {question.authorLogin}:  {question.question}
                     </div>
                     <div className={styles.QuestionAnswer}>
-                        {question.answer.length > 0 ? question.answer : 'Nie udzielono odpowiedzi'}
+
+                        {}
+                        {question.answer.length > 0 ? question.answer : username===question.authorLogin?<button
+                            className={styles.BtnToAddAnswer}
+                            onClick={async () => {
+                                handleQuestionCall();
+                                setQuestionCode(question.questionCode);
+                            }}
+                        >
+                            Edytuj pytanie
+                        </button>:"Nie udzielono odpowiedzi"}
                     </div>
                 </div>
             ) : (
                 <div className={styles.SingleQuestionContainer}>
                     <div className={styles.QuestionTitle}>
-                        {question.question} {question.researchOwnerLogin}
+                        {question.researchOwnerLogin}:  {question.question}
                     </div>
                     {question.answer.length > 0 ? (
                         <div className={styles.QuestionAnswer}>{question.answer}</div>
@@ -26,7 +36,7 @@ const SingleQuestion = ({ question, canEdit, handleAnswerCall, setQuestionId }) 
                                 className={styles.BtnToAddAnswer}
                                 onClick={async () => {
                                     handleAnswerCall();
-                                    setQuestionId(question._id);
+                                    setQuestionCode(question.questionCode);
                                 }}
                             >
                                 Odpowiedz na pytanie

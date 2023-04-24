@@ -3,8 +3,7 @@
     z-index: 100000;
     background: rgba(255, 255, 255, 0.5);
     position: absolute;
-    inset: -10%;
-
+    inset: 0 -100%;
     backdrop-filter: blur(15px);
 }
 

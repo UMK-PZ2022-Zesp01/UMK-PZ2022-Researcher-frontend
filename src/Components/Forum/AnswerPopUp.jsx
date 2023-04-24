@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 const AnswerPopUp = ({ visibility, handleAnswerCall, updateQuestion }) => {
     const handleAnswerContent = content => {
-        setAnswerContent(content);
+         setAnswerContent(content);
     };
     const [answerContent, setAnswerContent] = useState('');
     return (
