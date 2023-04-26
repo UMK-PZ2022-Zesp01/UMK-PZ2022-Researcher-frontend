@@ -246,7 +246,7 @@ export default function UserPage(props) {
             <div className={styles.UserBox}>
                 <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
                     <Gmap latitude={53.015331} longitude={18.6057} type={'user-page'} exit={exit}
-                          setLocationInput={setLocationInput} setIsClickedLocation={setIsClickedLocation} setGmapExit={setGmapExit} setResearchPlace={()=>{}} />
+                          setLocationInput={setLocationInput} setIsClickedLocation={setIsClickedLocation} setGmapExit={setGmapExit} setResearchPlace={()=>{}} setResearchPageAddress={()=>{}} />
                 </div>
                 <div className={styles.Container}>
                     <header className={styles.bookmarksContainer}>
