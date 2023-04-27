@@ -10,12 +10,18 @@ import {
     faPhone,
     faCircleCheck,
     faCircleXmark,
-    faXmark,
+    faFileCircleExclamation,
+    faHouse,
+    faUser,
+    faFileCirclePlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useAuth from '../../hooks/useAuth';
 import { Alert } from '../Alert/Alert';
 import { Popup } from '../Popup/Popup';
+import { Forum } from '../Forum/Forum';
+import { LoadingDots } from '../LoadingDots/LoadingDots';
+import { Gmap } from '../GoogleMap/GoogleMap';
 
 function ResearchPage() {
     const { researchCode } = useParams();
@@ -31,7 +37,7 @@ function ResearchPage() {
     const [research, setResearch] = useState();
     const [creator, setCreator] = useState();
     const [loggedUser, setLoggedUser] = useState({});
-    const [location, setLocation] = useState();
+    const [location, setLocation] = useState([]);
     const [rewards, setRewards] = useState([]);
     const [requirements, setRequirements] = useState([]);
 
@@ -55,7 +61,7 @@ function ResearchPage() {
                     const result = await researchResponse.json();
                     setResearch(result);
                     setTitle(result.title);
-                    setLocation(result.location);
+                    setLocation(result.location.toString().split(' '));
                     setRewards(result.rewards);
                     setRequirements(result.requirements);
 
@@ -452,7 +458,10 @@ function ResearchPage() {
                 <Link to="/" className={styles.logo}>
                     <img className={styles.logoImg} src={researcherLogo} alt="Researcher Logo" />
                 </Link>
-                <BookmarksNav active="research" desc={title} />
+                <BookmarksNav
+                    active="research"
+                    desc={isSomeoneLoggedIn ? title : 'Nie znaleziono badania'}
+                />
             </header>
 
             <main className={styles.researchPagePanel}>
@@ -694,8 +703,10 @@ function ResearchPage() {
                                                                     <span
                                                                         className={`${styles.enrollDesc} ${styles.green}`}
                                                                     >
-                                                                        Możesz wziąć udział w
-                                                                        badaniu!
+                                                                        Na podstawie wstępnych
+                                                                        wymagań (płeć i wiek)
+                                                                        kwalifikujesz się do udziału
+                                                                        w badaniu!
                                                                     </span>
                                                                 </>
                                                             )}
@@ -722,21 +733,79 @@ function ResearchPage() {
                                 </button>
                             </div>
 
-                            <div className={styles.researchPageElementColumn}>
-                                <div className={styles.categoryLabel}>
-                                    Sekcja pytań i odpowiedzi
+                            {isSomeoneLoggedIn && (
+                                <div className={styles.researchPageElementColumn}>
+                                    <div className={styles.categoryLabel}>
+                                        Sekcja pytań i odpowiedzi
+                                    </div>
+                                    <span className={styles.forumInfo}>
+                                        Jeśli chcesz zadać autorowi pytanie dotyczące badania,
+                                        możesz to zrobić poniżej.
+                                    </span>
+                                    <Forum
+                                        researchCode={researchCode}
+                                        fullName={`${loggedUser.firstName} ${loggedUser.lastName}`}
+                                        researchOwnerLogin={research.creatorLogin}
+                                    />
                                 </div>
-                                <span className={styles.forumInfo}>
-                                    Jeśli chcesz zadać autorowi pytanie dotyczące badania, możesz to
-                                    zrobić poniżej.
-                                </span>
-                                <div>[FORUM]</div>
-                            </div>
+                            )}
                         </div>
                     </>
                 )}
-                {researchGetSuccess === false && <div>Nie udało się pobrać badania</div>}
-                {researchGetSuccess === null && <div>Wczytywanie badania...</div>}
+                {researchGetSuccess === false && (
+                    <div className={styles.researchNotFoundContainer}>
+                        <HelmetProvider>
+                            <Helmet>
+                                <title>Nie znaleziono badania | JustResearch</title>
+                            </Helmet>
+                        </HelmetProvider>
+                        <div className={styles.researchNotFoundInfo}>
+                            <FontAwesomeIcon
+                                icon={faFileCircleExclamation}
+                                className={styles.researchNotFoundIcon}
+                            />
+                            <div className={styles.researchNotFoundDesc}>
+                                <span className={styles.desc1}>Nie znaleziono badania!</span>
+                                <span>
+                                    Upewnij się, czy link jest poprawny oraz czy autor badania nie
+                                    usunął ogłoszenia
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className={styles.navigationContainer}>
+                            <h3>Co chcesz zrobić?</h3>
+                            <nav className={styles.navigation}>
+                                <Link to="/" className={styles.navigationButton}>
+                                    <FontAwesomeIcon icon={faHouse} />
+                                    <span className={styles.buttonDesc}>
+                                        Przejdź na stronę główną
+                                    </span>
+                                </Link>
+
+                                {isSomeoneLoggedIn && (
+                                    <Link
+                                        to={`/profile/${loggedUser.login}`}
+                                        className={styles.navigationButton}
+                                    >
+                                        <FontAwesomeIcon icon={faUser} />
+                                        <span className={styles.buttonDesc}>
+                                            Przejdź na stronę swojego profilu
+                                        </span>
+                                    </Link>
+                                )}
+
+                                <Link to="/research/create" className={styles.navigationButton}>
+                                    <FontAwesomeIcon icon={faFileCirclePlus} />
+                                    <span className={styles.buttonDesc}>
+                                        Stwórz ogłoszenie o badaniu
+                                    </span>
+                                </Link>
+                            </nav>
+                        </div>
+                    </div>
+                )}
+                {researchGetSuccess === null && <LoadingDots />}
             </main>
         </div>
     );
