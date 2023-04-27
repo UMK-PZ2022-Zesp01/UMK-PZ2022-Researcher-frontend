@@ -212,17 +212,18 @@ export default function UserPage(props) {
 
     return (
         <div className={styles.PageOverlay}>
-            <ReportForm open={openPopup} onClose={() => setOpenPopup(false)} />
-            <div className={styles.MainContainer}>
-                <HelmetProvider>
-                    <Helmet>
-                        <title>
-                            {userData.firstName + ' ' + userData.lastName + ' | JustResearch'}
-                        </title>
-                    </Helmet>
-                </HelmetProvider>
-                <div className={styles.alertOverlay}>
-                    <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
+            <ReportForm open={openPopup} onClose={() => setOpenPopup(false)}/>
+        <div className={styles.MainContainer}>
+            <Helmet>
+                <title>Profil | Researcher</title>
+            </Helmet>
+            <div className={styles.alertOverlay}>
+                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
+            </div>
+            <div className={styles.UserBox}>
+                <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
+                    <Gmap latitude={53.015331} longitude={18.6057} type={'user-page'} exit={exit}
+                          setLocationInput={setLocationInput} setIsClickedLocation={setIsClickedLocation} setGmapExit={setGmapExit} setResearchPlace={()=>{}} setResearchPageAddress={()=>{}} />
                 </div>
                 <div className={styles.UserBox}>
                     <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
