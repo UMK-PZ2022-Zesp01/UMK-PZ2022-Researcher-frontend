@@ -51,6 +51,93 @@
     transition: height 1s ease-in-out;
 }
 
+.optionsBox {
+    display: flex;
+    flex-direction: row;
+
+    justify-content: right;
+
+    align-self: flex-end;
+
+    width: 100%;
+    gap: 1rem;
+}
+
+.options {
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+
+    min-width: 50%;
+
+    gap: 1rem;
+}
+
+.sortLabel {
+    display: flex;
+    align-items: center;
+}
+
+.selectContainer {
+    position: relative;
+    display: flex;
+
+    border-radius: 5px;
+
+    width: 100%;
+
+    background-color: #debdef;
+
+    transition: 0.3s;
+}
+
+.selectContainer::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 100%;
+    transition: width ease-in-out 0.3s, left ease-in-out 0.3s;
+    border-radius: 5px;
+    background-color: #f6e2ff;
+}
+
+.selectContainer:hover::before {
+    width: 100%;
+    left: 0;
+}
+
+.sortSelect {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 0;
+
+    padding: 5px;
+    width: 100%;
+
+    background-color: transparent;
+    color: #6d3b9e;
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    outline: none;
+    border: none;
+    appearance: none;
+
+    transition: 0.3s;
+}
+
+.sortSelect option {
+    color: black;
+    background-color: #f4f0fa;
+    line-height: 1.5rem;
+    font-size: 1rem;
+}
+
 .tileGrid {
     display: grid;
 

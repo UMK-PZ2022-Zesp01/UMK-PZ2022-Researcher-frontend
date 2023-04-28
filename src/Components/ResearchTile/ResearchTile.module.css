@@ -16,16 +16,19 @@
     object-fit: cover;
 
     list-style-type: none;
-    -webkit-box-shadow: 5px 7px 45px -15px rgba(0, 0, 0, 1);
-    -moz-box-shadow: 5px 7px 45px -15px rgba(0, 0, 0, 1);
-    box-shadow: 5px 7px 45px -15px rgba(0, 0, 0, 1);
 }
 
 .researchTile:hover {
     transform: scale(1.02);
 }
 
-.previewed {
+.withShadow {
+    -webkit-box-shadow: 5px 7px 45px -15px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 5px 7px 45px -15px rgba(0, 0, 0, 1);
+    box-shadow: 5px 7px 45px -15px rgba(0, 0, 0, 1);
+}
+
+.withShadow.previewed {
     -webkit-box-shadow: 0px 0px 25px 0px rgba(109, 59, 158, 1);
     -moz-box-shadow: 0px 0px 25px 0px rgba(109, 59, 158, 1);
     box-shadow: 0px 0px 25px 0px rgba(109, 59, 158, 1);
@@ -204,7 +207,8 @@
     width: 25%;
     overflow-y: scroll;
 
-    hyphens: auto;
+    npm-break: anywhere;
+    hyphens: none;
 }
 
 .list,

@@ -75,7 +75,9 @@ export default function ResearchTile({ tileData, postData }) {
             {/*SMALL TILE*/}
             <li
                 key={`SmallTile${researchCode}`}
-                className={`${isPreviewed ? styles.previewed : ''} ${styles.researchTile} `}
+                className={`${isPreviewed ? styles.previewed : ''} ${styles.researchTile} ${
+                    styles.withShadow
+                } `}
                 onClick={handleTileClicked}
             >
                 <img
