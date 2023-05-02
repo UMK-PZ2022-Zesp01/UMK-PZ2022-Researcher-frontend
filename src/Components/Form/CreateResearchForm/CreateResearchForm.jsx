@@ -183,7 +183,9 @@ function CreateResearchForm() {
     /*** Requirements Section ***/
 
     const getRequirementList = list => {
-        setRequirementList(list);
+        setRequirementList(() => {
+            return list;
+        });
     };
 
     /*** Functions for Handling Changes in Form ***/
@@ -223,7 +225,6 @@ function CreateResearchForm() {
 
     const handleTitleChange = event => {
         setTitle(event.target.value);
-        console.log(researchPlace);
     };
 
     const handleDescriptionChange = event => {
@@ -336,7 +337,6 @@ function CreateResearchForm() {
 
     const handleFormSubmit = event => {
         event.preventDefault();
-        console.log(auth);
 
         research.location = { form: researchForm, place: researchPlace };
         research.rewards = rewardList;
