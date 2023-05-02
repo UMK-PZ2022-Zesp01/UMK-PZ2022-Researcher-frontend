@@ -590,6 +590,8 @@ function CreateResearchForm() {
                                 setLocationInput={() => {}}
                                 setGmapExit={() => {}}
                                 setResearchPlace={setResearchPlace}
+                                setResearchPageAddress={() => {}}
+                                setIsClickedLocation={() => {}}
                             />
                         </div>
                     </div>

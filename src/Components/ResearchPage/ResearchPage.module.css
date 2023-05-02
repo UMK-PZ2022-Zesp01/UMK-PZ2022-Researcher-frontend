@@ -242,8 +242,7 @@
 
 .participantsProgressBar::-webkit-progress-value {
     background-color: #512c8c;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-radius: 5px;
 }
 
 .participantsHeader {
@@ -496,9 +495,12 @@
     width: 100%;
 }
 
-.researchMap {
+.mapContainer {
     width: 100%;
-    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
 }
 
 @media (max-width: 1000px) {

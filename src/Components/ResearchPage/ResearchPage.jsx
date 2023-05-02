@@ -38,6 +38,7 @@ function ResearchPage() {
     const [creator, setCreator] = useState();
     const [loggedUser, setLoggedUser] = useState({});
     const [location, setLocation] = useState([]);
+    const [locationAddress, setLocationAddress] = useState('');
     const [rewards, setRewards] = useState([]);
     const [requirements, setRequirements] = useState([]);
 
@@ -61,7 +62,7 @@ function ResearchPage() {
                     const result = await researchResponse.json();
                     setResearch(result);
                     setTitle(result.title);
-                    setLocation(result.location.toString().split(' '));
+                    setLocation(result.location);
                     setRewards(result.rewards);
                     setRequirements(result.requirements);
 
@@ -79,18 +80,15 @@ function ResearchPage() {
                             break;
                         default:
                             setResearchGetSuccess(false);
-                            console.log('333');
                             break;
                     }
 
                     break;
                 case 204:
                     setResearchGetSuccess(false);
-                    console.log('222');
                     break;
                 default:
                     setResearchGetSuccess(false);
-                    console.log('1111');
                     break;
             }
         };
@@ -442,6 +440,13 @@ function ResearchPage() {
         }
     };
 
+    const getLocationAddress = address => {
+        setLocationAddress(prevState => {
+            const addressParts = address.toString().split(', ');
+            return `${addressParts.at(0)}, ${addressParts.at(1).toString().split(' ').at(1)}`;
+        });
+    };
+
     return (
         <div className={styles.container}>
             <HelmetProvider>
@@ -621,7 +626,24 @@ function ResearchPage() {
                                     <span className={styles.categoryLabel}>
                                         Miejsce przeprowadzania badania
                                     </span>
-                                    <span className={styles.description}>[MAPA]</span>
+                                    <div className={styles.mapContainer}>
+                                        <span>{locationAddress}</span>
+                                        <Gmap
+                                            latitude={Number(
+                                                location.place.toString().split(' ').at(0)
+                                            )}
+                                            longitude={Number(
+                                                location.place.toString().split(' ').at(1)
+                                            )}
+                                            type={'researchPage'}
+                                            exit={() => {}}
+                                            setLocationInput={() => {}}
+                                            setGmapExit={() => {}}
+                                            setResearchPlace={() => {}}
+                                            setResearchPageAddress={getLocationAddress}
+                                            setIsClickedLocation={() => {}}
+                                        />
+                                    </div>
                                 </div>
                             )}
 
