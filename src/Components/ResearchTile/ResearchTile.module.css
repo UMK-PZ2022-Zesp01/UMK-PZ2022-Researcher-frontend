@@ -204,10 +204,13 @@
 }
 
 .bodyLeft {
-    width: 25%;
+    display: flex;
+    min-width: 20ch;
+    flex-basis: 30%;
+
     overflow-y: scroll;
 
-    npm-break: anywhere;
+    word-break: break-all;
     hyphens: none;
 }
 
@@ -226,7 +229,10 @@
 }
 
 .bodyRight {
-    width: 75%;
+    display: flex;
+    flex-basis: 70%;
+    max-width: 80ch;
+
     overflow-y: scroll;
 }
 

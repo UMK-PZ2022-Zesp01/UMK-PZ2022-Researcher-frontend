@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ResearchTile.module.css';
 import { ResearchTileRequirement } from './ResearchTileRequirement/ResearchTileRequirement';
 import { useTranslate } from '../../hooks/useTranslate';
@@ -12,7 +12,7 @@ export default function ResearchTile({ tileData, postData }) {
         researchCode,
         poster,
         title,
-        creatorLogin,
+        creatorFullName,
         description,
         location,
         begDate,
@@ -21,6 +21,8 @@ export default function ResearchTile({ tileData, postData }) {
         requirements,
         rewards,
     } = postData;
+
+    const [geoDecoded, setGeoDecoded] = useState('');
 
     const isPreviewed = previewed === tileNumber;
 
@@ -70,6 +72,30 @@ export default function ResearchTile({ tileData, postData }) {
     //     ));
     // };
 
+    useEffect(() => {
+        const geoDecode = async () => {
+            const latlng = location?.place.replace(' ', ',');
+            try {
+                const response = await fetch(
+                    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&language=pl&key=${process.env.REACT_APP_API_GOOGLE}`
+                );
+
+                const json = await response.json();
+                const address = json.results[0].formatted_address;
+                setGeoDecoded(address);
+            } catch (e) {
+                setGeoDecoded('Nie udało się pobrać adresu');
+            }
+        };
+
+        console.log(location.form);
+        if (location.form === 'in-place') {
+            geoDecode();
+        } else {
+            setGeoDecoded(location.place);
+        }
+    }, []);
+
     return (
         <>
             {/*SMALL TILE*/}
@@ -88,7 +114,7 @@ export default function ResearchTile({ tileData, postData }) {
                 />
                 <div className={styles.tileOverlay}>
                     <p className={styles.tileOverlayTitle}>{title}</p>
-                    <p className={styles.tileOverlayAuthor}>{creatorLogin}</p>
+                    <p className={styles.tileOverlayAuthor}>{creatorFullName}</p>
                     <p className={styles.tileOverlayDate}>otwarte do: {endDate}</p>
                 </div>
             </li>
@@ -107,9 +133,9 @@ export default function ResearchTile({ tileData, postData }) {
                 </div>
                 <div className={styles.previewHeader2}>
                     <div className={`${styles.headerHalf} ${styles.headerLeft}`}>
-                        {creatorLogin}
+                        {creatorFullName}
                     </div>
-                    <div className={`${styles.headerHalf} ${styles.headerRight}`}>{highlight}</div>
+                    {/*<div className={`${styles.headerHalf} ${styles.headerRight}`}>{highlight}</div>*/}
                 </div>
                 <div className={styles.previewBody}>
                     <div className={`${styles.bodyPart} ${styles.bodyLeft}`}>
@@ -122,7 +148,7 @@ export default function ResearchTile({ tileData, postData }) {
                                 </li>
                                 <li>
                                     <span className={styles.type}>Adres: </span>
-                                    <span>{location?.place}</span>
+                                    <span>{geoDecoded}</span>
                                 </li>
                             </ul>
                         </div>
@@ -171,7 +197,7 @@ ResearchTile.defaultProps = {
         poster: '',
         title: '',
         description: '',
-        author: '',
+        creatorFullName: '',
 
         begDate: '',
         endDate: '',

@@ -49,7 +49,7 @@ export const Filters = ({ filters, saveFilters }) => {
     return (
         <div className={styles.container}>
             <button onClick={handleDropdownSwitch} className={styles.filtersButton}>
-                Filtrowanie
+                Opcje filtrów
             </button>
             <div className={getDropdownClass()}>
                 {renderFilters()}
