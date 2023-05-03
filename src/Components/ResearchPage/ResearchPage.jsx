@@ -14,6 +14,8 @@ import {
     faHouse,
     faUser,
     faFileCirclePlus,
+    faPencil,
+    faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useAuth from '../../hooks/useAuth';
@@ -22,6 +24,7 @@ import { Popup } from '../Popup/Popup';
 import { Forum } from '../Forum/Forum';
 import { LoadingDots } from '../LoadingDots/LoadingDots';
 import { Gmap } from '../GoogleMap/GoogleMap';
+import { ResearchEditor } from './ResearchEditor/ResearchEditor';
 
 function ResearchPage() {
     const { researchCode } = useParams();
@@ -30,6 +33,7 @@ function ResearchPage() {
     const { username, accessToken } = useAuth().auth;
 
     const GET_RESEARCH_URL = getApiUrl() + `research/code/${researchCode}`;
+    const DELETE_RESEARCH_URL = getApiUrl() + `research/${researchCode}/delete`;
     const GET_CREATOR_URL = getApiUrl() + 'user/';
     const ENROLL_URL = getApiUrl() + `research/${researchCode}/enroll`;
 
@@ -45,6 +49,8 @@ function ResearchPage() {
     const [isPosterOnFullScreen, setIsPosterOnFullScreen] = useState(false);
     const [researchGetSuccess, setResearchGetSuccess] = useState(null);
     const [isSomeoneLoggedIn, setIsSomeoneLoggedIn] = useState(false);
+    const [isEditorVisible, setIsEditorVisible] = useState(false);
+    const [isDeleteResearchConfirmVisible, setIsDeleteResearchConfirmVisible] = useState(false);
 
     /** Get Research From Database **/
 
@@ -136,6 +142,7 @@ function ResearchPage() {
     const showAlert = () => {
         switch (alert.alertType) {
             case 200:
+            case 204:
                 return (
                     <Alert onClose={closeAlert} type="success">
                         {alert.alertText}
@@ -443,8 +450,60 @@ function ResearchPage() {
     const getLocationAddress = address => {
         setLocationAddress(prevState => {
             const addressParts = address.toString().split(', ');
-            return `${addressParts.at(0)}, ${addressParts.at(1).toString().split(' ').at(1)}`;
+            return `${addressParts.at(1).toString().split(' ').at(1)}, ${addressParts.at(0)}`;
         });
+    };
+
+    const toggleDeleteResearchConfirmVisibility = () => {
+        setIsDeleteResearchConfirmVisible(prevState => !prevState);
+    };
+
+    const toggleResearchEditorVisibility = () => {
+        setIsEditorVisible(prevState => !prevState);
+    };
+
+    const deleteResearch = async event => {
+        event.preventDefault();
+
+        try {
+            const response = await fetch(DELETE_RESEARCH_URL, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    Authorization: accessToken,
+                },
+            });
+
+            switch (response.status) {
+                case 204:
+                    setAlert({
+                        alertOpen: true,
+                        alertType: response.status,
+                        alertText: (
+                            <span>
+                                Badanie zostało pomyślnie usunięte!{' '}
+                                <Link to="/">Kliknij, aby przejść na stronę główną</Link>
+                            </span>
+                        ),
+                    });
+                    break;
+                default:
+                    setAlert({
+                        alertOpen: true,
+                        alertType: response.status,
+                        alertText:
+                            'Nie udało się usunąć badania! Upewnij się, że posiadasz uprawnienia do wykonania' +
+                            ' tej czynności.',
+                    });
+                    break;
+            }
+        } catch (e) {
+            setAlert({
+                alertOpen: true,
+                alertType: 500,
+                alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później.',
+            });
+        }
     };
 
     return (
@@ -495,6 +554,49 @@ function ResearchPage() {
 
                 {researchGetSuccess === true && (
                     <>
+                        {loggedUser.login === research.creatorLogin && (
+                            <div className={styles.researchEditor}>
+                                <label className={styles.categoryLabel}>Panel autora badania</label>
+                                <div className={styles.editorButtons}>
+                                    <button
+                                        className={styles.editorBtn}
+                                        onClick={toggleResearchEditorVisibility}
+                                    >
+                                        <FontAwesomeIcon icon={faPencil} />
+                                        <span>Edytuj badanie</span>
+                                    </button>
+
+                                    <button
+                                        className={styles.editorBtn}
+                                        onClick={toggleDeleteResearchConfirmVisibility}
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} />
+                                        <span>Usuń badanie</span>
+                                    </button>
+
+                                    {isDeleteResearchConfirmVisible && (
+                                        <div className={styles.deleteResearchConfirm}>
+                                            <span>Czy na pewno chcesz usunąć badanie?</span>
+                                            <button
+                                                className={styles.editorBtn}
+                                                onClick={deleteResearch}
+                                            >
+                                                Tak
+                                            </button>
+                                            <button
+                                                className={styles.editorBtn}
+                                                onClick={toggleDeleteResearchConfirmVisibility}
+                                            >
+                                                Anuluj
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {isEditorVisible && <ResearchEditor research={research} />}
+                            </div>
+                        )}
+
                         <h2 className={styles.title}>{research.title}</h2>
 
                         <div className={styles.researchPageRow}>
@@ -627,7 +729,9 @@ function ResearchPage() {
                                         Miejsce przeprowadzania badania
                                     </span>
                                     <div className={styles.mapContainer}>
-                                        <span>{locationAddress}</span>
+                                        <span className={styles.locationAddress}>
+                                            {locationAddress}
+                                        </span>
                                         <Gmap
                                             latitude={Number(
                                                 location.place.toString().split(' ').at(0)

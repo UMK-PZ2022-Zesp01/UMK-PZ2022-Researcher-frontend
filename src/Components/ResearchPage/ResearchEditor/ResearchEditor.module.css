@@ -1,0 +1,21 @@
+.editorContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.editorRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.editorColumn {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.editorTextArea {
+    width: 50%;
+}

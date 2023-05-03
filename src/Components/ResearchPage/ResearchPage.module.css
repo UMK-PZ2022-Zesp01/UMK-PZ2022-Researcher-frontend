@@ -40,6 +40,51 @@
     background-color: #f4f0fa;
 }
 
+.researchEditor {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    margin-bottom: 1rem;
+}
+
+.editorButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.editorBtn {
+    background-color: #512c8c;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid #512c8c;
+    transition: 0.3s;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.editorBtn:hover {
+    background-color: #6d3b9e;
+    border: 2px solid #6d3b9e;
+}
+
+.deleteResearchConfirm {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    margin-left: 1rem;
+}
+
 .title {
     width: 100%;
     display: flex;
@@ -269,6 +314,12 @@
 .description {
     width: 100%;
     text-align: left;
+}
+
+.locationAddress {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0.5rem 0;
 }
 
 .rewardReqContainer {
