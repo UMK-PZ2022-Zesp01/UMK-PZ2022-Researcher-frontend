@@ -2,20 +2,108 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
 }
 
 .editorRow {
     width: 100%;
     display: flex;
     flex-direction: row;
+    gap: 0.5rem;
 }
 
 .editorColumn {
-    width: 50%;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
 }
 
 .editorTextArea {
     width: 50%;
+}
+
+.inputWithLabel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.inputWithLabel label {
+    text-align: left;
+    font-weight: bold;
+    color: #512c8c;
+}
+
+.inputWithLabel input {
+    width: 100%;
+    height: 42px;
+    padding: 10px;
+    background-color: #d6cef3;
+    outline: none;
+    border: 2px solid #c6b1e7;
+    border-radius: 5px;
+    font-family: sans-serif;
+    transition: 0.3s;
+}
+
+.inputWithLabel input:focus {
+    border: 2px solid #512c8c;
+    background-color: #d7c2f8;
+}
+
+.inputWithLabel textarea {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    background-color: #d6cef3;
+    outline: none;
+    border: 2px solid #c6b1e7;
+    border-radius: 5px;
+    font-family: sans-serif;
+    resize: none;
+    transition: 0.3s;
+}
+
+.inputWithLabel textarea:focus {
+    border: 2px solid #512c8c;
+    background-color: #d7c2f8;
+}
+
+.formButtonContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.formButton {
+    background-color: #512c8c;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid #512c8c;
+    transition: 0.3s;
+}
+
+.formButton:hover {
+    background-color: #6d3b9e;
+    border: 2px solid #6d3b9e;
+}
+
+.alertOverlay {
+    position: fixed;
+    width: 100%;
+    height: 3.5rem;
+    padding: 0 5vw;
+    top: 0;
+    left: 0;
+    z-index: 50;
 }

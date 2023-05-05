@@ -478,7 +478,7 @@ function CreateResearchForm() {
                             className={styles.formInputRegular}
                             onChange={handleParticipantLimitChange}
                             type="number"
-                            min="0"
+                            min="1"
                             placeholder="Wpisz liczbę..."
                             id="participant-limit"
                             name="participant-limit"
