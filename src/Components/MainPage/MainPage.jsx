@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
+import React, {useRef, useState} from 'react';
 import styles from './MainPage.module.css';
 import { useEffect } from 'react';
 import getApiUrl from '../../Common/Api';
-import { useUsername } from '../../hooks/useAuth';
+import useAuth, { useUsername } from '../../hooks/useAuth';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
 import banner from '../../img/logo-white.png';
@@ -25,7 +25,9 @@ function MainPage() {
     const triggerRef = useRef(null);
 
     /*first login popup*/
-    const [openPopup, setOpenPopup] = React.useState(true);
+    const [openFirstPopup, setOpenFirstPopup] = React.useState(false);
+    const [userData, setUserData] = useState({});
+    const { accessToken } = useAuth().auth;
 
     window.onscroll = () => {
         if (window.innerHeight + window.scrollY + 1 >= document.body.offsetHeight) {
@@ -33,33 +35,27 @@ function MainPage() {
         }
     };
 
-    // ****************************************************************
-
-    useEffect(() => {
-        const hasLoggedInBefore = localStorage.getItem("hasLoggedInBefore");
-        if (hasLoggedInBefore) {
-            console.log("User has logged in before!");
-        } else {
-            console.log("User has not logged in before.");
-        }
-    }, []);
-
-    // useEffect(() => {
-    //     const hasLoggedInBefore = localStorage.getItem("hasLoggedInBefore");
-    //     if (hasLoggedInBefore) {
-    //         setOpenPopup(false);
-    //     } else {
-    //         localStorage.setItem("hasLoggedInBefore", true);
-    //     }
-    // }, []);
-
-    // ****************************************************************
-
     useEffect(() => {
         let isMounted = true;
         setIsLoading(true);
         const controller = new AbortController();
         const signal = controller.signal;
+
+        fetch(getApiUrl() + 'user/current', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                Authorization: accessToken,
+                'Content-Type': 'application/json; charset:UTF-8',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                setOpenFirstPopup(!data.lastLoggedIn)
+            })
+            .catch(error => {
+                console.error(error);
+            });
 
         const getPosts = async () => {
             try {
@@ -111,7 +107,7 @@ function MainPage() {
 
     return (
         <div className={styles.PageOverlay}>
-            <FirstTimeForm open={openPopup} onClose={() => setOpenPopup(false)} />
+            <FirstTimeForm open={openFirstPopup} onClose={() => setOpenFirstPopup(false)} />
         <div className={styles.mainPage}>
             <Helmet>
                 <title>Strona główna | JustResearch</title>

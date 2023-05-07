@@ -173,10 +173,9 @@ export default function UserPage(props) {
 
                             <div className={styles.OtherRightContainer}>
                                 <div className={styles.OtherUsersResearches}>
-                                {showPosts()}>
+                                {showPosts()}
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
