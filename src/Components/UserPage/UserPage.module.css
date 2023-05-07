@@ -25,7 +25,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    user-select: none;
     flex-direction: column;
 
     flex-wrap: wrap;
@@ -41,7 +40,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    user-select: none;
+    /*user-select: none;*/
     flex-direction: row;
 
     flex-wrap: wrap;
@@ -63,7 +62,7 @@
     min-height: 500px;
     display: flex;
     flex-direction: row;
-    user-select: none;
+    /*user-select: none;*/
     transition: opacity 0.3s ease-in-out;
 }
 
@@ -336,7 +335,7 @@
     font-size: 16px;
 }
 
-.OtherUsersResearches{
+.OtherUsersResearches {
     display: grid;
     gap: 0.5rem 1.5rem;
     padding: 10px;
@@ -367,15 +366,16 @@
     .alertOverlay {
         padding: 0 20px;
     }
-    
-    .OtherRightContainer{
-        padding-top:30px;
-        padding-bottom:10px;
+
+    .OtherRightContainer {
+        padding-top: 30px;
+        padding-bottom: 10px;
 
         width: 100%;
     }
 
-    .mapBoxVisible, .mapBoxHide {
+    .mapBoxVisible,
+    .mapBoxHide {
         width: 80%;
         height: 955px;
         top: 7%;

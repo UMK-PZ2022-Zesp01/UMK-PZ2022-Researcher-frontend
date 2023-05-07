@@ -10,7 +10,7 @@ import getApiUrl from '../../Common/Api.js';
 import researcherLogo from '../../img/logo-white.png';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { HelmetProvider } from 'react-helmet-async';
-import {useParams} from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
 const USER_URL = getApiUrl() + 'user/';
 const RESEARCHES_URL = getApiUrl() + 'research/creator/';
@@ -20,7 +20,7 @@ export default function UserPage(props) {
     const [userData, setUserData] = useState({});
 
     /*get username*/
-    const {username} = useParams();
+    const { username } = useParams();
 
     /*user's posts*/
     const [posts, setPosts] = React.useState([]);
@@ -74,7 +74,7 @@ export default function UserPage(props) {
         const controller = new AbortController();
         const signal = controller.signal;
 
-        fetch(USER_URL+username, {
+        fetch(USER_URL + username, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -125,7 +125,7 @@ export default function UserPage(props) {
                 key={`ResearchTile${post.researchCode}`}
                 tileData={{ previewed: previewed, setPreviewed: setPreviewed, tileNumber: index }}
                 postData={post}
-            ></ResearchTile>
+            />
         ));
     };
 
@@ -134,8 +134,8 @@ export default function UserPage(props) {
         name: userData.firstName,
         lastName: userData.lastName,
         locationState: userData.location,
-        emailState:  userData.email,
-        phoneState:  userData.phone,
+        emailState: userData.email,
+        phoneState: userData.phone,
         gender: userData.gender,
     };
 
@@ -168,13 +168,10 @@ export default function UserPage(props) {
                             />
                         </header>
                         <div className={styles.wrapper}>
-
                             <LeftContainer values={sendToLeftContainer} />
 
                             <div className={styles.OtherRightContainer}>
-                                <div className={styles.OtherUsersResearches}>
-                                {showPosts()}
-                                </div>
+                                <div className={styles.OtherUsersResearches}>{showPosts()}</div>
                             </div>
                         </div>
                     </div>

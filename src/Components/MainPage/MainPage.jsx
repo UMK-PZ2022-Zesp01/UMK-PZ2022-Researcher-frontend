@@ -1,7 +1,7 @@
-import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import styles from './MainPage.module.css';
 import getApiUrl from '../../Common/Api';
-import useAuth, { useUsername } from '../../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
 import banner from '../../img/logo-white.png';
@@ -9,8 +9,7 @@ import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { LoadingDots } from '../LoadingDots/LoadingDots';
 import { Filters } from './Filters/Filters';
-import useAuth from '../../hooks/useAuth';
-import {FirstTimeForm} from "../Form/FirstTimeForm/FirstTimeForm";
+import { FirstTimeForm } from '../Form/FirstTimeForm/FirstTimeForm';
 
 const RESEARCHES_URL = getApiUrl() + 'research';
 
@@ -140,9 +139,9 @@ function MainPage() {
             ],
         },
     ];
-    
+
     /*first login popup*/
-    const [openFirstPopup, setOpenFirstPopup] = React.useState(false);
+    const [openFirstPopup, setOpenFirstPopup] = useState(false);
     const [userData, setUserData] = useState({});
 
     window.onscroll = () => {
@@ -168,7 +167,7 @@ function MainPage() {
         })
             .then(response => response.json())
             .then(data => {
-                setOpenFirstPopup(!data.lastLoggedIn)
+                setOpenFirstPopup(!data.lastLoggedIn);
             })
             .catch(error => {
                 console.error(error);
@@ -178,7 +177,7 @@ function MainPage() {
             isMounted = false;
             controller.abort();
         };
-    }, [])
+    }, []);
 
     useLayoutEffect(() => {
         let isMounted = true;
@@ -248,45 +247,48 @@ function MainPage() {
     return (
         <div className={styles.PageOverlay}>
             <FirstTimeForm open={openFirstPopup} onClose={() => setOpenFirstPopup(false)} />
-        <div className={styles.mainPage}>
-            <Helmet>
-                <title>Strona główna | JustResearch</title>
-            </Helmet>
-            <div className={styles.bookmarksContainer}>
-                <Link to="/" className={styles.logo}>
-                    <img className={styles.logoImg} src={banner} alt="just-research-logo" />
-                </Link>
-                <BookmarksNav active="home" desc="Strona główna" />
-            </div>
-            <main ref={triggerRef} className={styles.mainPagePanel}>
-                <div className={styles.optionsBox}>
-                    <label htmlFor={'sortSelect'} className={styles.sortLabel}>
-                        Sortuj według:
-                    </label>
-                    <div className={styles.options}>
-                        <div className={styles.selectContainer}>
-                            <select
-                                id={'sortSelect'}
-                                onChange={handleSorterChanged}
-                                className={styles.sortSelect}
-                            >
-                                <option value={'newest'} disabled hidden>
-                                    Sortowanie:
-                                </option>
-                                <option value={'newest'}>daty dodania</option>
-                                <option value={'ending'}>daty zakończenia</option>
-                                <option value={'starting'}>daty rozpoczęcia</option>
-                            </select>
-                        </div>
-
-                        <Filters filters={filters} saveFilters={handleSaveFiltersClicked}></Filters>
-                    </div>
+            <div className={styles.mainPage}>
+                <Helmet>
+                    <title>Strona główna | JustResearch</title>
+                </Helmet>
+                <div className={styles.bookmarksContainer}>
+                    <Link to="/" className={styles.logo}>
+                        <img className={styles.logoImg} src={banner} alt="just-research-logo" />
+                    </Link>
+                    <BookmarksNav active="home" desc="Strona główna" />
                 </div>
+                <main ref={triggerRef} className={styles.mainPagePanel}>
+                    <div className={styles.optionsBox}>
+                        <label htmlFor={'sortSelect'} className={styles.sortLabel}>
+                            Sortuj według:
+                        </label>
+                        <div className={styles.options}>
+                            <div className={styles.selectContainer}>
+                                <select
+                                    id={'sortSelect'}
+                                    onChange={handleSorterChanged}
+                                    className={styles.sortSelect}
+                                >
+                                    <option value={'newest'} disabled hidden>
+                                        Sortowanie:
+                                    </option>
+                                    <option value={'newest'}>daty dodania</option>
+                                    <option value={'ending'}>daty zakończenia</option>
+                                    <option value={'starting'}>daty rozpoczęcia</option>
+                                </select>
+                            </div>
 
-                <ul className={styles.tileGrid}>{displayPosts()}</ul>
-                {isLoading && <LoadingDots></LoadingDots>}
-            </main>
-        </div>
+                            <Filters
+                                filters={filters}
+                                saveFilters={handleSaveFiltersClicked}
+                            ></Filters>
+                        </div>
+                    </div>
+
+                    <ul className={styles.tileGrid}>{displayPosts()}</ul>
+                    {isLoading && <LoadingDots></LoadingDots>}
+                </main>
+            </div>
         </div>
     );
 }
