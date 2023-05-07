@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import styles from './MainPage.module.css';
 import getApiUrl from '../../Common/Api';
 import ResearchTile from '../ResearchTile/ResearchTile';
@@ -7,22 +7,140 @@ import banner from '../../img/logo-white.png';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { LoadingDots } from '../LoadingDots/LoadingDots';
+import { Filters } from './Filters/Filters';
+import useAuth from '../../hooks/useAuth';
 
-const RESEARCHES_URL = getApiUrl() + 'research/';
+const RESEARCHES_URL = getApiUrl() + 'research';
 
 function MainPage() {
-    const [posts, setPosts] = React.useState([]);
-    const [previewed, setPreviewed] = React.useState(-1);
+    const { accessToken } = useAuth()?.auth;
 
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [page, setPage] = React.useState(1);
-    const [lastPage, setLastPage] = React.useState(false);
-    const urlPageSection = `page/${page}/9`;
+    const [posts, setPosts] = useState([]);
+    const [previewed, setPreviewed] = useState(-1);
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [lastPage, setLastPage] = useState(false);
 
     const triggerRef = useRef(null);
 
+    const [forMeOnly, setForMeOnly] = useState({ name: 'forMeOnly', value: false });
+    const [available, setAvailable] = useState({ name: 'available', value: false });
+    const [inPlace, setInPlace] = useState({ name: 'in-place', value: false });
+    const [remote, setRemote] = useState({ name: 'remote', value: false });
+    const [fromDate, setFromDate] = useState({ name: 'minDate', value: null });
+    const [toDate, setToDate] = useState({ name: 'maxDate', value: null });
+
+    const [filterBy, setFilterBy] = useState({});
+    const [sortBy, setSortBy] = useState('newest');
+    const [page, setPage] = useState(1);
+
+    const urlSortBySection = `sortBy=${sortBy}`;
+
+    const urlFiltersSection = Object.keys(filterBy)
+        .filter(key => filterBy[key])
+        .map(key => `${key}=${filterBy[key]}`)
+
+        .reduce((param1, param2) => `${param1}${param2}&`, '?');
+
+    const urlPageSection = `&page=${page}&perPage=9`;
+
+    const url = RESEARCHES_URL + urlFiltersSection + urlSortBySection + urlPageSection;
+
+    const getFormString = () => {
+        const temp = [inPlace, remote]
+            .filter(item => item.value)
+            .map(f => f.name)
+            .reduce((f1, f2) => `${f1}${f2},`, '');
+        if (temp?.length === 0) return null;
+        return temp.substring(0, temp.length - 1);
+    };
+
+    const handleSaveFiltersClicked = () => {
+        setPreviewed(-1);
+        setPosts([]);
+        setPage(1);
+        setLastPage(false);
+        setFilterBy({
+            forMeOnly: forMeOnly.value,
+            availableOnly: available.value,
+            form: getFormString(),
+            minDate: fromDate.value,
+            maxDate: toDate.value,
+        });
+    };
+
+    const handleSorterChanged = event => {
+        setPreviewed(-1);
+        setPosts([]);
+        setPage(1);
+        setLastPage(false);
+        setSortBy(event.target.value);
+    };
+    const handleFromDateSet = event => {
+        setFromDate({ ...fromDate, value: event.target.value });
+    };
+
+    const handleToDateSet = event => {
+        setToDate({ ...toDate, value: event.target.value });
+    };
+
+    const filters = [
+        {
+            options: [
+                accessToken
+                    ? {
+                          name: 'Pokazuj tylko badania do których się wstępnie kwalifikuję',
+                          type: 'checkbox',
+                          value: forMeOnly,
+                          setter: () => setForMeOnly({ ...forMeOnly, value: !forMeOnly.value }),
+                      }
+                    : null,
+                {
+                    name: 'Pokazuj tylko badania z wolnymi miejscami',
+                    type: 'checkbox',
+                    value: available,
+                    setter: () => setAvailable({ ...available, value: !available.value }),
+                },
+            ],
+        },
+        {
+            category: 'Forma badania',
+            options: [
+                {
+                    name: 'Na miejscu',
+                    type: 'checkbox',
+                    value: 'in-place',
+                    setter: () => setInPlace({ ...inPlace, value: !inPlace.value }),
+                },
+                {
+                    name: 'Zdalnie',
+                    type: 'checkbox',
+                    value: remote,
+                    setter: () => setRemote({ ...remote, value: !remote.value }),
+                },
+            ],
+        },
+        {
+            category: 'Data udziału',
+            options: [
+                {
+                    name: 'Od',
+                    type: 'date',
+                    value: { fromDate },
+                    setter: handleFromDateSet,
+                },
+                {
+                    name: 'Do',
+                    type: 'date',
+                    value: { toDate },
+                    setter: handleToDateSet,
+                },
+            ],
+        },
+    ];
+
     window.onscroll = () => {
-        if (window.innerHeight + window.scrollY + 1 >= triggerRef.current.offsetHeight) {
+        if (window.innerHeight + window.scrollY + 1 >= triggerRef?.current?.offsetHeight) {
             if (!lastPage && !isLoading) {
                 setPage(page + 1);
             }
@@ -31,6 +149,7 @@ function MainPage() {
 
     useLayoutEffect(() => {
         let isMounted = true;
+        let tryAgain = true;
         setIsLoading(true);
         const controller = new AbortController();
         const signal = controller.signal;
@@ -42,10 +161,13 @@ function MainPage() {
         const getPosts = async () => {
             try {
                 setLastPage(true);
-                const response = await fetch(RESEARCHES_URL + urlPageSection, {
+
+                const response = await fetch(url, {
                     signal,
                     method: 'GET',
+                    credentials: 'include',
                     headers: {
+                        Authorization: accessToken,
                         'Content-Type': 'application/json;charset:UTF-8',
                     },
                 });
@@ -54,8 +176,15 @@ function MainPage() {
 
                 setIsLoading(false);
                 json.length === 9 && setLastPage(false);
-                isMounted && setPosts([...posts, ...json].filter(filterUnique));
+                isMounted &&
+                    Array.isArray(json) &&
+                    setPosts(prevPosts => [...prevPosts, ...json].filter(filterUnique));
             } catch (error) {
+                if (tryAgain) {
+                    getPosts();
+                    tryAgain = false;
+                }
+
                 console.error(error);
             }
         };
@@ -68,7 +197,7 @@ function MainPage() {
             isMounted = false;
             controller.abort();
         };
-    }, [page]);
+    }, [url]);
 
     // const cutText = (text, toLength) =>
     //     [...text].length > toLength ? text.substring(0, toLength) : text;
@@ -95,6 +224,30 @@ function MainPage() {
                 <BookmarksNav active="home" desc="Strona główna" />
             </div>
             <main ref={triggerRef} className={styles.mainPagePanel}>
+                <div className={styles.optionsBox}>
+                    <label htmlFor={'sortSelect'} className={styles.sortLabel}>
+                        Sortuj według:
+                    </label>
+                    <div className={styles.options}>
+                        <div className={styles.selectContainer}>
+                            <select
+                                id={'sortSelect'}
+                                onChange={handleSorterChanged}
+                                className={styles.sortSelect}
+                            >
+                                <option value={'newest'} disabled hidden>
+                                    Sortowanie:
+                                </option>
+                                <option value={'newest'}>daty dodania</option>
+                                <option value={'ending'}>daty zakończenia</option>
+                                <option value={'starting'}>daty rozpoczęcia</option>
+                            </select>
+                        </div>
+
+                        <Filters filters={filters} saveFilters={handleSaveFiltersClicked}></Filters>
+                    </div>
+                </div>
+
                 <ul className={styles.tileGrid}>{displayPosts()}</ul>
                 {isLoading && <LoadingDots></LoadingDots>}
             </main>

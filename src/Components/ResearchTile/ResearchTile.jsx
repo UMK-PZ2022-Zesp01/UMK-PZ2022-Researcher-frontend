@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ResearchTile.module.css';
 import { ResearchTileRequirement } from './ResearchTileRequirement/ResearchTileRequirement';
 import { useTranslate } from '../../hooks/useTranslate';
-import { useCapitalize } from '../../hooks/useCapitalize';
 import { ResearchTileReward } from './ResearchTileReward/ResearchTileReward';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function ResearchTile({ tileData, postData }) {
     const { tileNumber, previewed, setPreviewed } = tileData;
@@ -12,25 +11,33 @@ export default function ResearchTile({ tileData, postData }) {
         researchCode,
         poster,
         title,
-        creatorLogin,
+        creatorFullName,
         description,
         location,
         begDate,
         endDate,
-        highlight,
-        requirements,
-        rewards,
+        // highlight,
+        // requirements,
+        // rewards,
     } = postData;
+
+    const [geoDecoded, setGeoDecoded] = useState('');
 
     const isPreviewed = previewed === tileNumber;
 
     const translate = useTranslate();
-    const capitalize = useCapitalize();
 
     const navigate = useNavigate();
     const webLocation = useLocation();
 
     const handleTileClicked = () => {
+        if (window.innerWidth < 600) {
+            navigate(`/research/${researchCode}`, {
+                from: webLocation,
+                replace: false,
+            });
+        }
+
         if (isPreviewed) {
             setPreviewed(null);
             return;
@@ -47,6 +54,29 @@ export default function ResearchTile({ tileData, postData }) {
             ></ResearchTileReward>
         ));
     };
+
+    const displayAddress = () => {
+        if (location.form === 'in-place') {
+            return (
+                <li>
+                    <span className={styles.type}>Adres: </span>
+                    <span>{geoDecoded}</span>
+                </li>
+            );
+        }
+        return [];
+    };
+
+    const displayDate = () => {
+        const current = new Date().toISOString().split('T')[0];
+
+        if (begDate > current) {
+            return `otwarte od: ${begDate}`;
+        }
+        return `otwarte do: ${endDate}`;
+    };
+
+    displayDate();
 
     const renderRequirements = () => {
         return postData?.requirements.map((req, index) => (
@@ -70,12 +100,37 @@ export default function ResearchTile({ tileData, postData }) {
     //     ));
     // };
 
+    useEffect(() => {
+        const geoDecode = async () => {
+            const latlng = location?.place.replace(' ', ',');
+            try {
+                const response = await fetch(
+                    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&language=pl&key=${process.env.REACT_APP_API_GOOGLE}`
+                );
+
+                const json = await response.json();
+                const address = json.results[0].formatted_address;
+                setGeoDecoded(address);
+            } catch (e) {
+                setGeoDecoded('Nie udało się pobrać adresu');
+            }
+        };
+
+        if (location.form === 'in-place') {
+            geoDecode();
+        } else {
+            setGeoDecoded(null);
+        }
+    }, [location]);
+
     return (
         <>
             {/*SMALL TILE*/}
             <li
                 key={`SmallTile${researchCode}`}
-                className={`${isPreviewed ? styles.previewed : ''} ${styles.researchTile} `}
+                className={`${isPreviewed ? styles.previewed : ''} ${styles.researchTile} ${
+                    styles.withShadow
+                } `}
                 onClick={handleTileClicked}
             >
                 <img
@@ -86,8 +141,8 @@ export default function ResearchTile({ tileData, postData }) {
                 />
                 <div className={styles.tileOverlay}>
                     <p className={styles.tileOverlayTitle}>{title}</p>
-                    <p className={styles.tileOverlayAuthor}>{creatorLogin}</p>
-                    <p className={styles.tileOverlayDate}>otwarte do: {endDate}</p>
+                    <p className={styles.tileOverlayAuthor}>{creatorFullName}</p>
+                    <p className={styles.tileOverlayDate}>{displayDate()}</p>
                 </div>
             </li>
 
@@ -99,15 +154,14 @@ export default function ResearchTile({ tileData, postData }) {
                 <div className={styles.previewHeader1}>
                     <header className={`${styles.headerHalf} ${styles.headerLeft}`}>{title}</header>
                     <div className={`${styles.headerHalf} ${styles.headerRight}`}>
-                        Otwarte do:
-                        <br /> {endDate}
+                        {displayDate()}
                     </div>
                 </div>
                 <div className={styles.previewHeader2}>
                     <div className={`${styles.headerHalf} ${styles.headerLeft}`}>
-                        {creatorLogin}
+                        {creatorFullName}
                     </div>
-                    <div className={`${styles.headerHalf} ${styles.headerRight}`}>{highlight}</div>
+                    {/*<div className={`${styles.headerHalf} ${styles.headerRight}`}>{highlight}</div>*/}
                 </div>
                 <div className={styles.previewBody}>
                     <div className={`${styles.bodyPart} ${styles.bodyLeft}`}>
@@ -118,10 +172,7 @@ export default function ResearchTile({ tileData, postData }) {
                                     <span className={styles.type}>Forma: </span>
                                     <span>{translate(location.form)}</span>
                                 </li>
-                                <li>
-                                    <span className={styles.type}>Adres: </span>
-                                    <span>{location?.place}</span>
-                                </li>
+                                {displayAddress()}
                             </ul>
                         </div>
                         <div className={styles.infoBox}>
@@ -169,7 +220,7 @@ ResearchTile.defaultProps = {
         poster: '',
         title: '',
         description: '',
-        author: '',
+        creatorFullName: '',
 
         begDate: '',
         endDate: '',
