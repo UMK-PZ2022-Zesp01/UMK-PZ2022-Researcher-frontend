@@ -1,8 +1,30 @@
 import { GrClose } from 'react-icons/gr';
 import styles from './FirstTimeForm.module.css';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import getApiUrl from "../../../Common/Api";
+import React, { useEffect } from 'react';
+import useAuth, {useUsername} from '../../../hooks/useAuth';
+const EDIT_URL = `${getApiUrl()}user/current/update`;
+
 
 const FirstTimeForm = ({ open, onClose }) => {
+
+    const { username, accessToken } = useAuth().auth;
+    const loginUpdate = async() => {
+        try{
+            await fetch(EDIT_URL, {
+                method: 'PUT',
+                headers: {
+                    Authorization: accessToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({lastLoggedIn:true}),
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     if (!open) return null;
     return (
         <div className={styles.overlay} onClick={onClose}>
@@ -10,13 +32,13 @@ const FirstTimeForm = ({ open, onClose }) => {
                 className={styles.popupContainer}
                 onClick={e => {
                     e.stopPropagation();
-                    localStorage.setItem("hasLoggedInBefore", true);
+                    loginUpdate();
                 }}
             >
                 <GrClose
                     onClick={() => {
                         onClose();
-                        localStorage.setItem("hasLoggedInBefore", true);
+                        loginUpdate();
                         window.document.body.style.overflowY = `visible`;
                     }}
                     className={styles.closeBtn}
