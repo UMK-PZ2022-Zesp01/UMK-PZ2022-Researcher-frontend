@@ -16,7 +16,7 @@ import { faFileCirclePlus, faArrowTurnDown } from '@fortawesome/free-solid-svg-i
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { HelmetProvider } from 'react-helmet-async';
-import {Forum} from "../Forum/Forum";
+import { Forum } from '../Forum/Forum';
 
 const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 
@@ -214,13 +214,9 @@ export default function UserPage(props) {
         <div className={styles.PageOverlay}>
             <ReportForm open={openPopup} onClose={() => setOpenPopup(false)} />
             <div className={styles.MainContainer}>
-                <HelmetProvider>
-                    <Helmet>
-                        <title>
-                            {userData.firstName + ' ' + userData.lastName + ' | JustResearch'}
-                        </title>
-                    </Helmet>
-                </HelmetProvider>
+                <Helmet>
+                    <title>Profil | Researcher</title>
+                </Helmet>
                 <div className={styles.alertOverlay}>
                     <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
                 </div>
@@ -235,44 +231,61 @@ export default function UserPage(props) {
                             setIsClickedLocation={setIsClickedLocation}
                             setGmapExit={setGmapExit}
                             setResearchPlace={() => {}}
+                            setResearchPageAddress={() => {}}
                         />
                     </div>
-                    <div className={styles.Container}>
-                        <header className={styles.bookmarksContainer}>
-                            <Link to="/" className={styles.logo}>
-                                <img
-                                    className={styles.logoImg}
-                                    src={researcherLogo}
-                                    alt="Researcher Logo"
-                                />
-                            </Link>
-                            <BookmarksNav
-                                active="profile"
-                                desc={'Profil: ' + userData.firstName + ' ' + userData.lastName}
+                    <div className={styles.UserBox}>
+                        <div
+                            className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}
+                        >
+                            <Gmap
+                                latitude={53.015331}
+                                longitude={18.6057}
+                                type={'user-page'}
+                                exit={exit}
+                                setLocationInput={setLocationInput}
+                                setIsClickedLocation={setIsClickedLocation}
+                                setGmapExit={setGmapExit}
+                                setResearchPlace={() => {}}
                             />
-                        </header>
-                        <div className={styles.wrapper}>
-                            <div
-                                className={
-                                    clickedResearches
-                                        ? styles.userResearches
-                                        : styles.userResearchesHide
-                                }
-                            >
-                                <button
-                                    className={styles.exitResBtn}
-                                    onClick={() => setIsClickedResearches(false)}
-                                >
-                                    <FontAwesomeIcon
-                                        className={styles.arrowIcon}
-                                        icon={faArrowTurnDown}
+                        </div>
+                        <div className={styles.Container}>
+                            <header className={styles.bookmarksContainer}>
+                                <Link to="/" className={styles.logo}>
+                                    <img
+                                        className={styles.logoImg}
+                                        src={researcherLogo}
+                                        alt="Researcher Logo"
                                     />
-                                </button>
-                                <div className={styles.userResearchCard}>{showPosts()}</div>
-                            </div>
+                                </Link>
+                                <BookmarksNav
+                                    active="profile"
+                                    desc={'Profil: ' + userData.firstName + ' ' + userData.lastName}
+                                />
+                            </header>
+                            <div className={styles.wrapper}>
+                                <div
+                                    className={
+                                        clickedResearches
+                                            ? styles.userResearches
+                                            : styles.userResearchesHide
+                                    }
+                                >
+                                    <button
+                                        className={styles.exitResBtn}
+                                        onClick={() => setIsClickedResearches(false)}
+                                    >
+                                        <FontAwesomeIcon
+                                            className={styles.arrowIcon}
+                                            icon={faArrowTurnDown}
+                                        />
+                                    </button>
+                                    <div className={styles.userResearchCard}>{showPosts()}</div>
+                                </div>
 
-                            <LeftContainer values={sendToLeftContainer} />
-                            <RightContainer values={sendToRightContainer} />
+                                <LeftContainer values={sendToLeftContainer} />
+                                <RightContainer values={sendToRightContainer} />
+                            </div>
                         </div>
                     </div>
                 </div>

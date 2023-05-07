@@ -36,6 +36,38 @@ function CreateResearchFormRequirement({ sendList }) {
     const [requirementSectionReload, setRequirementSectionReload] = useState(false);
     const [requirementKeyArray, setRequirementKeyArray] = useState([]);
 
+    const requirementList = [
+        isGenderCheckboxChecked && {
+            type: 'gender',
+            criteria: genderList,
+        },
+
+        isAgeCheckboxChecked && {
+            type: 'age',
+            criteria: ageList,
+        },
+
+        isPlaceCheckboxChecked && {
+            type: 'place',
+            criteria: placeList,
+        },
+
+        isEducationCheckboxChecked && {
+            type: 'education',
+            criteria: educationList,
+        },
+
+        isMaritalCheckboxChecked && {
+            type: 'marital',
+            criteria: maritalList,
+        },
+
+        isOtherCheckboxChecked && {
+            type: 'other',
+            criteria: otherRequirementList,
+        },
+    ];
+
     /** Generating New Keys for Other Requirement Inputs **/
     useEffect(() => {
         let newAgeKeyArray = ageList.reduce(array => [...array, generateKey()], []);
@@ -117,11 +149,20 @@ function CreateResearchFormRequirement({ sendList }) {
 
     useEffect(() => {
         sendList(requirementList.filter(value => value !== false));
-    }, [genderList, ageList, placeList, educationList, maritalList, otherRequirementList]);
-
-    useEffect(() => {
-        // TODO: Check Age Intervals
-    }, [ageList]);
+    }, [
+        genderList,
+        ageList,
+        placeList,
+        educationList,
+        maritalList,
+        otherRequirementList,
+        isGenderCheckboxChecked,
+        isAgeCheckboxChecked,
+        isPlaceCheckboxChecked,
+        isEducationCheckboxChecked,
+        isMaritalOtherCheckboxChecked,
+        isOtherCheckboxChecked,
+    ]);
 
     const renderAgeIntervalComponents = () => {
         return ageList.length > 0 ? (
@@ -249,38 +290,6 @@ function CreateResearchFormRequirement({ sendList }) {
         setRequirementSectionReload(!requirementSectionReload);
     };
 
-    const requirementList = [
-        isGenderCheckboxChecked && {
-            type: 'gender',
-            criteria: genderList,
-        },
-
-        isAgeCheckboxChecked && {
-            type: 'age',
-            criteria: ageList,
-        },
-
-        isPlaceCheckboxChecked && {
-            type: 'place',
-            criteria: placeList,
-        },
-
-        isEducationCheckboxChecked && {
-            type: 'education',
-            criteria: educationList,
-        },
-
-        isMaritalCheckboxChecked && {
-            type: 'marital',
-            criteria: maritalList,
-        },
-
-        isOtherCheckboxChecked && {
-            type: 'other',
-            criteria: otherRequirementList,
-        },
-    ];
-
     /*** Functions for Handling Text Inputs ***/
 
     const handlePlaceOtherDescChange = event => {
@@ -298,39 +307,39 @@ function CreateResearchFormRequirement({ sendList }) {
     /*** Functions for Handling Checkboxes Clicks ***/
 
     const handleGenderCheckboxClick = () => {
-        setIsGenderCheckboxChecked(!isGenderCheckboxChecked);
+        setIsGenderCheckboxChecked(prevState => !prevState);
     };
 
     const handleAgeCheckboxClick = () => {
-        setIsAgeCheckboxChecked(!isAgeCheckboxChecked);
+        setIsAgeCheckboxChecked(prevState => !prevState);
     };
 
     const handlePlaceCheckboxClick = () => {
-        setIsPlaceCheckboxChecked(!isPlaceCheckboxChecked);
+        setIsPlaceCheckboxChecked(prevState => !prevState);
     };
 
     const handleEducationCheckboxClick = () => {
-        setIsEducationCheckboxChecked(!isEducationCheckboxChecked);
+        setIsEducationCheckboxChecked(prevState => !prevState);
     };
 
     const handleMaritalCheckboxClick = () => {
-        setIsMaritalCheckboxChecked(!isMaritalCheckboxChecked);
+        setIsMaritalCheckboxChecked(prevState => !prevState);
     };
 
     const handleOtherCheckboxClick = () => {
-        setIsOtherCheckboxChecked(!isOtherCheckboxChecked);
+        setIsOtherCheckboxChecked(prevState => !prevState);
     };
 
     const handlePlaceOtherCheckboxClick = () => {
-        setIsPlaceOtherCheckboxChecked(!isPlaceOtherCheckboxChecked);
+        setIsPlaceOtherCheckboxChecked(prevState => !prevState);
     };
 
     const handleEducationOtherCheckboxClick = () => {
-        setIsEducationOtherCheckboxChecked(!isEducationOtherCheckboxChecked);
+        setIsEducationOtherCheckboxChecked(prevState => !prevState);
     };
 
     const handleMaritalOtherCheckboxClick = () => {
-        setIsMaritalOtherCheckboxChecked(!isMaritalOtherCheckboxChecked);
+        setIsMaritalOtherCheckboxChecked(prevState => !prevState);
     };
 
     return (

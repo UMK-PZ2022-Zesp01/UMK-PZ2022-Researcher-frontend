@@ -1,5 +1,5 @@
 .container {
-    max-width: 1000px;
+    width: 1000px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -38,6 +38,51 @@
     align-items: flex-start;
     border-radius: 10px;
     background-color: #f4f0fa;
+}
+
+.researchEditor {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    margin-bottom: 1rem;
+}
+
+.editorButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.editorBtn {
+    background-color: #512c8c;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid #512c8c;
+    transition: 0.3s;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.editorBtn:hover {
+    background-color: #6d3b9e;
+    border: 2px solid #6d3b9e;
+}
+
+.deleteResearchConfirm {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    margin-left: 1rem;
 }
 
 .title {
@@ -108,7 +153,7 @@
     font-weight: bold;
     text-transform: uppercase;
     outline: none;
-    border: 2px solid #debdef;
+    border: 2px solid #512c8c;
     cursor: pointer;
     transition: 0.3s;
     -webkit-box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.5);
@@ -242,8 +287,7 @@
 
 .participantsProgressBar::-webkit-progress-value {
     background-color: #512c8c;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-radius: 5px;
 }
 
 .participantsHeader {
@@ -270,6 +314,12 @@
 .description {
     width: 100%;
     text-align: left;
+}
+
+.locationAddress {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0.5rem 0;
 }
 
 .rewardReqContainer {
@@ -426,9 +476,88 @@
     z-index: 50;
 }
 
+.researchNotFoundContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+    gap: 5rem;
+}
+
+.researchNotFoundInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    color: #512c8c;
+}
+
+.researchNotFoundIcon {
+    font-size: 5em;
+}
+
+.researchNotFoundDesc {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.desc1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.navigationContainer {
+    width: 40%;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.navigationButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.3rem;
+    background-color: #512c8c;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid #512c8c;
+    transition: 0.3s;
+}
+
+.navigationButton:hover {
+    background-color: #6d3b9e;
+    border: 2px solid #6d3b9e;
+}
+
+.buttonDesc {
+    width: 100%;
+}
+
+.mapContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
 @media (max-width: 1000px) {
     .container {
         margin: 25px 10px;
+        width: unset;
     }
 
     .researchPagePanel {
@@ -441,6 +570,22 @@
 
     .bookmarksContainer {
         justify-content: center;
+    }
+
+    .researchNotFoundInfo {
+        flex-direction: column;
+    }
+
+    .researchNotFoundDesc {
+        align-items: center;
+    }
+
+    .navigationContainer {
+        width: 100%;
+    }
+
+    .desc1 {
+        font-size: 1.5rem;
     }
 }
 

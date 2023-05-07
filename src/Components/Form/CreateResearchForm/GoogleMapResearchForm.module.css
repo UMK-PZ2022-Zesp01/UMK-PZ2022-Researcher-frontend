@@ -43,8 +43,8 @@
     border-radius: 10px;
     background-color: #ffffff;
     box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
-    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
-    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+        rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+        rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
     transition: 0.6s ease-in-out;
 }
 
@@ -89,6 +89,13 @@
 
 .exitBtn {
     display: none;
+}
+
+.researchMap {
+    width: 80%;
+    height: 300px;
+    border: 2px solid #512c8c;
+    border-radius: 5px;
 }
 
 @media (max-width: 700px) {

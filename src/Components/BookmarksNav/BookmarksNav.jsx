@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './BookmarksNav.module.css';
 import researcherLogo from '../../img/logo-white.png';
-import userAvatar from '../../img/user.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    faFileCirclePlus,
+    faFileInvoice,
     faHouse,
     faRightFromBracket,
     faUser,
@@ -106,7 +105,7 @@ function BookmarksNav({ active, desc }) {
                 }
                 key="2"
             >
-                <FontAwesomeIcon className={styles.bookmarkIcon} icon={faFileCirclePlus} />
+                <FontAwesomeIcon className={styles.bookmarkIcon} icon={faFileInvoice} />
                 {activeBookmarkIndex !== 2 && (
                     <span className={styles.iconDesc}>Dodaj badanie</span>
                 )}
@@ -287,6 +286,15 @@ function BookmarksNav({ active, desc }) {
                         {/*        </span>*/}
                         {/*    </Link>*/}
                         {/*)}*/}
+
+                        {isSomeoneLoggedIn && (
+                            <Link to="/research/create" className={styles.bookmarkButtonMobile}>
+                                <FontAwesomeIcon icon={faFileInvoice} />
+                                <span className={styles.bookmarkButtonMobileText}>
+                                    Dodaj ogłoszenie o badaniu
+                                </span>
+                            </Link>
+                        )}
 
                         <Link to="/" className={styles.bookmarkButtonMobile}>
                             <FontAwesomeIcon icon={faBug} />

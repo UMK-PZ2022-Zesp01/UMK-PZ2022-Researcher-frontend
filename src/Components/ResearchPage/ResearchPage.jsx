@@ -10,12 +10,21 @@ import {
     faPhone,
     faCircleCheck,
     faCircleXmark,
-    faXmark,
+    faFileCircleExclamation,
+    faHouse,
+    faUser,
+    faFileCirclePlus,
+    faPencil,
+    faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useAuth from '../../hooks/useAuth';
 import { Alert } from '../Alert/Alert';
 import { Popup } from '../Popup/Popup';
+import { Forum } from '../Forum/Forum';
+import { LoadingDots } from '../LoadingDots/LoadingDots';
+import { Gmap } from '../GoogleMap/GoogleMap';
+import { ResearchEditor } from './ResearchEditor/ResearchEditor';
 
 function ResearchPage() {
     const { researchCode } = useParams();
@@ -24,24 +33,58 @@ function ResearchPage() {
     const { username, accessToken } = useAuth().auth;
 
     const GET_RESEARCH_URL = getApiUrl() + `research/code/${researchCode}`;
+    const DELETE_RESEARCH_URL = getApiUrl() + `research/${researchCode}/delete`;
+    const ENROLL_CHECK_URL = getApiUrl() + `research/${researchCode}/enrollCheck`;
     const GET_CREATOR_URL = getApiUrl() + 'user/';
     const ENROLL_URL = getApiUrl() + `research/${researchCode}/enroll`;
+    const RESIGN_URL = getApiUrl() + `research/${researchCode}/resign`;
 
     const [title, setTitle] = useState('');
     const [research, setResearch] = useState();
     const [creator, setCreator] = useState();
     const [loggedUser, setLoggedUser] = useState({});
-    const [location, setLocation] = useState();
+    const [location, setLocation] = useState([]);
+    const [locationAddress, setLocationAddress] = useState('');
     const [rewards, setRewards] = useState([]);
     const [requirements, setRequirements] = useState([]);
 
     const [isPosterOnFullScreen, setIsPosterOnFullScreen] = useState(false);
     const [researchGetSuccess, setResearchGetSuccess] = useState(null);
     const [isSomeoneLoggedIn, setIsSomeoneLoggedIn] = useState(false);
+    const [isLoggedUserOnParticipantList, setIsLoggedUserOnParticipantList] = useState(false);
+    const [isEditorVisible, setIsEditorVisible] = useState(false);
+    const [isDeleteResearchConfirmVisible, setIsDeleteResearchConfirmVisible] = useState(false);
+    const [isEnrollButtonBlocked, setIsEnrollButtonBlocked] = useState(false);
 
     /** Get Research From Database **/
 
     useEffect(() => {
+        const checkIfLoggedUserIsDownForResearch = async () => {
+            try {
+                const response = await fetch(ENROLL_CHECK_URL, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        Authorization: accessToken,
+                        'Content-Type': 'application/json; charset:UTF-8',
+                    },
+                });
+
+                switch (response.status) {
+                    case 200:
+                        setIsLoggedUserOnParticipantList(true);
+                        break;
+                    case 204:
+                        setIsLoggedUserOnParticipantList(false);
+                        break;
+                    default:
+                        setIsLoggedUserOnParticipantList(false);
+                }
+            } catch (e) {
+                setResearchGetSuccess(false);
+            }
+        };
+
         const getResearch = async () => {
             const researchResponse = await fetch(GET_RESEARCH_URL, {
                 method: 'GET',
@@ -70,21 +113,19 @@ function ResearchPage() {
                         case 200:
                             setCreator(await creatorResponse.json());
                             setResearchGetSuccess(true);
+                            checkIfLoggedUserIsDownForResearch().then(null);
                             break;
                         default:
                             setResearchGetSuccess(false);
-                            console.log('333');
                             break;
                     }
 
                     break;
                 case 204:
                     setResearchGetSuccess(false);
-                    console.log('222');
                     break;
                 default:
                     setResearchGetSuccess(false);
-                    console.log('1111');
                     break;
             }
         };
@@ -132,6 +173,7 @@ function ResearchPage() {
     const showAlert = () => {
         switch (alert.alertType) {
             case 200:
+            case 204:
                 return (
                     <Alert onClose={closeAlert} type="success">
                         {alert.alertText}
@@ -391,6 +433,7 @@ function ResearchPage() {
 
             switch (response.status) {
                 case 200:
+                    setIsEnrollButtonBlocked(true);
                     setAlert({
                         alertOpen: true,
                         alertType: response.status,
@@ -398,6 +441,7 @@ function ResearchPage() {
                     });
                     break;
                 case 298:
+                    setIsEnrollButtonBlocked(true);
                     setAlert({
                         alertOpen: true,
                         alertType: 298,
@@ -405,6 +449,7 @@ function ResearchPage() {
                     });
                     break;
                 case 299:
+                    setIsEnrollButtonBlocked(true);
                     setAlert({
                         alertOpen: true,
                         alertType: 299,
@@ -413,6 +458,7 @@ function ResearchPage() {
                     });
                     break;
                 case 403:
+                    setIsEnrollButtonBlocked(true);
                     setAlert({
                         alertOpen: true,
                         alertType: 400,
@@ -420,6 +466,7 @@ function ResearchPage() {
                     });
                     break;
                 default:
+                    setIsEnrollButtonBlocked(true);
                     setAlert({
                         alertOpen: true,
                         alertType: 400,
@@ -432,6 +479,108 @@ function ResearchPage() {
                 alertOpen: true,
                 alertType: 500,
                 alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później',
+            });
+        }
+    };
+
+    /** Resign From Research **/
+
+    const resignFromResearch = async event => {
+        event.preventDefault();
+
+        try {
+            const response = await fetch(RESIGN_URL, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    Authorization: accessToken,
+                },
+            });
+
+            switch (response.status) {
+                case 200:
+                    setIsEnrollButtonBlocked(true);
+                    setAlert({
+                        alertOpen: true,
+                        alertType: response.status,
+                        alertText: 'Udało Ci się pomyślnie wypisać z udziału w tym badaniu!',
+                    });
+                    break;
+                default:
+                    setIsEnrollButtonBlocked(true);
+                    setAlert({
+                        alertOpen: true,
+                        alertType: response.status,
+                        alertText:
+                            'Nie udało Ci się wypisać z udziału w tym badaniu! Upewnij się, czy jesteś na nie' +
+                            ' zapisany/a lub czy nie jesteś już z niego wypisany/a.',
+                    });
+                    break;
+            }
+        } catch (e) {
+            setAlert({
+                alertOpen: true,
+                alertType: 500,
+                alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później',
+            });
+        }
+    };
+
+    const getLocationAddress = address => {
+        setLocationAddress(prevState => {
+            const addressParts = address.toString().split(', ');
+            return `${addressParts.at(1).toString().split(' ').at(1)}, ${addressParts.at(0)}`;
+        });
+    };
+
+    const toggleDeleteResearchConfirmVisibility = () => {
+        setIsDeleteResearchConfirmVisible(prevState => !prevState);
+    };
+
+    const toggleResearchEditorVisibility = () => {
+        setIsEditorVisible(prevState => !prevState);
+    };
+
+    const deleteResearch = async event => {
+        event.preventDefault();
+
+        try {
+            const response = await fetch(DELETE_RESEARCH_URL, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    Authorization: accessToken,
+                },
+            });
+
+            switch (response.status) {
+                case 204:
+                    setAlert({
+                        alertOpen: true,
+                        alertType: response.status,
+                        alertText: (
+                            <span>
+                                Badanie zostało pomyślnie usunięte!{' '}
+                                <Link to="/">Kliknij, aby przejść na stronę główną</Link>
+                            </span>
+                        ),
+                    });
+                    break;
+                default:
+                    setAlert({
+                        alertOpen: true,
+                        alertType: response.status,
+                        alertText:
+                            'Nie udało się usunąć badania! Upewnij się, że posiadasz uprawnienia do wykonania' +
+                            ' tej czynności.',
+                    });
+                    break;
+            }
+        } catch (e) {
+            setAlert({
+                alertOpen: true,
+                alertType: 500,
+                alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później.',
             });
         }
     };
@@ -452,7 +601,10 @@ function ResearchPage() {
                 <Link to="/" className={styles.logo}>
                     <img className={styles.logoImg} src={researcherLogo} alt="Researcher Logo" />
                 </Link>
-                <BookmarksNav active="research" desc={title} />
+                <BookmarksNav
+                    active="research"
+                    desc={isSomeoneLoggedIn ? title : 'Nie znaleziono badania'}
+                />
             </header>
 
             <main className={styles.researchPagePanel}>
@@ -481,6 +633,49 @@ function ResearchPage() {
 
                 {researchGetSuccess === true && (
                     <>
+                        {loggedUser.login === research.creatorLogin && (
+                            <div className={styles.researchEditor}>
+                                <label className={styles.categoryLabel}>Panel autora badania</label>
+                                <div className={styles.editorButtons}>
+                                    <button
+                                        className={styles.editorBtn}
+                                        onClick={toggleResearchEditorVisibility}
+                                    >
+                                        <FontAwesomeIcon icon={faPencil} />
+                                        <span>Edytuj badanie</span>
+                                    </button>
+
+                                    <button
+                                        className={styles.editorBtn}
+                                        onClick={toggleDeleteResearchConfirmVisibility}
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} />
+                                        <span>Usuń badanie</span>
+                                    </button>
+
+                                    {isDeleteResearchConfirmVisible && (
+                                        <div className={styles.deleteResearchConfirm}>
+                                            <span>Czy na pewno chcesz usunąć badanie?</span>
+                                            <button
+                                                className={styles.editorBtn}
+                                                onClick={deleteResearch}
+                                            >
+                                                Tak
+                                            </button>
+                                            <button
+                                                className={styles.editorBtn}
+                                                onClick={toggleDeleteResearchConfirmVisibility}
+                                            >
+                                                Anuluj
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {isEditorVisible && <ResearchEditor research={research} />}
+                            </div>
+                        )}
+
                         <h2 className={styles.title}>{research.title}</h2>
 
                         <div className={styles.researchPageRow}>
@@ -593,7 +788,11 @@ function ResearchPage() {
                                             </span>
                                         ) : (
                                             <span>
-                                                zdalnie <a href="#"></a>
+                                                {isLoggedUserOnParticipantList ? (
+                                                    <a href="#">{location.place}</a>
+                                                ) : (
+                                                    'zdalnie'
+                                                )}
                                             </span>
                                         )}
                                     </span>
@@ -612,7 +811,26 @@ function ResearchPage() {
                                     <span className={styles.categoryLabel}>
                                         Miejsce przeprowadzania badania
                                     </span>
-                                    <span className={styles.description}>[MAPA]</span>
+                                    <div className={styles.mapContainer}>
+                                        <span className={styles.locationAddress}>
+                                            {locationAddress}
+                                        </span>
+                                        <Gmap
+                                            latitude={Number(
+                                                location.place.toString().split(' ').at(0)
+                                            )}
+                                            longitude={Number(
+                                                location.place.toString().split(' ').at(1)
+                                            )}
+                                            type={'researchPage'}
+                                            exit={() => {}}
+                                            setLocationInput={() => {}}
+                                            setGmapExit={() => {}}
+                                            setResearchPlace={() => {}}
+                                            setResearchPageAddress={getLocationAddress}
+                                            setIsClickedLocation={() => {}}
+                                        />
+                                    </div>
                                 </div>
                             )}
 
@@ -687,16 +905,37 @@ function ResearchPage() {
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    <FontAwesomeIcon
-                                                                        icon={faCircleCheck}
-                                                                        className={`${styles.enrollIcon} ${styles.green}`}
-                                                                    />
-                                                                    <span
-                                                                        className={`${styles.enrollDesc} ${styles.green}`}
-                                                                    >
-                                                                        Możesz wziąć udział w
-                                                                        badaniu!
-                                                                    </span>
+                                                                    {isLoggedUserOnParticipantList ===
+                                                                    true ? (
+                                                                        <>
+                                                                            <FontAwesomeIcon
+                                                                                icon={faCircleCheck}
+                                                                                className={`${styles.enrollIcon} ${styles.green}`}
+                                                                            />
+                                                                            <span
+                                                                                className={`${styles.enrollDesc} ${styles.green}`}
+                                                                            >
+                                                                                Bierzesz udział w
+                                                                                tym badaniu!
+                                                                            </span>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <FontAwesomeIcon
+                                                                                icon={faCircleCheck}
+                                                                                className={`${styles.enrollIcon} ${styles.green}`}
+                                                                            />
+                                                                            <span
+                                                                                className={`${styles.enrollDesc} ${styles.green}`}
+                                                                            >
+                                                                                Na podstawie
+                                                                                wstępnych wymagań
+                                                                                (płeć i wiek)
+                                                                                kwalifikujesz się do
+                                                                                udziału w badaniu!
+                                                                            </span>
+                                                                        </>
+                                                                    )}
                                                                 </>
                                                             )}
                                                         </>
@@ -707,36 +946,108 @@ function ResearchPage() {
                                     )}
                                 </div>
 
-                                <button
-                                    className={
-                                        isSomeoneLoggedIn === false ||
-                                        calculateDaysLeft() === 'CLOSED' ||
-                                        checkForLimitExceedance() === 'EXCEEDED' ||
-                                        checkRequirements() !== true
-                                            ? `${styles.enrollButton} ${styles.disabled}`
-                                            : styles.enrollButton
-                                    }
-                                    onClick={enrollOnResearch}
-                                >
-                                    Zapisz się na badanie
-                                </button>
+                                {isLoggedUserOnParticipantList === false ? (
+                                    <button
+                                        className={
+                                            isSomeoneLoggedIn === false ||
+                                            calculateDaysLeft() === 'CLOSED' ||
+                                            checkForLimitExceedance() === 'EXCEEDED' ||
+                                            checkRequirements() !== true
+                                                ? `${styles.enrollButton} ${styles.disabled}`
+                                                : styles.enrollButton
+                                        }
+                                        onClick={enrollOnResearch}
+                                    >
+                                        Zapisz się na badanie
+                                    </button>
+                                ) : (
+                                    <button
+                                        className={
+                                            isSomeoneLoggedIn === false ||
+                                            isEnrollButtonBlocked === true
+                                                ? `${styles.enrollButton} ${styles.disabled}`
+                                                : styles.enrollButton
+                                        }
+                                        onClick={resignFromResearch}
+                                    >
+                                        Zrezygnuj z udziału w badaniu
+                                    </button>
+                                )}
                             </div>
 
-                            <div className={styles.researchPageElementColumn}>
-                                <div className={styles.categoryLabel}>
-                                    Sekcja pytań i odpowiedzi
+                            {isSomeoneLoggedIn && (
+                                <div className={styles.researchPageElementColumn}>
+                                    <div className={styles.categoryLabel}>
+                                        Sekcja pytań i odpowiedzi
+                                    </div>
+                                    <span className={styles.forumInfo}>
+                                        Jeśli chcesz zadać autorowi pytanie dotyczące badania,
+                                        możesz to zrobić poniżej.
+                                    </span>
+                                    <Forum
+                                        researchCode={researchCode}
+                                        fullName={`${loggedUser.firstName} ${loggedUser.lastName}`}
+                                        researchOwnerLogin={research.creatorLogin}
+                                    />
                                 </div>
-                                <span className={styles.forumInfo}>
-                                    Jeśli chcesz zadać autorowi pytanie dotyczące badania, możesz to
-                                    zrobić poniżej.
-                                </span>
-                                <div>[FORUM]</div>
-                            </div>
+                            )}
                         </div>
                     </>
                 )}
-                {researchGetSuccess === false && <div>Nie udało się pobrać badania</div>}
-                {researchGetSuccess === null && <div>Wczytywanie badania...</div>}
+                {researchGetSuccess === false && (
+                    <div className={styles.researchNotFoundContainer}>
+                        <HelmetProvider>
+                            <Helmet>
+                                <title>Nie znaleziono badania | JustResearch</title>
+                            </Helmet>
+                        </HelmetProvider>
+                        <div className={styles.researchNotFoundInfo}>
+                            <FontAwesomeIcon
+                                icon={faFileCircleExclamation}
+                                className={styles.researchNotFoundIcon}
+                            />
+                            <div className={styles.researchNotFoundDesc}>
+                                <span className={styles.desc1}>Nie znaleziono badania!</span>
+                                <span>
+                                    Upewnij się, czy link jest poprawny oraz czy autor badania nie
+                                    usunął ogłoszenia
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className={styles.navigationContainer}>
+                            <h3>Co chcesz zrobić?</h3>
+                            <nav className={styles.navigation}>
+                                <Link to="/" className={styles.navigationButton}>
+                                    <FontAwesomeIcon icon={faHouse} />
+                                    <span className={styles.buttonDesc}>
+                                        Przejdź na stronę główną
+                                    </span>
+                                </Link>
+
+                                {isSomeoneLoggedIn && (
+                                    <Link
+                                        to={`/profile/${loggedUser.login}`}
+                                        className={styles.navigationButton}
+                                    >
+                                        <FontAwesomeIcon icon={faUser} />
+                                        <span className={styles.buttonDesc}>
+                                            Przejdź na stronę swojego profilu
+                                        </span>
+                                    </Link>
+                                )}
+
+                                <Link to="/research/create" className={styles.navigationButton}>
+                                    <FontAwesomeIcon icon={faFileCirclePlus} />
+                                    <span className={styles.buttonDesc}>
+                                        Stwórz ogłoszenie o badaniu
+                                    </span>
+                                </Link>
+                            </nav>
+                        </div>
+                    </div>
+                )}
+                {researchGetSuccess === null && <LoadingDots />}
             </main>
         </div>
     );

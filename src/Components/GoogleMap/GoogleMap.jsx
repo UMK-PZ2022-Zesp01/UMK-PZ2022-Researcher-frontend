@@ -12,6 +12,7 @@ function Gmap({
     setLocationInput,
     setGmapExit,
     setResearchPlace,
+    setResearchPageAddress,
     setIsClickedLocation,
 }) {
     const mapRef = useRef(null);
@@ -24,6 +25,7 @@ function Gmap({
     const [longAddress, setLongAddress] = useState('[nie wybrano]');
     const [shortAddress, setShortAddress] = useState('');
     const [city, setCity] = useState('[nie wybrano]');
+    const [researchAddress, setResearchAddress] = useState('');
 
     const loader = new Loader({
         apiKey: process.env.REACT_APP_API_GOOGLE,
@@ -35,7 +37,7 @@ function Gmap({
         loader.load().then(() => {
             const map = new window.google.maps.Map(mapRef.current, {
                 center: { lat: lat, lng: lng },
-                zoom: 11,
+                zoom: type !== 'researchPage' ? 11 : 16,
             });
 
             const marker = new window.google.maps.Marker({
@@ -130,74 +132,97 @@ function Gmap({
                 setCity(city);
             }
         });
+
+        const myLatlng = new window.google.maps.LatLng(latitude, longitude);
+        const geocoder2 = new window.google.maps.Geocoder();
+        geocoder2.geocode({ location: myLatlng }, (results, status) => {
+            if (status === 'OK' && results[0]) {
+                setResearchAddress(results[0].formatted_address);
+                setResearchPageAddress(results[0].formatted_address);
+            }
+        });
     }
 
     return (
-        <div
-            className={
-                type === 'user-page' ? styleUserPage.mapContainer : styleResearchForm.mapContainer
-            }
-        >
-            <button
-                className={type === 'user-page' ? styleUserPage.exitBtn : styleResearchForm.exitBtn}
-                onClick={() => {
-                    exit();
-                    setLocationInput(city);
-                    setIsClickedLocation(false);
-                    setGmapExit(true);
-                }}
-            >
-                <GrClose />
-            </button>
-            <div
-                className={
-                    type === 'user-page'
-                        ? styleUserPage.useDescription
-                        : styleResearchForm.useDescription
-                }
-            >
-                Wyszukaj lokalizację lub zaznacz ją na mapie
-            </div>
-
-            <input
-                className={
-                    type === 'user-page'
-                        ? styleUserPage.mapSearchBar
-                        : styleResearchForm.mapSearchBar
-                }
-                ref={inputRef}
-                type="text"
-                placeholder="Wyszukaj lokalizację"
-            />
-
-            <div
-                className={type === 'user-page' ? styleUserPage.map : styleResearchForm.map}
-                ref={mapRef}
-            ></div>
-
-            <div
-                className={
-                    type === 'user-page' ? styleUserPage.locationBox : styleResearchForm.locationBox
-                }
-            >
-                <div
-                    className={
-                        type === 'user-page' ? styleUserPage.location : styleResearchForm.location
-                    }
-                >
-                    Wybrana lokalizacja:
-                </div>
+        <>
+            {type !== 'researchPage' ? (
                 <div
                     className={
                         type === 'user-page'
-                            ? `${styleUserPage.location} ${styleUserPage.color}`
-                            : `${styleResearchForm.location} ${styleResearchForm.color}`
+                            ? styleUserPage.mapContainer
+                            : styleResearchForm.mapContainer
                     }
                 >
-                    {type === 'user-page' ? city : longAddress}
+                    <button
+                        className={
+                            type === 'user-page' ? styleUserPage.exitBtn : styleResearchForm.exitBtn
+                        }
+                        onClick={() => {
+                            exit();
+                            setLocationInput(city);
+                            setIsClickedLocation(false);
+                            setGmapExit(true);
+                        }}
+                    >
+                        <GrClose />
+                    </button>
+                    <div
+                        className={
+                            type === 'user-page'
+                                ? styleUserPage.useDescription
+                                : styleResearchForm.useDescription
+                        }
+                    >
+                        Wyszukaj lokalizację lub zaznacz ją na mapie
+                    </div>
+
+                    <input
+                        className={
+                            type === 'user-page'
+                                ? styleUserPage.mapSearchBar
+                                : styleResearchForm.mapSearchBar
+                        }
+                        ref={inputRef}
+                        type="text"
+                        placeholder="Wyszukaj lokalizację"
+                    />
+
+                    <div
+                        className={type === 'user-page' ? styleUserPage.map : styleResearchForm.map}
+                        ref={mapRef}
+                    ></div>
+
+                    <div
+                        className={
+                            type === 'user-page'
+                                ? styleUserPage.locationBox
+                                : styleResearchForm.locationBox
+                        }
+                    >
+                        <div
+                            className={
+                                type === 'user-page'
+                                    ? styleUserPage.location
+                                    : styleResearchForm.location
+                            }
+                        >
+                            Wybrana lokalizacja:
+                        </div>
+                        <div
+                            className={
+                                type === 'user-page'
+                                    ? `${styleUserPage.location} ${styleUserPage.color}`
+                                    : `${styleResearchForm.location} ${styleResearchForm.color}`
+                            }
+                        >
+                            {type === 'user-page' ? city : longAddress}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            ) : (
+                <div className={styleResearchForm.researchMap} ref={mapRef}></div>
+            )}
+        </>
     );
 }
 
