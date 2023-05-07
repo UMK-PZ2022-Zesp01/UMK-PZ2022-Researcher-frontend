@@ -214,9 +214,13 @@ export default function UserPage(props) {
         <div className={styles.PageOverlay}>
             <ReportForm open={openPopup} onClose={() => setOpenPopup(false)} />
             <div className={styles.MainContainer}>
-                <Helmet>
-                    <title>Profil | Researcher</title>
-                </Helmet>
+                <HelmetProvider>
+                    <Helmet>
+                        <title>
+                            {userData.firstName + ' ' + userData.lastName + ' | JustResearch'}
+                        </title>
+                    </Helmet>
+                </HelmetProvider>
                 <div className={styles.alertOverlay}>
                     <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
                 </div>

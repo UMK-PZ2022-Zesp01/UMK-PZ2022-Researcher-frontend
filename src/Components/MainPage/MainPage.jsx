@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { LoadingDots } from '../LoadingDots/LoadingDots';
 import { Filters } from './Filters/Filters';
 import useAuth from '../../hooks/useAuth';
+import {FirstTimeForm} from "../Form/FirstTimeForm/FirstTimeForm";
 
 const RESEARCHES_URL = getApiUrl() + 'research';
 
@@ -213,6 +214,8 @@ function MainPage() {
     };
 
     return (
+        <div className={styles.PageOverlay}>
+            <FirstTimeForm open={openPopup} onClose={() => setOpenPopup(false)} />
         <div className={styles.mainPage}>
             <Helmet>
                 <title>Strona główna | JustResearch</title>
@@ -251,6 +254,7 @@ function MainPage() {
                 <ul className={styles.tileGrid}>{displayPosts()}</ul>
                 {isLoading && <LoadingDots></LoadingDots>}
             </main>
+        </div>
         </div>
     );
 }
