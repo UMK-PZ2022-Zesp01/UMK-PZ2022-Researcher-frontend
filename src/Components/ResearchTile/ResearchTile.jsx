@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './ResearchTile.module.css';
 import { ResearchTileRequirement } from './ResearchTileRequirement/ResearchTileRequirement';
 import { useTranslate } from '../../hooks/useTranslate';
-import { useCapitalize } from '../../hooks/useCapitalize';
 import { ResearchTileReward } from './ResearchTileReward/ResearchTileReward';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function ResearchTile({ tileData, postData }) {
     const { tileNumber, previewed, setPreviewed } = tileData;
@@ -17,9 +16,9 @@ export default function ResearchTile({ tileData, postData }) {
         location,
         begDate,
         endDate,
-        highlight,
-        requirements,
-        rewards,
+        // highlight,
+        // requirements,
+        // rewards,
     } = postData;
 
     const [geoDecoded, setGeoDecoded] = useState('');
@@ -27,12 +26,18 @@ export default function ResearchTile({ tileData, postData }) {
     const isPreviewed = previewed === tileNumber;
 
     const translate = useTranslate();
-    const capitalize = useCapitalize();
 
     const navigate = useNavigate();
     const webLocation = useLocation();
 
     const handleTileClicked = () => {
+        if (window.innerWidth < 600) {
+            navigate(`/research/${researchCode}`, {
+                from: webLocation,
+                replace: false,
+            });
+        }
+
         if (isPreviewed) {
             setPreviewed(null);
             return;
@@ -49,6 +54,29 @@ export default function ResearchTile({ tileData, postData }) {
             ></ResearchTileReward>
         ));
     };
+
+    const displayAddress = () => {
+        if (location.form === 'in-place') {
+            return (
+                <li>
+                    <span className={styles.type}>Adres: </span>
+                    <span>{geoDecoded}</span>
+                </li>
+            );
+        }
+        return [];
+    };
+
+    const displayDate = () => {
+        const current = new Date().toISOString().split('T')[0];
+
+        if (begDate > current) {
+            return `otwarte od: ${begDate}`;
+        }
+        return `otwarte do: ${endDate}`;
+    };
+
+    displayDate();
 
     const renderRequirements = () => {
         return postData?.requirements.map((req, index) => (
@@ -88,13 +116,12 @@ export default function ResearchTile({ tileData, postData }) {
             }
         };
 
-        console.log(location.form);
         if (location.form === 'in-place') {
             geoDecode();
         } else {
-            setGeoDecoded(location.place);
+            setGeoDecoded(null);
         }
-    }, []);
+    }, [location]);
 
     return (
         <>
@@ -115,7 +142,7 @@ export default function ResearchTile({ tileData, postData }) {
                 <div className={styles.tileOverlay}>
                     <p className={styles.tileOverlayTitle}>{title}</p>
                     <p className={styles.tileOverlayAuthor}>{creatorFullName}</p>
-                    <p className={styles.tileOverlayDate}>otwarte do: {endDate}</p>
+                    <p className={styles.tileOverlayDate}>{displayDate()}</p>
                 </div>
             </li>
 
@@ -127,8 +154,7 @@ export default function ResearchTile({ tileData, postData }) {
                 <div className={styles.previewHeader1}>
                     <header className={`${styles.headerHalf} ${styles.headerLeft}`}>{title}</header>
                     <div className={`${styles.headerHalf} ${styles.headerRight}`}>
-                        Otwarte do:
-                        <br /> {endDate}
+                        {displayDate()}
                     </div>
                 </div>
                 <div className={styles.previewHeader2}>
@@ -146,10 +172,7 @@ export default function ResearchTile({ tileData, postData }) {
                                     <span className={styles.type}>Forma: </span>
                                     <span>{translate(location.form)}</span>
                                 </li>
-                                <li>
-                                    <span className={styles.type}>Adres: </span>
-                                    <span>{geoDecoded}</span>
-                                </li>
+                                {displayAddress()}
                             </ul>
                         </div>
                         <div className={styles.infoBox}>

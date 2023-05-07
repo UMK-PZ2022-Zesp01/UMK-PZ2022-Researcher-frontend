@@ -140,7 +140,7 @@ function MainPage() {
     ];
 
     window.onscroll = () => {
-        if (window.innerHeight + window.scrollY + 1 >= triggerRef.current.offsetHeight) {
+        if (window.innerHeight + window.scrollY + 1 >= triggerRef?.current?.offsetHeight) {
             if (!lastPage && !isLoading) {
                 setPage(page + 1);
             }
