@@ -34,8 +34,10 @@ function ResearchPage() {
 
     const GET_RESEARCH_URL = getApiUrl() + `research/code/${researchCode}`;
     const DELETE_RESEARCH_URL = getApiUrl() + `research/${researchCode}/delete`;
+    const ENROLL_CHECK_URL = getApiUrl() + `research/${researchCode}/enrollCheck`;
     const GET_CREATOR_URL = getApiUrl() + 'user/';
     const ENROLL_URL = getApiUrl() + `research/${researchCode}/enroll`;
+    const RESIGN_URL = getApiUrl() + `research/${researchCode}/resign`;
 
     const [title, setTitle] = useState('');
     const [research, setResearch] = useState();
@@ -49,12 +51,40 @@ function ResearchPage() {
     const [isPosterOnFullScreen, setIsPosterOnFullScreen] = useState(false);
     const [researchGetSuccess, setResearchGetSuccess] = useState(null);
     const [isSomeoneLoggedIn, setIsSomeoneLoggedIn] = useState(false);
+    const [isLoggedUserOnParticipantList, setIsLoggedUserOnParticipantList] = useState(false);
     const [isEditorVisible, setIsEditorVisible] = useState(false);
     const [isDeleteResearchConfirmVisible, setIsDeleteResearchConfirmVisible] = useState(false);
+    const [isEnrollButtonBlocked, setIsEnrollButtonBlocked] = useState(false);
 
     /** Get Research From Database **/
 
     useEffect(() => {
+        const checkIfLoggedUserIsDownForResearch = async () => {
+            try {
+                const response = await fetch(ENROLL_CHECK_URL, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        Authorization: accessToken,
+                        'Content-Type': 'application/json; charset:UTF-8',
+                    },
+                });
+
+                switch (response.status) {
+                    case 200:
+                        setIsLoggedUserOnParticipantList(true);
+                        break;
+                    case 204:
+                        setIsLoggedUserOnParticipantList(false);
+                        break;
+                    default:
+                        setIsLoggedUserOnParticipantList(false);
+                }
+            } catch (e) {
+                setResearchGetSuccess(false);
+            }
+        };
+
         const getResearch = async () => {
             const researchResponse = await fetch(GET_RESEARCH_URL, {
                 method: 'GET',
@@ -83,6 +113,7 @@ function ResearchPage() {
                         case 200:
                             setCreator(await creatorResponse.json());
                             setResearchGetSuccess(true);
+                            checkIfLoggedUserIsDownForResearch().then(null);
                             break;
                         default:
                             setResearchGetSuccess(false);
@@ -402,6 +433,7 @@ function ResearchPage() {
 
             switch (response.status) {
                 case 200:
+                    setIsEnrollButtonBlocked(true);
                     setAlert({
                         alertOpen: true,
                         alertType: response.status,
@@ -409,6 +441,7 @@ function ResearchPage() {
                     });
                     break;
                 case 298:
+                    setIsEnrollButtonBlocked(true);
                     setAlert({
                         alertOpen: true,
                         alertType: 298,
@@ -416,6 +449,7 @@ function ResearchPage() {
                     });
                     break;
                 case 299:
+                    setIsEnrollButtonBlocked(true);
                     setAlert({
                         alertOpen: true,
                         alertType: 299,
@@ -424,6 +458,7 @@ function ResearchPage() {
                     });
                     break;
                 case 403:
+                    setIsEnrollButtonBlocked(true);
                     setAlert({
                         alertOpen: true,
                         alertType: 400,
@@ -431,10 +466,54 @@ function ResearchPage() {
                     });
                     break;
                 default:
+                    setIsEnrollButtonBlocked(true);
                     setAlert({
                         alertOpen: true,
                         alertType: 400,
                         alertText: 'Nie udało Ci się zapisać na badanie! Spróbuj ponownie później',
+                    });
+                    break;
+            }
+        } catch (e) {
+            setAlert({
+                alertOpen: true,
+                alertType: 500,
+                alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później',
+            });
+        }
+    };
+
+    /** Resign From Research **/
+
+    const resignFromResearch = async event => {
+        event.preventDefault();
+
+        try {
+            const response = await fetch(RESIGN_URL, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    Authorization: accessToken,
+                },
+            });
+
+            switch (response.status) {
+                case 200:
+                    setIsEnrollButtonBlocked(true);
+                    setAlert({
+                        alertOpen: true,
+                        alertType: response.status,
+                        alertText: 'Udało Ci się pomyślnie wypisać z udziału w tym badaniu!',
+                    });
+                    break;
+                default:
+                    setIsEnrollButtonBlocked(true);
+                    setAlert({
+                        alertOpen: true,
+                        alertType: response.status,
+                        alertText:
+                            'Nie udało Ci się wypisać z udziału w tym badaniu! Upewnij się, czy jesteś na nie' +
+                            ' zapisany/a lub czy nie jesteś już z niego wypisany/a.',
                     });
                     break;
             }
@@ -709,7 +788,11 @@ function ResearchPage() {
                                             </span>
                                         ) : (
                                             <span>
-                                                zdalnie <a href="#"></a>
+                                                {isLoggedUserOnParticipantList ? (
+                                                    <a href="#">{location.place}</a>
+                                                ) : (
+                                                    'zdalnie'
+                                                )}
                                             </span>
                                         )}
                                     </span>
@@ -822,18 +905,37 @@ function ResearchPage() {
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    <FontAwesomeIcon
-                                                                        icon={faCircleCheck}
-                                                                        className={`${styles.enrollIcon} ${styles.green}`}
-                                                                    />
-                                                                    <span
-                                                                        className={`${styles.enrollDesc} ${styles.green}`}
-                                                                    >
-                                                                        Na podstawie wstępnych
-                                                                        wymagań (płeć i wiek)
-                                                                        kwalifikujesz się do udziału
-                                                                        w badaniu!
-                                                                    </span>
+                                                                    {isLoggedUserOnParticipantList ===
+                                                                    true ? (
+                                                                        <>
+                                                                            <FontAwesomeIcon
+                                                                                icon={faCircleCheck}
+                                                                                className={`${styles.enrollIcon} ${styles.green}`}
+                                                                            />
+                                                                            <span
+                                                                                className={`${styles.enrollDesc} ${styles.green}`}
+                                                                            >
+                                                                                Bierzesz udział w
+                                                                                tym badaniu!
+                                                                            </span>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <FontAwesomeIcon
+                                                                                icon={faCircleCheck}
+                                                                                className={`${styles.enrollIcon} ${styles.green}`}
+                                                                            />
+                                                                            <span
+                                                                                className={`${styles.enrollDesc} ${styles.green}`}
+                                                                            >
+                                                                                Na podstawie
+                                                                                wstępnych wymagań
+                                                                                (płeć i wiek)
+                                                                                kwalifikujesz się do
+                                                                                udziału w badaniu!
+                                                                            </span>
+                                                                        </>
+                                                                    )}
                                                                 </>
                                                             )}
                                                         </>
@@ -844,19 +946,33 @@ function ResearchPage() {
                                     )}
                                 </div>
 
-                                <button
-                                    className={
-                                        isSomeoneLoggedIn === false ||
-                                        calculateDaysLeft() === 'CLOSED' ||
-                                        checkForLimitExceedance() === 'EXCEEDED' ||
-                                        checkRequirements() !== true
-                                            ? `${styles.enrollButton} ${styles.disabled}`
-                                            : styles.enrollButton
-                                    }
-                                    onClick={enrollOnResearch}
-                                >
-                                    Zapisz się na badanie
-                                </button>
+                                {isLoggedUserOnParticipantList === false ? (
+                                    <button
+                                        className={
+                                            isSomeoneLoggedIn === false ||
+                                            calculateDaysLeft() === 'CLOSED' ||
+                                            checkForLimitExceedance() === 'EXCEEDED' ||
+                                            checkRequirements() !== true
+                                                ? `${styles.enrollButton} ${styles.disabled}`
+                                                : styles.enrollButton
+                                        }
+                                        onClick={enrollOnResearch}
+                                    >
+                                        Zapisz się na badanie
+                                    </button>
+                                ) : (
+                                    <button
+                                        className={
+                                            isSomeoneLoggedIn === false ||
+                                            isEnrollButtonBlocked === true
+                                                ? `${styles.enrollButton} ${styles.disabled}`
+                                                : styles.enrollButton
+                                        }
+                                        onClick={resignFromResearch}
+                                    >
+                                        Zrezygnuj z udziału w badaniu
+                                    </button>
+                                )}
                             </div>
 
                             {isSomeoneLoggedIn && (

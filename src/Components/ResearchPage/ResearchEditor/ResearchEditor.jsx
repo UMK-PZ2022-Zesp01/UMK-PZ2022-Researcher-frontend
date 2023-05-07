@@ -67,13 +67,15 @@ function ResearchEditor({ research }) {
             title: unchangedFieldKeys.includes('title') ? null : title,
             description: unchangedFieldKeys.includes('description') ? null : description,
             begDate: unchangedFieldKeys.includes('begDate') ? null : begDate,
-            endDate: unchangedFieldKeys.includes('description') ? null : endDate,
+            endDate: unchangedFieldKeys.includes('endDate') ? null : endDate,
             creatorEmail: unchangedFieldKeys.includes('creatorEmail') ? null : creatorEmail,
             creatorPhone: unchangedFieldKeys.includes('creatorPhone') ? null : creatorPhone,
             participantLimit: unchangedFieldKeys.includes('participantLimit')
                 ? null
                 : participantLimit,
         };
+
+        // console.log(researchUpdateData);
 
         sendEditedResearch(researchUpdateData).then(null);
     };
