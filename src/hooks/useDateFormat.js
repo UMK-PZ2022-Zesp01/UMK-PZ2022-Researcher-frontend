@@ -8,7 +8,7 @@ export const useDateFormat = (format = 'pl') => {
     const toPolish = date => {
         const arrayDate = new Date(date).toDateString().split(' ');
         const day = arrayDate[2][0] === '0' ? arrayDate[2][1] : arrayDate[2];
-        const month = capitalize(translate(arrayDate[1]));
+        const month = translate(arrayDate[1]);
         const year = arrayDate[3];
 
         return `${day} ${month} ${year}`;

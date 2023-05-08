@@ -73,12 +73,10 @@ export default function ResearchTile({ withShadow, tileData, postData }) {
         const current = new Date().toISOString().split('T')[0];
 
         if (begDate > current) {
-            return `otwarte od: ${plDate(begDate)}`;
+            return ['otwarte od:', `${plDate(begDate)}`];
         }
-        return `otwarte do: ${plDate(endDate)}`;
+        return ['otwarte do: ', `${plDate(endDate)}`];
     };
-
-    displayDate();
 
     const renderRequirements = () => {
         return postData?.requirements.map((req, index) => (
@@ -158,7 +156,9 @@ export default function ResearchTile({ withShadow, tileData, postData }) {
                 <div className={styles.previewHeader1}>
                     <header className={`${styles.headerHalf} ${styles.headerLeft}`}>{title}</header>
                     <div className={`${styles.headerHalf} ${styles.headerRight}`}>
-                        {displayDate()}
+                        {displayDate()[0]}
+                        <br></br>
+                        {displayDate()[1]}
                     </div>
                 </div>
                 <div className={styles.previewHeader2}>
