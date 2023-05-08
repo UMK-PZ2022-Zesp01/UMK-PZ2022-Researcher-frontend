@@ -28,6 +28,7 @@ function CreateResearchForm() {
     const [participantLimit, setParticipantLimit] = useState(0);
     const [researchForm, setResearchForm] = useState('');
     const [researchPlace, setResearchPlace] = useState('');
+    const [researchAddress, setResearchAddress] = useState(null);
     const [rewardList, setRewardList] = useState([{ type: '', value: null }]);
     const [requirementList, setRequirementList] = useState([]);
 
@@ -338,7 +339,11 @@ function CreateResearchForm() {
     const handleFormSubmit = event => {
         event.preventDefault();
 
-        research.location = { form: researchForm, place: researchPlace };
+        research.location = {
+            form: researchForm,
+            place: researchPlace,
+            address: researchForm === 'remote' ? null : researchAddress,
+        };
         research.rewards = rewardList;
         research.requirements = requirementList;
 
@@ -590,7 +595,7 @@ function CreateResearchForm() {
                                 setLocationInput={() => {}}
                                 setGmapExit={() => {}}
                                 setResearchPlace={setResearchPlace}
-                                setResearchPageAddress={() => {}}
+                                setResearchPageAddress={setResearchAddress}
                                 setIsClickedLocation={() => {}}
                             />
                         </div>

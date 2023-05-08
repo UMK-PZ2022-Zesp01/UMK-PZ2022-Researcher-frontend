@@ -102,9 +102,9 @@ function Gmap({
                     geocoder.geocode({ location: place.geometry.location }, (results, status) => {
                         if (status === 'OK' && results[0]) {
                             setShortAddress(place.formatted_address);
-                            //tutaj ustawiasz long address
                             setLongAddress(place.formatted_address);
-                            //usuwasz tu
+                            setResearchPageAddress(place.formatted_address);
+                            console.log('Select: ', place.formatted_address);
                         }
                     });
                 });
@@ -122,6 +122,8 @@ function Gmap({
                 const addressComponents = results[0].address_components;
                 let city = '';
 
+                setResearchPageAddress(results[0].formatted_address);
+
                 for (let i = 0; i < addressComponents.length; i++) {
                     const types = addressComponents[i].types;
                     if (types.includes('locality')) {
@@ -138,7 +140,6 @@ function Gmap({
         geocoder2.geocode({ location: myLatlng }, (results, status) => {
             if (status === 'OK' && results[0]) {
                 setResearchAddress(results[0].formatted_address);
-                setResearchPageAddress(results[0].formatted_address);
             }
         });
     }
