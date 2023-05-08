@@ -181,12 +181,20 @@ const LeftContainer = ({ values }) => {
             </div>
             <div className={styles.editDiv}>
                 <button
-                    className={!values.clickedEdit ? styles.editButton : styles.editButtonHide}
-                    onClick={event => {
+                    className={!(values.clickedEdit||values.clickedAdvance) ? styles.editButton : styles.editButtonHide}
+                    onClick={() => {
                         values.setIsClickedEdit(!values.clickedEdit);
                     }}
                 >
                     Edytuj profil
+                </button>
+                <button
+                    className={!(values.clickedAdvance||values.clickedEdit) ? styles.editButton : styles.editButtonHide}
+                    onClick={() => {
+                        values.setClickedAdvance(!values.clickedAdvance);
+                    }}
+                >
+                    Ustawienia konta
                 </button>
             </div>
         </div>

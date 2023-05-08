@@ -117,7 +117,9 @@
 }
 
 .editDiv {
-    margin: 0 auto;
+    display: flex;
+    gap:20px;
+    justify-content: center;
     width: 100%;
 }
 
@@ -127,7 +129,7 @@
     border: none;
     letter-spacing: 1px;
     font-size: 1rem;
-    width: 50%;
+    width: 40%;
     height: 2rem;
     background-color: rgb(81, 44, 140);
     border-radius: 10px;
@@ -135,7 +137,6 @@
     opacity: 1;
     backface-visibility: hidden;
     will-change: transform;
-
 }
 
 .editButton:hover {
@@ -148,6 +149,44 @@
 .editButtonHide {
     visibility: hidden;
     opacity: 0;
+    transition: all .3s ease-in-out;
+}
+
+.deleteButton, .deleteButtonHide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 60%;
+    padding: 5px;
+    height: 40%;
+    background-color: rgb(81, 44, 140);
+    outline: none;
+    border: 2px solid rgb(81, 44, 140);
+    border-radius: 10px;
+    font-family: sans-serif;
+    opacity: 1;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    color: white;
+    cursor: pointer;
+    backface-visibility: hidden;
+    will-change: transform;
+    transition: all .5s ease-in-out;
+}
+
+.deleteButton:hover {
+    transform: scale(105%);
+    background-color: #6D3B9E;
+    transform-origin: center;
+}
+
+
+.deleteButtonHide {
+    visibility: hidden;
+    font-size: 0;
+    opacity: 0;
+    height: 0;
     transition: all .3s ease-in-out;
 }
 
@@ -232,7 +271,7 @@
     font-size: 16px;
 }
 
-.editBox, .editBoxHide {
+.editBox, .editBoxHide,.editBoxPassword {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -246,10 +285,17 @@
     -moz-box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);
     box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);
     transition: all .5s ease-in-out;
+    z-index: 100;
+}
+
+.editBoxPassword{
+    z-index: 100;
+
 }
 
 .editBoxHide {
     opacity: 0;
+    z-index: 0;
 }
 
 .exitBtn, .exitBtnHide {
@@ -269,6 +315,7 @@
     border: none;
     background: transparent;
     transition: all .3s ease-in-out;
+    z-index: 100;
 }
 
 .exitBtnHide {
@@ -284,7 +331,7 @@
     height: 80%;
 }
 
-.editTileResized {
+.editTileResized,.editTileResizedPassword,.editTileResizedDelete{
     color: #512C8C;
     display: flex;
     justify-content: center;
@@ -294,6 +341,14 @@
     border-radius: 10px;
     transition: all .5s ease-in-out;
     background: #D6CEF3;
+}
+
+.editTileResizedPassword{
+    height: 50%;
+}
+
+.editTileResizedDelete{
+    height: 39%;
 }
 
 .editTile {
@@ -413,6 +468,45 @@
     background-color: #6D3B9E;
     transform-origin: center;
 }
+
+
+.saveBtnPassword, .saveBtnPasswordHide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 60%;
+    padding: 5px;
+    height: 40%;
+    background-color: rgb(81, 44, 140);
+    outline: none;
+    border: 2px solid rgb(81, 44, 140);
+    border-radius: 10px;
+    font-family: sans-serif;
+    opacity: 1;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    color: white;
+    cursor: pointer;
+    backface-visibility: hidden;
+    will-change: transform;
+    transition: all .5s ease-in-out;
+}
+
+.saveBtnPasswordHide {
+    visibility: hidden;
+    font-size: 0;
+    opacity: 0;
+    height: 0;
+    transition: all .3s ease-in-out;
+}
+
+.saveBtnPassword:hover {
+    transform: scale(105%);
+    background-color: #6D3B9E;
+    transform-origin: center;
+}
+
 
 .location {
     font-size: 16px;
