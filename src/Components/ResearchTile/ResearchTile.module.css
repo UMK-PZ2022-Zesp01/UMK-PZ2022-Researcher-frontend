@@ -126,11 +126,13 @@
 
 .previewVisible {
     height: 30rem;
+    scroll-snap-align: center;
+}
+
+.previewVisible.withShadow {
     -webkit-box-shadow: 0px 0px 25px 0px rgba(109, 59, 158, 1);
     -moz-box-shadow: 0px 0px 25px 0px rgba(109, 59, 158, 1);
     box-shadow: 0px 0px 25px 0px rgba(109, 59, 158, 1);
-
-    scroll-snap-align: center;
 }
 
 .previewHeader1 {

@@ -4,8 +4,9 @@ import { ResearchTileRequirement } from './ResearchTileRequirement/ResearchTileR
 import { useTranslate } from '../../hooks/useTranslate';
 import { ResearchTileReward } from './ResearchTileReward/ResearchTileReward';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDateFormat } from '../../hooks/useDateFormat';
 
-export default function ResearchTile({ tileData, postData }) {
+export default function ResearchTile({ withShadow, tileData, postData }) {
     const { tileNumber, previewed, setPreviewed } = tileData;
     const {
         researchCode,
@@ -26,6 +27,7 @@ export default function ResearchTile({ tileData, postData }) {
     const isPreviewed = previewed === tileNumber;
 
     const translate = useTranslate();
+    const plDate = useDateFormat();
 
     const navigate = useNavigate();
     const webLocation = useLocation();
@@ -71,9 +73,9 @@ export default function ResearchTile({ tileData, postData }) {
         const current = new Date().toISOString().split('T')[0];
 
         if (begDate > current) {
-            return `otwarte od: ${begDate}`;
+            return `otwarte od: ${plDate(begDate)}`;
         }
-        return `otwarte do: ${endDate}`;
+        return `otwarte do: ${plDate(endDate)}`;
     };
 
     displayDate();
@@ -129,7 +131,7 @@ export default function ResearchTile({ tileData, postData }) {
             <li
                 key={`SmallTile${researchCode}`}
                 className={`${isPreviewed ? styles.previewed : ''} ${styles.researchTile} ${
-                    styles.withShadow
+                    withShadow ? styles.withShadow : ''
                 } `}
                 onClick={handleTileClicked}
             >
@@ -149,7 +151,9 @@ export default function ResearchTile({ tileData, postData }) {
             {/*BIG TILE*/}
             <li
                 key={`BigTile${researchCode}`}
-                className={`${styles.previewTile} ${isPreviewed ? styles.previewVisible : ''}`}
+                className={`${styles.previewTile} ${isPreviewed ? styles.previewVisible : ''} ${
+                    withShadow ? styles.withShadow : ''
+                }`}
             >
                 <div className={styles.previewHeader1}>
                     <header className={`${styles.headerHalf} ${styles.headerLeft}`}>{title}</header>
@@ -211,6 +215,8 @@ export default function ResearchTile({ tileData, postData }) {
 }
 
 ResearchTile.defaultProps = {
+    withShadow: false,
+
     tileData: {
         tileNumber: null,
         previewed: false,

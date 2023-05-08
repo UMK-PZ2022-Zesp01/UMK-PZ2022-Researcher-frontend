@@ -238,6 +238,7 @@ function MainPage() {
         return posts.map((post, index) => (
             <ResearchTile
                 key={`ResearchTile${post.researchCode}`}
+                withShadow={true}
                 tileData={{ previewed: previewed, setPreviewed: setPreviewed, tileNumber: index }}
                 postData={post}
             ></ResearchTile>
@@ -245,8 +246,10 @@ function MainPage() {
     };
 
     return (
-        <div className={styles.PageOverlay}>
-            <FirstTimeForm open={openFirstPopup} onClose={() => setOpenFirstPopup(false)} />
+        <>
+            <div className={styles.pageOverlay}>
+                <FirstTimeForm open={openFirstPopup} onClose={() => setOpenFirstPopup(false)} />
+            </div>
             <div className={styles.mainPage}>
                 <Helmet>
                     <title>Strona główna | JustResearch</title>
@@ -289,7 +292,7 @@ function MainPage() {
                     {isLoading && <LoadingDots></LoadingDots>}
                 </main>
             </div>
-        </div>
+        </>
     );
 }
 

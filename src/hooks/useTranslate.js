@@ -1,4 +1,17 @@
 const dictionary = {
+    jan: 'stycznia',
+    feb: 'lutego',
+    mar: 'marca',
+    apr: 'kwietnia',
+    may: 'maja',
+    jun: 'czerwca',
+    jul: 'lipca',
+    aug: 'sierpnia',
+    sep: 'września',
+    oct: 'października',
+    nov: 'listopada',
+    dec: 'grudnia',
+
     author: 'autor',
     poster: 'poster',
     title: 'tytuł badania',
