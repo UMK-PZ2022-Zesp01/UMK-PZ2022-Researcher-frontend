@@ -88,11 +88,15 @@ function Gmap({
                 autocomplete.addListener('place_changed', () => {
                     const place = autocomplete.getPlace();
                     if (!place.geometry) {
-                        console.log('No details available for input: ' + place.name);
+                        // console.log('No details available for input: ' + place.name);
                         return;
                     }
                     setLat(place.geometry.location.lat());
                     setLng(place.geometry.location.lng());
+                    setResearchPageAddress(place.formatted_address);
+                    setResearchPlace(
+                        `${place.geometry.location.lat()} ${place.geometry.location.lng()}`
+                    );
                     map.setCenter(place.geometry.location);
                     marker.setPosition(place.geometry.location);
                     setMarker(marker);
@@ -104,7 +108,7 @@ function Gmap({
                             setShortAddress(place.formatted_address);
                             setLongAddress(place.formatted_address);
                             setResearchPageAddress(place.formatted_address);
-                            console.log('Select: ', place.formatted_address);
+                            // console.log('Select: ', place.formatted_address);
                         }
                     });
                 });

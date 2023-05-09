@@ -4,6 +4,7 @@ import getApiUrl from '../../../Common/Api';
 import useAuth from '../../../hooks/useAuth';
 import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
+import { Gmap } from '../../GoogleMap/GoogleMap';
 
 function ResearchEditor({ research }) {
     const UPDATE_RESEARCH_URL = getApiUrl() + `research/${research.researchCode}/update`;
@@ -17,6 +18,9 @@ function ResearchEditor({ research }) {
     const [creatorEmail, setCreatorEmail] = useState(research.creatorEmail);
     const [creatorPhone, setCreatorPhone] = useState(research.creatorPhone);
     const [participantLimit, setParticipantLimit] = useState(research.participantLimit);
+    const [locationLink, setLocationLink] = useState(research.location.place);
+    const [locationCoords, setLocationCoords] = useState(research.location.place);
+    const [locationAddress, setLocationAddress] = useState(research.location.address);
 
     /*** Alerts Section ***/
 
@@ -62,6 +66,12 @@ function ResearchEditor({ research }) {
         if (creatorPhone === research.creatorPhone) unchangedFieldKeys.push('creatorPhone');
         if (participantLimit === research.participantLimit)
             unchangedFieldKeys.push('participantLimit');
+        if (research.location.form === 'remote') {
+            if (locationLink === research.location.place) unchangedFieldKeys.push('locationLink');
+        } else {
+            if (locationCoords === research.location.place)
+                unchangedFieldKeys.push('locationCoords');
+        }
 
         const researchUpdateData = {
             title: unchangedFieldKeys.includes('title') ? null : title,
@@ -73,8 +83,17 @@ function ResearchEditor({ research }) {
             participantLimit: unchangedFieldKeys.includes('participantLimit')
                 ? null
                 : participantLimit,
+            location:
+                unchangedFieldKeys.includes('locationCoords') ||
+                unchangedFieldKeys.includes('locationLink')
+                    ? null
+                    : {
+                          form: research.location.form,
+                          place:
+                              research.location.form === 'in-place' ? locationCoords : locationLink,
+                          address: research.location.form === 'in-place' ? locationAddress : null,
+                      },
         };
-
         // console.log(researchUpdateData);
 
         sendEditedResearch(researchUpdateData).then(null);
@@ -208,6 +227,35 @@ function ResearchEditor({ research }) {
                         />
                     </div>
                 </div>
+
+                {research.location.form === 'in-place' ? (
+                    <div className={`${styles.editorRow} ${styles.map}`}>
+                        <div className={styles.inputWithLabel}>
+                            <label>Miejsce przeprowadzania badania</label>
+                            <Gmap
+                                latitude={Number(research.location.place.split(' ').at(0))}
+                                longitude={Number(research.location.place.split(' ').at(1))}
+                                type={'research-form'}
+                                exit={() => {}}
+                                setLocationInput={() => {}}
+                                setGmapExit={() => {}}
+                                setResearchPlace={setLocationCoords}
+                                setResearchPageAddress={setLocationAddress}
+                                setIsClickedLocation={() => {}}
+                            />
+                        </div>
+                    </div>
+                ) : (
+                    <div className={styles.inputWithLabel}>
+                        <label htmlFor="location-link">Link do badania</label>
+                        <input
+                            type="text"
+                            name="location-link"
+                            defaultValue={research.location.place}
+                            onChange={e => setLocationLink(() => e.target.value)}
+                        />
+                    </div>
+                )}
 
                 <div className={styles.formButtonContainer}>
                     <button type="reset" className={styles.formButton}>
