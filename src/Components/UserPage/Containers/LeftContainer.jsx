@@ -1,5 +1,4 @@
 import styles from '../Containers/Container.module.css';
-import dude from '../../../img/dude.png';
 import { BsCameraFill } from 'react-icons/bs';
 import { MdLocationOn, MdPhone } from 'react-icons/md';
 import { HiOutlineMail } from 'react-icons/hi';
@@ -9,6 +8,8 @@ import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
 import getApiUrl from '../../../Common/Api';
 import useAuth from '../../../hooks/useAuth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const LeftContainer = ({ values }) => {
     const AVATAR_UPDATE_URL = getApiUrl() + 'user/current/avatar/update';
@@ -103,14 +104,16 @@ const LeftContainer = ({ values }) => {
                     setAlert({
                         alertOpen: true,
                         alertType: response.status,
-                        alertText: 'Zdjęcie profilowe zostało zmienione!',
+                        alertText:
+                            'Zdjęcie profilowe zostało zmienione! Zmiany będą widoczne po odświeżeniu strony.',
                     });
                     break;
                 default:
                     setAlert({
                         alertOpen: true,
                         alertType: 400,
-                        alertText: 'Nie udało się zmienić zdjęcia profilowego!',
+                        alertText:
+                            'Nie udało się zmienić zdjęcia profilowego! Spróbuj ponownie później.',
                     });
                     break;
             }
@@ -128,11 +131,21 @@ const LeftContainer = ({ values }) => {
             <div className={styles.infoWithoutEdit}>
                 <div className={styles.mainInfo}>
                     <div className={styles.avatarBox}>
-                        <img
-                            src={`data:image/jpeg;base64,${values.avatar}`}
-                            className={styles.avatarImage}
-                            alt="avatar"
-                        ></img>
+                        {values.avatar === undefined ||
+                            (values.avatar === '' ? (
+                                <div className={styles.avatarImage}>
+                                    <FontAwesomeIcon
+                                        icon={faUser}
+                                        className={styles.userAvatarIcon}
+                                    />
+                                </div>
+                            ) : (
+                                <img
+                                    src={`data:image/jpeg;base64,${values.avatar}`}
+                                    className={styles.avatarImage}
+                                    alt="avatar"
+                                />
+                            ))}
                         <div className={styles.editAvatarButton}>
                             <label htmlFor="avatar" className={styles.avatarIcon}>
                                 <BsCameraFill />
@@ -181,7 +194,11 @@ const LeftContainer = ({ values }) => {
             </div>
             <div className={styles.editDiv}>
                 <button
-                    className={!(values.clickedEdit||values.clickedAdvance) ? styles.editButton : styles.editButtonHide}
+                    className={
+                        !(values.clickedEdit || values.clickedAdvance)
+                            ? styles.editButton
+                            : styles.editButtonHide
+                    }
                     onClick={() => {
                         values.setIsClickedEdit(!values.clickedEdit);
                     }}
@@ -189,7 +206,11 @@ const LeftContainer = ({ values }) => {
                     Edytuj profil
                 </button>
                 <button
-                    className={!(values.clickedAdvance||values.clickedEdit) ? styles.editButton : styles.editButtonHide}
+                    className={
+                        !(values.clickedAdvance || values.clickedEdit)
+                            ? styles.editButton
+                            : styles.editButtonHide
+                    }
                     onClick={() => {
                         values.setClickedAdvance(!values.clickedAdvance);
                     }}

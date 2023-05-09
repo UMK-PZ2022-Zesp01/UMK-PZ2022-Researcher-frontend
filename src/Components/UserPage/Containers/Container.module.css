@@ -38,11 +38,16 @@
 }
 
 .avatarImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     pointer-events: none;
     aspect-ratio: 1 / 1;
     width: 8rem;
     border-radius: 50%;
-    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+        rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+        rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 }
 
 .editAvatarButton {
@@ -57,7 +62,7 @@
     width: 2.15rem;
     border-radius: 50%;
     background-color: rgb(81, 44, 140);
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .editAvatarButton:hover {
@@ -69,7 +74,8 @@
     justify-content: center;
     align-items: center;
     font-size: 1.1rem;
-    filter: invert(100%) sepia(0%) saturate(7485%) hue-rotate(349deg) brightness(104%) contrast(103%);
+    filter: invert(100%) sepia(0%) saturate(7485%) hue-rotate(349deg) brightness(104%)
+        contrast(103%);
 }
 
 .nameDiv {
@@ -118,12 +124,13 @@
 
 .editDiv {
     display: flex;
-    gap:20px;
+    gap: 20px;
     justify-content: center;
     width: 100%;
 }
 
-.editButton, .editButtonHide {
+.editButton,
+.editButtonHide {
     color: white;
     cursor: pointer;
     border: none;
@@ -133,7 +140,7 @@
     height: 2rem;
     background-color: rgb(81, 44, 140);
     border-radius: 10px;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     opacity: 1;
     backface-visibility: hidden;
     will-change: transform;
@@ -141,18 +148,18 @@
 
 .editButton:hover {
     transform: scale(105%);
-    background-color: #6D3B9E;
+    background-color: #6d3b9e;
     transform-origin: center;
 }
-
 
 .editButtonHide {
     visibility: hidden;
     opacity: 0;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
-.deleteButton, .deleteButtonHide {
+.deleteButton,
+.deleteButtonHide {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -172,22 +179,21 @@
     cursor: pointer;
     backface-visibility: hidden;
     will-change: transform;
-    transition: all .5s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 .deleteButton:hover {
     transform: scale(105%);
-    background-color: #6D3B9E;
+    background-color: #6d3b9e;
     transform-origin: center;
 }
-
 
 .deleteButtonHide {
     visibility: hidden;
     font-size: 0;
     opacity: 0;
     height: 0;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .alertOverlay {
@@ -208,6 +214,11 @@
 
 .alertLink:hover {
     text-decoration: underline darkgreen;
+}
+
+.userAvatarIcon {
+    font-size: 4rem;
+    color: #512c8c;
 }
 
 @media only screen and (max-width: 1000px) {
@@ -246,7 +257,7 @@
 
     .nameDiv {
         align-items: center;
-        gap: .25em;
+        gap: 0.25em;
     }
 
     .nameAndSurname {
@@ -271,7 +282,9 @@
     font-size: 16px;
 }
 
-.editBox, .editBoxHide,.editBoxPassword {
+.editBox,
+.editBoxHide,
+.editBoxPassword {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -284,13 +297,12 @@
     -webkit-box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);
     -moz-box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);
     box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);
-    transition: all .5s ease-in-out;
+    transition: all 0.5s ease-in-out;
     z-index: 10;
 }
 
-.editBoxPassword{
+.editBoxPassword {
     z-index: 10;
-
 }
 
 .editBoxHide {
@@ -298,7 +310,8 @@
     z-index: 0;
 }
 
-.exitBtn, .exitBtnHide {
+.exitBtn,
+.exitBtnHide {
     position: absolute;
     opacity: 1;
     right: 15px;
@@ -314,7 +327,7 @@
     cursor: pointer;
     border: none;
     background: transparent;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     z-index: 10;
 }
 
@@ -331,23 +344,25 @@
     height: 80%;
 }
 
-.editTileResized,.editTileResizedPassword,.editTileResizedDelete{
-    color: #512C8C;
+.editTileResized,
+.editTileResizedPassword,
+.editTileResizedDelete {
+    color: #512c8c;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 80%;
     height: 25%;
     border-radius: 10px;
-    transition: all .5s ease-in-out;
-    background: #D6CEF3;
+    transition: all 0.5s ease-in-out;
+    background: #d6cef3;
 }
 
-.editTileResizedPassword{
+.editTileResizedPassword {
     height: 50%;
 }
 
-.editTileResizedDelete{
+.editTileResizedDelete {
     height: 39%;
 }
 
@@ -357,10 +372,10 @@
     align-items: center;
     width: 60%;
     height: 15%;
-    color: #512C8C;
+    color: #512c8c;
     border-radius: 10px;
-    transition: all .5s ease-in-out;
-    background: #D6CEF3;
+    transition: all 0.5s ease-in-out;
+    background: #d6cef3;
 }
 
 .valueEdit {
@@ -371,14 +386,13 @@
     width: 100%;
     gap: 5%;
     border-radius: 10px;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
     cursor: pointer;
 }
 
 .valueEdit:hover {
     background-color: #c7acef;
 }
-
 
 .valueEditHide {
     display: flex;
@@ -390,7 +404,8 @@
     gap: 5%;
 }
 
-.val, .valHide {
+.val,
+.valHide {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -398,20 +413,21 @@
     width: 60%;
     padding: 5px;
     height: 50%;
-    background-color: #D6CEF3;
+    background-color: #d6cef3;
     outline: none;
-    border: 2px solid #C6B1E7;
+    border: 2px solid #c6b1e7;
     border-radius: 5px;
     font-family: sans-serif;
     opacity: 1;
     margin-top: -10px;
     margin-bottom: 10px;
-    transition: all .5s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
-.val:focus, .mapSearchBar:focus {
-    border-color: #512C8C;
-    background-color: #D7C2F8;
+.val:focus,
+.mapSearchBar:focus {
+    border-color: #512c8c;
+    background-color: #d7c2f8;
 }
 
 .valHide {
@@ -429,7 +445,7 @@
     font-weight: 700;
     min-height: 48px;
     width: 75%;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
 }
 
 .textSmall {
@@ -441,10 +457,11 @@
     border-radius: 10px;
     min-height: 48px;
     width: 100%;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
 }
 
-.saveBtn, .saveBtnHide {
+.saveBtn,
+.saveBtnHide {
     color: white;
     letter-spacing: 1px;
     font-size: 15px;
@@ -453,7 +470,7 @@
     cursor: pointer;
     border: none;
     background-color: rgb(81, 44, 140);
-    transition: all .1s ease-in-out;
+    transition: all 0.1s ease-in-out;
     border-radius: 10px;
     backface-visibility: hidden;
     will-change: transform;
@@ -465,12 +482,12 @@
 
 .saveBtn:hover {
     transform: scale(105%);
-    background-color: #6D3B9E;
+    background-color: #6d3b9e;
     transform-origin: center;
 }
 
-
-.saveBtnPassword, .saveBtnPasswordHide {
+.saveBtnPassword,
+.saveBtnPasswordHide {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -490,7 +507,7 @@
     cursor: pointer;
     backface-visibility: hidden;
     will-change: transform;
-    transition: all .5s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 .saveBtnPasswordHide {
@@ -498,25 +515,24 @@
     font-size: 0;
     opacity: 0;
     height: 0;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
 
 .saveBtnPassword:hover {
     transform: scale(105%);
-    background-color: #6D3B9E;
+    background-color: #6d3b9e;
     transform-origin: center;
 }
-
 
 .location {
     font-size: 16px;
     font-weight: bolder;
     min-height: 24px;
-    transition: .3s;
+    transition: 0.3s;
 }
 
 .location.color {
-    color: #0B6E4F;
+    color: #0b6e4f;
 }
 
 .location.margin {
@@ -527,7 +543,8 @@
     opacity: 0;
 }
 
-.right, .rightHide {
+.right,
+.rightHide {
     position: absolute;
     opacity: 1;
     display: flex;
@@ -536,7 +553,7 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
-    transition: opacity .3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .rightHide {
@@ -567,7 +584,7 @@
     width: 70%;
     min-height: 50px;
     background-color: rgb(81, 44, 140);
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     cursor: pointer;
     color: white;
     gap: 15px;
@@ -578,7 +595,7 @@
 
 .singleActivity:hover {
     transform: scale(103%);
-    background-color: #6D3B9E;
+    background-color: #6d3b9e;
     transform-origin: center;
 }
 
@@ -609,10 +626,12 @@
 }
 
 @media only screen and (max-width: 550px) {
-    .singleActivity, .singleActivity span {
+    .singleActivity,
+    .singleActivity span {
         font-size: 14px;
     }
-    .additionIcon, .additionIconResearches {
+    .additionIcon,
+    .additionIconResearches {
         font-size: 18px;
     }
 }
@@ -645,7 +664,6 @@
         height: 100%;
     }
 }
-
 
 @media only screen and (max-width: 300px) {
     .profileDescription {

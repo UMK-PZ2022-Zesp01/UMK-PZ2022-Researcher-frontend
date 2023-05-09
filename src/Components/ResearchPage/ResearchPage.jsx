@@ -25,12 +25,17 @@ import { Forum } from '../Forum/Forum';
 import { LoadingDots } from '../LoadingDots/LoadingDots';
 import { Gmap } from '../GoogleMap/GoogleMap';
 import { ResearchEditor } from './ResearchEditor/ResearchEditor';
+import { useDateFormat } from '../../hooks/useDateFormat';
+import { useTranslate } from '../../hooks/useTranslate';
 
 function ResearchPage() {
     const { researchCode } = useParams();
 
     const { auth } = useAuth();
-    const { username, accessToken } = useAuth().auth;
+    const { username, accessToken } = auth;
+
+    const dateFormat = useDateFormat('pl');
+    const translator = useTranslate();
 
     const GET_RESEARCH_URL = getApiUrl() + `research/code/${researchCode}`;
     const DELETE_RESEARCH_URL = getApiUrl() + `research/${researchCode}/delete`;
@@ -251,83 +256,84 @@ function ResearchPage() {
 
     /*** Polish Translator Function ***/
 
-    const convertDateToPolish = date => {
-        const months = new Map();
-        months.set('01', 'stycznia');
-        months.set('02', 'lutego');
-        months.set('03', 'marca');
-        months.set('04', 'kwietnia');
-        months.set('05', 'maja');
-        months.set('06', 'czerwca');
-        months.set('07', 'lipca');
-        months.set('08', 'sierpnia');
-        months.set('09', 'września');
-        months.set('10', 'października');
-        months.set('11', 'listopada');
-        months.set('12', 'grudnia');
+    // const convertDateToPolish = date => {
+    //
+    //     const months = new Map();
+    //     months.set('01', 'stycznia');
+    //     months.set('02', 'lutego');
+    //     months.set('03', 'marca');
+    //     months.set('04', 'kwietnia');
+    //     months.set('05', 'maja');
+    //     months.set('06', 'czerwca');
+    //     months.set('07', 'lipca');
+    //     months.set('08', 'sierpnia');
+    //     months.set('09', 'września');
+    //     months.set('10', 'października');
+    //     months.set('11', 'listopada');
+    //     months.set('12', 'grudnia');
+    //
+    //     const polishDate = [];
+    //     const separated = date.toString().split('-').reverse();
+    //     polishDate.push(
+    //         separated.at(0).charAt(0) === '0' ? separated.at(0).substring(1) : separated.at(0)
+    //     );
+    //     polishDate.push(months.get(separated.at(1)));
+    //     polishDate.push(separated.at(2));
+    //
+    //     return polishDate.join(' ');
+    // };
 
-        const polishDate = [];
-        const separated = date.toString().split('-').reverse();
-        polishDate.push(
-            separated.at(0).charAt(0) === '0' ? separated.at(0).substring(1) : separated.at(0)
-        );
-        polishDate.push(months.get(separated.at(1)));
-        polishDate.push(separated.at(2));
+    // const translateRewardRequirementType = type => {
+    //     const types = new Map();
+    //     types.set('cash', 'Pieniężna');
+    //     types.set('item', 'Nagroda rzeczowa');
+    //     types.set('other', 'Inne');
+    //     types.set('gender', 'Płeć');
+    //     types.set('age', 'Wiek');
+    //     types.set('place', 'Miejsce zamieszkania');
+    //     types.set('education', 'Wykształcenie');
+    //     types.set('marital', 'Stan cywilny');
+    //
+    //     return types.get(type) !== undefined
+    //         ? types.get(type)
+    //         : type.charAt(0).toUpperCase() + type.substring(1);
+    // };
 
-        return polishDate.join(' ');
-    };
-
-    const translateRewardRequirementType = type => {
-        const types = new Map();
-        types.set('cash', 'Pieniężna');
-        types.set('item', 'Nagroda rzeczowa');
-        types.set('other', 'Inne');
-        types.set('gender', 'Płeć');
-        types.set('age', 'Wiek');
-        types.set('place', 'Miejsce zamieszkania');
-        types.set('education', 'Wykształcenie');
-        types.set('marital', 'Stan cywilny');
-
-        return types.get(type) !== undefined
-            ? types.get(type)
-            : type.charAt(0).toUpperCase() + type.substring(1);
-    };
-
-    const translateRequirementCriterion = criterion => {
-        const criteria = new Map();
-
-        /** Gender **/
-        criteria.set('male', 'mężczyzna');
-        criteria.set('female', 'kobieta');
-        criteria.set('other', 'inna');
-        criteria.set('notGiven', 'nie podano');
-
-        /** Place **/
-        criteria.set('village', 'wieś');
-        criteria.set('cityBelow50k', 'miasto poniżej 50 000 mieszkańców');
-        criteria.set('cityBetween50kAnd150k', 'miasto od 50 000 do 150 000 mieszkańców');
-        criteria.set('cityBetween150kAnd500k', 'miasto od 150 000 do 500 000 mieszkańców');
-        criteria.set('cityAbove500k', 'miasto powyżej 500 000 mieszkańców');
-
-        /** Education **/
-        criteria.set('primary', 'podstawowe');
-        criteria.set('vocational', 'zasadnicze zawodowe');
-        criteria.set('middle', 'średnie');
-        criteria.set('college', 'wyższe');
-
-        /** Marital **/
-        criteria.set('single', 'singiel(ka)');
-        criteria.set('inRelationship', 'w związku partnerskim');
-        criteria.set('engaged', 'zaręczony(-a)');
-        criteria.set('married', 'w związku małżeńskim');
-        criteria.set('divorced', 'rozwiedziony(-a)');
-        criteria.set('widowed', 'wdowiec / wdowa');
-        criteria.set('inSeparation', 'w separacji');
-
-        return criterion.includes('other: ')
-            ? criterion.split(': ').at(1)
-            : criteria.get(criterion);
-    };
+    // const translateRequirementCriterion = criterion => {
+    //     const criteria = new Map();
+    //
+    //     /** Gender **/
+    //     criteria.set('male', 'mężczyzna');
+    //     criteria.set('female', 'kobieta');
+    //     criteria.set('other', 'inna');
+    //     criteria.set('notGiven', 'nie podano');
+    //
+    //     /** Place **/
+    //     criteria.set('village', 'wieś');
+    //     criteria.set('cityBelow50k', 'miasto poniżej 50 000 mieszkańców');
+    //     criteria.set('cityBetween50kAnd150k', 'miasto od 50 000 do 150 000 mieszkańców');
+    //     criteria.set('cityBetween150kAnd500k', 'miasto od 150 000 do 500 000 mieszkańców');
+    //     criteria.set('cityAbove500k', 'miasto powyżej 500 000 mieszkańców');
+    //
+    //     /** Education **/
+    //     criteria.set('primary', 'podstawowe');
+    //     criteria.set('vocational', 'zasadnicze zawodowe');
+    //     criteria.set('middle', 'średnie');
+    //     criteria.set('college', 'wyższe');
+    //
+    //     /** Marital **/
+    //     criteria.set('single', 'singiel(ka)');
+    //     criteria.set('inRelationship', 'w związku partnerskim');
+    //     criteria.set('engaged', 'zaręczony(-a)');
+    //     criteria.set('married', 'w związku małżeńskim');
+    //     criteria.set('divorced', 'rozwiedziony(-a)');
+    //     criteria.set('widowed', 'wdowiec / wdowa');
+    //     criteria.set('inSeparation', 'w separacji');
+    //
+    //     return criterion.includes('other: ')
+    //         ? criterion.split(': ').at(1)
+    //         : criteria.get(criterion);
+    // };
 
     /*** Render Functions ***/
 
@@ -339,7 +345,7 @@ function ResearchPage() {
                 {rewards.map((value, index) => {
                     return (
                         <li key={index}>
-                            <strong>{translateRewardRequirementType(value.type)}: </strong>
+                            <strong>{translator(value.type)}: </strong>
                             <span>
                                 {value.type === 'cash'
                                     ? Number(value.value) % 100 === 0
@@ -365,7 +371,7 @@ function ResearchPage() {
                                 return (
                                     <div className={styles.reqElementColumn} key={index}>
                                         <strong className={styles.requirementCategory}>
-                                            {translateRewardRequirementType(value.type)}
+                                            {translator(value.type)}
                                         </strong>
                                         <span className={styles.reqDescription}>
                                             {value.description}
@@ -377,7 +383,7 @@ function ResearchPage() {
                     ) : (
                         <div className={styles.reqList} key={index}>
                             <strong className={styles.requirementCategory}>
-                                {translateRewardRequirementType(value.type)}
+                                {translator(value.type)}
                             </strong>
 
                             <ul className={styles.reqElement}>
@@ -393,11 +399,7 @@ function ResearchPage() {
                                 {value.type !== 'age' &&
                                     value.type !== 'other' &&
                                     value.criteria.map((value, index) => {
-                                        return (
-                                            <li key={index}>
-                                                {translateRequirementCriterion(value)}
-                                            </li>
-                                        );
+                                        return <li key={index}>{translator(value)}</li>;
                                     })}
                             </ul>
                         </div>
@@ -692,7 +694,7 @@ function ResearchPage() {
                                     <div className={styles.dateContainerLeft}>
                                         <div className={styles.categoryLabel}>Otwarte do</div>
                                         <div className={styles.categoryValue}>
-                                            {convertDateToPolish(research.endDate)}
+                                            {dateFormat(research.endDate)}
                                         </div>
                                     </div>
 

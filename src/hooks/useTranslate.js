@@ -52,7 +52,7 @@ const dictionary = {
     cash: 'pieniądze',
     item: 'upominek',
 
-    'other:': 'inne',
+    'other:': 'inne:',
     other: 'inna',
 };
 
@@ -67,7 +67,7 @@ export const useTranslate = () => {
 
             const translated = words
                 .map(word => translateWord(word))
-                .reduce((w1, w2) => `${w1}${w2} `);
+                .reduce((w1, w2) => `${w1} ${w2}`);
             return translated;
         }
         return '';
