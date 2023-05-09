@@ -995,22 +995,20 @@ function ResearchPage() {
                                 </>
                             )}
 
-                            {isSomeoneLoggedIn && (
-                                <div className={styles.researchPageElementColumn}>
-                                    <div className={styles.categoryLabel}>
-                                        Sekcja pytań i odpowiedzi
-                                    </div>
-                                    <span className={styles.forumInfo}>
-                                        Jeśli chcesz zadać autorowi pytanie dotyczące badania,
-                                        możesz to zrobić poniżej.
-                                    </span>
-                                    <Forum
-                                        researchCode={researchCode}
-                                        fullName={`${loggedUser.firstName} ${loggedUser.lastName}`}
-                                        researchOwnerLogin={research.creatorLogin}
-                                    />
+                            <div className={styles.researchPageElementColumn}>
+                                <div className={styles.categoryLabel}>
+                                    Sekcja pytań i odpowiedzi
                                 </div>
-                            )}
+                                <span className={styles.forumInfo}>
+                                    Jeśli chcesz zadać autorowi pytanie dotyczące badania, możesz to
+                                    zrobić poniżej.
+                                </span>
+                                <Forum
+                                    researchCode={researchCode}
+                                    fullName={`${loggedUser.firstName} ${loggedUser.lastName}`}
+                                    researchOwnerLogin={research.creatorLogin}
+                                />
+                            </div>
                         </div>
                     </>
                 )}
