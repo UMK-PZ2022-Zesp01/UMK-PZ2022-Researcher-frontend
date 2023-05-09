@@ -181,7 +181,7 @@ function RegisterForm(props) {
                         placeholder="Adres e-mail"
                         className={styles.textInput}
                         maxLength={64}
-                        pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
                         required
                     />
                 </div>
@@ -194,7 +194,7 @@ function RegisterForm(props) {
                         className={styles.textInput}
                         required
                         maxLength={32}
-                        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
                         title="Hasło musi mieć przynajmniej 8 znaków, w tym cyfrę, małą oraz wielką literę."
                         ref={el => (passwordRef.current = el)}
                     />
