@@ -65,7 +65,9 @@ export const useTranslate = () => {
                 return tr ? tr : word;
             };
 
-            const translated = words.map(word => translateWord(word));
+            const translated = words
+                .map(word => translateWord(word))
+                .reduce((w1, w2) => `${w1}${w2} `);
             return translated;
         }
         return '';
