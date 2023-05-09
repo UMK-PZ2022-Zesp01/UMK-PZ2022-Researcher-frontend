@@ -52,14 +52,21 @@ const dictionary = {
     cash: 'pieniądze',
     item: 'upominek',
 
-    other: 'inne',
+    'other:': 'inne',
+    other: 'inna',
 };
 
 export const useTranslate = () => {
-    const translate = word => {
-        if (typeof word === 'string') {
-            const translated = dictionary[word.toLowerCase()];
-            return translated ? translated : word;
+    const translate = text => {
+        if (typeof text === 'string') {
+            const words = text.split(' ');
+            const translateWord = word => {
+                const tr = dictionary[word.toLowerCase()];
+                return tr ? tr : word;
+            };
+
+            const translated = words.map(word => translateWord(word));
+            return translated;
         }
         return '';
     };
