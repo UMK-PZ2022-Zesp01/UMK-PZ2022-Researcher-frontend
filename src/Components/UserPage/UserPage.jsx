@@ -227,19 +227,6 @@ export default function UserPage(props) {
                     <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
                 </div>
                 <div className={styles.UserBox}>
-                    <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
-                        <Gmap
-                            latitude={53.015331}
-                            longitude={18.6057}
-                            type={'user-page'}
-                            exit={exit}
-                            setLocationInput={setLocationInput}
-                            setIsClickedLocation={setIsClickedLocation}
-                            setGmapExit={setGmapExit}
-                            setResearchPlace={() => {}}
-                            setResearchPageAddress={() => {}}
-                        />
-                    </div>
                     <div className={styles.Container}>
                         <header className={styles.bookmarksContainer}>
                             <Link to="/" className={styles.logo}>
@@ -274,6 +261,19 @@ export default function UserPage(props) {
                             <LeftContainer values={sendToLeftContainer} />
                             <RightContainer values={sendToRightContainer} />
                         </div>
+                    </div>
+                    <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
+                        <Gmap
+                            latitude={53.015331}
+                            longitude={18.6057}
+                            type={'user-page'}
+                            exit={exit}
+                            setLocationInput={setLocationInput}
+                            setIsClickedLocation={setIsClickedLocation}
+                            setGmapExit={setGmapExit}
+                            setResearchPlace={() => {}}
+                            setResearchPageAddress={() => {}}
+                        />
                     </div>
                 </div>
             </div>

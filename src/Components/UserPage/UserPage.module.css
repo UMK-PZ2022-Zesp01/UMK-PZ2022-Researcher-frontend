@@ -14,6 +14,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    z-index: 1000;
 }
 
 /* USER PANEL */
@@ -212,6 +213,7 @@
     align-items: center;
     flex-direction: column;
     gap: 10px;
+    z-index: 10000;
 }
 
 .locationBox {
@@ -243,6 +245,7 @@
         rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
         rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
     transition: 0.2s ease-in-out;
+    z-index: 1000;
 }
 
 .map {

@@ -285,11 +285,11 @@
     -moz-box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);
     box-shadow: 7px 0px 35px -15px rgba(0, 0, 0, 1);
     transition: all .5s ease-in-out;
-    z-index: 100;
+    z-index: 10;
 }
 
 .editBoxPassword{
-    z-index: 100;
+    z-index: 10;
 
 }
 
@@ -315,7 +315,7 @@
     border: none;
     background: transparent;
     transition: all .3s ease-in-out;
-    z-index: 100;
+    z-index: 10;
 }
 
 .exitBtnHide {
