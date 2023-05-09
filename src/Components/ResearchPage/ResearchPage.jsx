@@ -813,7 +813,7 @@ function ResearchPage() {
                                     </span>
                                     <div className={styles.mapContainer}>
                                         <span className={styles.locationAddress}>
-                                            {locationAddress}
+                                            {research.location.address}
                                         </span>
                                         <Gmap
                                             latitude={Number(
@@ -846,21 +846,11 @@ function ResearchPage() {
                                 {renderRequirements()}
                             </div>
 
-                            <div className={styles.enrollContainer}>
-                                <div className={styles.enrollCheckmark}>
-                                    {isSomeoneLoggedIn === false ? (
-                                        <>
-                                            <FontAwesomeIcon
-                                                icon={faCircleXmark}
-                                                className={`${styles.enrollIcon} ${styles.red}`}
-                                            />
-                                            <span className={`${styles.enrollDesc} ${styles.red}`}>
-                                                Zaloguj się, aby móc zapisać się na badanie.
-                                            </span>
-                                        </>
-                                    ) : (
-                                        <>
-                                            {calculateDaysLeft() === 'CLOSED' ? (
+                            {loggedUser.login !== research.creatorLogin && (
+                                <>
+                                    <div className={styles.enrollContainer}>
+                                        <div className={styles.enrollCheckmark}>
+                                            {isSomeoneLoggedIn === false ? (
                                                 <>
                                                     <FontAwesomeIcon
                                                         icon={faCircleXmark}
@@ -869,12 +859,12 @@ function ResearchPage() {
                                                     <span
                                                         className={`${styles.enrollDesc} ${styles.red}`}
                                                     >
-                                                        Badanie zakończyło się.
+                                                        Zaloguj się, aby móc zapisać się na badanie.
                                                     </span>
                                                 </>
                                             ) : (
                                                 <>
-                                                    {checkForLimitExceedance() === 'EXCEEDED' ? (
+                                                    {calculateDaysLeft() === 'CLOSED' ? (
                                                         <>
                                                             <FontAwesomeIcon
                                                                 icon={faCircleXmark}
@@ -883,12 +873,13 @@ function ResearchPage() {
                                                             <span
                                                                 className={`${styles.enrollDesc} ${styles.red}`}
                                                             >
-                                                                Lista uczestników jest już pełna.
+                                                                Badanie zakończyło się.
                                                             </span>
                                                         </>
                                                     ) : (
                                                         <>
-                                                            {checkRequirements() !== true ? (
+                                                            {checkForLimitExceedance() ===
+                                                            'EXCEEDED' ? (
                                                                 <>
                                                                     <FontAwesomeIcon
                                                                         icon={faCircleXmark}
@@ -897,43 +888,72 @@ function ResearchPage() {
                                                                     <span
                                                                         className={`${styles.enrollDesc} ${styles.red}`}
                                                                     >
-                                                                        Nie kwalifikujesz się do
-                                                                        udziału w tym badaniu ze
-                                                                        względu na{' '}
-                                                                        {checkRequirements()}!
+                                                                        Lista uczestników jest już
+                                                                        pełna.
                                                                     </span>
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    {isLoggedUserOnParticipantList ===
+                                                                    {checkRequirements() !==
                                                                     true ? (
                                                                         <>
                                                                             <FontAwesomeIcon
-                                                                                icon={faCircleCheck}
-                                                                                className={`${styles.enrollIcon} ${styles.green}`}
+                                                                                icon={faCircleXmark}
+                                                                                className={`${styles.enrollIcon} ${styles.red}`}
                                                                             />
                                                                             <span
-                                                                                className={`${styles.enrollDesc} ${styles.green}`}
+                                                                                className={`${styles.enrollDesc} ${styles.red}`}
                                                                             >
-                                                                                Bierzesz udział w
-                                                                                tym badaniu!
+                                                                                Nie kwalifikujesz
+                                                                                się do udziału w tym
+                                                                                badaniu ze względu
+                                                                                na{' '}
+                                                                                {checkRequirements()}
+                                                                                !
                                                                             </span>
                                                                         </>
                                                                     ) : (
                                                                         <>
-                                                                            <FontAwesomeIcon
-                                                                                icon={faCircleCheck}
-                                                                                className={`${styles.enrollIcon} ${styles.green}`}
-                                                                            />
-                                                                            <span
-                                                                                className={`${styles.enrollDesc} ${styles.green}`}
-                                                                            >
-                                                                                Na podstawie
-                                                                                wstępnych wymagań
-                                                                                (płeć i wiek)
-                                                                                kwalifikujesz się do
-                                                                                udziału w badaniu!
-                                                                            </span>
+                                                                            {isLoggedUserOnParticipantList ===
+                                                                            true ? (
+                                                                                <>
+                                                                                    <FontAwesomeIcon
+                                                                                        icon={
+                                                                                            faCircleCheck
+                                                                                        }
+                                                                                        className={`${styles.enrollIcon} ${styles.green}`}
+                                                                                    />
+                                                                                    <span
+                                                                                        className={`${styles.enrollDesc} ${styles.green}`}
+                                                                                    >
+                                                                                        Bierzesz
+                                                                                        udział w tym
+                                                                                        badaniu!
+                                                                                    </span>
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    <FontAwesomeIcon
+                                                                                        icon={
+                                                                                            faCircleCheck
+                                                                                        }
+                                                                                        className={`${styles.enrollIcon} ${styles.green}`}
+                                                                                    />
+                                                                                    <span
+                                                                                        className={`${styles.enrollDesc} ${styles.green}`}
+                                                                                    >
+                                                                                        Na podstawie
+                                                                                        wstępnych
+                                                                                        wymagań
+                                                                                        (płeć i
+                                                                                        wiek)
+                                                                                        kwalifikujesz
+                                                                                        się do
+                                                                                        udziału w
+                                                                                        badaniu!
+                                                                                    </span>
+                                                                                </>
+                                                                            )}
                                                                         </>
                                                                     )}
                                                                 </>
@@ -942,55 +962,53 @@ function ResearchPage() {
                                                     )}
                                                 </>
                                             )}
-                                        </>
-                                    )}
-                                </div>
+                                        </div>
 
-                                {isLoggedUserOnParticipantList === false ? (
-                                    <button
-                                        className={
-                                            isSomeoneLoggedIn === false ||
-                                            calculateDaysLeft() === 'CLOSED' ||
-                                            checkForLimitExceedance() === 'EXCEEDED' ||
-                                            checkRequirements() !== true
-                                                ? `${styles.enrollButton} ${styles.disabled}`
-                                                : styles.enrollButton
-                                        }
-                                        onClick={enrollOnResearch}
-                                    >
-                                        Zapisz się na badanie
-                                    </button>
-                                ) : (
-                                    <button
-                                        className={
-                                            isSomeoneLoggedIn === false ||
-                                            isEnrollButtonBlocked === true
-                                                ? `${styles.enrollButton} ${styles.disabled}`
-                                                : styles.enrollButton
-                                        }
-                                        onClick={resignFromResearch}
-                                    >
-                                        Zrezygnuj z udziału w badaniu
-                                    </button>
-                                )}
-                            </div>
-
-                            {isSomeoneLoggedIn && (
-                                <div className={styles.researchPageElementColumn}>
-                                    <div className={styles.categoryLabel}>
-                                        Sekcja pytań i odpowiedzi
+                                        {isLoggedUserOnParticipantList === false ? (
+                                            <button
+                                                className={
+                                                    isSomeoneLoggedIn === false ||
+                                                    calculateDaysLeft() === 'CLOSED' ||
+                                                    checkForLimitExceedance() === 'EXCEEDED' ||
+                                                    checkRequirements() !== true
+                                                        ? `${styles.enrollButton} ${styles.disabled}`
+                                                        : styles.enrollButton
+                                                }
+                                                onClick={enrollOnResearch}
+                                            >
+                                                Zapisz się na badanie
+                                            </button>
+                                        ) : (
+                                            <button
+                                                className={
+                                                    isSomeoneLoggedIn === false ||
+                                                    isEnrollButtonBlocked === true
+                                                        ? `${styles.enrollButton} ${styles.disabled}`
+                                                        : styles.enrollButton
+                                                }
+                                                onClick={resignFromResearch}
+                                            >
+                                                Zrezygnuj z udziału w badaniu
+                                            </button>
+                                        )}
                                     </div>
-                                    <span className={styles.forumInfo}>
-                                        Jeśli chcesz zadać autorowi pytanie dotyczące badania,
-                                        możesz to zrobić poniżej.
-                                    </span>
-                                    <Forum
-                                        researchCode={researchCode}
-                                        fullName={`${loggedUser.firstName} ${loggedUser.lastName}`}
-                                        researchOwnerLogin={research.creatorLogin}
-                                    />
-                                </div>
+                                </>
                             )}
+
+                            <div className={styles.researchPageElementColumn}>
+                                <div className={styles.categoryLabel}>
+                                    Sekcja pytań i odpowiedzi
+                                </div>
+                                <span className={styles.forumInfo}>
+                                    Jeśli chcesz zadać autorowi pytanie dotyczące badania, możesz to
+                                    zrobić poniżej.
+                                </span>
+                                <Forum
+                                    researchCode={researchCode}
+                                    fullName={`${loggedUser.firstName} ${loggedUser.lastName}`}
+                                    researchOwnerLogin={research.creatorLogin}
+                                />
+                            </div>
                         </div>
                     </>
                 )}

@@ -1,9 +1,7 @@
 import { useTranslate } from './useTranslate';
-import { useCapitalize } from './useCapitalize';
 
 export const useDateFormat = (format = 'pl') => {
     const translate = useTranslate();
-    const capitalize = useCapitalize();
 
     const toPolish = date => {
         const arrayDate = new Date(date).toDateString().split(' ');

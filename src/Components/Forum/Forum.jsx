@@ -1,20 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Forum.module.css';
-import {SingleQuestion} from './SingleQuestion';
-import {NewQuestion} from './NewQuestion';
+import { SingleQuestion } from './SingleQuestion';
+import { NewQuestion } from './NewQuestion';
 import useAuth from '../../hooks/useAuth';
-import {useUsername} from '../../hooks/useAuth';
+import { useUsername } from '../../hooks/useAuth';
 import getApiUrl from '../../Common/Api';
-import {AnswerPopUp} from './AnswerPopUp';
-import {QuestionEditPopUp} from "./QuestionEditPopUp";
+import { AnswerPopUp } from './AnswerPopUp';
+import { QuestionEditPopUp } from './QuestionEditPopUp';
 
 const SEND_URL = `${getApiUrl()}question/send`;
 
-const Forum = ({fullName,researchCode, researchOwnerLogin}) => {
+const Forum = ({ fullName, researchCode, researchOwnerLogin }) => {
     const [newQuestionVisible, setNewQuestionVisible] = useState(false);
     const [isClickedAnswer, setIsClickedAnswer] = useState(false);
-    const [isClickedQuestion, setIsClickedQuestion] = useState(false)
-    const {username, accessToken} = useAuth().auth;
+    const [isClickedQuestion, setIsClickedQuestion] = useState(false);
+    const { username, accessToken } = useAuth().auth;
     const login = useUsername();
 
     const [questionCode, setQuestionCode] = useState('');
@@ -24,7 +24,7 @@ const Forum = ({fullName,researchCode, researchOwnerLogin}) => {
     };
     const handleQuestionCall = () => {
         setIsClickedQuestion(!isClickedQuestion);
-    }
+    };
     const handleExit = () => {
         setNewQuestionVisible(false);
     };
@@ -69,7 +69,7 @@ const Forum = ({fullName,researchCode, researchOwnerLogin}) => {
     };
 
     const updateRequest = async content => {
-        console.log(content)
+        console.log(content);
         const UPDATE_URL = `${getApiUrl()}question/${questionCode}/update`;
         if (content.length) {
             let putTemplate = {
@@ -106,8 +106,7 @@ const Forum = ({fullName,researchCode, researchOwnerLogin}) => {
                 console.error(response.status);
             }
         }
-
-    }
+    };
     const handleSend = async content => {
         if (content.length) {
             let putTemplate = {
@@ -171,16 +170,22 @@ const Forum = ({fullName,researchCode, researchOwnerLogin}) => {
     return (
         <div className={styles.ForumContainer}>
             <div
-                className={newQuestionVisible || isClickedAnswer|| isClickedQuestion ? styles.blurred : styles.ForumBox}
+                className={
+                    newQuestionVisible || isClickedAnswer || isClickedQuestion
+                        ? styles.blurred
+                        : styles.ForumBox
+                }
             >
-                <button
-                    className={styles.QuestionButton}
-                    onClick={() => {
-                        setNewQuestionVisible(true);
-                    }}
-                >
-                    Zadaj pytanie
-                </button>
+                {username !== researchOwnerLogin && (
+                    <button
+                        className={styles.QuestionButton}
+                        onClick={() => {
+                            setNewQuestionVisible(true);
+                        }}
+                    >
+                        Zadaj pytanie
+                    </button>
+                )}
                 <div className={styles.QuestionsBox}>
                     {questionData.map((question, index) => (
                         <div key={index} className={styles.SingleContainer}>
@@ -209,8 +214,9 @@ const Forum = ({fullName,researchCode, researchOwnerLogin}) => {
             <QuestionEditPopUp
                 visibilityEdit={isClickedQuestion}
                 updateRequest={updateRequest}
-                handleQuestionCall={handleQuestionCall}/>
+                handleQuestionCall={handleQuestionCall}
+            />
         </div>
     );
 };
-export {Forum};
+export { Forum };
