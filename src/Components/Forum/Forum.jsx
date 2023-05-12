@@ -3,7 +3,6 @@ import styles from './Forum.module.css';
 import { SingleQuestion } from './SingleQuestion';
 import { NewQuestion } from './NewQuestion';
 import useAuth from '../../hooks/useAuth';
-import { useUsername } from '../../hooks/useAuth';
 import getApiUrl from '../../Common/Api';
 import { AnswerPopUp } from './AnswerPopUp';
 import { QuestionEditPopUp } from './QuestionEditPopUp';
@@ -15,7 +14,6 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin }) => {
     const [isClickedAnswer, setIsClickedAnswer] = useState(false);
     const [isClickedQuestion, setIsClickedQuestion] = useState(false);
     const { username, accessToken } = useAuth().auth;
-    const login = useUsername();
 
     const [questionCode, setQuestionCode] = useState('');
 
@@ -177,7 +175,7 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin }) => {
                     styles.ForumBox
                 }
             >
-                {username !== researchOwnerLogin && (
+                {username && username !== researchOwnerLogin && (
                     <button
                         className={styles.QuestionButton}
                         onClick={() => {
@@ -193,7 +191,7 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin }) => {
                             <SingleQuestion
                                 username={username}
                                 question={question}
-                                canEdit={login === question.researchOwnerLogin}
+                                canEdit={username === question.researchOwnerLogin}
                                 setQuestionCode={setQuestionCode}
                                 handleAnswerCall={handleAnswerCall}
                                 handleQuestionCall={handleQuestionCall}

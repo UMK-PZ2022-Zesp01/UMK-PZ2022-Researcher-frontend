@@ -154,12 +154,13 @@ function ResearchPage() {
         })
             .then(response => response.json())
             .then(data => {
-                setLoggedUser(data);
-                setIsSomeoneLoggedIn(true);
+                setLoggedUser(() => data);
+                setIsSomeoneLoggedIn(() => true);
             })
             .catch(() => {
-                setResearchGetSuccess(false);
-                setIsSomeoneLoggedIn(false);
+                setLoggedUser(() => {});
+                setResearchGetSuccess(() => false);
+                setIsSomeoneLoggedIn(() => false);
             });
     }, [auth]);
 
@@ -227,7 +228,7 @@ function ResearchPage() {
         const contraindicationList = [];
 
         /** Check for Gender **/
-        const loggedUserGender = loggedUser.gender;
+        const loggedUserGender = loggedUser?.gender;
         const requiredGenders = requirements
             .filter(value => value.type === 'gender')
             .map(value => value.criteria)
@@ -239,7 +240,7 @@ function ResearchPage() {
         }
 
         /** Check for Age **/
-        const birthDate = new Date(loggedUser.birthDate);
+        const birthDate = new Date(loggedUser?.birthDate);
         const currentDate = new Date(research.currentDate);
         const diff = currentDate - birthDate;
         const diffDate = new Date(diff);
@@ -567,9 +568,9 @@ function ResearchPage() {
                     </div>
                 )}
 
-                {researchGetSuccess === true && (
+                {researchGetSuccess && (
                     <>
-                        {loggedUser.login === research.creatorLogin && (
+                        {loggedUser?.login === research.creatorLogin && (
                             <div className={styles.researchEditor}>
                                 <label className={styles.categoryLabel}>Panel autora badania</label>
                                 <div className={styles.editorButtons}>
@@ -795,7 +796,7 @@ function ResearchPage() {
                                 {renderRequirements()}
                             </div>
 
-                            {loggedUser.login !== research.creatorLogin && (
+                            {loggedUser?.login !== research.creatorLogin && (
                                 <>
                                     <div className={styles.enrollContainer}>
                                         <div className={styles.enrollCheckmark}>
@@ -955,7 +956,7 @@ function ResearchPage() {
                                 </span>
                                 <Forum
                                     researchCode={researchCode}
-                                    fullName={`${loggedUser.firstName} ${loggedUser.lastName}`}
+                                    fullName={`${loggedUser?.firstName} ${loggedUser?.lastName}`}
                                     researchOwnerLogin={research.creatorLogin}
                                 />
                             </div>
@@ -995,7 +996,7 @@ function ResearchPage() {
 
                                 {isSomeoneLoggedIn && (
                                     <Link
-                                        to={`/profile/${loggedUser.login}`}
+                                        to={`/profile/${loggedUser?.login}`}
                                         className={styles.navigationButton}
                                     >
                                         <FontAwesomeIcon icon={faUser} />
