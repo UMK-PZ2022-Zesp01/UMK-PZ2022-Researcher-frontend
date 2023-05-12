@@ -231,9 +231,11 @@
     }
 
     .profileDescription {
-        padding-left: 25%;
+        /*padding-left: 25%;*/
+        padding: 0 1rem;
         justify-content: center;
         align-items: center;
+        width: unset;
     }
 
     .editDiv {
@@ -642,7 +644,7 @@
         gap: 4px;
     }
     .desc span {
-        font-size: 14px;
+        /*font-size: 14px;*/
     }
 
     .icon {
@@ -688,5 +690,5 @@
     width: 100%;
     top: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 50;
 }

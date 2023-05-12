@@ -248,7 +248,7 @@ function BookmarksNav({ active, desc }) {
                         to={isSomeoneLoggedIn ? '/profile' : '/login'}
                         className={styles.bookmarkMiddleRow}
                     >
-                        {isSomeoneLoggedIn ? (
+                        {isSomeoneLoggedIn && loggedUser.avatarImage !== '' ? (
                             <img
                                 alt="user-avatar"
                                 src={`data:image/jpeg;base64,${loggedUser.avatarImage}`}

@@ -49,7 +49,6 @@ function ResearchPage() {
     const [creator, setCreator] = useState();
     const [loggedUser, setLoggedUser] = useState({});
     const [location, setLocation] = useState([]);
-    const [locationAddress, setLocationAddress] = useState('');
     const [rewards, setRewards] = useState([]);
     const [requirements, setRequirements] = useState([]);
 
@@ -60,6 +59,10 @@ function ResearchPage() {
     const [isEditorVisible, setIsEditorVisible] = useState(false);
     const [isDeleteResearchConfirmVisible, setIsDeleteResearchConfirmVisible] = useState(false);
     const [isEnrollButtonBlocked, setIsEnrollButtonBlocked] = useState(false);
+    //
+    // useEffect(() => {
+    //     window.location.reload();
+    // }, []);
 
     /** Get Research From Database **/
 
@@ -136,7 +139,7 @@ function ResearchPage() {
         };
 
         getResearch().then(null);
-    }, []);
+    }, [auth]);
 
     /** Get Logged User Data **/
 
@@ -254,87 +257,6 @@ function ResearchPage() {
         return contraindication.length === 0 ? true : contraindication.join(' i ');
     };
 
-    /*** Polish Translator Function ***/
-
-    // const convertDateToPolish = date => {
-    //
-    //     const months = new Map();
-    //     months.set('01', 'stycznia');
-    //     months.set('02', 'lutego');
-    //     months.set('03', 'marca');
-    //     months.set('04', 'kwietnia');
-    //     months.set('05', 'maja');
-    //     months.set('06', 'czerwca');
-    //     months.set('07', 'lipca');
-    //     months.set('08', 'sierpnia');
-    //     months.set('09', 'września');
-    //     months.set('10', 'października');
-    //     months.set('11', 'listopada');
-    //     months.set('12', 'grudnia');
-    //
-    //     const polishDate = [];
-    //     const separated = date.toString().split('-').reverse();
-    //     polishDate.push(
-    //         separated.at(0).charAt(0) === '0' ? separated.at(0).substring(1) : separated.at(0)
-    //     );
-    //     polishDate.push(months.get(separated.at(1)));
-    //     polishDate.push(separated.at(2));
-    //
-    //     return polishDate.join(' ');
-    // };
-
-    // const translateRewardRequirementType = type => {
-    //     const types = new Map();
-    //     types.set('cash', 'Pieniężna');
-    //     types.set('item', 'Nagroda rzeczowa');
-    //     types.set('other', 'Inne');
-    //     types.set('gender', 'Płeć');
-    //     types.set('age', 'Wiek');
-    //     types.set('place', 'Miejsce zamieszkania');
-    //     types.set('education', 'Wykształcenie');
-    //     types.set('marital', 'Stan cywilny');
-    //
-    //     return types.get(type) !== undefined
-    //         ? types.get(type)
-    //         : type.charAt(0).toUpperCase() + type.substring(1);
-    // };
-
-    // const translateRequirementCriterion = criterion => {
-    //     const criteria = new Map();
-    //
-    //     /** Gender **/
-    //     criteria.set('male', 'mężczyzna');
-    //     criteria.set('female', 'kobieta');
-    //     criteria.set('other', 'inna');
-    //     criteria.set('notGiven', 'nie podano');
-    //
-    //     /** Place **/
-    //     criteria.set('village', 'wieś');
-    //     criteria.set('cityBelow50k', 'miasto poniżej 50 000 mieszkańców');
-    //     criteria.set('cityBetween50kAnd150k', 'miasto od 50 000 do 150 000 mieszkańców');
-    //     criteria.set('cityBetween150kAnd500k', 'miasto od 150 000 do 500 000 mieszkańców');
-    //     criteria.set('cityAbove500k', 'miasto powyżej 500 000 mieszkańców');
-    //
-    //     /** Education **/
-    //     criteria.set('primary', 'podstawowe');
-    //     criteria.set('vocational', 'zasadnicze zawodowe');
-    //     criteria.set('middle', 'średnie');
-    //     criteria.set('college', 'wyższe');
-    //
-    //     /** Marital **/
-    //     criteria.set('single', 'singiel(ka)');
-    //     criteria.set('inRelationship', 'w związku partnerskim');
-    //     criteria.set('engaged', 'zaręczony(-a)');
-    //     criteria.set('married', 'w związku małżeńskim');
-    //     criteria.set('divorced', 'rozwiedziony(-a)');
-    //     criteria.set('widowed', 'wdowiec / wdowa');
-    //     criteria.set('inSeparation', 'w separacji');
-    //
-    //     return criterion.includes('other: ')
-    //         ? criterion.split(': ').at(1)
-    //         : criteria.get(criterion);
-    // };
-
     /*** Render Functions ***/
 
     const renderRewards = () => {
@@ -439,7 +361,21 @@ function ResearchPage() {
                     setAlert({
                         alertOpen: true,
                         alertType: response.status,
-                        alertText: 'Udało Ci się zapisać na to badanie!',
+                        alertText: (
+                            <span>
+                                Udało Ci się zapisać na to badanie!{' '}
+                                {research.location.form === 'remote' && (
+                                    <a
+                                        href={research.location.place}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className={styles.link}
+                                    >
+                                        Kliknij, aby przejść do ankiety z badaniem
+                                    </a>
+                                )}
+                            </span>
+                        ),
                     });
                     break;
                 case 298:
@@ -528,11 +464,9 @@ function ResearchPage() {
         }
     };
 
-    const getLocationAddress = address => {
-        setLocationAddress(prevState => {
-            const addressParts = address.toString().split(', ');
-            return `${addressParts.at(1).toString().split(' ').at(1)}, ${addressParts.at(0)}`;
-        });
+    const formatLocationAddress = address => {
+        const addressParts = address.toString().split(', ');
+        return `${addressParts.at(1).toString().split(' ').at(1)}, ${addressParts.at(0)}`;
     };
 
     const toggleDeleteResearchConfirmVisibility = () => {
@@ -639,21 +573,23 @@ function ResearchPage() {
                             <div className={styles.researchEditor}>
                                 <label className={styles.categoryLabel}>Panel autora badania</label>
                                 <div className={styles.editorButtons}>
-                                    <button
-                                        className={styles.editorBtn}
-                                        onClick={toggleResearchEditorVisibility}
-                                    >
-                                        <FontAwesomeIcon icon={faPencil} />
-                                        <span>Edytuj badanie</span>
-                                    </button>
+                                    <div className={styles.btnBox}>
+                                        <button
+                                            className={styles.editorBtn}
+                                            onClick={toggleResearchEditorVisibility}
+                                        >
+                                            <FontAwesomeIcon icon={faPencil} />
+                                            <span>Edytuj badanie</span>
+                                        </button>
 
-                                    <button
-                                        className={styles.editorBtn}
-                                        onClick={toggleDeleteResearchConfirmVisibility}
-                                    >
-                                        <FontAwesomeIcon icon={faTrash} />
-                                        <span>Usuń badanie</span>
-                                    </button>
+                                        <button
+                                            className={styles.editorBtn}
+                                            onClick={toggleDeleteResearchConfirmVisibility}
+                                        >
+                                            <FontAwesomeIcon icon={faTrash} />
+                                            <span>Usuń badanie</span>
+                                        </button>
+                                    </div>
 
                                     {isDeleteResearchConfirmVisible && (
                                         <div className={styles.deleteResearchConfirm}>
@@ -718,7 +654,7 @@ function ResearchPage() {
                                     </div>
                                 </div>
 
-                                <div className={styles.author}>
+                                <div className={styles.spanLeft}>
                                     <span className={styles.categoryLabel}>Autor badania: </span>
                                     <Link to={`/profile/${creator.login}`} className={styles.link}>
                                         {creator.firstName + ' ' + creator.lastName}
@@ -782,16 +718,27 @@ function ResearchPage() {
 
                                 <div className={styles.basicInfoElement}>
                                     <span className={styles.categoryLabel}>Forma badania</span>
-                                    <span>
+                                    <span className={styles.spanLeft}>
                                         {location.form === 'in-place' ? (
                                             <span>
                                                 stacjonarnie{' '}
-                                                <a href="#map">(kliknij, aby przejść do mapy)</a>
+                                                <a href="#map" className={styles.mapLink}>
+                                                    (kliknij, aby przejść do mapy)
+                                                </a>
                                             </span>
                                         ) : (
                                             <span>
                                                 {isLoggedUserOnParticipantList ? (
-                                                    <a href="#">{location.place}</a>
+                                                    <>
+                                                        <span>zdalnie: </span>
+                                                        <a
+                                                            href={location.place}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                        >
+                                                            {location.place}
+                                                        </a>
+                                                    </>
                                                 ) : (
                                                     'zdalnie'
                                                 )}
@@ -829,7 +776,7 @@ function ResearchPage() {
                                             setLocationInput={() => {}}
                                             setGmapExit={() => {}}
                                             setResearchPlace={() => {}}
-                                            setResearchPageAddress={getLocationAddress}
+                                            setResearchPageAddress={() => {}}
                                             setIsClickedLocation={() => {}}
                                         />
                                     </div>
@@ -972,7 +919,8 @@ function ResearchPage() {
                                                     isSomeoneLoggedIn === false ||
                                                     calculateDaysLeft() === 'CLOSED' ||
                                                     checkForLimitExceedance() === 'EXCEEDED' ||
-                                                    checkRequirements() !== true
+                                                    checkRequirements() !== true ||
+                                                    isEnrollButtonBlocked
                                                         ? `${styles.enrollButton} ${styles.disabled}`
                                                         : styles.enrollButton
                                                 }

@@ -9,7 +9,7 @@ const NewQuestion = ({ newQuestionVisible, handleSend, handleExit }) => {
     };
     return (
         <div className={newQuestionVisible ? styles.NewQuestionBox : styles.hidden}>
-            <div className={styles.NewQuestionBoxTitle}>Coś cię nurtuje? Zadaj Pytanie!</div>
+            <div className={styles.NewQuestionBoxTitle}>Coś cię nurtuje? Zadaj pytanie!</div>
             <textarea
                 value={questionContent}
                 onChange={event => {

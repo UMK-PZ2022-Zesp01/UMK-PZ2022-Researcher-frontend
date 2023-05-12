@@ -165,4 +165,8 @@
         flex-direction: column;
         justify-content: flex-start;
     }
+
+    .mainPagePanel {
+        padding: 1rem;
+    }
 }

@@ -1,7 +1,8 @@
 .ForumContainer {
     width: 100%;
-    position: relative;
+    /*position: relative;*/
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
@@ -152,33 +153,34 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    position: absolute;
+    position: relative;
     max-width: 700px;
     width: 100%;
     height: 30vh;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 10px;
-    background-color: white;
+    margin-top: 1rem;
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+    border-radius: 5px;
+    /*background-color: white;*/
     transition: 0.3s;
-    opacity: 1;
-    filter: none;
+    /*opacity: 1;*/
+    /*filter: none;*/
 }
 
 .AnswerDiv,
 .AnswerDivHidden {
-    position: absolute;
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     width: 700px;
     height: 30vh;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 10px;
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+    border-radius: 5px;
     background-color: white;
     transition: 0.3s;
     opacity: 1;
@@ -186,6 +188,7 @@
 }
 
 .AnswerDivHidden {
+    display: none;
     opacity: 0;
     pointer-events: none;
 }
@@ -211,6 +214,7 @@
 .hidden {
     opacity: 0;
     pointer-events: none;
+    display: none;
 }
 
 .NewQuestionBoxTitle {
@@ -220,29 +224,28 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    border-radius: 10px 10px 0 0;
+    border-radius: 5px 5px 0 0;
     color: white;
     background-color: #512c8c;
     height: 20%;
 }
 
 .QuestionArea {
-    border-radius: 10px;
+    border-radius: 5px;
     resize: none;
-    width: 80%;
-    height: 40%;
-    border: 1px solid #512c8c;
-    background-color: #c7acef;
-    padding: 5px;
-    font-size: 16px;
+    outline: none;
+    width: 90%;
+    height: 45%;
+    border: 2px solid #c6b1e7;
+    background-color: #d6cef3;
+    padding: 10px;
     font-family: sans-serif;
+    transition: 300ms;
 }
 
 .QuestionArea:focus {
-    border: 2px solid #461b8a;
-    outline: none;
-    background-color: #b48fec;
-    transform-origin: center;
+    border: 2px solid #512c8c;
+    background-color: #d7c2f8;
 }
 
 .QuestionButtonSend {
@@ -251,7 +254,7 @@
     color: white;
     border: none;
     letter-spacing: 1px;
-    border-radius: 10px;
+    border-radius: 5px;
     width: 30%;
     height: 30px;
     background-color: #512c8c;
@@ -285,7 +288,7 @@
     color: white;
     border: none;
     letter-spacing: 1px;
-    border-radius: 10px;
+    border-radius: 5px;
     width: 25%;
     height: 30px;
     background-color: #c7acef;
@@ -298,4 +301,31 @@
     transform: scale(101%);
     background-color: #6d3b9e;
     transform-origin: center;
+}
+
+@media (max-width: 700px) {
+    .QuestionButton,
+    .QuestionButtonSend {
+        width: auto;
+    }
+
+    .QuestionsBox {
+        padding: 0;
+        margin: 1rem 0;
+    }
+
+    .AnswerDivHidden {
+        width: 100%;
+        display: none;
+    }
+
+    .BtnToAddAnswer {
+        width: auto;
+        margin: 0 auto;
+    }
+
+    .AnswerDiv {
+        width: 100%;
+        margin: 1rem 0;
+    }
 }

@@ -56,6 +56,13 @@
     gap: 0.5rem;
 }
 
+.btnBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .editorBtn {
     background-color: #512c8c;
     color: #fff;
@@ -214,6 +221,7 @@
     color: #512c8c;
     font-size: 18px;
     font-weight: bold;
+    text-align: left;
 }
 
 .categoryValue {
@@ -251,6 +259,17 @@
 .icon {
     font-weight: normal;
     color: #512c8c;
+}
+
+.mapLink {
+    color: #512c8c;
+    text-decoration: underline 1px transparent;
+    transition: 0.3s;
+}
+
+.mapLink:hover {
+    color: #5c1474;
+    text-decoration: underline 1px #512c8c;
 }
 
 .link {
@@ -320,6 +339,7 @@
     font-size: 1.1em;
     font-weight: bold;
     margin: 0.5rem 0;
+    color: #512c8c;
 }
 
 .rewardReqContainer {
@@ -556,6 +576,10 @@
     padding: 1rem;
 }
 
+.spanLeft {
+    text-align: left;
+}
+
 @media (max-width: 1000px) {
     .container {
         margin: 25px 10px;
@@ -628,5 +652,25 @@
     .rewardsList li,
     .reqList {
         width: 100%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .alertOverlay {
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 700px) {
+    .editorButtons {
+        flex-direction: column;
+    }
+
+    .deleteResearchConfirm {
+        margin: 0;
+    }
+
+    .mapContainer {
+        padding: 0;
     }
 }

@@ -171,9 +171,10 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin }) => {
         <div className={styles.ForumContainer}>
             <div
                 className={
-                    newQuestionVisible || isClickedAnswer || isClickedQuestion
-                        ? styles.blurred
-                        : styles.ForumBox
+                    // newQuestionVisible || isClickedAnswer || isClickedQuestion
+                    //     ? styles.blurred
+                    //     : styles.ForumBox
+                    styles.ForumBox
                 }
             >
                 {username !== researchOwnerLogin && (

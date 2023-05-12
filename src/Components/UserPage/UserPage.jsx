@@ -32,7 +32,7 @@ export default function UserPage(props) {
 
     const [gmapExit, setGmapExit] = useState(false);
 
-    const [clickedAdvance,setClickedAdvance]=useState(false)
+    const [clickedAdvance, setClickedAdvance] = useState(false);
 
     /*edit button value*/
     const [clickedEdit, setIsClickedEdit] = useState(false);
@@ -193,13 +193,13 @@ export default function UserPage(props) {
         avatar: userData.avatarImage,
         clickedEdit: clickedEdit,
         setIsClickedEdit: setIsClickedEdit,
-        clickedAdvance:clickedAdvance,
-        setClickedAdvance:setClickedAdvance,
+        clickedAdvance: clickedAdvance,
+        setClickedAdvance: setClickedAdvance,
     };
     /**rightContainer args**/
     const sendToRightContainer = {
-        clickedAdvance:clickedAdvance,
-        setClickedAdvance:setClickedAdvance,
+        clickedAdvance: clickedAdvance,
+        setClickedAdvance: setClickedAdvance,
         clickedEdit: clickedEdit,
         setIsClickedEdit: setIsClickedEdit,
         canExit: canExit,
@@ -236,7 +236,7 @@ export default function UserPage(props) {
                                     alt="Researcher Logo"
                                 />
                             </Link>
-                            <BookmarksNav active="profile" />
+                            <BookmarksNav active="profile" desc="Twój profil" />
                         </header>
                         <div className={styles.wrapper}>
                             <div

@@ -129,7 +129,7 @@ const RightContainer = ({ values }) => {
             values.setGmapExit(false);
             return;
         }
-        console.log(phoneInput, emailInput);
+        // console.log(phoneInput, emailInput);
         if (values.locationInput.includes('[nie wybrano]')) {
             setAlert({
                 alertOpen: true,
