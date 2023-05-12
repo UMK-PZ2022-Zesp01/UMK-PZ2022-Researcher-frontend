@@ -435,6 +435,10 @@
     margin: 1rem 0;
 }
 
+.enrollContainer a {
+    color: #ad0000;
+}
+
 .enrollCheckmark {
     width: 50%;
     display: flex;

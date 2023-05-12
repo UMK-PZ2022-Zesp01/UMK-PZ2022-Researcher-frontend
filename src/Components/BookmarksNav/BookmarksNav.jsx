@@ -14,7 +14,7 @@ import {
 import getApiUrl from '../../Common/Api';
 import { useAuth } from '../../hooks/useAuth';
 import { useLogout } from '../../hooks/useLogout';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // Props "active":
 // * 0 = Profile Page
@@ -27,6 +27,8 @@ function BookmarksNav({ active, desc }) {
     const { auth } = useAuth();
     const { username, accessToken } = auth;
     const logout = useLogout();
+
+    const location = useLocation();
 
     const [loggedUser, setLoggedUser] = useState({});
 
@@ -156,6 +158,8 @@ function BookmarksNav({ active, desc }) {
                 {activeBookmarkIndex === bookmarksMap.get('profile') ? (
                     <Link
                         to={isSomeoneLoggedIn ? '/profile' : '/login'}
+                        state={{ from: location }}
+                        replace
                         className={`${styles.activeBookmarkItem} ${styles.bookmarkItemNormalView}`}
                     >
                         <FontAwesomeIcon className={styles.bookmarkIcon} icon={faUser} />
@@ -163,6 +167,8 @@ function BookmarksNav({ active, desc }) {
                 ) : (
                     <Link
                         to={isSomeoneLoggedIn ? '/profile' : '/login'}
+                        state={{ from: location }}
+                        replace
                         className={`${styles.loggedUserBookmarkItem} ${styles.bookmarkItemNormalView}`}
                         title={
                             isSomeoneLoggedIn
@@ -246,6 +252,8 @@ function BookmarksNav({ active, desc }) {
 
                     <Link
                         to={isSomeoneLoggedIn ? '/profile' : '/login'}
+                        state={{ from: location }}
+                        replace
                         className={styles.bookmarkMiddleRow}
                     >
                         {isSomeoneLoggedIn && loggedUser.avatarImage !== '' ? (

@@ -3,7 +3,7 @@ import styles from './ResearchPage.module.css';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import researcherLogo from '../../img/logo-white.png';
 import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import getApiUrl from '../../Common/Api';
 import {
     faEnvelope,
@@ -33,6 +33,7 @@ function ResearchPage() {
 
     const { auth } = useAuth();
     const { username, accessToken } = auth;
+    const webLocation = useLocation();
 
     const dateFormat = useDateFormat('pl');
     const translator = useTranslate();
@@ -67,33 +68,8 @@ function ResearchPage() {
     /** Get Research From Database **/
 
     useEffect(() => {
-        const checkIfLoggedUserIsDownForResearch = async () => {
-            try {
-                const response = await fetch(ENROLL_CHECK_URL, {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: {
-                        Authorization: accessToken,
-                        'Content-Type': 'application/json; charset:UTF-8',
-                    },
-                });
-
-                switch (response.status) {
-                    case 200:
-                        setIsLoggedUserOnParticipantList(true);
-                        break;
-                    case 204:
-                        setIsLoggedUserOnParticipantList(false);
-                        break;
-                    default:
-                        setIsLoggedUserOnParticipantList(false);
-                }
-            } catch (e) {
-                setResearchGetSuccess(false);
-            }
-        };
-
         const getResearch = async () => {
+            setResearchGetSuccess(undefined);
             const researchResponse = await fetch(GET_RESEARCH_URL, {
                 method: 'GET',
                 headers: {
@@ -138,30 +114,60 @@ function ResearchPage() {
             }
         };
 
+        const getCurrentUser = async () => {
+            try {
+                const response = await fetch(getApiUrl() + 'user/current', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        Authorization: accessToken,
+                        'Content-Type': 'application/json; charset:UTF-8',
+                    },
+                });
+
+                if (response.ok) {
+                    const json = await response.json();
+                    setLoggedUser(json);
+                    setIsSomeoneLoggedIn(true);
+                }
+            } catch (e) {
+                setIsSomeoneLoggedIn(false);
+            }
+        };
+        const checkIfLoggedUserIsDownForResearch = async () => {
+            try {
+                const response = await fetch(ENROLL_CHECK_URL, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        Authorization: accessToken,
+                        'Content-Type': 'application/json; charset:UTF-8',
+                    },
+                });
+
+                switch (response.status) {
+                    case 200:
+                        setIsLoggedUserOnParticipantList(true);
+                        break;
+                    case 204:
+                        setIsLoggedUserOnParticipantList(false);
+                        break;
+                    default:
+                        setIsLoggedUserOnParticipantList(false);
+                }
+            } catch (e) {
+                setIsLoggedUserOnParticipantList(false);
+            }
+        };
+
+        setIsSomeoneLoggedIn(false);
+        setIsLoggedUserOnParticipantList(false);
+
         getResearch().then(null);
-    }, [auth]);
-
-    /** Get Logged User Data **/
-
-    useEffect(() => {
-        fetch(getApiUrl() + 'user/current', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                Authorization: accessToken,
-                'Content-Type': 'application/json; charset:UTF-8',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                setLoggedUser(() => data);
-                setIsSomeoneLoggedIn(() => true);
-            })
-            .catch(() => {
-                setLoggedUser(() => {});
-                setResearchGetSuccess(() => false);
-                setIsSomeoneLoggedIn(() => false);
-            });
+        getCurrentUser().then(null);
+        if (researchGetSuccess && loggedUser) {
+            checkIfLoggedUserIsDownForResearch().then(null);
+        }
     }, [auth]);
 
     /*** Alerts Section ***/
@@ -401,7 +407,10 @@ function ResearchPage() {
                     setAlert({
                         alertOpen: true,
                         alertType: 400,
-                        alertText: 'Zaloguj się, aby zapisać się na badanie',
+                        alertText: [
+                            <Link to={'/login'}>Zaloguj się</Link>,
+                            'aby zapisać się na badanie',
+                        ],
                     });
                     break;
                 default:
@@ -540,7 +549,7 @@ function ResearchPage() {
                 </Link>
                 <BookmarksNav
                     active="research"
-                    desc={isSomeoneLoggedIn ? title : 'Nie znaleziono badania'}
+                    desc={researchGetSuccess ? title : 'Nie znaleziono badania'}
                 />
             </header>
 
@@ -809,7 +818,14 @@ function ResearchPage() {
                                                     <span
                                                         className={`${styles.enrollDesc} ${styles.red}`}
                                                     >
-                                                        Zaloguj się, aby móc zapisać się na badanie.
+                                                        <Link
+                                                            to={'/login'}
+                                                            state={{ from: webLocation }}
+                                                            replace
+                                                        >
+                                                            Zaloguj się
+                                                        </Link>
+                                                        {', aby zapisać się na badanie.'}
                                                     </span>
                                                 </>
                                             ) : (
