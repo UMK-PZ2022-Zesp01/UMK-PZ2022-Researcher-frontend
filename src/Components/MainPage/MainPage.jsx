@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { LoadingDots } from '../LoadingDots/LoadingDots';
 import { Filters } from './Filters/Filters';
 import { FirstTimeForm } from '../Form/FirstTimeForm/FirstTimeForm';
+import { AddResearchTile } from '../ResearchTile/AddResearchTile';
 
 const RESEARCHES_URL = getApiUrl() + 'research';
 
@@ -288,7 +289,10 @@ function MainPage() {
                         </div>
                     </div>
 
-                    <ul className={styles.tileGrid}>{displayPosts()}</ul>
+                    <ul className={styles.tileGrid}>
+                        {accessToken && !isLoading && <AddResearchTile withShadow={true} />}
+                        {displayPosts()}
+                    </ul>
                     {isLoading && <LoadingDots></LoadingDots>}
                 </main>
             </div>

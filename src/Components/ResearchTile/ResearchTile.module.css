@@ -1,10 +1,11 @@
 .researchTile {
     display: flex;
+    flex-direction: column;
     position: relative;
     z-index: 1;
     height: 350px;
 
-    background-color: #512c8c;
+    background-color: #6d3b9e;
     border-radius: 5px;
 
     justify-content: center;
@@ -371,6 +372,24 @@
 /*    backgroundColor: #512c8c;*/
 /*    translate: 0 2px;*/
 /*}*/
+.largeFont {
+    font-size: 10rem;
+    translate: 0 -20%;
+    color: white;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.whiteFont {
+    color: white;
+}
+
+.bigSvg svg {
+    font-size: 8rem;
+}
 
 @media screen and (max-width: 600px) {
     .previewTile {
