@@ -8,6 +8,11 @@ export const Filters = ({ filters, saveFilters }) => {
         setOpen(!open);
     };
 
+    const handleSaveButtonClicked = () => {
+        saveFilters();
+        setOpen(false);
+    };
+
     const getDropdownClass = () => {
         return `${styles.dropdown} ${open ? styles.active : ''}`;
     };
@@ -53,7 +58,10 @@ export const Filters = ({ filters, saveFilters }) => {
             </button>
             <div className={getDropdownClass()}>
                 {renderFilters()}
-                <button onClick={saveFilters} className={`${styles.filtersButton} ${styles.small}`}>
+                <button
+                    onClick={handleSaveButtonClicked}
+                    className={`${styles.filtersButton} ${styles.small}`}
+                >
                     Zapisz
                 </button>
             </div>

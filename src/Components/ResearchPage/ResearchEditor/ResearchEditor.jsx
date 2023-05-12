@@ -37,6 +37,10 @@ function ResearchEditor({ research }) {
             alertText: alert.alertText,
         });
 
+    const showPopup = () => {
+        return;
+    };
+
     const showAlert = () => {
         switch (alert.alertType) {
             case 200:
@@ -96,7 +100,7 @@ function ResearchEditor({ research }) {
         };
         // console.log(researchUpdateData);
 
-        sendEditedResearch(researchUpdateData).then(null);
+        sendEditedResearch(researchUpdateData);
     };
 
     const sendEditedResearch = async researchEditData => {
@@ -113,28 +117,34 @@ function ResearchEditor({ research }) {
 
             switch (response.status) {
                 case 200:
-                    setAlert({
-                        alertOpen: true,
-                        alertType: response.status,
-                        alertText:
-                            'Pomyślnie zmieniono badanie! Wprowadzone dane będą widoczne po odświeżeniu strony.',
+                    setAlert(ignored => {
+                        return {
+                            alertOpen: true,
+                            alertType: response.status,
+                            alertText:
+                                'Pomyślnie zmieniono badanie! Wprowadzone dane będą widoczne po odświeżeniu strony.',
+                        };
                     });
                     break;
                 default:
-                    setAlert({
-                        alertOpen: true,
-                        alertType: response.status,
-                        alertText:
-                            'Coś poszło nie tak! Upewnij się, że posiadasz uprawnienia do edycji tego badania lub' +
-                            ' spróbuj ponownie później...',
+                    setAlert(ignored => {
+                        return {
+                            alertOpen: true,
+                            alertType: response.status,
+                            alertText:
+                                'Coś poszło nie tak! Upewnij się, że posiadasz uprawnienia do edycji tego badania lub' +
+                                ' spróbuj ponownie później...',
+                        };
                     });
                     break;
             }
         } catch (e) {
-            setAlert({
-                alertOpen: true,
-                alertType: 500,
-                alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później.',
+            setAlert(ignored => {
+                return {
+                    alertOpen: true,
+                    alertType: 500,
+                    alertText: 'Błąd połączenia z serwerem! Spróbuj ponownie później.',
+                };
             });
         }
     };

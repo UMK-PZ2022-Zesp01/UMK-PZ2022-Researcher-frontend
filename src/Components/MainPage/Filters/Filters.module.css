@@ -102,10 +102,12 @@
 
 .category :is(span, header, label) {
     display: flex;
+    padding: 0 5px;
 }
 
 .checkbox {
     aspect-ratio: 1/1;
+    margin: 0;
     height: 1rem;
     border: 1px solid #512c8c;
     border-radius: 2px;
@@ -128,7 +130,7 @@
 }
 
 .checkboxLabel {
-    padding: 0 3px;
+    padding: 0 5px;
     align-items: center;
     line-height: 1.2rem;
     cursor: pointer;
