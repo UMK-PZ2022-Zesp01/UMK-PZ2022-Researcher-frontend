@@ -21,12 +21,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useAuth from '../../hooks/useAuth';
 import { Alert } from '../Alert/Alert';
 import { Popup } from '../Popup/Popup';
-import { Forum } from '../Forum/Forum';
+import { Forum } from './Forum/Forum';
 import { LoadingDots } from '../LoadingDots/LoadingDots';
 import { Gmap } from '../GoogleMap/GoogleMap';
 import { ResearchEditor } from './ResearchEditor/ResearchEditor';
 import { useDateFormat } from '../../hooks/useDateFormat';
 import { useTranslate } from '../../hooks/useTranslate';
+import { ParticipantsList } from './ParticipantsList/ParticipantsList';
 
 function ResearchPage() {
     const { researchCode } = useParams();
@@ -58,6 +59,7 @@ function ResearchPage() {
     const [isSomeoneLoggedIn, setIsSomeoneLoggedIn] = useState(false);
     const [isLoggedUserOnParticipantList, setIsLoggedUserOnParticipantList] = useState(false);
     const [isEditorVisible, setIsEditorVisible] = useState(false);
+    const [isListVisible, setIsListVisible] = useState(false);
     const [isDeleteResearchConfirmVisible, setIsDeleteResearchConfirmVisible] = useState(false);
     const [isEnrollButtonBlocked, setIsEnrollButtonBlocked] = useState(false);
     //
@@ -129,11 +131,16 @@ function ResearchPage() {
                     const json = await response.json();
                     setLoggedUser(json);
                     setIsSomeoneLoggedIn(true);
+                } else {
+                    setLoggedUser({});
+                    setIsSomeoneLoggedIn(false);
                 }
             } catch (e) {
+                setLoggedUser({});
                 setIsSomeoneLoggedIn(false);
             }
         };
+
         const checkIfLoggedUserIsDownForResearch = async () => {
             try {
                 const response = await fetch(ENROLL_CHECK_URL, {
@@ -481,10 +488,20 @@ function ResearchPage() {
 
     const toggleDeleteResearchConfirmVisibility = () => {
         setIsDeleteResearchConfirmVisible(prevState => !prevState);
+        setIsEditorVisible(false);
+        setIsListVisible(false);
     };
 
     const toggleResearchEditorVisibility = () => {
         setIsEditorVisible(prevState => !prevState);
+        setIsDeleteResearchConfirmVisible(false);
+        setIsListVisible(false);
+    };
+
+    const toggleListVisibility = () => {
+        setIsListVisible(prevState => !prevState);
+        setIsDeleteResearchConfirmVisible(false);
+        setIsEditorVisible(false);
     };
 
     const deleteResearch = async event => {
@@ -586,6 +603,14 @@ function ResearchPage() {
                                     <div className={styles.btnBox}>
                                         <button
                                             className={styles.editorBtn}
+                                            onClick={toggleListVisibility}
+                                        >
+                                            <FontAwesomeIcon icon={faUser} />
+                                            <span>Pokaż uczestników</span>
+                                        </button>
+
+                                        <button
+                                            className={styles.editorBtn}
                                             onClick={toggleResearchEditorVisibility}
                                         >
                                             <FontAwesomeIcon icon={faPencil} />
@@ -600,27 +625,29 @@ function ResearchPage() {
                                             <span>Usuń badanie</span>
                                         </button>
                                     </div>
-
-                                    {isDeleteResearchConfirmVisible && (
-                                        <div className={styles.deleteResearchConfirm}>
-                                            <span>Czy na pewno chcesz usunąć badanie?</span>
-                                            <button
-                                                className={styles.editorBtn}
-                                                onClick={deleteResearch}
-                                            >
-                                                Tak
-                                            </button>
-                                            <button
-                                                className={styles.editorBtn}
-                                                onClick={toggleDeleteResearchConfirmVisibility}
-                                            >
-                                                Anuluj
-                                            </button>
-                                        </div>
-                                    )}
                                 </div>
 
+                                {isDeleteResearchConfirmVisible && (
+                                    <div className={styles.deleteResearchConfirm}>
+                                        <span>Czy na pewno chcesz usunąć badanie?</span>
+                                        <button
+                                            className={styles.editorBtn}
+                                            onClick={deleteResearch}
+                                        >
+                                            Tak
+                                        </button>
+                                        <button
+                                            className={styles.editorBtn}
+                                            onClick={toggleDeleteResearchConfirmVisibility}
+                                        >
+                                            Anuluj
+                                        </button>
+                                    </div>
+                                )}
                                 {isEditorVisible && <ResearchEditor research={research} />}
+                                {isListVisible && (
+                                    <ParticipantsList researchCode={research.researchCode} />
+                                )}
                             </div>
                         )}
 
@@ -967,13 +994,17 @@ function ResearchPage() {
                                     Sekcja pytań i odpowiedzi
                                 </div>
                                 <span className={styles.forumInfo}>
-                                    Jeśli chcesz zadać autorowi pytanie dotyczące badania, możesz to
-                                    zrobić poniżej.
+                                    {loggedUser?.login === research.creatorLogin
+                                        ? 'Poniżej znajdują się pytania, które zadały Ci osoby zainteresowane Twoim' +
+                                          ' badaniem.'
+                                        : 'Jeśli chcesz zadać autorowi pytanie dotyczące badania, możesz to zrobić' +
+                                          ' poniżej.'}
                                 </span>
                                 <Forum
                                     researchCode={researchCode}
                                     fullName={`${loggedUser?.firstName} ${loggedUser?.lastName}`}
                                     researchOwnerLogin={research.creatorLogin}
+                                    isSomeoneLoggedIn={isSomeoneLoggedIn}
                                 />
                             </div>
                         </div>

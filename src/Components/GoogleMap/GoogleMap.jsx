@@ -3,6 +3,7 @@ import styleUserPage from '../UserPage/UserPage.module.css';
 import styleResearchForm from '../Form/CreateResearchForm/GoogleMapResearchForm.module.css';
 import { Loader } from '@googlemaps/js-api-loader';
 import { GrClose } from 'react-icons/gr';
+import AddressFormatter from '../../Common/AddressFormatter';
 
 function Gmap({
     exit,

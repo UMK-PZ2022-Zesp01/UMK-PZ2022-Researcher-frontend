@@ -73,7 +73,7 @@ export default function ResearchTile({ withShadow, tileData, postData }) {
         const current = new Date().toISOString().split('T')[0];
 
         if (begDate > current) {
-            return ['otwarte od:', `${plDate(begDate)}`];
+            return ['otwarte od: ', `${plDate(begDate)}`];
         }
         return ['otwarte do: ', `${plDate(endDate)}`];
     };

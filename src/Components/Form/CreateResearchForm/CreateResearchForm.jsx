@@ -11,6 +11,7 @@ import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
 import { Gmap } from '../../GoogleMap/GoogleMap';
 import { Link } from 'react-router-dom';
+import AddressFormatter from '../../../Common/AddressFormatter';
 
 function CreateResearchForm() {
     const RESEARCH_ADD_URL = getApiUrl() + 'research/add';

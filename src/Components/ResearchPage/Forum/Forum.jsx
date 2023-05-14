@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import styles from './Forum.module.css';
 import { SingleQuestion } from './SingleQuestion';
 import { NewQuestion } from './NewQuestion';
-import useAuth from '../../hooks/useAuth';
-import getApiUrl from '../../Common/Api';
+import useAuth from '../../../hooks/useAuth';
+import getApiUrl from '../../../Common/Api';
 import { AnswerPopUp } from './AnswerPopUp';
 import { QuestionEditPopUp } from './QuestionEditPopUp';
 
 const SEND_URL = `${getApiUrl()}question/send`;
 
-const Forum = ({ fullName, researchCode, researchOwnerLogin }) => {
+const Forum = ({ fullName, researchCode, researchOwnerLogin, isSomeoneLoggedIn }) => {
     const [newQuestionVisible, setNewQuestionVisible] = useState(false);
     const [isClickedAnswer, setIsClickedAnswer] = useState(false);
     const [isClickedQuestion, setIsClickedQuestion] = useState(false);
@@ -175,7 +175,7 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin }) => {
                     styles.ForumBox
                 }
             >
-                {username && username !== researchOwnerLogin && (
+                {isSomeoneLoggedIn && username && username !== researchOwnerLogin && (
                     <button
                         className={styles.QuestionButton}
                         onClick={() => {
@@ -186,18 +186,24 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin }) => {
                     </button>
                 )}
                 <div className={styles.QuestionsBox}>
-                    {questionData.map((question, index) => (
-                        <div key={index} className={styles.SingleContainer}>
-                            <SingleQuestion
-                                username={username}
-                                question={question}
-                                canEdit={username === question.researchOwnerLogin}
-                                setQuestionCode={setQuestionCode}
-                                handleAnswerCall={handleAnswerCall}
-                                handleQuestionCall={handleQuestionCall}
-                            />
-                        </div>
-                    ))}
+                    {questionData.length > 0 ? (
+                        questionData.map((question, index) => (
+                            <div key={index} className={styles.SingleContainer}>
+                                <SingleQuestion
+                                    username={username}
+                                    question={question}
+                                    canEdit={username === question.researchOwnerLogin}
+                                    setQuestionCode={setQuestionCode}
+                                    handleAnswerCall={handleAnswerCall}
+                                    handleQuestionCall={handleQuestionCall}
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <span>
+                            To badanie jeszcze nie posiada pytań zadanych przez innych użytkowników.
+                        </span>
+                    )}
                 </div>
             </div>
             <NewQuestion

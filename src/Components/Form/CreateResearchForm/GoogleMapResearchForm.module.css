@@ -84,7 +84,7 @@
     border-radius: 5px;
     z-index: 10;
     width: 90%;
-    height: 70%;
+    height: 20rem;
 }
 
 .exitBtn {
@@ -96,6 +96,7 @@
     height: 300px;
     border: 2px solid #512c8c;
     border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 3px 5px;
 }
 
 @media (max-width: 700px) {

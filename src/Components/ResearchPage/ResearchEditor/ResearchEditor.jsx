@@ -37,10 +37,6 @@ function ResearchEditor({ research }) {
             alertText: alert.alertText,
         });
 
-    const showPopup = () => {
-        return;
-    };
-
     const showAlert = () => {
         switch (alert.alertType) {
             case 200:

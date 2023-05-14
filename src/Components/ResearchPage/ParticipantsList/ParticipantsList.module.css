@@ -1,0 +1,121 @@
+.title {
+    color: #512c8c;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    margin: 1rem 0 0;
+}
+
+.filterInput {
+    width: 32%;
+    height: 42px;
+    padding: 10px;
+    background-color: #d6cef3;
+    outline: none;
+    margin-bottom: 0.5rem;
+    border: 2px solid #c6b1e7;
+    border-radius: 5px;
+    font-family: sans-serif;
+    transition: 0.3s;
+}
+
+.filterInput:focus {
+    border: 2px solid #512c8c;
+    background-color: #d7c2f8;
+}
+
+.participantsList {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.participantTile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /*width: calc(50% - 0.5rem);*/
+    width: 32%;
+    background-color: #d6cef3;
+    border-left: 5px solid #512c8c;
+    border-radius: 5px;
+    padding: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.25) 1px 3px 4px;
+}
+
+.tileFullName {
+    font-size: 1.15rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #512c8c;
+    transition: 300ms;
+}
+
+.tileEmail {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.3rem;
+    text-decoration: none;
+    color: #512c8c;
+    transition: 300ms;
+}
+
+.tileFullName:hover,
+.tileEmail:hover {
+    color: #5c1474;
+}
+
+.buttonContainer {
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.deleteButton {
+    display: flex;
+    flex-direction: row;
+    gap: 0.3rem;
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    padding: 0.3rem;
+    border: 2px solid #512c8c;
+    border-radius: 5px;
+    color: #512c8c;
+    background-color: #efdef7;
+    transition: 300ms;
+    cursor: pointer;
+}
+
+.deleteButton:hover {
+    background-color: #debdef;
+}
+
+.alertOverlay {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 50;
+}
+
+@media (max-width: 1000px) {
+    .filterInput,
+    .participantTile {
+        width: 50%;
+    }
+}
+
+@media (max-width: 700px) {
+    .filterInput,
+    .participantTile {
+        width: 100%;
+    }
+}

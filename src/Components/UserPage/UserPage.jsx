@@ -16,7 +16,7 @@ import { faFileCirclePlus, faArrowTurnDown } from '@fortawesome/free-solid-svg-i
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { HelmetProvider } from 'react-helmet-async';
-import { Forum } from '../Forum/Forum';
+import { Forum } from '../ResearchPage/Forum/Forum';
 
 const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 

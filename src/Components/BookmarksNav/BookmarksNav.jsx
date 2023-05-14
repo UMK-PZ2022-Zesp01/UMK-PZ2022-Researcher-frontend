@@ -155,7 +155,7 @@ function BookmarksNav({ active, desc }) {
     return (
         <>
             <nav className={styles.bookmarks}>
-                {activeBookmarkIndex === bookmarksMap.get('profile') ? (
+                {activeBookmarkIndex === bookmarksMap.get('profile') && isSomeoneLoggedIn ? (
                     <Link
                         to={isSomeoneLoggedIn ? '/profile' : '/login'}
                         state={{ from: location }}
