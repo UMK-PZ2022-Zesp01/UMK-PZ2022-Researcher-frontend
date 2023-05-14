@@ -137,6 +137,7 @@ export default function UserPage(props) {
         emailState: userData.email,
         phoneState: userData.phone,
         gender: userData.gender,
+        avatar: userData.avatarImage,
     };
 
     return (
@@ -171,7 +172,13 @@ export default function UserPage(props) {
                             <LeftContainer values={sendToLeftContainer} />
 
                             <div className={styles.OtherRightContainer}>
-                                <div className={styles.OtherUsersResearches}>{showPosts()}</div>
+
+                                <div className={styles.OtherUsersResearches}>
+                                    <div className={styles.OtherResearchesHeader}>
+                                        <h1>Badania użytkownika</h1>
+                                    </div>
+                                    {showPosts()}
+                                </div>
                             </div>
                         </div>
                     </div>

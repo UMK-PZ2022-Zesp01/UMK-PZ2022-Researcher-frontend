@@ -5,6 +5,11 @@
     height: 100%;
 }
 
+.linkToLatest{
+    text-decoration: none;
+    color: black;
+}
+
 .researchHeader{
     padding: 10px;
     display: grid;

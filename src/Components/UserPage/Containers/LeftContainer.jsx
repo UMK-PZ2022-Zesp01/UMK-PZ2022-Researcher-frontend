@@ -10,6 +10,7 @@ import getApiUrl from '../../../Common/Api';
 import useAuth from '../../../hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import {useLocation} from "react-router-dom";
 
 const LeftContainer = ({ values }) => {
     const AVATAR_UPDATE_URL = getApiUrl() + 'user/current/avatar/update';
@@ -21,6 +22,9 @@ const LeftContainer = ({ values }) => {
     const acceptedAvatarExtensionsString = acceptedAvatarExtensions
         .map(value => value.toUpperCase())
         .join(', ');
+    /** Conditional component rendering **/
+    const location = useLocation();
+
 
     /*** Alerts Section ***/
 
@@ -146,6 +150,7 @@ const LeftContainer = ({ values }) => {
                                     alt="avatar"
                                 />
                             ))}
+                        {location.pathname === '/profile' &&
                         <div className={styles.editAvatarButton}>
                             <label htmlFor="avatar" className={styles.avatarIcon}>
                                 <BsCameraFill />
@@ -158,7 +163,7 @@ const LeftContainer = ({ values }) => {
                                     hidden
                                 />
                             </label>
-                        </div>
+                        </div>}
                     </div>
                     <div className={styles.nameDiv}>
                         <div className={styles.nameAndSurname}>{values.name}</div>
@@ -193,6 +198,7 @@ const LeftContainer = ({ values }) => {
                 </div>
             </div>
             <div className={styles.editDiv}>
+                {location.pathname === "/profile" &&
                 <button
                     className={
                         !(values.clickedEdit || values.clickedAdvance)
@@ -204,7 +210,8 @@ const LeftContainer = ({ values }) => {
                     }}
                 >
                     Edytuj profil
-                </button>
+                </button>}
+                {location.pathname === "/profile" &&
                 <button
                     className={
                         !(values.clickedAdvance || values.clickedEdit)
@@ -216,7 +223,7 @@ const LeftContainer = ({ values }) => {
                     }}
                 >
                     Ustawienia konta
-                </button>
+                </button>}
             </div>
         </div>
     );
