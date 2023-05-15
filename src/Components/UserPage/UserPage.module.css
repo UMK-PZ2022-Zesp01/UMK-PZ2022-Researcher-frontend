@@ -355,6 +355,7 @@
 @media only screen and (max-width: 1000px) {
     .MainContainer {
         position: unset;
+        padding: 0 15px;
         box-sizing: border-box;
         top: unset;
         left: unset;

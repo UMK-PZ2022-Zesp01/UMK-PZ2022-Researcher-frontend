@@ -1,4 +1,5 @@
 import styles from '../Containers/Container.module.css';
+import {useRef} from 'react';
 import { GrClose } from 'react-icons/gr';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
@@ -17,6 +18,11 @@ const RightContainer = ({ values }) => {
     const EDIT_PASSWORD_URL = `${getApiUrl()}user/current/updatePassword`;
     const DELETE_URL = `${getApiUrl()}user/current/delete`;
     const { username, accessToken } = useAuth().auth;
+    const emailRef = useRef(null);
+    const phoneRef = useRef(null);
+    const passwordRef = useRef(null);
+    const newPasswordRef = useRef(null);
+    const delPasswordRef = useRef(null);
 
     /*phone section*/
     const [phoneInput, setPhoneInput] = useState('');
@@ -39,6 +45,9 @@ const RightContainer = ({ values }) => {
     /*input debugger*/
     const [canExit, setCanExit] = useState(true);
 
+    const handleClick = (ref) => {
+        ref.current.focus();
+    };
     const exit = () => {
         values.setIsClickedEdit(false);
         setIsClickedEmail(false);
@@ -264,10 +273,8 @@ const RightContainer = ({ values }) => {
                         <div
                             className={values.clickedEdit ? styles.valueEdit : styles.valueEditHide}
                             onClick={() => {
-                                if (canExit === true) {
                                     setIsClickedEmail(!isClickedEmail);
                                     setEmailInput('');
-                                }
                             }}
                         >
                             <div className={isClickedEmail ? styles.text : styles.textSmall}>
@@ -276,11 +283,8 @@ const RightContainer = ({ values }) => {
                             <input
                                 className={isClickedEmail ? styles.val : styles.valHide}
                                 value={emailInput}
-                                onMouseEnter={() => {
-                                    setCanExit(false);
-                                }}
-                                onMouseLeave={() => {
-                                    setCanExit(true);
+                                onClick={(event)=>{
+                                    event.stopPropagation();
                                 }}
                                 onChange={event => {
                                     setEmailInput(event.target.value);
@@ -295,10 +299,9 @@ const RightContainer = ({ values }) => {
                         <div
                             className={values.clickedEdit ? styles.valueEdit : styles.valueEditHide}
                             onClick={() => {
-                                if (canExit === true) {
                                     setIsClickedPhone(!isClickedPhone);
                                     setPhoneInput('');
-                                }
+
                             }}
                         >
                             <div className={isClickedPhone ? styles.text : styles.textSmall}>
@@ -306,11 +309,8 @@ const RightContainer = ({ values }) => {
                             </div>
                             <input
                                 className={isClickedPhone ? styles.val : styles.valHide}
-                                onMouseEnter={() => {
-                                    setCanExit(false);
-                                }}
-                                onMouseLeave={() => {
-                                    setCanExit(true);
+                                onClick={(event)=>{
+                                    event.stopPropagation();
                                 }}
                                 onChange={handlePhoneChange}
                                 type="text"
@@ -395,13 +395,10 @@ const RightContainer = ({ values }) => {
                             </div>
                             <input
                                 className={isClickedPassword ? styles.val : styles.valHide}
+                                onClick={(event)=>{
+                                    event.stopPropagation();
+                                }}
                                 value={currentPasswordInput}
-                                onMouseEnter={() => {
-                                    setCanExit(false);
-                                }}
-                                onMouseLeave={() => {
-                                    setCanExit(true);
-                                }}
                                 onChange={event => {
                                     setCurrentPasswordInput(event.target.value);
                                 }}
@@ -410,13 +407,10 @@ const RightContainer = ({ values }) => {
                             />
                             <input
                                 className={isClickedPassword ? styles.val : styles.valHide}
+                                onClick={(event)=>{
+                                    event.stopPropagation();
+                                }}
                                 value={newPasswordInput}
-                                onMouseEnter={() => {
-                                    setCanExit(false);
-                                }}
-                                onMouseLeave={() => {
-                                    setCanExit(true);
-                                }}
                                 onChange={event => {
                                     setNewPasswordInput(event.target.value);
                                 }}
@@ -455,11 +449,8 @@ const RightContainer = ({ values }) => {
                             </div>
                             <input
                                 className={isClickedDelete ? styles.val : styles.valHide}
-                                onMouseEnter={() => {
-                                    setCanExit(false);
-                                }}
-                                onMouseLeave={() => {
-                                    setCanExit(true);
+                                onClick={(event)=>{
+                                    event.stopPropagation();
                                 }}
                                 onChange={event => {
                                     setPasswordCheckInput(event.target.value);
