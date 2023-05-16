@@ -194,7 +194,7 @@ function RegisterForm(props) {
                         className={styles.textInput}
                         required
                         maxLength={32}
-                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
                         title="Hasło musi mieć przynajmniej 8 znaków, w tym cyfrę, małą oraz wielką literę."
                         ref={el => (passwordRef.current = el)}
                     />

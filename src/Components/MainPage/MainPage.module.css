@@ -150,7 +150,7 @@
     width: 100%;
     padding: 0;
     gap: 0.5rem 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-auto-flow: dense;
 }
 
@@ -168,5 +168,35 @@
 
     .mainPagePanel {
         padding: 1rem;
+    }
+
+    .tileGrid {
+        grid-template-columns: repeat(1, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 250px) {
+    .bookmarksContainer {
+        width: 100%;
+        padding: 0;
+        gap: 0;
+        justify-content: unset;
+    }
+
+    .bookmarksContainer > a {
+        width: 67%;
+        border-radius: 10px;
+    }
+
+    .bookmarksContainer > nav {
+        width: 33%;
+        gap: 0;
+        border-radius: 10px;
+    }
+
+    .bookmarksContainer > nav > div {
+        max-width: unset;
+        width: 100%;
+        border-radius: 10px;
     }
 }

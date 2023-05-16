@@ -44,12 +44,7 @@
     margin: 0;
 }
 
-.loginForm {
-    display: flex;
-    padding: 1rem 2rem;
-    flex-direction: column;
-}
-
+.loginForm,
 .registerForm {
     display: flex;
     padding: 1rem 2rem;
@@ -216,4 +211,17 @@
     /*display: flex;*/
     /*flex-direction: column;*/
     /*justify-content: space-between;*/
+}
+
+@media (max-width: 300px) {
+    .loginForm,
+    .registerForm {
+        padding: 1rem 10px;
+    }
+}
+
+@media (max-width: 250px) {
+    .flexRow {
+        flex-direction: column;
+    }
 }

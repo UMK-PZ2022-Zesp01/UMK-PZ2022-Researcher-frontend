@@ -49,3 +49,32 @@
         padding: 30px;
     }
 }
+@media (max-width: 250px) {
+    .createResearchPanel {
+        padding: 10px;
+    }
+
+    .bookmarksContainer {
+        width: 100%;
+        padding: 0;
+        gap: 0;
+        justify-content: unset;
+    }
+
+    .bookmarksContainer > a {
+        width: 67%;
+        border-radius: 10px;
+    }
+
+    .bookmarksContainer > nav {
+        width: 33%;
+        gap: 0;
+        border-radius: 10px;
+    }
+
+    .bookmarksContainer > nav > div {
+        max-width: unset;
+        width: 100%;
+        border-radius: 10px;
+    }
+}

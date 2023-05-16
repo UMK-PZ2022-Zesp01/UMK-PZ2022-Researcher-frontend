@@ -32,7 +32,13 @@ function MainPage() {
     const [fromDate, setFromDate] = useState({ name: 'minDate', value: null });
     const [toDate, setToDate] = useState({ name: 'maxDate', value: null });
 
-    const [filterBy, setFilterBy] = useState({});
+    const [filterBy, setFilterBy] = useState({
+        forMeOnly: false,
+        availableOnly: false,
+        form: null,
+        minDate: null,
+        maxDate: null,
+    });
     const [sortBy, setSortBy] = useState('newest');
     const [page, setPage] = useState(1);
 
@@ -58,16 +64,24 @@ function MainPage() {
     };
 
     const handleSaveFiltersClicked = () => {
-        setPreviewed(-1);
-        setPosts([]);
-        setPage(1);
-        setLastPage(false);
-        setFilterBy({
-            forMeOnly: forMeOnly.value,
-            availableOnly: available.value,
-            form: getFormString(),
-            minDate: fromDate.value,
-            maxDate: toDate.value,
+        setFilterBy(prevState => {
+            const current = {
+                forMeOnly: forMeOnly.value,
+                availableOnly: available.value,
+                form: getFormString(),
+                minDate: fromDate.value,
+                maxDate: toDate.value,
+            };
+
+            const keys = Object.keys(prevState);
+            const differences = keys.filter(key => prevState[key] !== current[key]);
+            if (differences.length !== 0) {
+                setPreviewed(-1);
+                setPosts([]);
+                setPage(1);
+                setLastPage(false);
+            }
+            return current;
         });
     };
 
@@ -158,22 +172,25 @@ function MainPage() {
         const controller = new AbortController();
         const signal = controller.signal;
 
-        fetch(getApiUrl() + 'user/current', {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                Authorization: accessToken,
-                'Content-Type': 'application/json; charset:UTF-8',
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                setOpenFirstPopup(!data.lastLoggedIn);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
+        const getUser = async () => {
+            if (accessToken)
+                try {
+                    const response = await fetch(getApiUrl() + 'user/current', {
+                        method: 'GET',
+                        credentials: 'include',
+                        headers: {
+                            Authorization: accessToken,
+                            'Content-Type': 'application/json; charset:UTF-8',
+                        },
+                    });
+                    if (response.ok) {
+                        const json = await response.json();
+                        setOpenFirstPopup(!json.lastLoggedIn);
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+        };
         return () => {
             isMounted = false;
             controller.abort();

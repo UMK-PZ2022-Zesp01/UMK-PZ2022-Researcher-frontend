@@ -3,6 +3,7 @@
     left: 0;
     width: 100%;
 }
+
 /* ^^^ potrzebne aby wyświetlać
        overlay do popupu        */
 
@@ -355,7 +356,7 @@
 @media only screen and (max-width: 1000px) {
     .MainContainer {
         position: unset;
-        padding: 0 15px;
+        padding: 0;
         box-sizing: border-box;
         top: unset;
         left: unset;
@@ -421,6 +422,12 @@
         /*height: 1045px;*/
         top: 6.8%;
     }
+
+    .OtherUsersResearches {
+        width: 100%;
+        padding: 0;
+        grid-template-columns: repeat(1, minmax(150px, 1fr));
+    }
 }
 
 /*galaxy fold*/
@@ -435,5 +442,31 @@
 
     .bookmarksContainer {
         align-items: center;
+    }
+}
+
+@media (max-width: 250px) {
+    .bookmarksContainer {
+        width: 100%;
+        padding: 0;
+        gap: 0;
+        justify-content: unset;
+    }
+
+    .bookmarksContainer > a {
+        width: 67%;
+        border-radius: 10px;
+    }
+
+    .bookmarksContainer > nav {
+        width: 33%;
+        gap: 0;
+        border-radius: 10px;
+    }
+
+    .bookmarksContainer > nav > div {
+        max-width: unset;
+        width: 100%;
+        border-radius: 10px;
     }
 }

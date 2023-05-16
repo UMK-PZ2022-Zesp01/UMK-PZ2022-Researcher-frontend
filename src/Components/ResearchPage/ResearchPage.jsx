@@ -99,7 +99,7 @@ function ResearchPage() {
                         case 200:
                             setCreator(await creatorResponse.json());
                             setResearchGetSuccess(true);
-                            checkIfLoggedUserIsDownForResearch().then(null);
+                            if (isSomeoneLoggedIn) checkIfLoggedUserIsDownForResearch().then(null);
                             break;
                         default:
                             setResearchGetSuccess(false);
@@ -117,28 +117,29 @@ function ResearchPage() {
         };
 
         const getCurrentUser = async () => {
-            try {
-                const response = await fetch(getApiUrl() + 'user/current', {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: {
-                        Authorization: accessToken,
-                        'Content-Type': 'application/json; charset:UTF-8',
-                    },
-                });
+            if (accessToken)
+                try {
+                    const response = await fetch(getApiUrl() + 'user/current', {
+                        method: 'GET',
+                        credentials: 'include',
+                        headers: {
+                            Authorization: accessToken,
+                            'Content-Type': 'application/json; charset:UTF-8',
+                        },
+                    });
 
-                if (response.ok) {
-                    const json = await response.json();
-                    setLoggedUser(json);
-                    setIsSomeoneLoggedIn(true);
-                } else {
+                    if (response.ok) {
+                        const json = await response.json();
+                        setLoggedUser(json);
+                        setIsSomeoneLoggedIn(true);
+                    } else {
+                        setLoggedUser({});
+                        setIsSomeoneLoggedIn(false);
+                    }
+                } catch (e) {
                     setLoggedUser({});
                     setIsSomeoneLoggedIn(false);
                 }
-            } catch (e) {
-                setLoggedUser({});
-                setIsSomeoneLoggedIn(false);
-            }
         };
 
         const checkIfLoggedUserIsDownForResearch = async () => {
@@ -175,7 +176,7 @@ function ResearchPage() {
         if (researchGetSuccess && loggedUser) {
             checkIfLoggedUserIsDownForResearch().then(null);
         }
-    }, [auth]);
+    }, [accessToken]);
 
     /*** Alerts Section ***/
 

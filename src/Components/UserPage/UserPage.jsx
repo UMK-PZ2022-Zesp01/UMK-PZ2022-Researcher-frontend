@@ -144,7 +144,7 @@ export default function UserPage(props) {
                 })
                     .then(response =>
                         response.json().then(result => {
-                            isMounted && setPosts([...posts, ...result]);
+                            isMounted && setPosts(prevPosts => [...prevPosts, ...result]);
                         })
                     )
                     .catch(error => {
