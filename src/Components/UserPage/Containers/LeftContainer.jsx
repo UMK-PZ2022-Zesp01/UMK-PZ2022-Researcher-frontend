@@ -1,5 +1,5 @@
 import styles from '../Containers/Container.module.css';
-import { BsCameraFill } from 'react-icons/bs';
+import {BsCameraFill, BsGenderAmbiguous} from 'react-icons/bs';
 import { MdLocationOn, MdPhone } from 'react-icons/md';
 import { HiOutlineMail } from 'react-icons/hi';
 import { GiFemale, GiMale } from 'react-icons/gi';
@@ -169,10 +169,17 @@ const LeftContainer = ({ values }) => {
                 </div>
 
                 <div className={styles.profileDescription}>
-                    <div className={styles.desc}>
-                        <MdLocationOn className={styles.icon} />
-                        <span>{values.locationState}</span>
-                    </div>
+                    {values.locationState ? (
+                        <div className={styles.desc}>
+                            <MdLocationOn className={styles.icon} />
+                            <span>{values.locationState}</span>
+                        </div>
+                    ) : (
+                        <div className={styles.desc}>
+                            <MdLocationOn className={styles.icon} />
+                            <span>{"(nie podano)"}</span>
+                        </div>
+                    )}
                     <div className={styles.desc}>
                         <HiOutlineMail className={styles.icon} />
                         <span>{values.emailState}</span>
@@ -181,7 +188,9 @@ const LeftContainer = ({ values }) => {
                         <MdPhone className={styles.icon} />
                         <span>
                             {accessToken
-                                ? values.phoneState
+                                ? values.phoneState ?
+                                    values.phoneState :
+                                    "(nie podano)"
                                 : [
                                       <Link to={'/login'} state={{ from: location }}>
                                           Zaloguj się
@@ -195,10 +204,15 @@ const LeftContainer = ({ values }) => {
                             <GiMale className={styles.icon} />
                             <span>Mężczyzna</span>
                         </div>
-                    ) : (
+                    ) : values.gender === 'female'? (
                         <div className={styles.desc}>
                             <GiFemale className={styles.icon} />
                             <span>Kobieta</span>
+                        </div>
+                    ) : (
+                        <div className={styles.desc}>
+                            <BsGenderAmbiguous className={styles.icon} />
+                            <span>Inna / Nieokreślona</span>
                         </div>
                     )}
                 </div>
