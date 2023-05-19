@@ -9,6 +9,7 @@ const REGISTER_URL = getApiUrl() + 'user/register';
 
 function RegisterForm(props) {
     const navigate = useNavigate();
+    const changeForm = props.change;
 
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
@@ -135,7 +136,6 @@ function RegisterForm(props) {
     return (
         <article className={styles.registerFormBox}>
             <header className={styles.hBox}>
-                <div className={styles.h3}>Nie posiadasz konta?</div>
                 <div className={styles.h2}>Zarejestruj się</div>
             </header>
             <form onSubmit={event => SubmitButtonClicked(event)} className={styles.registerForm}>
@@ -269,6 +269,12 @@ function RegisterForm(props) {
                 <button onClick={validatePassword} type="submit" className={styles.submitButton}>
                     ZAREJESTRUJ
                 </button>
+                <span className={styles.lightlyTopPadded}>
+                    Posiadasz już konto?
+                    <span onClick={() => changeForm(false)} className={styles.panelChange}>
+                        Przejdź do logowania
+                    </span>
+                </span>
             </form>
         </article>
     );

@@ -9,6 +9,7 @@ const LOGIN_URL = getApiUrl() + 'login';
 function LoginForm(props) {
     const { setAuth } = useAuth();
     const setAlert = props.setters;
+    const changeForm = props.change;
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -113,9 +114,6 @@ function LoginForm(props) {
                 <a href="/" className={styles.aPurple}>
                     Nie pamiętam hasła
                 </a>
-                <button type="submit" className={styles.submitButton}>
-                    ZALOGUJ
-                </button>
                 <div className={styles.checkboxRow}>
                     <input
                         id={'rememberDevice'}
@@ -126,13 +124,23 @@ function LoginForm(props) {
                     />
                     <label htmlFor={'rememberDevice'}>Zapamiętaj to urządzenie</label>
                 </div>
-                <div className={styles.orLoginWith}>
-                    <span>lub</span>
-                </div>
-                <div className={styles.flexRow}>
-                    <button className={styles.loginWith}>Zaloguj z G</button>
-                    <button className={styles.loginWith}>Zaloguj z FB</button>
-                </div>
+                <button type="submit" className={styles.submitButton}>
+                    ZALOGUJ
+                </button>
+                <span className={styles.lightlyTopPadded}>
+                    Nie posiadasz konta?
+                    <span onClick={() => changeForm(true)} className={styles.panelChange}>
+                        Zarejestruj się!
+                    </span>
+                </span>
+
+                {/*<div className={styles.orLoginWith}>*/}
+                {/*    <span>lub</span>*/}
+                {/*</div>*/}
+                {/*<div className={styles.flexRow}>*/}
+                {/*    <button className={styles.loginWith}>Zaloguj z G</button>*/}
+                {/*    <button className={styles.loginWith}>Zaloguj z FB</button>*/}
+                {/*</div>*/}
             </form>
         </article>
     );

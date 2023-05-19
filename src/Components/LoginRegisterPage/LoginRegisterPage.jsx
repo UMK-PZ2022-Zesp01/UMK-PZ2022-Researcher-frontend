@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BannerWhite } from '../Banner/BannerWhite';
 import { LoginForm } from '../Form/LoginRegisterForm/LoginForm';
 import { RegisterForm } from '../Form/LoginRegisterForm/RegisterForm';
@@ -10,11 +10,13 @@ import styles from './LoginRegisterPage.module.css';
 import { Link } from 'react-router-dom';
 
 export default function LoginRegisterPage() {
-    const [alert, setAlert] = React.useState({
+    const [alert, setAlert] = useState({
         alertOpen: false,
         alertType: 0,
         alertText: '',
     });
+
+    const [loginRegister, setLoginRegister] = useState(false);
 
     const closeAlert = () =>
         setAlert({
@@ -47,6 +49,14 @@ export default function LoginRegisterPage() {
         }
     }
 
+    // const renderLoginOrRegister = () => {
+    //     return loginRegister ? (
+    //         <RegisterForm setters={setAlert} change={setLoginRegister} r />
+    //     ) : (
+    //         <LoginForm setters={setAlert} change={setLoginRegister} />
+    //     );
+    // };
+
     return (
         <div className={styles.loginRegisterPage}>
             <Helmet>
@@ -59,10 +69,13 @@ export default function LoginRegisterPage() {
             <Link to="/" className={styles.header}>
                 <BannerWhite />
             </Link>
+
             <main className={styles.main}>
-                <LoginForm setters={setAlert} />
-                <div className={styles.separator} />
-                <RegisterForm setters={setAlert} />
+                <div className={`${styles.carousel} ${loginRegister ? '' : styles.alternative}`}>
+                    <LoginForm setters={setAlert} change={setLoginRegister} />
+                    <RegisterForm setters={setAlert} change={setLoginRegister} />
+                </div>
+                {/*{renderLoginOrRegister()}*/}
             </main>
             {/*</div>*/}
         </div>

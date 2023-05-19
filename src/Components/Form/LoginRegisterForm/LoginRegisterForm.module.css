@@ -31,8 +31,7 @@
 .loginFormBox {
     display: flex;
     flex-direction: column;
-    flex-basis: 33%;
-    flex-grow: 1;
+    width: clamp(20ch, 50ch, 100%);
     margin: 0;
 }
 
@@ -51,18 +50,29 @@
     flex-direction: column;
 }
 
-.aPurple {
+.aPurple,
+.panelChange {
     padding: 0.3rem;
     align-self: end;
     font-weight: 700;
-    font-size: 0.7rem;
+
     color: #512c8c;
     border-radius: 5px;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.aPurple:hover {
-    color: #6d3b9e;
+.aPurple:hover,
+.panelChange:hover {
+    color: #6600c7;
+    text-decoration: underline;
+}
+
+.aPurple {
+    font-size: 0.8rem;
+}
+
+.panelChange {
 }
 
 .textInput {
@@ -161,7 +171,7 @@
 
 .checkboxRow label {
     width: 100%;
-    font-size: 0.8em;
+    font-size: 0.9rem;
     text-align: left;
     margin-left: 0.5em;
 }
@@ -211,6 +221,20 @@
     /*display: flex;*/
     /*flex-direction: column;*/
     /*justify-content: space-between;*/
+}
+
+.lightlyTopPadded {
+    padding: 1rem 0 0 0;
+}
+
+@media (max-width: 400px) {
+    .flexRow {
+        flex-wrap: wrap;
+    }
+
+    .lightlyTopPadded {
+        display: none;
+    }
 }
 
 @media (max-width: 300px) {
