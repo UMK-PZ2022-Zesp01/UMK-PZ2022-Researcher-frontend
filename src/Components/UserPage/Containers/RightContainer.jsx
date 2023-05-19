@@ -85,7 +85,7 @@ const RightContainer = ({ values }) => {
             });
             return;
         }
-        window.location.replace(getApiUrl());
+        window.location.replace("https://justresearch.netlify.app/login");
     };
 
     let passwordTemplate = {

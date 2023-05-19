@@ -1,21 +1,21 @@
 import styles from '../Containers/Container.module.css';
 import {BsCameraFill, BsGenderAmbiguous} from 'react-icons/bs';
-import { MdLocationOn, MdPhone } from 'react-icons/md';
-import { HiOutlineMail } from 'react-icons/hi';
-import { GiFemale, GiMale } from 'react-icons/gi';
-import React, { useEffect, useState } from 'react';
-import { Alert } from '../../Alert/Alert';
-import { Popup } from '../../Popup/Popup';
+import {MdLocationOn, MdPhone} from 'react-icons/md';
+import {HiOutlineMail} from 'react-icons/hi';
+import {GiFemale, GiMale} from 'react-icons/gi';
+import React, {useEffect, useState} from 'react';
+import {Alert} from '../../Alert/Alert';
+import {Popup} from '../../Popup/Popup';
 import getApiUrl from '../../../Common/Api';
 import useAuth from '../../../hooks/useAuth';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link, useLocation } from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faUser} from '@fortawesome/free-solid-svg-icons';
+import {Link, useLocation} from 'react-router-dom';
 
-const LeftContainer = ({ values }) => {
+const LeftContainer = ({values}) => {
     const AVATAR_UPDATE_URL = getApiUrl() + 'user/current/avatar/update';
-    const { auth } = useAuth();
-    const { username, accessToken } = auth;
+    const {auth} = useAuth();
+    const {username, accessToken} = auth;
     const [avatarImage, setAvatarImage] = useState(null);
     const location = useLocation();
     /** Handle correct poster file extensions **/
@@ -150,7 +150,7 @@ const LeftContainer = ({ values }) => {
                             ))}
                         <div className={styles.editAvatarButton}>
                             <label htmlFor="avatar" className={styles.avatarIcon}>
-                                <BsCameraFill />
+                                <BsCameraFill/>
                                 <input
                                     onChange={handleAvatarImageChange}
                                     type="file"
@@ -169,49 +169,46 @@ const LeftContainer = ({ values }) => {
                 </div>
 
                 <div className={styles.profileDescription}>
-                    {values.locationState ? (
-                        <div className={styles.desc}>
-                            <MdLocationOn className={styles.icon} />
-                            <span>{values.locationState}</span>
-                        </div>
-                    ) : (
-                        <div className={styles.desc}>
-                            <MdLocationOn className={styles.icon} />
-                            <span>{"(nie podano)"}</span>
-                        </div>
-                    )}
+
                     <div className={styles.desc}>
-                        <HiOutlineMail className={styles.icon} />
+                        <MdLocationOn className={styles.icon}/>
+                        <span>{values.locationState ?
+                            values.locationState
+                            : "(nie podano)"}</span>
+                    </div>
+
+                    <div className={styles.desc}>
+                        <HiOutlineMail className={styles.icon}/>
                         <span>{values.emailState}</span>
                     </div>
                     <div className={styles.desc}>
-                        <MdPhone className={styles.icon} />
+                        <MdPhone className={styles.icon}/>
                         <span>
                             {accessToken
                                 ? values.phoneState ?
                                     values.phoneState :
                                     "(nie podano)"
                                 : [
-                                      <Link to={'/login'} state={{ from: location }}>
-                                          Zaloguj się
-                                      </Link>,
-                                      ,
-                                  ]}
+                                    <Link to={'/login'} state={{from: location}}>
+                                        Zaloguj się
+                                    </Link>,
+                                    ,
+                                ]}
                         </span>
                     </div>
                     {values.gender === 'male' ? (
                         <div className={styles.desc}>
-                            <GiMale className={styles.icon} />
+                            <GiMale className={styles.icon}/>
                             <span>Mężczyzna</span>
                         </div>
-                    ) : values.gender === 'female'? (
+                    ) : values.gender === 'female' ? (
                         <div className={styles.desc}>
-                            <GiFemale className={styles.icon} />
+                            <GiFemale className={styles.icon}/>
                             <span>Kobieta</span>
                         </div>
                     ) : (
                         <div className={styles.desc}>
-                            <BsGenderAmbiguous className={styles.icon} />
+                            <BsGenderAmbiguous className={styles.icon}/>
                             <span>Inna / Nieokreślona</span>
                         </div>
                     )}
@@ -246,4 +243,4 @@ const LeftContainer = ({ values }) => {
         </div>
     );
 };
-export { LeftContainer };
+export {LeftContainer};
