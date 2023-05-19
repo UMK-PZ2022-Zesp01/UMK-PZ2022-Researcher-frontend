@@ -10,12 +10,14 @@ import getApiUrl from '../../../Common/Api';
 import useAuth from '../../../hooks/useAuth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { Link, useLocation } from 'react-router-dom';
 
 const LeftContainer = ({ values }) => {
     const AVATAR_UPDATE_URL = getApiUrl() + 'user/current/avatar/update';
     const { auth } = useAuth();
-    const { username, accessToken } = useAuth().auth;
+    const { username, accessToken } = auth;
     const [avatarImage, setAvatarImage] = useState(null);
+    const location = useLocation();
     /** Handle correct poster file extensions **/
     const acceptedAvatarExtensions = ['png', 'jpg', 'jpeg', 'bmp'];
     const acceptedAvatarExtensionsString = acceptedAvatarExtensions
@@ -177,7 +179,16 @@ const LeftContainer = ({ values }) => {
                     </div>
                     <div className={styles.desc}>
                         <MdPhone className={styles.icon} />
-                        <span>{values.phoneState}</span>
+                        <span>
+                            {accessToken
+                                ? values.phoneState
+                                : [
+                                      <Link to={'/login'} state={{ from: location }}>
+                                          Zaloguj się
+                                      </Link>,
+                                      ,
+                                  ]}
+                        </span>
                     </div>
                     {values.gender === 'male' ? (
                         <div className={styles.desc}>

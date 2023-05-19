@@ -710,12 +710,27 @@ function ResearchPage() {
                                                 className={styles.icon}
                                             />
                                             <strong> Adres e-mail: </strong>
-                                            <a
-                                                href={`mailto:${creator.email}`}
-                                                className={styles.link}
-                                            >
-                                                {research.creatorEmail}
-                                            </a>
+
+                                            {accessToken ? (
+                                                <a
+                                                    href={
+                                                        accessToken ? `mailto:${creator.email}` : ''
+                                                    }
+                                                    className={styles.link}
+                                                >
+                                                    {creator.email}{' '}
+                                                </a>
+                                            ) : (
+                                                [
+                                                    <Link
+                                                        to={'/login'}
+                                                        state={{ from: webLocation }}
+                                                    >
+                                                        Zaloguj się
+                                                    </Link>,
+                                                    ', aby wyświetlić adres email',
+                                                ]
+                                            )}
                                         </span>
                                         <span className={styles.contactElement}>
                                             <FontAwesomeIcon
@@ -723,7 +738,19 @@ function ResearchPage() {
                                                 className={styles.icon}
                                             />
                                             <strong>Numer telefonu: </strong>
-                                            <span>{research.creatorPhone}</span>
+                                            <span>
+                                                {accessToken
+                                                    ? research.creatorPhone
+                                                    : [
+                                                          <Link
+                                                              to={'/login'}
+                                                              state={{ from: webLocation }}
+                                                          >
+                                                              Zaloguj się
+                                                          </Link>,
+                                                          ', aby wyświetlić numer telefonu',
+                                                      ]}
+                                            </span>
                                         </span>
                                     </div>
                                 </div>
