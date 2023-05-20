@@ -384,7 +384,7 @@ function ResearchPage() {
                                         href={research.location.place}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className={styles.link}
+                                        className={styles.alertLink}
                                     >
                                         Kliknij, aby przejść do ankiety z badaniem
                                     </a>
@@ -525,7 +525,7 @@ function ResearchPage() {
                         alertText: (
                             <span>
                                 Badanie zostało pomyślnie usunięte!{' '}
-                                <Link to="/">Kliknij, aby przejść na stronę główną</Link>
+                                <Link to="/" className={styles.alertLink}>Kliknij, aby przejść na stronę główną</Link>
                             </span>
                         ),
                     });
