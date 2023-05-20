@@ -1,31 +1,28 @@
 import styles from '../Containers/Container.module.css';
-import {BsCameraFill, BsGenderAmbiguous} from 'react-icons/bs';
-import {MdLocationOn, MdPhone} from 'react-icons/md';
-import {HiOutlineMail} from 'react-icons/hi';
-import {GiFemale, GiMale} from 'react-icons/gi';
-import React, {useEffect, useState} from 'react';
-import {Alert} from '../../Alert/Alert';
-import {Popup} from '../../Popup/Popup';
+import { BsCameraFill, BsGenderAmbiguous } from 'react-icons/bs';
+import { MdLocationOn, MdPhone } from 'react-icons/md';
+import { HiOutlineMail } from 'react-icons/hi';
+import { GiFemale, GiMale } from 'react-icons/gi';
+import React, { useEffect, useState } from 'react';
 import getApiUrl from '../../../Common/Api';
 import useAuth from '../../../hooks/useAuth';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faUser} from '@fortawesome/free-solid-svg-icons';
-import {Link, useLocation} from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { Link, useLocation } from 'react-router-dom';
 
-const LeftContainer = ({values}) => {
+const LeftContainer = ({ values }) => {
     const AVATAR_UPDATE_URL = getApiUrl() + 'user/current/avatar/update';
-    const {auth} = useAuth();
-    const {username, accessToken} = auth;
+    const { auth } = useAuth();
+    const { username, accessToken } = auth;
     const [avatarImage, setAvatarImage] = useState(null);
-    const location = useLocation();
-    const setAlert=values.setAlert
+    const setAlert = values.setAlert;
     /** Handle correct poster file extensions **/
     const acceptedAvatarExtensions = ['png', 'jpg', 'jpeg', 'bmp'];
     const acceptedAvatarExtensionsString = acceptedAvatarExtensions
         .map(value => value.toUpperCase())
         .join(', ');
-
-
+    /** Conditional component rendering **/
+    const location = useLocation();
 
     const handleAvatarImageChange = event => {
         if (
@@ -109,19 +106,21 @@ const LeftContainer = ({values}) => {
                                     alt="avatar"
                                 />
                             ))}
-                        <div className={styles.editAvatarButton}>
-                            <label htmlFor="avatar" className={styles.avatarIcon}>
-                                <BsCameraFill/>
-                                <input
-                                    onChange={handleAvatarImageChange}
-                                    type="file"
-                                    id="avatar"
-                                    name="avatar"
-                                    accept="image/png, image/jpeg"
-                                    hidden
-                                />
-                            </label>
-                        </div>
+                        {location.pathname === '/profile' && (
+                            <div className={styles.editAvatarButton}>
+                                <label htmlFor="avatar" className={styles.avatarIcon}>
+                                    <BsCameraFill />
+                                    <input
+                                        onChange={handleAvatarImageChange}
+                                        type="file"
+                                        id="avatar"
+                                        name="avatar"
+                                        accept="image/png, image/jpeg"
+                                        hidden
+                                    />
+                                </label>
+                            </div>
+                        )}
                     </div>
                     <div className={styles.nameDiv}>
                         <div className={styles.nameAndSurname}>{values.name}</div>
@@ -130,78 +129,79 @@ const LeftContainer = ({values}) => {
                 </div>
 
                 <div className={styles.profileDescription}>
-
                     <div className={styles.desc}>
-                        <MdLocationOn className={styles.icon}/>
-                        <span>{values.locationState ?
-                            values.locationState
-                            : "(nie podano)"}</span>
+                        <MdLocationOn className={styles.icon} />
+                        <span>{values.locationState ? values.locationState : '(nie podano)'}</span>
                     </div>
 
                     <div className={styles.desc}>
-                        <HiOutlineMail className={styles.icon}/>
+                        <HiOutlineMail className={styles.icon} />
                         <span>{values.emailState}</span>
                     </div>
                     <div className={styles.desc}>
-                        <MdPhone className={styles.icon}/>
+                        <MdPhone className={styles.icon} />
                         <span>
                             {accessToken
-                                ? values.phoneState ?
-                                    values.phoneState :
-                                    "(nie podano)"
+                                ? values.phoneState
+                                    ? values.phoneState
+                                    : '(nie podano)'
                                 : [
-                                    <Link to={'/login'} state={{from: location}}>
-                                        Zaloguj się
-                                    </Link>,
-                                    ,
-                                ]}
+                                      <Link to={'/login'} state={{ from: location }}>
+                                          Zaloguj się
+                                      </Link>,
+                                      ,
+                                  ]}
                         </span>
                     </div>
                     {values.gender === 'male' ? (
                         <div className={styles.desc}>
-                            <GiMale className={styles.icon}/>
+                            <GiMale className={styles.icon} />
                             <span>Mężczyzna</span>
                         </div>
                     ) : values.gender === 'female' ? (
                         <div className={styles.desc}>
-                            <GiFemale className={styles.icon}/>
+                            <GiFemale className={styles.icon} />
                             <span>Kobieta</span>
                         </div>
                     ) : (
                         <div className={styles.desc}>
-                            <BsGenderAmbiguous className={styles.icon}/>
+                            <BsGenderAmbiguous className={styles.icon} />
                             <span>Inna / Nieokreślona</span>
                         </div>
                     )}
                 </div>
             </div>
             <div className={styles.editDiv}>
-                <button
-                    className={
-                        !(values.clickedEdit || values.clickedAdvance)
-                            ? styles.editButton
-                            : styles.editButtonHide
-                    }
-                    onClick={() => {
-                        values.setIsClickedEdit(!values.clickedEdit);
-                    }}
-                >
-                    Edytuj profil
-                </button>
-                <button
-                    className={
-                        !(values.clickedAdvance || values.clickedEdit)
-                            ? styles.editButton
-                            : styles.editButtonHide
-                    }
-                    onClick={() => {
-                        values.setClickedAdvance(!values.clickedAdvance);
-                    }}
-                >
-                    Ustawienia konta
-                </button>
+                {location.pathname === '/profile' && (
+                    <button
+                        className={
+                            !(values.clickedEdit || values.clickedAdvance)
+                                ? styles.editButton
+                                : styles.editButtonHide
+                        }
+                        onClick={() => {
+                            values.setIsClickedEdit(!values.clickedEdit);
+                        }}
+                    >
+                        Edytuj profil
+                    </button>
+                )}
+                {location.pathname === '/profile' && (
+                    <button
+                        className={
+                            !(values.clickedAdvance || values.clickedEdit)
+                                ? styles.editButton
+                                : styles.editButtonHide
+                        }
+                        onClick={() => {
+                            values.setClickedAdvance(!values.clickedAdvance);
+                        }}
+                    >
+                        Ustawienia konta
+                    </button>
+                )}
             </div>
         </div>
     );
 };
-export {LeftContainer};
+export { LeftContainer };

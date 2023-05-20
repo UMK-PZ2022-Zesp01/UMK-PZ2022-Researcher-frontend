@@ -3,6 +3,7 @@ import styles from './ResearchCard.module.css';
 import { useUsername } from "../../hooks/useAuth";
 import { useEffect } from 'react';
 import getApiUrl from '../../Common/Api';
+import {Link} from "react-router-dom";
 
 const USERRESEARCHES_URL = getApiUrl() + 'research/creator/';
 
@@ -45,10 +46,9 @@ function LatestResearchCard(){
         };
     }, []);
 
-    const newestResearch = researches.slice(-1)[0];
-
     const showUserResearches = researches => {
         return researches.map(research => (
+            <Link to={`/research/${research.researchCode}`} className={styles.linkToLatest}>
             <div key={research.researchCode} className={styles.latestResearchCard}>
                 <div className={styles.latestResearchHeader}>
                     <div className={styles.researchTitle}>
@@ -64,6 +64,7 @@ function LatestResearchCard(){
                     <h4>{research.description}</h4>
                 </div>
             </div>
+            </Link>
         ));
     };
 

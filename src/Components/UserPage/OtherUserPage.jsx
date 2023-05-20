@@ -11,6 +11,8 @@ import researcherLogo from '../../img/logo-white.png';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { HelmetProvider } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFileCircleExclamation, faFileCirclePlus, faHouse, faUser} from "@fortawesome/free-solid-svg-icons";
 
 const USER_URL = getApiUrl() + 'user/';
 const RESEARCHES_URL = getApiUrl() + 'research/creator/';
@@ -18,6 +20,7 @@ const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 export default function UserPage(props) {
     /*user data*/
     const [userData, setUserData] = useState({});
+    const [doesUserExist, setDoesUserExist] = useState(true);
 
     /*get username*/
     const { username } = useParams();
@@ -84,9 +87,11 @@ export default function UserPage(props) {
             .then(response => response.json())
             .then(data => {
                 setUserData(data);
+                setDoesUserExist(true);
             })
             .catch(error => {
                 console.error(error);
+                setDoesUserExist(false);
             });
 
         const getPosts = async () => {
@@ -129,6 +134,9 @@ export default function UserPage(props) {
         ));
     };
 
+    console.log(userData);
+    console.log(posts);
+
     /**leftContainer args**/
     const sendToLeftContainer = {
         name: userData.firstName,
@@ -137,6 +145,7 @@ export default function UserPage(props) {
         emailState: userData.email,
         phoneState: userData.phone,
         gender: userData.gender,
+        avatar: userData.avatarImage,
     };
 
     return (
@@ -167,16 +176,75 @@ export default function UserPage(props) {
                                 desc={'Profil: ' + userData.firstName + ' ' + userData.lastName}
                             />
                         </header>
-                        <div className={styles.wrapper}>
+                        {doesUserExist === true && (
+                            <div className={styles.wrapper}>
                             <LeftContainer values={sendToLeftContainer} />
 
                             <div className={styles.OtherRightContainer}>
-                                <div className={styles.OtherUsersResearches}>{showPosts()}</div>
+                                <div className={styles.OtherUsersResearches}>
+                                    <div className={styles.OtherResearchesHeader}>
+                                        <h1>Badania użytkownika</h1>
+                                    </div>
+                                    {showPosts()}
+                                </div>
                             </div>
-                        </div>
+                        </div>)}
+                        {doesUserExist === false && (
+                            <div className={styles.userNotFoundWrapper}>
+                            <div className={styles.userNotFoundContainer}>
+                                <HelmetProvider>
+                                    <Helmet>
+                                        <title>Nie znaleziono użytkownika | JustResearch</title>
+                                    </Helmet>
+                                </HelmetProvider>
+                                <div className={styles.userNotFoundInfo}>
+                                    <FontAwesomeIcon
+                                        icon={faFileCircleExclamation}
+                                        className={styles.userNotFoundIcon}
+                                    />
+                                    <div className={styles.userNotFoundDesc}>
+                                        <span className={styles.desc1}>Nie znaleziono użytkownika!</span>
+                                        <span>
+                                    Upewnij się, czy link jest poprawny oraz czy użytkownik, którego szukasz istnieje
+                                </span>
+                                    </div>
+                                </div>
+
+                                <div className={styles.navigationContainer}>
+                                    <h3>Co chcesz zrobić?</h3>
+                                    <nav className={styles.navigation}>
+                                        <Link to="/" className={styles.navigationButton}>
+                                            <FontAwesomeIcon icon={faHouse} />
+                                            <span className={styles.buttonDesc}>
+                                        Przejdź na stronę główną
+                                    </span>
+                                        </Link>
+
+                                        <Link to="/profile" className={styles.navigationButton}>
+                                            <FontAwesomeIcon icon={faUser} />
+                                            <span className={styles.buttonDesc}>
+                                        Przejdź na stronę swojego profilu
+                                    </span>
+                                        </Link>
+
+                                        <Link to="/research/create" className={styles.navigationButton}>
+                                            <FontAwesomeIcon icon={faFileCirclePlus} />
+                                            <span className={styles.buttonDesc}>
+                                        Stwórz ogłoszenie o badaniu
+                                    </span>
+                                        </Link>
+
+                                    </nav>
+                                </div>
+                            </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
         </div>
     );
 }
+
+
+

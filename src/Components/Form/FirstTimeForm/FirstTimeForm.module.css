@@ -106,3 +106,15 @@
     background-color: #512c8c;
     translate: 0 2px;
 }
+
+@media only screen and (max-width: 800px) {
+    .popupContainer{
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .popupContainer{
+        width: 80%;
+    }
+}
