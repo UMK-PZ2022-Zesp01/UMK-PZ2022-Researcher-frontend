@@ -182,6 +182,8 @@ export default function UserPage(props) {
         setIsClickedPhone(false);
     };
 
+
+
     /**leftContainer args**/
     const sendToLeftContainer = {
         name: userData.firstName,
@@ -195,6 +197,7 @@ export default function UserPage(props) {
         setIsClickedEdit: setIsClickedEdit,
         clickedAdvance: clickedAdvance,
         setClickedAdvance: setClickedAdvance,
+        setAlert: setAlert
     };
     /**rightContainer args**/
     const sendToRightContainer = {
@@ -214,18 +217,19 @@ export default function UserPage(props) {
         setPhoneState: setPhoneState,
         setEmailState: setEmailState,
         setLocationState: setLocationState,
+        setAlert: setAlert
     };
 
     return (
         <div className={styles.PageOverlay}>
-            <ReportForm open={openPopup} onClose={() => setOpenPopup(false)} />
+            <div className={styles.alertOverlay}>
+                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
+            </div>
+            <ReportForm setAlert={setAlert} open={openPopup} onClose={() => setOpenPopup(false)} />
             <div className={styles.MainContainer}>
                 <Helmet>
                     <title>Profil | Researcher</title>
                 </Helmet>
-                <div className={styles.alertOverlay}>
-                    <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
-                </div>
                 <div className={styles.UserBox}>
                     <div className={styles.Container}>
                         <header className={styles.bookmarksContainer}>

@@ -18,50 +18,14 @@ const LeftContainer = ({values}) => {
     const {username, accessToken} = auth;
     const [avatarImage, setAvatarImage] = useState(null);
     const location = useLocation();
+    const setAlert=values.setAlert
     /** Handle correct poster file extensions **/
     const acceptedAvatarExtensions = ['png', 'jpg', 'jpeg', 'bmp'];
     const acceptedAvatarExtensionsString = acceptedAvatarExtensions
         .map(value => value.toUpperCase())
         .join(', ');
 
-    /*** Alerts Section ***/
 
-    const [alert, setAlert] = React.useState({
-        alertOpen: false,
-        alertType: 0,
-        alertText: '',
-    });
-
-    const closeAlert = () =>
-        setAlert({
-            alertOpen: false,
-            alertType: alert.alertType,
-            alertText: alert.alertText,
-        });
-
-    const showAlert = () => {
-        switch (alert.alertType) {
-            case 200:
-                return (
-                    <Alert onClose={closeAlert} type="success">
-                        {alert.alertText}
-                    </Alert>
-                );
-            case 299:
-            case 499:
-                return (
-                    <Alert onClose={closeAlert} type="warning">
-                        {alert.alertText}
-                    </Alert>
-                );
-            default:
-                return (
-                    <Alert onClose={closeAlert} type="error">
-                        {alert.alertText}
-                    </Alert>
-                );
-        }
-    };
 
     const handleAvatarImageChange = event => {
         if (
@@ -127,9 +91,6 @@ const LeftContainer = ({values}) => {
 
     return (
         <div className={styles.leftContainer}>
-            <div className={styles.alertOverlay}>
-                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
-            </div>
             <div className={styles.infoWithoutEdit}>
                 <div className={styles.mainInfo}>
                     <div className={styles.avatarBox}>

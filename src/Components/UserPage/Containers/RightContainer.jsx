@@ -23,6 +23,7 @@ const RightContainer = ({ values }) => {
     const passwordRef = useRef(null);
     const newPasswordRef = useRef(null);
     const delPasswordRef = useRef(null);
+    const setAlert=values.setAlert
 
     /*phone section*/
     const [phoneInput, setPhoneInput] = useState('');
@@ -211,54 +212,10 @@ const RightContainer = ({ values }) => {
         }
     };
 
-    const [alert, setAlert] = React.useState({
-        alertOpen: false,
-        alertType: 0,
-        alertText: '',
-    });
 
-    const closeAlert = () =>
-        setAlert({
-            alertOpen: false,
-            alertType: alert.alertType,
-            alertText: alert.alertText,
-        });
-
-    function showAlert() {
-        switch (alert.alertType) {
-            case 204:
-                return (
-                    <Alert onClose={() => closeAlert()} type="success">
-                        {alert.alertText}
-                    </Alert>
-                );
-            case 298:
-            case 299:
-                return (
-                    <Alert onClose={() => closeAlert()} type="warning">
-                        {alert.alertText}
-                    </Alert>
-                );
-            case 500:
-                return (
-                    <Alert onClose={() => closeAlert()} type="error">
-                        {alert.alertText}
-                    </Alert>
-                );
-            default:
-                return (
-                    <Alert onClose={() => closeAlert()} type="error">
-                        {alert.alertText}
-                    </Alert>
-                );
-        }
-    }
 
     return (
         <div className={styles.rightContainer}>
-            <div className={styles.alertOverlay}>
-                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
-            </div>
             <div className={values.clickedEdit ? styles.editBox : styles.editBoxHide}>
                 <button
                     className={values.clickedEdit ? styles.exitBtn : styles.exitBtnHide}
