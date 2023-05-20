@@ -145,6 +145,14 @@ function ResearchEditor({ research }) {
         }
     };
 
+    const handleLocationLinkChange = event => {
+        let researchLink = event.target.value;
+        if (!researchLink.includes('http://') && !researchLink.includes('https://')) {
+            researchLink = 'https://' + researchLink;
+        }
+        setLocationLink(researchLink);
+    };
+
     return (
         <>
             <div className={styles.alertOverlay}>
@@ -258,7 +266,7 @@ function ResearchEditor({ research }) {
                             type="text"
                             name="location-link"
                             defaultValue={research.location.place}
-                            onChange={e => setLocationLink(() => e.target.value)}
+                            onChange={handleLocationLinkChange}
                         />
                     </div>
                 )}

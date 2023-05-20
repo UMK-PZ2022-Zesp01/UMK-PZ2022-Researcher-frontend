@@ -250,7 +250,11 @@ function CreateResearchForm() {
     };
 
     const handleResearchPlaceChange = event => {
-        setResearchPlace(event.target.value);
+        let researchLink = event.target.value;
+        if (!researchLink.includes('http://') && !researchLink.includes('https://')) {
+            researchLink = 'https://' + researchLink;
+        }
+        setResearchPlace(researchLink);
     };
 
     const handleEmailTypeChangeSelect = event => {

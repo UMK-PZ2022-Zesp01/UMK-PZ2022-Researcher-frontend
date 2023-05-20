@@ -52,6 +52,17 @@
     transition: 300ms;
 }
 
+.tileLocation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.purple {
+    color: #512c8c;
+}
+
 .tileEmail {
     display: flex;
     flex-direction: row;
