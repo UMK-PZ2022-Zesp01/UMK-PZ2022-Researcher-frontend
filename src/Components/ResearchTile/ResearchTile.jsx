@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './ResearchTile.module.css';
-import { ResearchTileRequirement } from './ResearchTileRequirement/ResearchTileRequirement';
-import { useTranslate } from '../../hooks/useTranslate';
-import { ResearchTileReward } from './ResearchTileReward/ResearchTileReward';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useDateFormat } from '../../hooks/useDateFormat';
+import {ResearchTileRequirement} from './ResearchTileRequirement/ResearchTileRequirement';
+import {useTranslate} from '../../hooks/useTranslate';
+import {ResearchTileReward} from './ResearchTileReward/ResearchTileReward';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {useDateFormat} from '../../hooks/useDateFormat';
 
-export default function ResearchTile({ withShadow, tileData, postData }) {
-    const { tileNumber, previewed, setPreviewed } = tileData;
+export default function ResearchTile({withShadow, tileData, postData}) {
+    const {tileNumber, previewed, setPreviewed} = tileData;
     const {
         researchCode,
         poster,
@@ -181,11 +181,17 @@ export default function ResearchTile({ withShadow, tileData, postData }) {
                         </div>
                         <div className={styles.infoBox}>
                             <div className={styles.h4}>Wymagania</div>
-                            <ul className={styles.requirementsList}>{renderRequirements()}</ul>
+                            {postData.requirements.length > 0 ?
+                                <ul className={styles.requirementsList}>{renderRequirements()}</ul>
+                                : <ul className={styles.requirementsList}>{"(Brak szczególnych wymagań)"}</ul>
+                            }
                         </div>
                         <div className={styles.infoBox}>
                             <div className={styles.h4}>Nagrody za udział</div>
-                            <ul className={styles.rewardsList}>{renderRewards()}</ul>
+                            {postData.rewards.length > 0 ?
+                                <ul className={styles.rewardsList}>{renderRewards()}</ul>
+                                : <ul className={styles.rewardsList}>{"(Brak nagród za udział)"}</ul>
+                            }
                         </div>
                     </div>
                     <main className={`${styles.bodyPart} ${styles.bodyRight}`}>
