@@ -180,3 +180,17 @@
     border-top-right-radius: 0;
     border-top-left-radius: 0;
 }
+
+@media (max-width: 300px) {
+    .category {
+        padding: 5px;
+    }
+
+    .dropdown {
+        position: fixed;
+        inset: auto 0 0;
+        width: 100%;
+
+        min-width: unset;
+    }
+}

@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './LoginRegisterForm.module.css';
 import getApiUrl from '../../../Common/Api.js';
 import { useRef } from 'react';
 import PasswordStrengthBar from 'react-password-strength-bar';
 import { useNavigate } from 'react-router-dom';
+import { Select } from '../Select/Select';
 
 const REGISTER_URL = getApiUrl() + 'user/register';
 
 function RegisterForm(props) {
     const navigate = useNavigate();
+    const changeForm = props.change;
 
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
@@ -17,13 +19,22 @@ function RegisterForm(props) {
     const [password, setPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const [passwordScore, setPasswordScore] = React.useState(0);
-    const [gender, setGender] = React.useState('');
+    const [gender, setGender] = React.useState({ name: '', value: null });
     const [birthDate, setBirthDate] = React.useState('');
     const [agreement, setAgreement] = React.useState(false);
 
     const passwordRef = useRef(null);
     const confirmPasswordRef = useRef(null);
     const setAlert = props.setters;
+    const [genderSelectOpen, setGenderSelectOpen] = useState(false);
+    const genderOptions = [
+        { name: 'Kobieta', value: 'female' },
+        {
+            name: 'Mężczyzna',
+            value: 'male',
+        },
+        { name: 'Inna', value: 'other' },
+    ];
 
     const currentTime = new Date().toISOString().split('T')[0];
 
@@ -34,7 +45,7 @@ function RegisterForm(props) {
         lastName: lastName,
         email: email,
         birthDate: birthDate,
-        gender: gender,
+        gender: gender?.value,
     };
 
     const handleFirstNameChanged = event => {
@@ -135,80 +146,105 @@ function RegisterForm(props) {
     return (
         <article className={styles.registerFormBox}>
             <header className={styles.hBox}>
-                <div className={styles.h3}>Nie posiadasz konta?</div>
                 <div className={styles.h2}>Zarejestruj się</div>
             </header>
             <form onSubmit={event => SubmitButtonClicked(event)} className={styles.registerForm}>
                 <div className={styles.flexRow}>
-                    <input
-                        onChange={event => handleFirstNameChanged(event)}
-                        id="firstName"
-                        type="text"
-                        placeholder="Imię"
-                        className={styles.textInput}
-                        maxLength={32}
-                        pattern="^([a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+[,.]?[ ]?|[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+['-]?)+$"
-                        required
-                    />
+                    <div className={styles.inputContainer}>
+                        <label htmlFor="firstName">Imię</label>
+                        <input
+                            onChange={event => handleFirstNameChanged(event)}
+                            id="firstName"
+                            type="text"
+                            placeholder="Imię"
+                            className={styles.textInput}
+                            maxLength={32}
+                            pattern="^([a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+[,.]?[ ]?|[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+['-]?)+$"
+                            title={'Podaj imię'}
+                            required
+                        />
+                    </div>
+
                     <div className={styles.flexColumnSep}></div>
-                    <input
-                        onChange={event => handleLastNameChanged(event)}
-                        id="lastName"
-                        type="text"
-                        placeholder="Nazwisko"
-                        className={styles.textInput}
-                        maxLength={32}
-                        pattern="^([a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+[,.]?[ ]?|[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+['-]?)+$"
-                        required
-                    />
+                    <div className={styles.inputContainer}>
+                        <label htmlFor="lastName">Nazwisko</label>
+                        <input
+                            onChange={event => handleLastNameChanged(event)}
+                            id="lastName"
+                            type="text"
+                            placeholder="Nazwisko"
+                            className={styles.textInput}
+                            maxLength={32}
+                            pattern="^([a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+[,.]?[ ]?|[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+['-]?)+$"
+                            title={'Podaj nazwisko'}
+                            required
+                        />
+                    </div>
                 </div>
                 <div className={styles.flexRow}>
-                    <input
-                        onChange={event => handleUsernameChanged(event)}
-                        id="usernameReg"
-                        type="text"
-                        placeholder="Nazwa użytkownika"
-                        className={styles.textInput}
-                        maxLength={32}
-                        pattern="^[a-zA-Z][a-zA-Z0-9]*$"
-                        required
-                    />
+                    <div className={styles.inputContainer}>
+                        <label htmlFor="usernameReg">Login</label>
+                        <input
+                            onChange={event => handleUsernameChanged(event)}
+                            id="usernameReg"
+                            type="text"
+                            placeholder="Nazwa użytkownika"
+                            className={styles.textInput}
+                            maxLength={32}
+                            pattern="^[a-zA-Z][a-zA-Z0-9]*$"
+                            title={'Podaj nazwę użytkownika'}
+                            required
+                        />
+                    </div>
+
                     <div className={styles.flexColumnSep}></div>
-                    <input
-                        onChange={event => handleEmailChanged(event)}
-                        id="email"
-                        type="email"
-                        placeholder="Adres e-mail"
-                        className={styles.textInput}
-                        maxLength={64}
-                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
-                        required
-                    />
+                    <div className={styles.inputContainer}>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            onChange={event => handleEmailChanged(event)}
+                            id="email"
+                            type="email"
+                            placeholder="Adres e-mail"
+                            className={styles.textInput}
+                            maxLength={64}
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                            title={'Podaj adres email'}
+                            required
+                        />
+                    </div>
                 </div>
                 <div className={styles.flexRow}>
-                    <input
-                        onChange={event => handlePasswordChanged(event)}
-                        id="password"
-                        type="password"
-                        placeholder="Hasło"
-                        className={styles.textInput}
-                        required
-                        maxLength={32}
-                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
-                        title="Hasło musi mieć przynajmniej 8 znaków, w tym cyfrę, małą oraz wielką literę."
-                        ref={el => (passwordRef.current = el)}
-                    />
+                    <div className={styles.inputContainer}>
+                        <label htmlFor="password">Hasło</label>
+                        <input
+                            onChange={event => handlePasswordChanged(event)}
+                            id="password"
+                            type="password"
+                            placeholder="Hasło"
+                            className={styles.textInput}
+                            required
+                            maxLength={32}
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            title="Podaj hasło. Hasło musi mieć przynajmniej 8 znaków, w tym cyfrę, małą oraz wielką literę."
+                            ref={el => (passwordRef.current = el)}
+                        />
+                    </div>
+
                     <div className={styles.flexColumnSep}></div>
-                    <input
-                        onChange={event => handleConfirmPasswordChanged(event)}
-                        id="confirmPassword"
-                        type="password"
-                        placeholder="Potwierdź hasło"
-                        className={styles.textInput}
-                        required
-                        maxLength={32}
-                        ref={el => (confirmPasswordRef.current = el)}
-                    />
+                    <div className={styles.inputContainer}>
+                        <label htmlFor="confirmPassword">Powtórz hasło</label>
+                        <input
+                            onChange={event => handleConfirmPasswordChanged(event)}
+                            id="confirmPassword"
+                            type="password"
+                            placeholder="Potwierdź hasło"
+                            className={styles.textInput}
+                            required
+                            maxLength={32}
+                            title={'Potwierdź hasło'}
+                            ref={el => (confirmPasswordRef.current = el)}
+                        />
+                    </div>
                 </div>
                 <div className={`${styles.flexRow} ${styles.pwdStrengthBar}`}>
                     <PasswordStrengthBar
@@ -221,36 +257,56 @@ function RegisterForm(props) {
                     ></PasswordStrengthBar>
                 </div>
                 <div className={styles.flexRow}>
-                    <select
-                        onChange={event => handleGenderChanged(event)}
-                        id="gender"
-                        className={styles.textInput}
-                        defaultValue="Wybierz płeć:"
-                        required
-                    >
-                        <option className={styles.option} value="Wybierz płeć:" hidden disabled>
-                            Wybierz płeć:
-                        </option>
-                        <option className={styles.option} value="female">
-                            Kobieta
-                        </option>
-                        <option className={styles.option} value="male">
-                            Mężczyzna
-                        </option>
-                        <option className={styles.option} value="other">
-                            Inna
-                        </option>
-                    </select>
+                    <div className={styles.inputContainer}>
+                        <label htmlFor="gender">Płeć</label>
+                        <Select
+                            id={'gender'}
+                            name={'Płeć'}
+                            title={'Wskaż płeć'}
+                            options={genderOptions}
+                            isOpen={genderSelectOpen}
+                            open={setGenderSelectOpen}
+                            value={gender?.name}
+                            setValue={setGender}
+                            placeholder={'Wskaż płeć'}
+                        ></Select>
+                        {/*<select*/}
+                        {/*    onChange={event => handleGenderChanged(event)}*/}
+                        {/*    id="gender"*/}
+                        {/*    className={styles.textInput}*/}
+                        {/*    defaultValue="Wybierz płeć:"*/}
+                        {/*    title="Wybierz płeć:"*/}
+                        {/*    required*/}
+                        {/*>*/}
+                        {/*    <option className={styles.option} value="Wybierz płeć:" hidden disabled>*/}
+                        {/*        Wybierz płeć:*/}
+                        {/*    </option>*/}
+                        {/*    <option className={styles.option} value="female">*/}
+                        {/*        Kobieta*/}
+                        {/*    </option>*/}
+                        {/*    <option className={styles.option} value="male">*/}
+                        {/*        Mężczyzna*/}
+                        {/*    </option>*/}
+                        {/*    <option className={styles.option} value="other">*/}
+                        {/*        Inna*/}
+                        {/*    </option>*/}
+                        {/*</select>*/}
+                    </div>
+
                     <div className={styles.flexColumnSep}></div>
-                    <input
-                        onChange={event => handleBirthDateChanged(event)}
-                        id="birthdate"
-                        type="date"
-                        className={styles.textInput}
-                        min="1900-01-01"
-                        max={currentTime}
-                        required
-                    />
+                    <div className={styles.inputContainer}>
+                        <label htmlFor="birthdate">Data urodzenia</label>
+                        <input
+                            onChange={event => handleBirthDateChanged(event)}
+                            id="birthdate"
+                            type="date"
+                            className={styles.textInput}
+                            min="1900-01-01"
+                            max={currentTime}
+                            required
+                            title={'Podaj datę urodzenia:'}
+                        />
+                    </div>
                 </div>
 
                 <div className={styles.checkboxRow}>
@@ -269,6 +325,12 @@ function RegisterForm(props) {
                 <button onClick={validatePassword} type="submit" className={styles.submitButton}>
                     ZAREJESTRUJ
                 </button>
+                <span className={styles.lightlyTopPadded}>
+                    Posiadasz już konto?
+                    <span onClick={changeForm} className={styles.panelChange}>
+                        Przejdź do logowania
+                    </span>
+                </span>
             </form>
         </article>
     );
