@@ -75,6 +75,15 @@
 .panelChange {
 }
 
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    position: relative;
+    width: 100%;
+}
+
 .textInput {
     width: 100%;
     padding: 10px;
@@ -221,6 +230,20 @@
     /*display: flex;*/
     /*flex-direction: column;*/
     /*justify-content: space-between;*/
+}
+
+.top,
+.bottom {
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    justify-content: flex-start;
+}
+
+.bottom {
+    justify-content: flex-end;
 }
 
 .lightlyTopPadded {

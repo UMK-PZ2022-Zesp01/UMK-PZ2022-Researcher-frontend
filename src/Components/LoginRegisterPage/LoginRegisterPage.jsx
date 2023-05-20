@@ -72,8 +72,11 @@ export default function LoginRegisterPage() {
 
             <main className={styles.main}>
                 <div className={`${styles.carousel} ${loginRegister ? '' : styles.alternative}`}>
-                    <LoginForm setters={setAlert} change={setLoginRegister} />
-                    <RegisterForm setters={setAlert} change={setLoginRegister} />
+                    <LoginForm setters={setAlert} change={() => setLoginRegister(!loginRegister)} />
+                    <RegisterForm
+                        setters={setAlert}
+                        change={() => setLoginRegister(!loginRegister)}
+                    />
                 </div>
                 {/*{renderLoginOrRegister()}*/}
             </main>
