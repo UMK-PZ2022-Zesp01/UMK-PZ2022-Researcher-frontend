@@ -1,7 +1,7 @@
 {
-  "homepage": "https://umk-pz2022-zesp01.github.io/UMK-PZ2022-Researcher-frontend",
   "name": "researcher-frontend",
   "version": "0.1.0",
+  "homepage": "https://umk-pz2022-zesp01.github.io/UMK-PZ2022-Researcher-frontend",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.5",
