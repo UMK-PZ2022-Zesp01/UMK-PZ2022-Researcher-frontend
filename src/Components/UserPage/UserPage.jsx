@@ -55,6 +55,7 @@ export default function UserPage(props) {
     /*user's posts*/
     const [posts, setPosts] = React.useState([]);
     const [previewed, setPreviewed] = React.useState(null);
+    const [fetchCreatedPosts, setFetchCreatedPosts] = React.useState(true);
 
     /*dynamic change of displayed data*/
     const [phoneState, setPhoneState] = useState();
@@ -112,6 +113,48 @@ export default function UserPage(props) {
         setOpenPopup(true);
     };
 
+    const fetchPosts = async() => {
+        let isMounted = true;
+        const controller = new AbortController();
+        const signal = controller.signal;
+
+        let endpoint;
+        if (fetchCreatedPosts) {
+            endpoint = RESEARCHES_URL + username;
+        } else {
+            endpoint = getApiUrl() + 'user/' + username + '/enrolledresearches';
+        }
+
+        try {
+             await fetch(endpoint,{
+                    signal,
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json;charset:UTF-8',
+                    },
+                })
+                .then(response =>
+                response.json().then(result => {
+                    isMounted && setPosts(result);
+                })
+            )
+                .catch(error => {
+                    console.error(error);
+                });
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+
+        return () => {
+            isMounted = false;
+            controller.abort();
+        };
+    };
+
+    useEffect(() => {
+        fetchPosts();
+    },[fetchCreatedPosts]);
+
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
@@ -136,37 +179,12 @@ export default function UserPage(props) {
                 console.error(error);
             });
 
-        const getPosts = async () => {
-            try {
-                await fetch(RESEARCHES_URL + username, {
-                    signal,
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json;charset:UTF-8',
-                    },
-                })
-                    .then(response =>
-                        response.json().then(result => {
-                            isMounted && setPosts(prevPosts => [...prevPosts, ...result]);
-                        })
-                    )
-                    .catch(error => {
-                        console.error(error);
-                    });
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        getPosts();
-
         return () => {
             isMounted = false;
             controller.abort();
         };
     }, [username, accessToken]);
 
-    //Do Poprawienia jest css więc zakomentowane
     const showPosts = () => {
         return posts.map((post, index) => (
             <ResearchTile
@@ -255,17 +273,30 @@ export default function UserPage(props) {
                                         : styles.userResearchesHide
                                 }
                             >
-                                <button
-                                    className={styles.exitResBtn}
-                                    onClick={() => setIsClickedResearches(false)}
-                                >
-                                    <FontAwesomeIcon
-                                        className={styles.arrowIcon}
-                                        icon={faArrowTurnDown}
-                                    />
-                                </button>
-                                <div className={styles.userResearchCard}>{showPosts()}</div>
-                            </div>
+                                    <div className={styles.userResearchesToggles}>
+                                    <button
+                                        className={styles.exitResBtn}
+                                        onClick={() => setIsClickedResearches(false)}
+                                    >
+                                        <FontAwesomeIcon
+                                            className={styles.arrowIcon}
+                                            icon={faArrowTurnDown}
+                                        />
+                                    </button>
+                                    <div className={styles.inputWrapper}>
+                                        <label className={styles.switch} for={"checkbox"}>
+                                            <input type="checkbox"
+                                                className={styles.checkbox}
+                                                id={"checkbox"}
+                                                checked={fetchCreatedPosts}
+                                                onChange={(e) => setFetchCreatedPosts(e.target.checked)}/>
+                                            <div className={styles.slider}/>
+                                        </label>
+                                    </div>
+                                    </div>
+                                    <div className={styles.userResearchCard}>{showPosts()}</div>
+                                </div>
+
 
                             <LeftContainer values={sendToLeftContainer} />
                             <RightContainer values={sendToRightContainer} />
