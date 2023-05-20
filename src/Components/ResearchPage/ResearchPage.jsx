@@ -996,7 +996,7 @@ function ResearchPage() {
 
                                 {isSomeoneLoggedIn && (
                                     <Link
-                                        to={`/profile/${loggedUser?.login}`}
+                                        to={`/profile`}
                                         className={styles.navigationButton}
                                     >
                                         <FontAwesomeIcon icon={faUser} />

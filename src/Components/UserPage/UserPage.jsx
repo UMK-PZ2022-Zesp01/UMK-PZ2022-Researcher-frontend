@@ -12,7 +12,13 @@ import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import getApiUrl from '../../Common/Api.js';
 import researcherLogo from '../../img/logo-white.png';
-import { faFileCirclePlus, faArrowTurnDown } from '@fortawesome/free-solid-svg-icons';
+import {
+    faFileCirclePlus,
+    faArrowTurnDown,
+    faFileCircleExclamation,
+    faHouse,
+    faUser
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { HelmetProvider } from 'react-helmet-async';
@@ -23,6 +29,7 @@ const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 export default function UserPage(props) {
     /*user data*/
     const [userData, setUserData] = useState({});
+
 
     /*access token*/
     const { username, accessToken } = useAuth().auth;
@@ -220,9 +227,11 @@ export default function UserPage(props) {
         <div className={styles.PageOverlay}>
             <ReportForm open={openPopup} onClose={() => setOpenPopup(false)} />
             <div className={styles.MainContainer}>
+                <HelmetProvider>
                 <Helmet>
-                    <title>Profil | Researcher</title>
+                    <title>{userData.firstName + ' ' + userData.lastName + ' | JustResearch'}</title>
                 </Helmet>
+                </HelmetProvider>
                 <div className={styles.alertOverlay}>
                     <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
                 </div>
@@ -239,27 +248,27 @@ export default function UserPage(props) {
                             <BookmarksNav active="profile" desc="Twój profil" />
                         </header>
                         <div className={styles.wrapper}>
-                            <div
-                                className={
-                                    clickedResearches
-                                        ? styles.userResearches
-                                        : styles.userResearchesHide
-                                }
-                            >
-                                <button
-                                    className={styles.exitResBtn}
-                                    onClick={() => setIsClickedResearches(false)}
+                                <div
+                                    className={
+                                        clickedResearches
+                                            ? styles.userResearches
+                                            : styles.userResearchesHide
+                                    }
                                 >
-                                    <FontAwesomeIcon
-                                        className={styles.arrowIcon}
-                                        icon={faArrowTurnDown}
-                                    />
-                                </button>
-                                <div className={styles.userResearchCard}>{showPosts()}</div>
-                            </div>
+                                    <button
+                                        className={styles.exitResBtn}
+                                        onClick={() => setIsClickedResearches(false)}
+                                    >
+                                        <FontAwesomeIcon
+                                            className={styles.arrowIcon}
+                                            icon={faArrowTurnDown}
+                                        />
+                                    </button>
+                                    <div className={styles.userResearchCard}>{showPosts()}</div>
+                                </div>
 
-                            <LeftContainer values={sendToLeftContainer} />
-                            <RightContainer values={sendToRightContainer} />
+                                <LeftContainer values={sendToLeftContainer} />
+                                <RightContainer values={sendToRightContainer} />
                         </div>
                     </div>
                     <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
