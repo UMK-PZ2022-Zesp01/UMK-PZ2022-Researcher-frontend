@@ -37,7 +37,7 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin, isSomeoneLoggedIn }
                 method: 'PUT',
                 headers: {
                     Authorization: accessToken,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json; charset:UTF-8',
                 },
                 body: JSON.stringify(putTemplate),
             };
@@ -77,7 +77,7 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin, isSomeoneLoggedIn }
                 method: 'PUT',
                 headers: {
                     Authorization: accessToken,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json; charset:UTF-8',
                 },
                 body: JSON.stringify(putTemplate),
             };
@@ -119,7 +119,7 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin, isSomeoneLoggedIn }
                 method: 'POST',
                 headers: {
                     Authorization: accessToken,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json; charset:UTF-8',
                 },
                 body: JSON.stringify(putTemplate),
             };
