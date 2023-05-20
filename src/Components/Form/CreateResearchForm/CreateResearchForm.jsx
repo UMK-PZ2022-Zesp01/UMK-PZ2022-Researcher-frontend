@@ -540,11 +540,7 @@ function CreateResearchForm() {
                             id="phone-select"
                             defaultValue={'default'}
                         >
-                            {loggedUser.phone ? (
-                                <option value="default">domyślny ({loggedUser.phone})</option>
-                            ) : (
-                                <option value="default">brak</option>
-                            )}
+                            <option value="default">domyślny ({loggedUser.phone})</option>
                             <option value="new">inny</option>
                         </select>
 

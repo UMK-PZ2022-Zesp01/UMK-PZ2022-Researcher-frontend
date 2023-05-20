@@ -1,31 +1,65 @@
 import styles from '../Containers/Container.module.css';
-import {BsCameraFill, BsGenderAmbiguous} from 'react-icons/bs';
-import {MdLocationOn, MdPhone} from 'react-icons/md';
-import {HiOutlineMail} from 'react-icons/hi';
-import {GiFemale, GiMale} from 'react-icons/gi';
-import React, {useEffect, useState} from 'react';
-import {Alert} from '../../Alert/Alert';
-import {Popup} from '../../Popup/Popup';
+import { BsCameraFill } from 'react-icons/bs';
+import { MdLocationOn, MdPhone } from 'react-icons/md';
+import { HiOutlineMail } from 'react-icons/hi';
+import { GiFemale, GiMale } from 'react-icons/gi';
+import React, { useEffect, useState } from 'react';
+import { Alert } from '../../Alert/Alert';
+import { Popup } from '../../Popup/Popup';
 import getApiUrl from '../../../Common/Api';
 import useAuth from '../../../hooks/useAuth';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faUser} from '@fortawesome/free-solid-svg-icons';
-import {Link, useLocation} from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-const LeftContainer = ({values}) => {
+const LeftContainer = ({ values }) => {
     const AVATAR_UPDATE_URL = getApiUrl() + 'user/current/avatar/update';
-    const {auth} = useAuth();
-    const {username, accessToken} = auth;
+    const { auth } = useAuth();
+    const { username, accessToken } = useAuth().auth;
     const [avatarImage, setAvatarImage] = useState(null);
-    const location = useLocation();
-    const setAlert=values.setAlert
     /** Handle correct poster file extensions **/
     const acceptedAvatarExtensions = ['png', 'jpg', 'jpeg', 'bmp'];
     const acceptedAvatarExtensionsString = acceptedAvatarExtensions
         .map(value => value.toUpperCase())
         .join(', ');
 
+    /*** Alerts Section ***/
 
+    const [alert, setAlert] = React.useState({
+        alertOpen: false,
+        alertType: 0,
+        alertText: '',
+    });
+
+    const closeAlert = () =>
+        setAlert({
+            alertOpen: false,
+            alertType: alert.alertType,
+            alertText: alert.alertText,
+        });
+
+    const showAlert = () => {
+        switch (alert.alertType) {
+            case 200:
+                return (
+                    <Alert onClose={closeAlert} type="success">
+                        {alert.alertText}
+                    </Alert>
+                );
+            case 299:
+            case 499:
+                return (
+                    <Alert onClose={closeAlert} type="warning">
+                        {alert.alertText}
+                    </Alert>
+                );
+            default:
+                return (
+                    <Alert onClose={closeAlert} type="error">
+                        {alert.alertText}
+                    </Alert>
+                );
+        }
+    };
 
     const handleAvatarImageChange = event => {
         if (
@@ -91,6 +125,9 @@ const LeftContainer = ({values}) => {
 
     return (
         <div className={styles.leftContainer}>
+            <div className={styles.alertOverlay}>
+                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
+            </div>
             <div className={styles.infoWithoutEdit}>
                 <div className={styles.mainInfo}>
                     <div className={styles.avatarBox}>
@@ -111,7 +148,7 @@ const LeftContainer = ({values}) => {
                             ))}
                         <div className={styles.editAvatarButton}>
                             <label htmlFor="avatar" className={styles.avatarIcon}>
-                                <BsCameraFill/>
+                                <BsCameraFill />
                                 <input
                                     onChange={handleAvatarImageChange}
                                     type="file"
@@ -130,47 +167,27 @@ const LeftContainer = ({values}) => {
                 </div>
 
                 <div className={styles.profileDescription}>
-
                     <div className={styles.desc}>
-                        <MdLocationOn className={styles.icon}/>
-                        <span>{values.locationState ?
-                            values.locationState
-                            : "(nie podano)"}</span>
+                        <MdLocationOn className={styles.icon} />
+                        <span>{values.locationState}</span>
                     </div>
-
                     <div className={styles.desc}>
-                        <HiOutlineMail className={styles.icon}/>
+                        <HiOutlineMail className={styles.icon} />
                         <span>{values.emailState}</span>
                     </div>
                     <div className={styles.desc}>
-                        <MdPhone className={styles.icon}/>
-                        <span>
-                            {accessToken
-                                ? values.phoneState ?
-                                    values.phoneState :
-                                    "(nie podano)"
-                                : [
-                                    <Link to={'/login'} state={{from: location}}>
-                                        Zaloguj się
-                                    </Link>,
-                                    ,
-                                ]}
-                        </span>
+                        <MdPhone className={styles.icon} />
+                        <span>{values.phoneState}</span>
                     </div>
                     {values.gender === 'male' ? (
                         <div className={styles.desc}>
-                            <GiMale className={styles.icon}/>
+                            <GiMale className={styles.icon} />
                             <span>Mężczyzna</span>
-                        </div>
-                    ) : values.gender === 'female' ? (
-                        <div className={styles.desc}>
-                            <GiFemale className={styles.icon}/>
-                            <span>Kobieta</span>
                         </div>
                     ) : (
                         <div className={styles.desc}>
-                            <BsGenderAmbiguous className={styles.icon}/>
-                            <span>Inna / Nieokreślona</span>
+                            <GiFemale className={styles.icon} />
+                            <span>Kobieta</span>
                         </div>
                     )}
                 </div>
@@ -204,4 +221,4 @@ const LeftContainer = ({values}) => {
         </div>
     );
 };
-export {LeftContainer};
+export { LeftContainer };

@@ -17,15 +17,16 @@
     z-index: -1000;
     content: '';
     position: fixed;
-    /*top: 0;*/
-    /*left: 0;*/
-    inset: -5%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100svh;
     background: linear-gradient(135deg, rgba(148, 205, 233, 1) 0%, rgba(92, 19, 116, 1) 100%);
 }
 
 .divider {
     width: 100%;
-    min-height: 5rem;
+    min-height: 7rem;
     transition: height 300ms ease-in-out;
 }
 
@@ -40,12 +41,8 @@
 /*    }*/
 /*}*/
 
-@media (max-width: 1000px) {
+@media (max-width: 700px) {
     .divider {
         min-height: 2.5rem;
-    }
-
-    .App {
-        padding: 25px 10px;
     }
 }

@@ -31,7 +31,8 @@
 .loginFormBox {
     display: flex;
     flex-direction: column;
-    width: clamp(20ch, 50ch, 100%);
+    flex-basis: 33%;
+    flex-grow: 1;
     margin: 0;
 }
 
@@ -43,45 +44,30 @@
     margin: 0;
 }
 
-.loginForm,
+.loginForm {
+    display: flex;
+    padding: 1rem 2rem;
+    flex-direction: column;
+}
+
 .registerForm {
     display: flex;
     padding: 1rem 2rem;
     flex-direction: column;
 }
 
-.aPurple,
-.panelChange {
+.aPurple {
     padding: 0.3rem;
     align-self: end;
     font-weight: 700;
-
+    font-size: 0.7rem;
     color: #512c8c;
     border-radius: 5px;
     text-decoration: none;
-    cursor: pointer;
 }
 
-.aPurple:hover,
-.panelChange:hover {
-    color: #6600c7;
-    text-decoration: underline;
-}
-
-.aPurple {
-    font-size: 0.8rem;
-}
-
-.panelChange {
-}
-
-.inputContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-
-    position: relative;
-    width: 100%;
+.aPurple:hover {
+    color: #6d3b9e;
 }
 
 .textInput {
@@ -180,7 +166,7 @@
 
 .checkboxRow label {
     width: 100%;
-    font-size: 0.9rem;
+    font-size: 0.8em;
     text-align: left;
     margin-left: 0.5em;
 }
@@ -230,45 +216,4 @@
     /*display: flex;*/
     /*flex-direction: column;*/
     /*justify-content: space-between;*/
-}
-
-.top,
-.bottom {
-    display: flex;
-    flex-direction: column;
-}
-
-.top {
-    justify-content: flex-start;
-}
-
-.bottom {
-    justify-content: flex-end;
-}
-
-.lightlyTopPadded {
-    padding: 1rem 0 0 0;
-}
-
-@media (max-width: 400px) {
-    .flexRow {
-        flex-wrap: wrap;
-    }
-
-    .lightlyTopPadded {
-        display: none;
-    }
-}
-
-@media (max-width: 300px) {
-    .loginForm,
-    .registerForm {
-        padding: 1rem 10px;
-    }
-}
-
-@media (max-width: 250px) {
-    .flexRow {
-        flex-direction: column;
-    }
 }

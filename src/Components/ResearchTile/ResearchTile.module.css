@@ -3,9 +3,7 @@
     flex-direction: column;
     position: relative;
     z-index: 1;
-
     height: 350px;
-    max-width: 100%;
 
     background-color: #6d3b9e;
     border-radius: 5px;
@@ -396,10 +394,5 @@
 @media screen and (max-width: 600px) {
     .previewTile {
         display: none;
-    }
-}
-@media (max-width: 250px) {
-    .tileOverlay {
-        height: 40%;
     }
 }

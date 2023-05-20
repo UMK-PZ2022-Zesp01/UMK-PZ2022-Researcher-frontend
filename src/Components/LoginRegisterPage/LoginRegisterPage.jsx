@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BannerWhite } from '../Banner/BannerWhite';
 import { LoginForm } from '../Form/LoginRegisterForm/LoginForm';
 import { RegisterForm } from '../Form/LoginRegisterForm/RegisterForm';
@@ -10,13 +10,11 @@ import styles from './LoginRegisterPage.module.css';
 import { Link } from 'react-router-dom';
 
 export default function LoginRegisterPage() {
-    const [alert, setAlert] = useState({
+    const [alert, setAlert] = React.useState({
         alertOpen: false,
         alertType: 0,
         alertText: '',
     });
-
-    const [loginRegister, setLoginRegister] = useState(false);
 
     const closeAlert = () =>
         setAlert({
@@ -49,14 +47,6 @@ export default function LoginRegisterPage() {
         }
     }
 
-    // const renderLoginOrRegister = () => {
-    //     return loginRegister ? (
-    //         <RegisterForm setters={setAlert} change={setLoginRegister} r />
-    //     ) : (
-    //         <LoginForm setters={setAlert} change={setLoginRegister} />
-    //     );
-    // };
-
     return (
         <div className={styles.loginRegisterPage}>
             <Helmet>
@@ -69,16 +59,10 @@ export default function LoginRegisterPage() {
             <Link to="/" className={styles.header}>
                 <BannerWhite />
             </Link>
-
             <main className={styles.main}>
-                <div className={`${styles.carousel} ${loginRegister ? '' : styles.alternative}`}>
-                    <LoginForm setters={setAlert} change={() => setLoginRegister(!loginRegister)} />
-                    <RegisterForm
-                        setters={setAlert}
-                        change={() => setLoginRegister(!loginRegister)}
-                    />
-                </div>
-                {/*{renderLoginOrRegister()}*/}
+                <LoginForm setters={setAlert} />
+                <div className={styles.separator} />
+                <RegisterForm setters={setAlert} />
             </main>
             {/*</div>*/}
         </div>

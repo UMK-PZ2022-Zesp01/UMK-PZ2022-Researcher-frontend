@@ -9,7 +9,6 @@ const LOGIN_URL = getApiUrl() + 'login';
 function LoginForm(props) {
     const { setAuth } = useAuth();
     const setAlert = props.setters;
-    const changeForm = props.change;
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -93,35 +92,30 @@ function LoginForm(props) {
             <header className={styles.hBox}>
                 <div className={styles.h2}>Zaloguj się</div>
             </header>
-
             <form onSubmit={event => SubmitButtonClicked(event)} className={styles.loginForm}>
-                <div className={styles.inputContainer}>
-                    <label htmlFor="usernameLog">Login</label>
-                    <input
-                        onChange={event => handleUsernameChanged(event)}
-                        autoFocus
-                        id="usernameLog"
-                        type="text"
-                        placeholder="Login lub adres e-mail"
-                        className={styles.textInput}
-                        required
-                    />
-                </div>
-                <div className={styles.inputContainer}>
-                    <label htmlFor={'loginPassword'}>Hasło</label>
-                    <input
-                        id={'loginPassword'}
-                        type="password"
-                        placeholder="Hasło"
-                        onChange={event => handlePasswordChanged(event)}
-                        className={styles.textInput}
-                        required
-                    />
-                </div>
+                <input
+                    onChange={event => handleUsernameChanged(event)}
+                    autoFocus
+                    id="usernameLog"
+                    type="text"
+                    placeholder="Login lub adres e-mail"
+                    className={styles.textInput}
+                    required
+                />
+                <input
+                    type="password"
+                    placeholder="Hasło"
+                    onChange={event => handlePasswordChanged(event)}
+                    className={styles.textInput}
+                    required
+                />
 
                 <a href="/" className={styles.aPurple}>
                     Nie pamiętam hasła
                 </a>
+                <button type="submit" className={styles.submitButton}>
+                    ZALOGUJ
+                </button>
                 <div className={styles.checkboxRow}>
                     <input
                         id={'rememberDevice'}
@@ -132,23 +126,13 @@ function LoginForm(props) {
                     />
                     <label htmlFor={'rememberDevice'}>Zapamiętaj to urządzenie</label>
                 </div>
-                <button type="submit" className={styles.submitButton}>
-                    ZALOGUJ
-                </button>
-                <span className={styles.lightlyTopPadded}>
-                    Nie posiadasz konta?
-                    <span onClick={changeForm} className={styles.panelChange}>
-                        Zarejestruj się!
-                    </span>
-                </span>
-
-                {/*<div className={styles.orLoginWith}>*/}
-                {/*    <span>lub</span>*/}
-                {/*</div>*/}
-                {/*<div className={styles.flexRow}>*/}
-                {/*    <button className={styles.loginWith}>Zaloguj z G</button>*/}
-                {/*    <button className={styles.loginWith}>Zaloguj z FB</button>*/}
-                {/*</div>*/}
+                <div className={styles.orLoginWith}>
+                    <span>lub</span>
+                </div>
+                <div className={styles.flexRow}>
+                    <button className={styles.loginWith}>Zaloguj z G</button>
+                    <button className={styles.loginWith}>Zaloguj z FB</button>
+                </div>
             </form>
         </article>
     );
