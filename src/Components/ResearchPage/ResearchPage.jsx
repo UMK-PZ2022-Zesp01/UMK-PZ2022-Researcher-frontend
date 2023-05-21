@@ -47,12 +47,20 @@ function ResearchPage() {
     const RESIGN_URL = getApiUrl() + `research/${researchCode}/resign`;
 
     const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [begDate, setBegDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [creatorEmail, setCreatorEmail] = useState('');
+    const [creatorPhone, setCreatorPhone] = useState('');
+    const [participantLimit, setParticipantLimit] = useState(0);
     const [research, setResearch] = useState();
     const [creator, setCreator] = useState();
     const [loggedUser, setLoggedUser] = useState({});
     const [location, setLocation] = useState([]);
     const [rewards, setRewards] = useState([]);
     const [requirements, setRequirements] = useState([]);
+
+    const [editedData, setEditedData] = useState({});
 
     const [isPosterOnFullScreen, setIsPosterOnFullScreen] = useState(false);
     const [researchGetSuccess, setResearchGetSuccess] = useState(null);
@@ -62,38 +70,39 @@ function ResearchPage() {
     const [isListVisible, setIsListVisible] = useState(false);
     const [isDeleteResearchConfirmVisible, setIsDeleteResearchConfirmVisible] = useState(false);
     const [isEnrollButtonBlocked, setIsEnrollButtonBlocked] = useState(false);
-    //
-    // useEffect(() => {
-    //     window.location.reload();
-    // }, []);
-
+    
     /** Get Research From Database **/
 
-    useEffect(() => {
-        const getResearch = async () => {
-            setResearchGetSuccess(undefined);
-            const researchResponse = await fetch(GET_RESEARCH_URL, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json;charset:UTF-8',
-                },
-            });
+    const getResearch = async () => {
+        setResearchGetSuccess(undefined);
+        const researchResponse = await fetch(GET_RESEARCH_URL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json;charset:UTF-8',
+            },
+        });
 
-            switch (researchResponse.status) {
-                case 200:
-                    const result = await researchResponse.json();
-                    setResearch(result);
-                    setTitle(result.title);
-                    setLocation(result.location);
-                    setRewards(result.rewards);
-                    setRequirements(result.requirements);
+        switch (researchResponse.status) {
+            case 200:
+                const result = await researchResponse.json();
+                setResearch(result);
+                setTitle(result.title);
+                setDescription(result.description);
+                setBegDate(result.begDate);
+                setEndDate(result.endDate);
+                setCreatorEmail(result.creatorEmail);
+                setCreatorPhone(result.creatorPhone);
+                setParticipantLimit(result.participantLimit);
+                setLocation(result.location);
+                setRewards(result.rewards);
+                setRequirements(result.requirements);
 
-                    const creatorResponse = await fetch(GET_CREATOR_URL + result.creatorLogin, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json;charset:UTF-8',
-                        },
-                    });
+                const creatorResponse = await fetch(GET_CREATOR_URL + result.creatorLogin, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json;charset:UTF-8',
+                    },
+                });
 
                     switch (creatorResponse.status) {
                         case 200:
@@ -106,15 +115,15 @@ function ResearchPage() {
                             break;
                     }
 
-                    break;
-                case 204:
-                    setResearchGetSuccess(false);
-                    break;
-                default:
-                    setResearchGetSuccess(false);
-                    break;
-            }
-        };
+                break;
+            case 204:
+                setResearchGetSuccess(false);
+                break;
+            default:
+                setResearchGetSuccess(false);
+                break;
+        }
+    };
 
         const getCurrentUser = async () => {
             if (accessToken)
@@ -142,32 +151,33 @@ function ResearchPage() {
                 }
         };
 
-        const checkIfLoggedUserIsDownForResearch = async () => {
-            try {
-                const response = await fetch(ENROLL_CHECK_URL, {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: {
-                        Authorization: accessToken,
-                        'Content-Type': 'application/json; charset:UTF-8',
-                    },
-                });
+    const checkIfLoggedUserIsDownForResearch = async () => {
+        try {
+            const response = await fetch(ENROLL_CHECK_URL, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    Authorization: accessToken,
+                    'Content-Type': 'application/json; charset:UTF-8',
+                },
+            });
 
-                switch (response.status) {
-                    case 200:
-                        setIsLoggedUserOnParticipantList(true);
-                        break;
-                    case 204:
-                        setIsLoggedUserOnParticipantList(false);
-                        break;
-                    default:
-                        setIsLoggedUserOnParticipantList(false);
-                }
-            } catch (e) {
-                setIsLoggedUserOnParticipantList(false);
+            switch (response.status) {
+                case 200:
+                    setIsLoggedUserOnParticipantList(true);
+                    break;
+                case 204:
+                    setIsLoggedUserOnParticipantList(false);
+                    break;
+                default:
+                    setIsLoggedUserOnParticipantList(false);
             }
-        };
+        } catch (e) {
+            setIsLoggedUserOnParticipantList(false);
+        }
+    };
 
+    useEffect(() => {
         setIsSomeoneLoggedIn(false);
         setIsLoggedUserOnParticipantList(false);
 
@@ -177,6 +187,27 @@ function ResearchPage() {
             checkIfLoggedUserIsDownForResearch().then(null);
         }
     }, [accessToken]);
+
+    const getEditedData = data => {
+        setEditedData(() => data);
+    };
+
+    useEffect(() => {
+        if (editedData.title != null) setTitle(() => editedData.title);
+        if (editedData.description != null) setDescription(() => editedData.description);
+        if (editedData.begDate != null) setBegDate(() => editedData.begDate);
+        if (editedData.endDate != null) setEndDate(() => editedData.endDate);
+        if (editedData.creatorEmail != null) setCreatorEmail(() => editedData.creatorEmail);
+        if (editedData.creatorPhone != null) setCreatorPhone(() => editedData.creatorPhone);
+        if (editedData.participantLimit != null)
+            setParticipantLimit(() => editedData.participantLimit);
+        if (editedData.location != null)
+            setLocation({
+                form: editedData.location.form,
+                place: editedData.location.place,
+                address: editedData.location.address,
+            });
+    }, [editedData]);
 
     /*** Alerts Section ***/
 
@@ -482,11 +513,6 @@ function ResearchPage() {
         }
     };
 
-    const formatLocationAddress = address => {
-        const addressParts = address.toString().split(', ');
-        return `${addressParts.at(1).toString().split(' ').at(1)}, ${addressParts.at(0)}`;
-    };
-
     const toggleDeleteResearchConfirmVisibility = () => {
         setIsDeleteResearchConfirmVisible(prevState => !prevState);
         setIsEditorVisible(false);
@@ -647,252 +673,252 @@ function ResearchPage() {
                                         </button>
                                     </div>
                                 )}
-                                {isEditorVisible && <ResearchEditor research={research} />}
+                                {isEditorVisible && (
+                                    <ResearchEditor
+                                        research={research}
+                                        onClose={() => {
+                                            setIsEditorVisible(false);
+                                        }}
+                                        sendEdited={getEditedData}
+                                    />
+                                )}
                                 {isListVisible && (
                                     <ParticipantsList researchCode={research.researchCode} />
                                 )}
                             </div>
                         )}
 
-                        <h2 className={styles.title}>{research.title}</h2>
+                        {!isEditorVisible && (
+                            <>
+                                <h2 className={styles.title}>{title}</h2>
 
-                        <div className={styles.researchPageRow}>
-                            <div className={styles.posterContainer} onClick={handlePosterClick}>
-                                <img
-                                    className={styles.posterImg}
-                                    alt="poster"
-                                    src={`data:image/jpeg;base64,${research.poster}`}
-                                />
-                            </div>
-
-                            <div className={styles.basicInfoContainer}>
-                                <div className={styles.basicInfoElementRow}>
-                                    <div className={styles.dateContainerLeft}>
-                                        <div className={styles.categoryLabel}>Otwarte do</div>
-                                        <div className={styles.categoryValue}>
-                                            {dateFormat(research.endDate)}
-                                        </div>
-                                    </div>
-
-                                    <div className={styles.dateContainerRight}>
-                                        {calculateDaysLeft() === 'CLOSED' ? (
-                                            <div className={styles.categoryLabel}>
-                                                Badanie zakończyło się
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <div className={styles.categoryLabel}>
-                                                    Badanie zamyka się za
-                                                </div>
-                                                <div className={styles.categoryValue}>
-                                                    {calculateDaysLeft() === 1
-                                                        ? '1 dzień'
-                                                        : calculateDaysLeft() + ' dni'}
-                                                </div>
-                                            </>
-                                        )}
-                                    </div>
-                                </div>
-
-                                <div className={styles.spanLeft}>
-                                    <span className={styles.categoryLabel}>Autor badania: </span>
-                                    <Link to={`/profile/${creator.login}`} className={styles.link}>
-                                        {creator.firstName + ' ' + creator.lastName}
-                                    </Link>
-                                </div>
-
-                                <div className={styles.basicInfoElement}>
-                                    <span className={styles.categoryLabel}>
-                                        Kontakt z autorem badania:
-                                    </span>
-                                    <div className={styles.contactDetails}>
-                                        <span className={styles.contactElement}>
-                                            <FontAwesomeIcon
-                                                icon={faEnvelope}
-                                                className={styles.icon}
-                                            />
-                                            <strong> Adres e-mail: </strong>
-                                            <span>
-                                                {accessToken ? (
-                                                    <a
-                                                        href={
-                                                            accessToken
-                                                                ? `mailto:${creator.email}`
-                                                                : ''
-                                                        }
-                                                        className={styles.link}
-                                                    >
-                                                        {creator.email}{' '}
-                                                    </a>
-                                                ) : (
-                                                    [
-                                                        <Link
-                                                            to={'/login'}
-                                                            state={{ from: webLocation }}
-                                                        >
-                                                            Zaloguj się
-                                                        </Link>,
-                                                        ', aby wyświetlić adres e-mail',
-                                                    ]
-                                                )}
-                                            </span>
-                                        </span>
-                                        <span className={styles.contactElement}>
-                                            <FontAwesomeIcon
-                                                icon={faPhone}
-                                                className={styles.icon}
-                                            />
-                                            <strong>Numer telefonu: </strong>
-                                            <span>
-                                                {accessToken
-                                                    ? research.creatorPhone
-                                                        ? research.creatorPhone
-                                                        : '(nie podano)'
-                                                    : [
-                                                          <Link
-                                                              to={'/login'}
-                                                              state={{ from: webLocation }}
-                                                          >
-                                                              Zaloguj się
-                                                          </Link>,
-                                                          ', aby wyświetlić numer telefonu',
-                                                      ]}
-                                            </span>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className={styles.basicInfoElement}>
-                                    <div className={styles.participantsHeader}>
-                                        <label
-                                            className={styles.categoryLabel}
-                                            htmlFor="progress-bar"
-                                        >
-                                            Liczba zajętych miejsc
-                                        </label>
-                                        <strong
-                                            className={
-                                                checkForLimitExceedance() <= 2
-                                                    ? styles.red
-                                                    : undefined
-                                            }
-                                        >
-                                            {research.participants} / {research.participantLimit}
-                                        </strong>
-                                    </div>
-                                    <progress
-                                        id="progress-bar"
-                                        className={styles.participantsProgressBar}
-                                        value={research.participants}
-                                        max={research.participantLimit}
-                                    />
-                                </div>
-
-                                <div className={styles.basicInfoElement}>
-                                    <span className={styles.categoryLabel}>Forma badania</span>
-                                    <span className={styles.spanLeft}>
-                                        {location.form === 'in-place' ? (
-                                            <span>
-                                                stacjonarnie{' '}
-                                                <a href="#map" className={styles.mapLink}>
-                                                    (kliknij, aby przejść do mapy)
-                                                </a>
-                                            </span>
-                                        ) : (
-                                            <span>
-                                                {isLoggedUserOnParticipantList ? (
-                                                    <>
-                                                        <span>zdalnie: </span>
-                                                        <a
-                                                            href={location.place}
-                                                            target="_blank"
-                                                            rel="noreferrer"
-                                                        >
-                                                            {location.place}
-                                                        </a>
-                                                    </>
-                                                ) : (
-                                                    'zdalnie'
-                                                )}
-                                            </span>
-                                        )}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className={styles.bottomPageContainer}>
-                            <div className={styles.researchPageElementColumn}>
-                                <span className={styles.categoryLabel}>Opis badania</span>
-                                <span className={styles.description}>{research.description}</span>
-                            </div>
-
-                            {research.location.form === 'in-place' && (
-                                <div className={styles.researchPageElementColumn} id="map">
-                                    <span className={styles.categoryLabel}>
-                                        Miejsce przeprowadzania badania
-                                    </span>
-                                    <div className={styles.mapContainer}>
-                                        <span className={styles.locationAddress}>
-                                            {research.location.address}
-                                        </span>
-                                        <Gmap
-                                            latitude={Number(
-                                                location.place.toString().split(' ').at(0)
-                                            )}
-                                            longitude={Number(
-                                                location.place.toString().split(' ').at(1)
-                                            )}
-                                            type={'researchPage'}
-                                            exit={() => {}}
-                                            setLocationInput={() => {}}
-                                            setGmapExit={() => {}}
-                                            setResearchPlace={() => {}}
-                                            setResearchPageAddress={() => {}}
-                                            setIsClickedLocation={() => {}}
+                                <div className={styles.researchPageRow}>
+                                    <div
+                                        className={styles.posterContainer}
+                                        onClick={handlePosterClick}
+                                    >
+                                        <img
+                                            className={styles.posterImg}
+                                            alt="poster"
+                                            src={`data:image/jpeg;base64,${research.poster}`}
                                         />
                                     </div>
-                                </div>
-                            )}
 
-                            <div className={styles.researchPageElementColumn}>
-                                <div className={styles.categoryLabel}>
-                                    Nagrody za udział w badaniu
-                                </div>
-                                {renderRewards()}
-                            </div>
+                                    <div className={styles.basicInfoContainer}>
+                                        <div className={styles.basicInfoElementRow}>
+                                            <div className={styles.dateContainerLeft}>
+                                                <div className={styles.categoryLabel}>
+                                                    Otwarte do
+                                                </div>
+                                                <div className={styles.categoryValue}>
+                                                    {dateFormat(endDate)}
+                                                </div>
+                                            </div>
 
-                            <div className={styles.researchPageElementColumn}>
-                                <div className={styles.categoryLabel}>Wymagania</div>
-                                {renderRequirements()}
-                            </div>
+                                            <div className={styles.dateContainerRight}>
+                                                {calculateDaysLeft() === 'CLOSED' ? (
+                                                    <div className={styles.categoryLabel}>
+                                                        Badanie zakończyło się
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <div className={styles.categoryLabel}>
+                                                            Badanie zamyka się za
+                                                        </div>
+                                                        <div className={styles.categoryValue}>
+                                                            {calculateDaysLeft() === 1
+                                                                ? '1 dzień'
+                                                                : calculateDaysLeft() + ' dni'}
+                                                        </div>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
 
-                            {loggedUser?.login !== research.creatorLogin && (
-                                <>
-                                    <div className={styles.enrollContainer}>
-                                        <div className={styles.enrollCheckmark}>
-                                            {isSomeoneLoggedIn === false ? (
-                                                <>
+                                        <div className={styles.spanLeft}>
+                                            <span className={styles.categoryLabel}>
+                                                Autor badania:{' '}
+                                            </span>
+                                            <Link
+                                                to={`/profile/${creator.login}`}
+                                                className={styles.link}
+                                            >
+                                                {creator.firstName + ' ' + creator.lastName}
+                                            </Link>
+                                        </div>
+
+                                        <div className={styles.basicInfoElement}>
+                                            <span className={styles.categoryLabel}>
+                                                Kontakt z autorem badania:
+                                            </span>
+                                            <div className={styles.contactDetails}>
+                                                <span className={styles.contactElement}>
                                                     <FontAwesomeIcon
-                                                        icon={faCircleXmark}
-                                                        className={`${styles.enrollIcon} ${styles.red}`}
+                                                        icon={faEnvelope}
+                                                        className={styles.icon}
                                                     />
-                                                    <span
-                                                        className={`${styles.enrollDesc} ${styles.red}`}
-                                                    >
-                                                        <Link
-                                                            to={'/login'}
-                                                            state={{ from: webLocation }}
-                                                            replace
+                                                    <strong> Adres e-mail: </strong>
+
+                                                    {accessToken ? (
+                                                        <a
+                                                            href={
+                                                                accessToken
+                                                                    ? `mailto:${creatorEmail}`
+                                                                    : ''
+                                                            }
+                                                            className={styles.link}
                                                         >
-                                                            Zaloguj się
-                                                        </Link>
-                                                        {', aby zapisać się na badanie.'}
+                                                            {creatorEmail}{' '}
+                                                        </a>
+                                                    ) : (
+                                                        [
+                                                            <Link
+                                                                to={'/login'}
+                                                                state={{ from: webLocation }}
+                                                            >
+                                                                Zaloguj się
+                                                            </Link>,
+                                                            ', aby wyświetlić adres email',
+                                                        ]
+                                                    )}
+                                                </span>
+                                                <span className={styles.contactElement}>
+                                                    <FontAwesomeIcon
+                                                        icon={faPhone}
+                                                        className={styles.icon}
+                                                    />
+                                                    <strong>Numer telefonu: </strong>
+                                                    <span>
+                                                        {accessToken
+                                                            ? creatorPhone
+                                                                ? creatorPhone
+                                                                : '(nie podano)'
+                                                            : [
+                                                                  <Link
+                                                                      to={'/login'}
+                                                                      state={{ from: webLocation }}
+                                                                  >
+                                                                      Zaloguj się
+                                                                  </Link>,
+                                                                  ', aby wyświetlić numer telefonu',
+                                                              ]}
                                                     </span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    {calculateDaysLeft() === 'CLOSED' ? (
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div className={styles.basicInfoElement}>
+                                            <div className={styles.participantsHeader}>
+                                                <label
+                                                    className={styles.categoryLabel}
+                                                    htmlFor="progress-bar"
+                                                >
+                                                    Liczba zajętych miejsc
+                                                </label>
+                                                <strong
+                                                    className={
+                                                        checkForLimitExceedance() <= 2
+                                                            ? styles.red
+                                                            : undefined
+                                                    }
+                                                >
+                                                    {research.participants} / {participantLimit}
+                                                </strong>
+                                            </div>
+                                            <progress
+                                                id="progress-bar"
+                                                className={styles.participantsProgressBar}
+                                                value={research.participants}
+                                                max={participantLimit}
+                                            />
+                                        </div>
+
+                                        <div className={styles.basicInfoElement}>
+                                            <span className={styles.categoryLabel}>
+                                                Forma badania
+                                            </span>
+                                            <span className={styles.spanLeft}>
+                                                {location.form === 'in-place' ? (
+                                                    <span>
+                                                        stacjonarnie{' '}
+                                                        <a href="#map" className={styles.mapLink}>
+                                                            (kliknij, aby przejść do mapy)
+                                                        </a>
+                                                    </span>
+                                                ) : (
+                                                    <span>
+                                                        {isLoggedUserOnParticipantList ? (
+                                                            <>
+                                                                <span>zdalnie: </span>
+                                                                <a
+                                                                    href={location.place}
+                                                                    target="_blank"
+                                                                    rel="noreferrer"
+                                                                >
+                                                                    {location.place}
+                                                                </a>
+                                                            </>
+                                                        ) : (
+                                                            'zdalnie'
+                                                        )}
+                                                    </span>
+                                                )}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className={styles.bottomPageContainer}>
+                                    <div className={styles.researchPageElementColumn}>
+                                        <span className={styles.categoryLabel}>Opis badania</span>
+                                        <span className={styles.description}>{description}</span>
+                                    </div>
+
+                                    {research.location.form === 'in-place' && (
+                                        <div className={styles.researchPageElementColumn} id="map">
+                                            <span className={styles.categoryLabel}>
+                                                Miejsce przeprowadzania badania
+                                            </span>
+                                            <div className={styles.mapContainer}>
+                                                <span className={styles.locationAddress}>
+                                                    {location.address}
+                                                </span>
+                                                <Gmap
+                                                    latitude={Number(
+                                                        location.place.toString().split(' ').at(0)
+                                                    )}
+                                                    longitude={Number(
+                                                        location.place.toString().split(' ').at(1)
+                                                    )}
+                                                    type={'researchPage'}
+                                                    exit={() => {}}
+                                                    setLocationInput={() => {}}
+                                                    setGmapExit={() => {}}
+                                                    setResearchPlace={() => {}}
+                                                    setResearchPageAddress={() => {}}
+                                                    setIsClickedLocation={() => {}}
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    <div className={styles.researchPageElementColumn}>
+                                        <div className={styles.categoryLabel}>
+                                            Nagrody za udział w badaniu
+                                        </div>
+                                        {renderRewards()}
+                                    </div>
+
+                                    <div className={styles.researchPageElementColumn}>
+                                        <div className={styles.categoryLabel}>Wymagania</div>
+                                        {renderRequirements()}
+                                    </div>
+
+                                    {loggedUser?.login !== research.creatorLogin && (
+                                        <>
+                                            <div className={styles.enrollContainer}>
+                                                <div className={styles.enrollCheckmark}>
+                                                    {isSomeoneLoggedIn === false ? (
                                                         <>
                                                             <FontAwesomeIcon
                                                                 icon={faCircleXmark}
@@ -901,13 +927,19 @@ function ResearchPage() {
                                                             <span
                                                                 className={`${styles.enrollDesc} ${styles.red}`}
                                                             >
-                                                                Badanie zakończyło się.
+                                                                <Link
+                                                                    to={'/login'}
+                                                                    state={{ from: webLocation }}
+                                                                    replace
+                                                                >
+                                                                    Zaloguj się
+                                                                </Link>
+                                                                {', aby zapisać się na badanie.'}
                                                             </span>
                                                         </>
                                                     ) : (
                                                         <>
-                                                            {checkForLimitExceedance() ===
-                                                            'EXCEEDED' ? (
+                                                            {calculateDaysLeft() === 'CLOSED' ? (
                                                                 <>
                                                                     <FontAwesomeIcon
                                                                         icon={faCircleXmark}
@@ -916,14 +948,13 @@ function ResearchPage() {
                                                                     <span
                                                                         className={`${styles.enrollDesc} ${styles.red}`}
                                                                     >
-                                                                        Lista uczestników jest już
-                                                                        pełna.
+                                                                        Badanie zakończyło się.
                                                                     </span>
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    {checkRequirements() !==
-                                                                    true ? (
+                                                                    {checkForLimitExceedance() ===
+                                                                    'EXCEEDED' ? (
                                                                         <>
                                                                             <FontAwesomeIcon
                                                                                 icon={faCircleXmark}
@@ -932,54 +963,83 @@ function ResearchPage() {
                                                                             <span
                                                                                 className={`${styles.enrollDesc} ${styles.red}`}
                                                                             >
-                                                                                Nie kwalifikujesz
-                                                                                się do udziału w tym
-                                                                                badaniu ze względu
-                                                                                na{' '}
-                                                                                {checkRequirements()}
-                                                                                !
+                                                                                Lista uczestników
+                                                                                jest już pełna.
                                                                             </span>
                                                                         </>
                                                                     ) : (
                                                                         <>
-                                                                            {isLoggedUserOnParticipantList ===
+                                                                            {checkRequirements() !==
                                                                             true ? (
                                                                                 <>
                                                                                     <FontAwesomeIcon
                                                                                         icon={
-                                                                                            faCircleCheck
+                                                                                            faCircleXmark
                                                                                         }
-                                                                                        className={`${styles.enrollIcon} ${styles.green}`}
+                                                                                        className={`${styles.enrollIcon} ${styles.red}`}
                                                                                     />
                                                                                     <span
-                                                                                        className={`${styles.enrollDesc} ${styles.green}`}
+                                                                                        className={`${styles.enrollDesc} ${styles.red}`}
                                                                                     >
-                                                                                        Bierzesz
-                                                                                        udział w tym
-                                                                                        badaniu!
+                                                                                        Nie
+                                                                                        kwalifikujesz
+                                                                                        się do
+                                                                                        udziału w
+                                                                                        tym badaniu
+                                                                                        ze względu
+                                                                                        na{' '}
+                                                                                        {checkRequirements()}
+                                                                                        !
                                                                                     </span>
                                                                                 </>
                                                                             ) : (
                                                                                 <>
-                                                                                    <FontAwesomeIcon
-                                                                                        icon={
-                                                                                            faCircleCheck
-                                                                                        }
-                                                                                        className={`${styles.enrollIcon} ${styles.green}`}
-                                                                                    />
-                                                                                    <span
-                                                                                        className={`${styles.enrollDesc} ${styles.green}`}
-                                                                                    >
-                                                                                        Na podstawie
-                                                                                        wstępnych
-                                                                                        wymagań
-                                                                                        (płeć i
-                                                                                        wiek)
-                                                                                        kwalifikujesz
-                                                                                        się do
-                                                                                        udziału w
-                                                                                        badaniu!
-                                                                                    </span>
+                                                                                    {isLoggedUserOnParticipantList ===
+                                                                                    true ? (
+                                                                                        <>
+                                                                                            <FontAwesomeIcon
+                                                                                                icon={
+                                                                                                    faCircleCheck
+                                                                                                }
+                                                                                                className={`${styles.enrollIcon} ${styles.green}`}
+                                                                                            />
+                                                                                            <span
+                                                                                                className={`${styles.enrollDesc} ${styles.green}`}
+                                                                                            >
+                                                                                                Bierzesz
+                                                                                                udział
+                                                                                                w
+                                                                                                tym
+                                                                                                badaniu!
+                                                                                            </span>
+                                                                                        </>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            <FontAwesomeIcon
+                                                                                                icon={
+                                                                                                    faCircleCheck
+                                                                                                }
+                                                                                                className={`${styles.enrollIcon} ${styles.green}`}
+                                                                                            />
+                                                                                            <span
+                                                                                                className={`${styles.enrollDesc} ${styles.green}`}
+                                                                                            >
+                                                                                                Na
+                                                                                                podstawie
+                                                                                                wstępnych
+                                                                                                wymagań
+                                                                                                (płeć
+                                                                                                i
+                                                                                                wiek)
+                                                                                                kwalifikujesz
+                                                                                                się
+                                                                                                do
+                                                                                                udziału
+                                                                                                w
+                                                                                                badaniu!
+                                                                                            </span>
+                                                                                        </>
+                                                                                    )}
                                                                                 </>
                                                                             )}
                                                                         </>
@@ -988,61 +1048,62 @@ function ResearchPage() {
                                                             )}
                                                         </>
                                                     )}
-                                                </>
-                                            )}
+                                                </div>
+
+                                                {isLoggedUserOnParticipantList === false ? (
+                                                    <button
+                                                        className={
+                                                            isSomeoneLoggedIn === false ||
+                                                            calculateDaysLeft() === 'CLOSED' ||
+                                                            checkForLimitExceedance() ===
+                                                                'EXCEEDED' ||
+                                                            checkRequirements() !== true ||
+                                                            isEnrollButtonBlocked
+                                                                ? `${styles.enrollButton} ${styles.disabled}`
+                                                                : styles.enrollButton
+                                                        }
+                                                        onClick={enrollOnResearch}
+                                                    >
+                                                        Zapisz się na badanie
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className={
+                                                            isSomeoneLoggedIn === false ||
+                                                            isEnrollButtonBlocked === true
+                                                                ? `${styles.enrollButton} ${styles.disabled}`
+                                                                : styles.enrollButton
+                                                        }
+                                                        onClick={resignFromResearch}
+                                                    >
+                                                        Zrezygnuj z udziału w badaniu
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </>
+                                    )}
+
+                                    <div className={styles.researchPageElementColumn}>
+                                        <div className={styles.categoryLabel}>
+                                            Sekcja pytań i odpowiedzi
                                         </div>
-
-                                        {isLoggedUserOnParticipantList === false ? (
-                                            <button
-                                                className={
-                                                    isSomeoneLoggedIn === false ||
-                                                    calculateDaysLeft() === 'CLOSED' ||
-                                                    checkForLimitExceedance() === 'EXCEEDED' ||
-                                                    checkRequirements() !== true ||
-                                                    isEnrollButtonBlocked
-                                                        ? `${styles.enrollButton} ${styles.disabled}`
-                                                        : styles.enrollButton
-                                                }
-                                                onClick={enrollOnResearch}
-                                            >
-                                                Zapisz się na badanie
-                                            </button>
-                                        ) : (
-                                            <button
-                                                className={
-                                                    isSomeoneLoggedIn === false ||
-                                                    isEnrollButtonBlocked === true
-                                                        ? `${styles.enrollButton} ${styles.disabled}`
-                                                        : styles.enrollButton
-                                                }
-                                                onClick={resignFromResearch}
-                                            >
-                                                Zrezygnuj z udziału w badaniu
-                                            </button>
-                                        )}
+                                        <span className={styles.forumInfo}>
+                                            {loggedUser?.login === research.creatorLogin
+                                                ? 'Poniżej znajdują się pytania, które zadały Ci osoby zainteresowane Twoim' +
+                                                  ' badaniem.'
+                                                : 'Jeśli chcesz zadać autorowi pytanie dotyczące badania, możesz to zrobić' +
+                                                  ' poniżej.'}
+                                        </span>
+                                        <Forum
+                                            researchCode={researchCode}
+                                            fullName={`${loggedUser?.firstName} ${loggedUser?.lastName}`}
+                                            researchOwnerLogin={research.creatorLogin}
+                                            isSomeoneLoggedIn={isSomeoneLoggedIn}
+                                        />
                                     </div>
-                                </>
-                            )}
-
-                            <div className={styles.researchPageElementColumn}>
-                                <div className={styles.categoryLabel}>
-                                    Sekcja pytań i odpowiedzi
                                 </div>
-                                <span className={styles.forumInfo}>
-                                    {loggedUser?.login === research.creatorLogin
-                                        ? 'Poniżej znajdują się pytania, które zadały Ci osoby zainteresowane Twoim' +
-                                          ' badaniem.'
-                                        : 'Jeśli chcesz zadać autorowi pytanie dotyczące badania, możesz to zrobić' +
-                                          ' poniżej.'}
-                                </span>
-                                <Forum
-                                    researchCode={researchCode}
-                                    fullName={`${loggedUser?.firstName} ${loggedUser?.lastName}`}
-                                    researchOwnerLogin={research.creatorLogin}
-                                    isSomeoneLoggedIn={isSomeoneLoggedIn}
-                                />
-                            </div>
-                        </div>
+                            </>
+                        )}
                     </>
                 )}
                 {researchGetSuccess === false && (

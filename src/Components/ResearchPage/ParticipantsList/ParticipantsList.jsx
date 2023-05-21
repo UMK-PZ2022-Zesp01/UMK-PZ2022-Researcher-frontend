@@ -4,7 +4,7 @@ import useAuth from '../../../hooks/useAuth';
 import getApiUrl from '../../../Common/Api';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faLocationDot, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
 
@@ -123,18 +123,16 @@ function ParticipantsList({ researchCode }) {
 
             <h3 className={styles.title}>Lista uczestników badania</h3>
 
-            {filteredParticipants.length > 0 && (
-                <input
-                    type="search"
-                    onChange={e => setQuery(e.target.value)}
-                    className={styles.filterInput}
-                    placeholder="Szukaj..."
-                />
-            )}
+            <input
+                type="search"
+                onChange={e => setQuery(e.target.value)}
+                className={styles.filterInput}
+                placeholder="Szukaj..."
+            />
 
             {!participants && <p>Wczytywanie...</p>}
-            {filteredParticipants.length === 0 ? (
-                <span>Twoje badanie na tę chwilę nie posiada uczestników.</span>
+            {filteredParticipants === null ? (
+                <p>Brak uczestników</p>
             ) : (
                 filteredParticipants.length > 0 && (
                     <div className={styles.participantsList}>
@@ -144,15 +142,7 @@ function ParticipantsList({ researchCode }) {
                                     {user.fullName}
                                 </Link>
 
-                                {user.location && (
-                                    <span className={styles.tileLocation}>
-                                        <FontAwesomeIcon
-                                            icon={faLocationDot}
-                                            className={styles.purple}
-                                        />
-                                        {user.location}
-                                    </span>
-                                )}
+                                <span>{user.location}</span>
 
                                 <a href={`mailto:${user.email}`} className={styles.tileEmail}>
                                     <FontAwesomeIcon icon={faEnvelope} />

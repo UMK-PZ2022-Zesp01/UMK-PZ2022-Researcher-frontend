@@ -250,11 +250,7 @@ function CreateResearchForm() {
     };
 
     const handleResearchPlaceChange = event => {
-        let researchLink = event.target.value;
-        if (!researchLink.includes('http://') && !researchLink.includes('https://')) {
-            researchLink = 'https://' + researchLink;
-        }
-        setResearchPlace(researchLink);
+        setResearchPlace(event.target.value);
     };
 
     const handleEmailTypeChangeSelect = event => {
@@ -613,6 +609,13 @@ function CreateResearchForm() {
 
                 <div className={styles.rowContainer}>
                     <label className={styles.formLabel}>Nagrody za udział w badaniu</label>
+                    <label className={`${styles.requirementDesc} ${styles.left}`}>
+                        <strong>Uwaga!</strong>{' '}
+                        <span>
+                            Na późniejszym etapie edycja tych danych{' '}
+                            <span className={styles.underline}>nie będzie możliwa</span>!
+                        </span>
+                    </label>
 
                     <div className={styles.formColumn}>{renderRewardComponents()}</div>
 
@@ -628,6 +631,13 @@ function CreateResearchForm() {
                     <label className={styles.formLabel}>Wymagania udziału w badaniu</label>
                     <label className={styles.requirementDesc}>
                         Zaznacz kryteria, które muszą spełniać uczestnicy Twojego badania
+                    </label>
+                    <label className={`${styles.requirementDesc} ${styles.left}`}>
+                        <strong>Uwaga!</strong>{' '}
+                        <span>
+                            Na późniejszym etapie edycja tych danych{' '}
+                            <span className={styles.underline}>nie będzie możliwa</span>!
+                        </span>
                     </label>
 
                     <CreateResearchFormRequirement sendList={getRequirementList} />

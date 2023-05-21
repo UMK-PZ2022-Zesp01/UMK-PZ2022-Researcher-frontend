@@ -12,7 +12,6 @@ import UserPage from './Components/UserPage/UserPage';
 import { CreateResearchPage } from './Components/CreateResearchPage/CreateResearchPage';
 import { ResearchPage } from './Components/ResearchPage/ResearchPage';
 import OtherUserPage from './Components/UserPage/OtherUserPage';
-import {Users} from "./Components/UserPage/Users";
 import ErrorPage from "./Components/Error/ErrorPage";
 
 function App() {
@@ -25,23 +24,20 @@ function App() {
                     <Route path="/" index element={<MainPage />} />
                     <Route path="/research/:researchCode" element={<ResearchPage />} />
                     <Route path="/profile/:username" element={<OtherUserPage />} />
-                    <Route path="/users" index element={<Users />} />
+                    {/* <Route path="/users" index element={<Users />} /> */}
                     <Route path="*" element={<ErrorPage/>}/>
                     {/*<Route path="/research/create" element={<CreateResearchPage />} />*/}
 
                     <Route element={<RequireAuth />}>
-                        <Route path="/authTest" element={<MainPage />} />
+                        {/*<Route path="/authTest" element={<MainPage />} />*/}
                         <Route path="/profile" element={<UserPage />} />
                         <Route path="/research/create" element={<CreateResearchPage />} />
                     </Route>
                 </Route>
 
-                <Route
-                    path={'/registeredSuccessfully'}
-                    element={<RegisteredSuccessfullyPage />}
-                ></Route>
-                <Route path={'/confirmEmail/:token'} element={<ConfirmEmailPage />}></Route>
-
+                <Route path={'/registeredSuccessfully'} element={<RegisteredSuccessfullyPage />} />
+                <Route path={'/confirmEmail/:token'} element={<ConfirmEmailPage />} />
+                {/*<Route path="*" element={<Missing/>}></Route>*/}
             </Route>
         </Routes>
     );
