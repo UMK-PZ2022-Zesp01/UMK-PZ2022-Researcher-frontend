@@ -16,7 +16,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useLogout } from '../../hooks/useLogout';
 import { Link, useLocation } from 'react-router-dom';
 
-// Props "active":
+// "active" prop:
 // * 0 = Profile Page
 // * 1 = Home Page
 // * 2 = Research Page

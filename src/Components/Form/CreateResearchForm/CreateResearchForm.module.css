@@ -257,6 +257,15 @@
     margin-bottom: 10px;
 }
 
+.left {
+    width: 100%;
+    text-align: left;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
 .formButton {
     width: 100%;
     background-color: #512c8c;

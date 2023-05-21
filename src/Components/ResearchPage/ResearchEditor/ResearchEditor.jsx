@@ -1,12 +1,12 @@
 import styles from './ResearchEditor.module.css';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import getApiUrl from '../../../Common/Api';
 import useAuth from '../../../hooks/useAuth';
 import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
 import { Gmap } from '../../GoogleMap/GoogleMap';
 
-function ResearchEditor({ research }) {
+function ResearchEditor({ research, onClose, sendEdited }) {
     const UPDATE_RESEARCH_URL = getApiUrl() + `research/${research.researchCode}/update`;
 
     const { auth } = useAuth();
@@ -21,6 +21,24 @@ function ResearchEditor({ research }) {
     const [locationLink, setLocationLink] = useState(research.location.place);
     const [locationCoords, setLocationCoords] = useState(research.location.place);
     const [locationAddress, setLocationAddress] = useState(research.location.address);
+
+    // const participantLimitRef = useRef(null);
+    //
+    // const validateParticipantLimit = () => {
+    //     let partLimit = participantLimitRef.current;
+    //     if (partLimit.value < research.participantLimit) {
+    //         partLimit.setCustomValidity(
+    //             'Liczba uczestników nie może być mniejsza niż poprzednio (' +
+    //                 research.participantLimit +
+    //                 ')'
+    //         );
+    //     } else {
+    //         partLimit.setCustomValidity('');
+    //     }
+    // };
+
+    // useEffect(() => validateParticipantLimit(), [participantLimit]);
+    // useEffect(() => console.log(participantLimitRef.current), [title]);
 
     /*** Alerts Section ***/
 
@@ -94,8 +112,11 @@ function ResearchEditor({ research }) {
                           address: research.location.form === 'in-place' ? locationAddress : null,
                       },
         };
-        // console.log(researchUpdateData);
 
+        // Send Edited Data to Parent Component
+        sendEdited(researchUpdateData);
+
+        // Send Edited Data to DB
         sendEditedResearch(researchUpdateData);
     };
 
@@ -117,8 +138,7 @@ function ResearchEditor({ research }) {
                         return {
                             alertOpen: true,
                             alertType: response.status,
-                            alertText:
-                                'Pomyślnie zmieniono badanie! Wprowadzone dane będą widoczne po odświeżeniu strony.',
+                            alertText: 'Pomyślnie wprowadzono zmiany w badaniu!',
                         };
                     });
                     break;
@@ -171,7 +191,8 @@ function ResearchEditor({ research }) {
                                 name="participant-limit"
                                 min="1"
                                 defaultValue={research.participantLimit}
-                                onChange={e => setParticipantLimit(() => e.target.value)}
+                                onChange={e => setParticipantLimit(e.target.value)}
+                                // ref={element => (participantLimitRef.current = element)}
                             />
                         </div>
                     </div>
@@ -264,8 +285,8 @@ function ResearchEditor({ research }) {
                 )}
 
                 <div className={styles.formButtonContainer}>
-                    <button type="reset" className={styles.formButton}>
-                        Resetuj
+                    <button type="button" className={styles.formButton} onClick={onClose}>
+                        Anuluj
                     </button>
 
                     <button type="submit" className={styles.formButton}>
