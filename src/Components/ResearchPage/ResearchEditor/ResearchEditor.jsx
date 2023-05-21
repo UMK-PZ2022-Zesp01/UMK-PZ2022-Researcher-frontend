@@ -269,6 +269,8 @@ function ResearchEditor({ research, onClose, sendEdited }) {
                                 setResearchPlace={setLocationCoords}
                                 setResearchPageAddress={setLocationAddress}
                                 setIsClickedLocation={() => {}}
+                                setUserLocationCoords={()=>{}}
+                                userLocation={research.location.address}
                             />
                         </div>
                     </div>

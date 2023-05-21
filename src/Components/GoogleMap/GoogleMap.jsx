@@ -3,7 +3,6 @@ import styleUserPage from '../UserPage/UserPage.module.css';
 import styleResearchForm from '../Form/CreateResearchForm/GoogleMapResearchForm.module.css';
 import { Loader } from '@googlemaps/js-api-loader';
 import { GrClose } from 'react-icons/gr';
-import AddressFormatter from '../../Common/AddressFormatter';
 
 function Gmap({
     exit,
@@ -15,6 +14,8 @@ function Gmap({
     setResearchPlace,
     setResearchPageAddress,
     setIsClickedLocation,
+    setUserLocationCoords,
+    userLocation
 }) {
     const mapRef = useRef(null);
     const inputRef = useRef(null);
@@ -23,9 +24,9 @@ function Gmap({
     const [searchQuery, setSearchQuery] = useState('');
     const [lat, setLat] = useState(latitude);
     const [lng, setLng] = useState(longitude);
-    const [longAddress, setLongAddress] = useState('[nie wybrano]');
+    const [longAddress, setLongAddress] = useState(userLocation);
     const [shortAddress, setShortAddress] = useState('');
-    const [city, setCity] = useState('[nie wybrano]');
+    const [city, setCity] = useState(userLocation);
     const [researchAddress, setResearchAddress] = useState('');
 
     const loader = new Loader({
@@ -75,6 +76,7 @@ function Gmap({
                     setSearchQuery(place.formatted_address);
                     setLat(place.geometry.location.lat());
                     setLng(place.geometry.location.lng());
+                    setUserLocationCoords([lat,lng])
                     map.setCenter(place.geometry.location);
                     marker.setPosition(place.geometry.location);
                     setShortAddress(place.address_components[0].short_name);
@@ -89,7 +91,6 @@ function Gmap({
                 autocomplete.addListener('place_changed', () => {
                     const place = autocomplete.getPlace();
                     if (!place.geometry) {
-                        // console.log('No details available for input: ' + place.name);
                         return;
                     }
                     setLat(place.geometry.location.lat());
@@ -116,10 +117,12 @@ function Gmap({
                 setAutocomplete(autocomplete);
             }
         });
-    }, []);
+    }, [lat]);
 
     if (loader.status === 2) {
         setResearchPlace(lat + ' ' + lng);
+        // setUserLocationCoords([lat,lng])
+
         const geocoder = new window.google.maps.Geocoder();
         geocoder.geocode({ address: shortAddress }, (results, status) => {
             if (status === 'OK' && results[0]) {
@@ -137,6 +140,8 @@ function Gmap({
                     }
                 }
                 setCity(city);
+                setUserLocationCoords([lat,lng])
+                // console.log(lat,lng)
             }
         });
 
@@ -145,6 +150,10 @@ function Gmap({
         geocoder2.geocode({ location: myLatlng }, (results, status) => {
             if (status === 'OK' && results[0]) {
                 setResearchAddress(results[0].formatted_address);
+                // setCity(results[0].formatted_address);
+                if(type==="researchPage"){
+                    setLongAddress(results[0].formatted_address);
+                }
             }
         });
     }

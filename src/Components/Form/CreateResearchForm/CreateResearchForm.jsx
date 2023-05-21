@@ -602,6 +602,8 @@ function CreateResearchForm() {
                                 setResearchPlace={setResearchPlace}
                                 setResearchPageAddress={setResearchAddress}
                                 setIsClickedLocation={() => {}}
+                                setUserLocationCoords={()=>{}}
+                                userLocation={"Nie wybrano"}
                             />
                         </div>
                     </div>
