@@ -56,12 +56,8 @@ function LatestResearchCard() {
                 <div className={styles.latestResearchCard}>
                     <div className={styles.latestResearchHeader}>
                         <div className={styles.researchTitle}>
-                            <h2 className={styles.title}>{research.title}</h2>
+                            <h3 className={styles.title}>{research.title}</h3>
                         </div>
-
-                        {/*<div className={styles.researchDate}>*/}
-                        {/*    <h3>{research.begDate} - {research.endDate}</h3>*/}
-                        {/*</div>*/}
                     </div>
 
                     <div className={styles.latestResearchDesc}>
