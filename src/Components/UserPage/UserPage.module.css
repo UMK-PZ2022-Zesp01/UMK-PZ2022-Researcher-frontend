@@ -74,7 +74,6 @@
     transition: opacity 0.3s ease-in-out;
 }
 
-
 /* PANEL RESEARCH-ÓW */
 .userResearches,
 .userResearchesHide {
@@ -92,7 +91,7 @@
     justify-items: center;
     transition: opacity 0.5s ease-in-out;
     overflow-y: scroll;
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
 }
 
 .userResearchesHide {
@@ -113,20 +112,20 @@
     grid-auto-flow: dense;
 }
 
-h2{
+h2 {
     color: #512c8c;
 }
 
 /* PRZYCISKI RESEARCH-ÓW*/
-.userResearchesToggles{
-    display:flex;
+.userResearchesToggles {
+    display: flex;
     flex-direction: row;
-    width:100%;
+    width: 100%;
     justify-content: center;
     gap: 10px;
 }
 
-.inputWrapper{
+.inputWrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -159,22 +158,22 @@ h2{
     bottom: 0;
     border-radius: 10px;
     background-color: #debdef;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
 /* suwak */
 .slider:before {
     position: absolute;
-    content: "";
+    content: '';
     width: 50%;
     height: 80%;
     left: 4px;
     top: 4px;
     border-radius: 10px;
     background-color: #512c8c;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
 }
 
 input:checked + .slider {
@@ -212,7 +211,7 @@ input:checked + .slider:before {
     opacity: 100%;
 }
 
-.noPosts{
+.noPosts {
     z-index: 3;
     display: flex;
     justify-content: center;
@@ -247,8 +246,6 @@ input:checked + .slider:before {
 .exitBtnHide {
     opacity: 0;
 }
-
-
 
 .location {
     font-size: 16px;
@@ -415,7 +412,6 @@ input:checked + .slider:before {
     left: 0;
     z-index: 50;
 }
-
 
 .OtherRightContainer {
     position: relative;
@@ -613,7 +609,7 @@ input:checked + .slider:before {
     }
 
     .exitResBtn,
-    .inputWrapper{
+    .inputWrapper {
         width: 15%;
     }
 }
@@ -637,7 +633,7 @@ input:checked + .slider:before {
     }
 
     .exitResBtn,
-    .inputWrapper{
+    .inputWrapper {
         width: 20%;
     }
 }
@@ -658,12 +654,12 @@ input:checked + .slider:before {
 }
 
 @media only screen and (max-width: 400px) {
-    .userResearchesToggles{
+    .userResearchesToggles {
         gap: 5%;
     }
 
     .exitResBtn,
-    .inputWrapper{
+    .inputWrapper {
         width: 40%;
     }
 }
