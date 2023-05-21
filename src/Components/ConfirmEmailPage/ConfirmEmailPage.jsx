@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import getApiUrl from '../../Common/Api';
 import { Loading } from '../Loading/Loading';
 import { Helmet } from 'react-helmet';
+import useAuth from '../../hooks/useAuth';
 
 const CONFIRM_URL = getApiUrl() + 'user/confirm';
 

@@ -119,7 +119,7 @@ function LoginForm(props) {
                     />
                 </div>
 
-                <a href="/" className={styles.aPurple}>
+                <a href="/resetPwd" className={styles.aPurple}>
                     Nie pamiętam hasła
                 </a>
                 <div className={styles.checkboxRow}>

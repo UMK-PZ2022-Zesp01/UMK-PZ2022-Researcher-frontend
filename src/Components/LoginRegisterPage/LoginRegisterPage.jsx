@@ -7,16 +7,18 @@ import { Alert } from '../Alert/Alert';
 import { Popup } from '../Popup/Popup';
 
 import styles from './LoginRegisterPage.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function LoginRegisterPage() {
+    const { pathname } = useLocation();
+
     const [alert, setAlert] = useState({
         alertOpen: false,
         alertType: 0,
         alertText: '',
     });
 
-    const [loginRegister, setLoginRegister] = useState(false);
+    const [loginRegister, setLoginRegister] = useState(pathname === '/register');
 
     const closeAlert = () =>
         setAlert({

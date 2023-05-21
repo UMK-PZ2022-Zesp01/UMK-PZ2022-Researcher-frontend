@@ -12,26 +12,39 @@ import UserPage from './Components/UserPage/UserPage';
 import { CreateResearchPage } from './Components/CreateResearchPage/CreateResearchPage';
 import { ResearchPage } from './Components/ResearchPage/ResearchPage';
 import OtherUserPage from './Components/UserPage/OtherUserPage';
-import ErrorPage from "./Components/Error/ErrorPage";
+
+import ErrorPage from './Components/Error/ErrorPage';
+
+import RequireNoAuth from './Common/RequireNoAuth';
+import { ResetPasswordPage } from './Components/ResetPasswordPage/ResetPasswordPage';
 
 function App() {
     return (
         <Routes>
             <Route path="/" element={<Layout />}>
-                <Route path="/login" element={<LoginRegisterPage />} />
-
                 <Route element={<PersistLogin />}>
                     <Route path="/" index element={<MainPage />} />
                     <Route path="/research/:researchCode" element={<ResearchPage />} />
                     <Route path="/profile/:username" element={<OtherUserPage />} />
                     {/* <Route path="/users" index element={<Users />} /> */}
-                    <Route path="*" element={<ErrorPage/>}/>
+                    <Route path="*" element={<ErrorPage />} />
+
                     {/*<Route path="/research/create" element={<CreateResearchPage />} />*/}
 
                     <Route element={<RequireAuth />}>
                         {/*<Route path="/authTest" element={<MainPage />} />*/}
                         <Route path="/profile" element={<UserPage />} />
                         <Route path="/research/create" element={<CreateResearchPage />} />
+                    </Route>
+                    <Route element={<RequireNoAuth />}>
+                        <Route path="/login" element={<LoginRegisterPage />} />
+                        <Route path="/register" element={<LoginRegisterPage />} />
+                        <Route
+                            path={'/registeredSuccessfully'}
+                            element={<RegisteredSuccessfullyPage />}
+                        ></Route>
+                        <Route path={'/confirmEmail/:token'} element={<ConfirmEmailPage />}></Route>
+                        <Route path={'/resetPwd'} element={<ResetPasswordPage />}></Route>
                     </Route>
                 </Route>
 

@@ -50,6 +50,7 @@ export const Select = ({
                 placeholder={placeholder}
                 className={styles.current}
                 required
+                onChange={() => {}}
             />
             <div className={`${styles.dropdown} ${isOpen ? '' : styles.hidden}`}>
                 {renderOptions()}
