@@ -23,6 +23,7 @@ const LeftContainer = ({ values }) => {
         .join(', ');
     /** Conditional component rendering **/
     const location = useLocation();
+    const formattedNumber = `${values.phoneState.substring(0, 3)} ${values.phoneState.substring(3, 6)} ${values.phoneState.substring(6, 9)}`
 
     const handleAvatarImageChange = event => {
         if (
@@ -143,7 +144,7 @@ const LeftContainer = ({ values }) => {
                         <span>
                             {accessToken
                                 ? values.phoneState
-                                    ? values.phoneState
+                                    ? formattedNumber
                                     : '(nie podano)'
                                 : [
                                       <Link to={'/login'} state={{ from: location }}>
@@ -171,36 +172,6 @@ const LeftContainer = ({ values }) => {
                     )}
                 </div>
             </div>
-            {/*<div className={styles.editDiv}>*/}
-            {/*    {location.pathname === '/profile' && (*/}
-            {/*        <button*/}
-            {/*            className={*/}
-            {/*                !(values.clickedEdit || values.clickedAdvance)*/}
-            {/*                    ? styles.editButton*/}
-            {/*                    : styles.editButtonHide*/}
-            {/*            }*/}
-            {/*            onClick={() => {*/}
-            {/*                values.setIsClickedEdit(!values.clickedEdit);*/}
-            {/*            }}*/}
-            {/*        >*/}
-            {/*            Edytuj profil*/}
-            {/*        </button>*/}
-            {/*    )}*/}
-            {/*    {location.pathname === '/profile' && (*/}
-            {/*        <button*/}
-            {/*            className={*/}
-            {/*                !(values.clickedAdvance || values.clickedEdit)*/}
-            {/*                    ? styles.editButton*/}
-            {/*                    : styles.editButtonHide*/}
-            {/*            }*/}
-            {/*            onClick={() => {*/}
-            {/*                values.setClickedAdvance(!values.clickedAdvance);*/}
-            {/*            }}*/}
-            {/*        >*/}
-            {/*            Ustawienia konta*/}
-            {/*        </button>*/}
-            {/*    )}*/}
-            {/*</div>*/}
         </div>
     );
 };
