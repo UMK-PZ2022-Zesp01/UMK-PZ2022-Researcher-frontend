@@ -78,10 +78,11 @@
 .userResearchesHide {
     position: absolute;
     opacity: 1;
-    z-index: 300;
+    z-index: 2;
     width: 100%;
     height: 100%;
-    scrollbar-gutter: stable;
+    /*scrollbar-gutter: stable;*/
+    padding: 5px;
     display: grid;
     justify-items: center;
     transition: opacity 0.5s ease-in-out;
@@ -94,17 +95,17 @@
 }
 
 .userResearchCard {
+    z-index: 3;
     display: grid;
     gap: 0.5rem 1rem;
     padding: 20px;
     width: 100%;
     height: 100%;
-    overflow-y: scroll;
-    border-radius: 10px;
+    overflow-y: auto;
     background-color: #f4f0fa;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-auto-flow: dense;
-    scroll-snap-type: y;
+    scroll-snap-type: y proximity;
 }
 
 .exitResBtn {
@@ -329,10 +330,6 @@
 
 .OtherRightContainer {
     position: relative;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     padding: 5px;
     width: 60%;
     height: 31rem;
@@ -346,28 +343,127 @@
     width: 100%;
     height: 100%;
     overflow-y: scroll;
-    /*border-radius: 10px;*/
     background-color: #f4f0fa;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-auto-flow: dense;
-    scroll-snap-type: y;
+    scroll-snap-type: y proximity;
+}
+
+.OtherResearchesHeader {
+    grid-column: 1 / -1;
+    color: #512c8c;
+    padding-bottom: 20px;
+}
+
+.userNotFoundInfo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    color: #512c8c;
+}
+
+.userNotFoundContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+    gap: 5rem;
+}
+
+.userNotFoundWrapper {
+    width: 100%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    gap: 10px;
+    align-items: flex-start;
+    border-radius: 10px;
+    background-color: #f4f0fa;
+}
+
+.userNotFoundIcon {
+    font-size: 5em;
+}
+
+.userNotFoundDesc {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.desc1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.navigationContainer {
+    width: 40%;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.navigationButton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.3rem;
+    background-color: #512c8c;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid #512c8c;
+    transition: 0.3s;
+}
+
+.navigationButton:hover {
+    background-color: #6d3b9e;
+    border: 2px solid #6d3b9e;
+}
+
+.buttonDesc {
+    width: 100%;
 }
 
 @media only screen and (max-width: 1000px) {
     .MainContainer {
-        position: unset;
-        padding: 0;
-        box-sizing: border-box;
-        top: unset;
-        left: unset;
-        transform: unset;
-        display: flex;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+        margin: 25px 10px;
+        width: unset;
     }
 
+    .PageOverlay {
+        width: 100%;
+    }
+
+    /*.MainContainer {*/
+    /*    position: unset;*/
+    /*    box-sizing: border-box;*/
+    /*    top: unset;*/
+    /*    left: unset;*/
+    /*    transform: unset;*/
+    /*    display: flex;*/
+    /*    margin: 25px 10px;*/
+    /*    width: unset;*/
+    /*}*/
+    /*.PageOverlay{*/
+    /*    width: 100%;*/
+    /*    justify-content: center;*/
+    /*    align-items: center;*/
+    /*    flex-direction: column;*/
+    /*}*/
+    /*  ^^^^^ zbędne wartości ^^^^  */
     .alertOverlay {
         padding: 0 20px;
     }
@@ -399,6 +495,7 @@
 
     .bookmarksContainer {
         width: 90%;
+        justify-content: center;
     }
 
     .wrapper {
@@ -408,6 +505,22 @@
 
     .PageOverlay {
         margin-bottom: 3rem;
+    }
+
+    .userNotFoundInfo {
+        flex-direction: column;
+    }
+
+    .userNotFoundDesc {
+        align-items: center;
+    }
+
+    .navigationContainer {
+        width: 100%;
+    }
+
+    .desc1 {
+        font-size: 1.5rem;
     }
 }
 

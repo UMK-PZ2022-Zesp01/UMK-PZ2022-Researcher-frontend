@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ResearchPage.module.css';
-import {Helmet, HelmetProvider} from 'react-helmet-async';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import researcherLogo from '../../img/logo-white.png';
-import {BookmarksNav} from '../BookmarksNav/BookmarksNav';
-import {Link, useLocation, useParams} from 'react-router-dom';
+import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import getApiUrl from '../../Common/Api';
 import {
     faEnvelope,
@@ -17,23 +17,23 @@ import {
     faPencil,
     faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useAuth from '../../hooks/useAuth';
-import {Alert} from '../Alert/Alert';
-import {Popup} from '../Popup/Popup';
-import {Forum} from './Forum/Forum';
-import {LoadingDots} from '../LoadingDots/LoadingDots';
-import {Gmap} from '../GoogleMap/GoogleMap';
-import {ResearchEditor} from './ResearchEditor/ResearchEditor';
-import {useDateFormat} from '../../hooks/useDateFormat';
-import {useTranslate} from '../../hooks/useTranslate';
-import {ParticipantsList} from './ParticipantsList/ParticipantsList';
+import { Alert } from '../Alert/Alert';
+import { Popup } from '../Popup/Popup';
+import { Forum } from './Forum/Forum';
+import { LoadingDots } from '../LoadingDots/LoadingDots';
+import { Gmap } from '../GoogleMap/GoogleMap';
+import { ResearchEditor } from './ResearchEditor/ResearchEditor';
+import { useDateFormat } from '../../hooks/useDateFormat';
+import { useTranslate } from '../../hooks/useTranslate';
+import { ParticipantsList } from './ParticipantsList/ParticipantsList';
 
 function ResearchPage() {
-    const {researchCode} = useParams();
+    const { researchCode } = useParams();
 
-    const {auth} = useAuth();
-    const {username, accessToken} = auth;
+    const { auth } = useAuth();
+    const { username, accessToken } = auth;
     const webLocation = useLocation();
 
     const dateFormat = useDateFormat('pl');
@@ -525,7 +525,9 @@ function ResearchPage() {
                         alertText: (
                             <span>
                                 Badanie zostało pomyślnie usunięte!{' '}
-                                <Link to="/" className={styles.alertLink}>Kliknij, aby przejść na stronę główną</Link>
+                                <Link to="/" className={styles.alertLink}>
+                                    Kliknij, aby przejść na stronę główną
+                                </Link>
                             </span>
                         ),
                     });
@@ -563,7 +565,7 @@ function ResearchPage() {
 
             <header className={styles.bookmarksContainer}>
                 <Link to="/" className={styles.logo}>
-                    <img className={styles.logoImg} src={researcherLogo} alt="Researcher Logo"/>
+                    <img className={styles.logoImg} src={researcherLogo} alt="Researcher Logo" />
                 </Link>
                 <BookmarksNav
                     active="research"
@@ -606,7 +608,7 @@ function ResearchPage() {
                                             className={styles.editorBtn}
                                             onClick={toggleListVisibility}
                                         >
-                                            <FontAwesomeIcon icon={faUser}/>
+                                            <FontAwesomeIcon icon={faUser} />
                                             <span>Pokaż uczestników</span>
                                         </button>
 
@@ -614,7 +616,7 @@ function ResearchPage() {
                                             className={styles.editorBtn}
                                             onClick={toggleResearchEditorVisibility}
                                         >
-                                            <FontAwesomeIcon icon={faPencil}/>
+                                            <FontAwesomeIcon icon={faPencil} />
                                             <span>Edytuj badanie</span>
                                         </button>
 
@@ -622,7 +624,7 @@ function ResearchPage() {
                                             className={styles.editorBtn}
                                             onClick={toggleDeleteResearchConfirmVisibility}
                                         >
-                                            <FontAwesomeIcon icon={faTrash}/>
+                                            <FontAwesomeIcon icon={faTrash} />
                                             <span>Usuń badanie</span>
                                         </button>
                                     </div>
@@ -645,9 +647,9 @@ function ResearchPage() {
                                         </button>
                                     </div>
                                 )}
-                                {isEditorVisible && <ResearchEditor research={research}/>}
+                                {isEditorVisible && <ResearchEditor research={research} />}
                                 {isListVisible && (
-                                    <ParticipantsList researchCode={research.researchCode}/>
+                                    <ParticipantsList researchCode={research.researchCode} />
                                 )}
                             </div>
                         )}
@@ -710,27 +712,30 @@ function ResearchPage() {
                                                 className={styles.icon}
                                             />
                                             <strong> Adres e-mail: </strong>
-
-                                            {accessToken ? (
-                                                <a
-                                                    href={
-                                                        accessToken ? `mailto:${creator.email}` : ''
-                                                    }
-                                                    className={styles.link}
-                                                >
-                                                    {creator.email}{' '}
-                                                </a>
-                                            ) : (
-                                                [
-                                                    <Link
-                                                        to={'/login'}
-                                                        state={{from: webLocation}}
+                                            <span>
+                                                {accessToken ? (
+                                                    <a
+                                                        href={
+                                                            accessToken
+                                                                ? `mailto:${creator.email}`
+                                                                : ''
+                                                        }
+                                                        className={styles.link}
                                                     >
-                                                        Zaloguj się
-                                                    </Link>,
-                                                    ', aby wyświetlić adres email',
-                                                ]
-                                            )}
+                                                        {creator.email}{' '}
+                                                    </a>
+                                                ) : (
+                                                    [
+                                                        <Link
+                                                            to={'/login'}
+                                                            state={{ from: webLocation }}
+                                                        >
+                                                            Zaloguj się
+                                                        </Link>,
+                                                        ', aby wyświetlić adres e-mail',
+                                                    ]
+                                                )}
+                                            </span>
                                         </span>
                                         <span className={styles.contactElement}>
                                             <FontAwesomeIcon
@@ -740,18 +745,18 @@ function ResearchPage() {
                                             <strong>Numer telefonu: </strong>
                                             <span>
                                                 {accessToken
-                                                    ? (research.creatorPhone ?
-                                                        research.creatorPhone
-                                                        : "(nie podano)")
+                                                    ? research.creatorPhone
+                                                        ? research.creatorPhone
+                                                        : '(nie podano)'
                                                     : [
-                                                        <Link
-                                                            to={'/login'}
-                                                            state={{from: webLocation}}
-                                                        >
-                                                            Zaloguj się
-                                                        </Link>,
-                                                        ', aby wyświetlić numer telefonu',
-                                                    ]}
+                                                          <Link
+                                                              to={'/login'}
+                                                              state={{ from: webLocation }}
+                                                          >
+                                                              Zaloguj się
+                                                          </Link>,
+                                                          ', aby wyświetlić numer telefonu',
+                                                      ]}
                                             </span>
                                         </span>
                                     </div>
@@ -839,18 +844,12 @@ function ResearchPage() {
                                                 location.place.toString().split(' ').at(1)
                                             )}
                                             type={'researchPage'}
-                                            exit={() => {
-                                            }}
-                                            setLocationInput={() => {
-                                            }}
-                                            setGmapExit={() => {
-                                            }}
-                                            setResearchPlace={() => {
-                                            }}
-                                            setResearchPageAddress={() => {
-                                            }}
-                                            setIsClickedLocation={() => {
-                                            }}
+                                            exit={() => {}}
+                                            setLocationInput={() => {}}
+                                            setGmapExit={() => {}}
+                                            setResearchPlace={() => {}}
+                                            setResearchPageAddress={() => {}}
+                                            setIsClickedLocation={() => {}}
                                         />
                                     </div>
                                 </div>
@@ -883,7 +882,7 @@ function ResearchPage() {
                                                     >
                                                         <Link
                                                             to={'/login'}
-                                                            state={{from: webLocation}}
+                                                            state={{ from: webLocation }}
                                                             replace
                                                         >
                                                             Zaloguj się
@@ -1032,9 +1031,9 @@ function ResearchPage() {
                                 <span className={styles.forumInfo}>
                                     {loggedUser?.login === research.creatorLogin
                                         ? 'Poniżej znajdują się pytania, które zadały Ci osoby zainteresowane Twoim' +
-                                        ' badaniem.'
+                                          ' badaniem.'
                                         : 'Jeśli chcesz zadać autorowi pytanie dotyczące badania, możesz to zrobić' +
-                                        ' poniżej.'}
+                                          ' poniżej.'}
                                 </span>
                                 <Forum
                                     researchCode={researchCode}
@@ -1071,18 +1070,15 @@ function ResearchPage() {
                             <h3>Co chcesz zrobić?</h3>
                             <nav className={styles.navigation}>
                                 <Link to="/" className={styles.navigationButton}>
-                                    <FontAwesomeIcon icon={faHouse}/>
+                                    <FontAwesomeIcon icon={faHouse} />
                                     <span className={styles.buttonDesc}>
                                         Przejdź na stronę główną
                                     </span>
                                 </Link>
 
                                 {isSomeoneLoggedIn && (
-                                    <Link
-                                        to={`/profile/${loggedUser?.login}`}
-                                        className={styles.navigationButton}
-                                    >
-                                        <FontAwesomeIcon icon={faUser}/>
+                                    <Link to={`/profile`} className={styles.navigationButton}>
+                                        <FontAwesomeIcon icon={faUser} />
                                         <span className={styles.buttonDesc}>
                                             Przejdź na stronę swojego profilu
                                         </span>
@@ -1090,7 +1086,7 @@ function ResearchPage() {
                                 )}
 
                                 <Link to="/research/create" className={styles.navigationButton}>
-                                    <FontAwesomeIcon icon={faFileCirclePlus}/>
+                                    <FontAwesomeIcon icon={faFileCirclePlus} />
                                     <span className={styles.buttonDesc}>
                                         Stwórz ogłoszenie o badaniu
                                     </span>
@@ -1099,10 +1095,10 @@ function ResearchPage() {
                         </div>
                     </div>
                 )}
-                {researchGetSuccess === null && <LoadingDots/>}
+                {researchGetSuccess === null && <LoadingDots />}
             </main>
         </div>
     );
 }
 
-export {ResearchPage};
+export { ResearchPage };

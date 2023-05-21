@@ -13,6 +13,7 @@ import { CreateResearchPage } from './Components/CreateResearchPage/CreateResear
 import { ResearchPage } from './Components/ResearchPage/ResearchPage';
 import OtherUserPage from './Components/UserPage/OtherUserPage';
 import {Users} from "./Components/UserPage/Users";
+import ErrorPage from "./Components/Error/ErrorPage";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                     <Route path="/research/:researchCode" element={<ResearchPage />} />
                     <Route path="/profile/:username" element={<OtherUserPage />} />
                     <Route path="/users" index element={<Users />} />
+                    <Route path="*" element={<ErrorPage/>}/>
                     {/*<Route path="/research/create" element={<CreateResearchPage />} />*/}
 
                     <Route element={<RequireAuth />}>
@@ -39,7 +41,7 @@ function App() {
                     element={<RegisteredSuccessfullyPage />}
                 ></Route>
                 <Route path={'/confirmEmail/:token'} element={<ConfirmEmailPage />}></Route>
-                {/*<Route path="*" element={<Missing/>}></Route>*/}
+
             </Route>
         </Routes>
     );

@@ -1,12 +1,13 @@
-import React from "react";
+import React from 'react';
 import styles from './ResearchCard.module.css';
-import { useUsername } from "../../hooks/useAuth";
+import { useUsername } from '../../hooks/useAuth';
 import { useEffect } from 'react';
 import getApiUrl from '../../Common/Api';
+import { Link } from 'react-router-dom';
 
 const USERRESEARCHES_URL = getApiUrl() + 'research/creator/';
 
-function LatestResearchCard(){
+function LatestResearchCard() {
     const [researches, setResearches] = React.useState([]);
     const login = useUsername();
 
@@ -45,25 +46,29 @@ function LatestResearchCard(){
         };
     }, []);
 
-    const newestResearch = researches.slice(-1)[0];
-
     const showUserResearches = researches => {
         return researches.map(research => (
-            <div key={research.researchCode} className={styles.latestResearchCard}>
-                <div className={styles.latestResearchHeader}>
-                    <div className={styles.researchTitle}>
-                        <h2 className={styles.title}>{research.title}</h2>
+            <Link
+                key={research.researchCode}
+                to={`/research/${research.researchCode}`}
+                className={styles.linkToLatest}
+            >
+                <div className={styles.latestResearchCard}>
+                    <div className={styles.latestResearchHeader}>
+                        <div className={styles.researchTitle}>
+                            <h2 className={styles.title}>{research.title}</h2>
+                        </div>
+
+                        {/*<div className={styles.researchDate}>*/}
+                        {/*    <h3>{research.begDate} - {research.endDate}</h3>*/}
+                        {/*</div>*/}
                     </div>
 
-                    {/*<div className={styles.researchDate}>*/}
-                    {/*    <h3>{research.begDate} - {research.endDate}</h3>*/}
-                    {/*</div>*/}
+                    <div className={styles.latestResearchDesc}>
+                        <h4>{research.description}</h4>
+                    </div>
                 </div>
-
-                <div className={styles.latestResearchDesc}>
-                    <h4>{research.description}</h4>
-                </div>
-            </div>
+            </Link>
         ));
     };
 

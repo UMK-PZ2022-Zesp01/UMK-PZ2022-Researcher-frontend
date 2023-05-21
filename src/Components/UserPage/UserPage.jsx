@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './UserPage.module.css';
 import { Popup } from '../Popup/Popup';
 import { LeftContainer } from './Containers/LeftContainer';
@@ -12,11 +12,10 @@ import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import getApiUrl from '../../Common/Api.js';
 import researcherLogo from '../../img/logo-white.png';
-import { faFileCirclePlus, faArrowTurnDown } from '@fortawesome/free-solid-svg-icons';
+import { faArrowTurnDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import { HelmetProvider } from 'react-helmet-async';
-import { Forum } from '../ResearchPage/Forum/Forum';
 
 const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 
@@ -77,6 +76,10 @@ export default function UserPage(props) {
 
     function showAlert() {
         switch (alert.alertType) {
+            case 200:
+            case 201:
+            case 202:
+            case 203:
             case 204:
                 return (
                     <Alert onClose={() => closeAlert()} type="success">
@@ -161,7 +164,7 @@ export default function UserPage(props) {
             isMounted = false;
             controller.abort();
         };
-    }, []);
+    }, [username, accessToken]);
 
     //Do Poprawienia jest css więc zakomentowane
     const showPosts = () => {
@@ -182,8 +185,6 @@ export default function UserPage(props) {
         setIsClickedPhone(false);
     };
 
-
-
     /**leftContainer args**/
     const sendToLeftContainer = {
         name: userData.firstName,
@@ -197,7 +198,7 @@ export default function UserPage(props) {
         setIsClickedEdit: setIsClickedEdit,
         clickedAdvance: clickedAdvance,
         setClickedAdvance: setClickedAdvance,
-        setAlert: setAlert
+        setAlert: setAlert,
     };
     /**rightContainer args**/
     const sendToRightContainer = {
@@ -217,7 +218,7 @@ export default function UserPage(props) {
         setPhoneState: setPhoneState,
         setEmailState: setEmailState,
         setLocationState: setLocationState,
-        setAlert: setAlert
+        setAlert: setAlert,
     };
 
     return (
@@ -227,9 +228,13 @@ export default function UserPage(props) {
             </div>
             <ReportForm setAlert={setAlert} open={openPopup} onClose={() => setOpenPopup(false)} />
             <div className={styles.MainContainer}>
-                <Helmet>
-                    <title>Profil | Researcher</title>
-                </Helmet>
+                <HelmetProvider>
+                    <Helmet>
+                        <title>
+                            {userData.firstName + ' ' + userData.lastName + ' | JustResearch'}
+                        </title>
+                    </Helmet>
+                </HelmetProvider>
                 <div className={styles.UserBox}>
                     <div className={styles.Container}>
                         <header className={styles.bookmarksContainer}>
