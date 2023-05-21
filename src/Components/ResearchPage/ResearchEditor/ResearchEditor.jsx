@@ -22,24 +22,6 @@ function ResearchEditor({ research, onClose, sendEdited }) {
     const [locationCoords, setLocationCoords] = useState(research.location.place);
     const [locationAddress, setLocationAddress] = useState(research.location.address);
 
-    // const participantLimitRef = useRef(null);
-    //
-    // const validateParticipantLimit = () => {
-    //     let partLimit = participantLimitRef.current;
-    //     if (partLimit.value < research.participantLimit) {
-    //         partLimit.setCustomValidity(
-    //             'Liczba uczestników nie może być mniejsza niż poprzednio (' +
-    //                 research.participantLimit +
-    //                 ')'
-    //         );
-    //     } else {
-    //         partLimit.setCustomValidity('');
-    //     }
-    // };
-
-    // useEffect(() => validateParticipantLimit(), [participantLimit]);
-    // useEffect(() => console.log(participantLimitRef.current), [title]);
-
     /*** Alerts Section ***/
 
     const [alert, setAlert] = React.useState({
@@ -192,7 +174,6 @@ function ResearchEditor({ research, onClose, sendEdited }) {
                                 min="1"
                                 defaultValue={research.participantLimit}
                                 onChange={e => setParticipantLimit(e.target.value)}
-                                // ref={element => (participantLimitRef.current = element)}
                             />
                         </div>
                     </div>

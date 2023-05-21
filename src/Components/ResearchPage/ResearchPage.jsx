@@ -53,6 +53,7 @@ function ResearchPage() {
     const [creatorEmail, setCreatorEmail] = useState('');
     const [creatorPhone, setCreatorPhone] = useState('');
     const [participantLimit, setParticipantLimit] = useState(0);
+    const [participantNumber, setParticipantNumber] = useState(0);
     const [research, setResearch] = useState();
     const [creator, setCreator] = useState();
     const [loggedUser, setLoggedUser] = useState({});
@@ -61,6 +62,7 @@ function ResearchPage() {
     const [requirements, setRequirements] = useState([]);
 
     const [editedData, setEditedData] = useState({});
+    const [participantNumberReceived, setParticipantNumberReceived] = useState(null);
 
     const [isPosterOnFullScreen, setIsPosterOnFullScreen] = useState(false);
     const [researchGetSuccess, setResearchGetSuccess] = useState(null);
@@ -70,7 +72,7 @@ function ResearchPage() {
     const [isListVisible, setIsListVisible] = useState(false);
     const [isDeleteResearchConfirmVisible, setIsDeleteResearchConfirmVisible] = useState(false);
     const [isEnrollButtonBlocked, setIsEnrollButtonBlocked] = useState(false);
-    
+
     /** Get Research From Database **/
 
     const getResearch = async () => {
@@ -92,6 +94,7 @@ function ResearchPage() {
                 setEndDate(result.endDate);
                 setCreatorEmail(result.creatorEmail);
                 setCreatorPhone(result.creatorPhone);
+                setParticipantNumber(result.participants);
                 setParticipantLimit(result.participantLimit);
                 setLocation(result.location);
                 setRewards(result.rewards);
@@ -104,16 +107,16 @@ function ResearchPage() {
                     },
                 });
 
-                    switch (creatorResponse.status) {
-                        case 200:
-                            setCreator(await creatorResponse.json());
-                            setResearchGetSuccess(true);
-                            if (isSomeoneLoggedIn) checkIfLoggedUserIsDownForResearch().then(null);
-                            break;
-                        default:
-                            setResearchGetSuccess(false);
-                            break;
-                    }
+                switch (creatorResponse.status) {
+                    case 200:
+                        setCreator(await creatorResponse.json());
+                        setResearchGetSuccess(true);
+                        if (isSomeoneLoggedIn) checkIfLoggedUserIsDownForResearch().then(null);
+                        break;
+                    default:
+                        setResearchGetSuccess(false);
+                        break;
+                }
 
                 break;
             case 204:
@@ -125,31 +128,31 @@ function ResearchPage() {
         }
     };
 
-        const getCurrentUser = async () => {
-            if (accessToken)
-                try {
-                    const response = await fetch(getApiUrl() + 'user/current', {
-                        method: 'GET',
-                        credentials: 'include',
-                        headers: {
-                            Authorization: accessToken,
-                            'Content-Type': 'application/json; charset:UTF-8',
-                        },
-                    });
+    const getCurrentUser = async () => {
+        if (accessToken)
+            try {
+                const response = await fetch(getApiUrl() + 'user/current', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        Authorization: accessToken,
+                        'Content-Type': 'application/json; charset:UTF-8',
+                    },
+                });
 
-                    if (response.ok) {
-                        const json = await response.json();
-                        setLoggedUser(json);
-                        setIsSomeoneLoggedIn(true);
-                    } else {
-                        setLoggedUser({});
-                        setIsSomeoneLoggedIn(false);
-                    }
-                } catch (e) {
+                if (response.ok) {
+                    const json = await response.json();
+                    setLoggedUser(json);
+                    setIsSomeoneLoggedIn(true);
+                } else {
                     setLoggedUser({});
                     setIsSomeoneLoggedIn(false);
                 }
-        };
+            } catch (e) {
+                setLoggedUser({});
+                setIsSomeoneLoggedIn(false);
+            }
+    };
 
     const checkIfLoggedUserIsDownForResearch = async () => {
         try {
@@ -192,6 +195,10 @@ function ResearchPage() {
         setEditedData(() => data);
     };
 
+    const getParticipantNumber = number => {
+        setParticipantNumberReceived(() => number);
+    };
+
     useEffect(() => {
         if (editedData.title != null) setTitle(() => editedData.title);
         if (editedData.description != null) setDescription(() => editedData.description);
@@ -207,7 +214,9 @@ function ResearchPage() {
                 place: editedData.location.place,
                 address: editedData.location.address,
             });
-    }, [editedData]);
+
+        setParticipantNumber(prevState => prevState - 1);
+    }, [editedData, participantNumberReceived]);
 
     /*** Alerts Section ***/
 
@@ -676,19 +685,25 @@ function ResearchPage() {
                                 {isEditorVisible && (
                                     <ResearchEditor
                                         research={research}
+                                        sendEdited={getEditedData}
                                         onClose={() => {
                                             setIsEditorVisible(false);
                                         }}
-                                        sendEdited={getEditedData}
                                     />
                                 )}
                                 {isListVisible && (
-                                    <ParticipantsList researchCode={research.researchCode} />
+                                    <ParticipantsList
+                                        researchCode={research.researchCode}
+                                        sendParticipantNumber={getParticipantNumber}
+                                        onClose={() => {
+                                            setIsListVisible(false);
+                                        }}
+                                    />
                                 )}
                             </div>
                         )}
 
-                        {!isEditorVisible && (
+                        {!isEditorVisible && !isListVisible && (
                             <>
                                 <h2 className={styles.title}>{title}</h2>
 
@@ -796,7 +811,9 @@ function ResearchPage() {
                                                             : [
                                                                   <Link
                                                                       to={'/login'}
-                                                                      state={{ from: webLocation }}
+                                                                      state={{
+                                                                          from: webLocation,
+                                                                      }}
                                                                   >
                                                                       Zaloguj się
                                                                   </Link>,
@@ -822,13 +839,13 @@ function ResearchPage() {
                                                             : undefined
                                                     }
                                                 >
-                                                    {research.participants} / {participantLimit}
+                                                    {participantNumber} / {participantLimit}
                                                 </strong>
                                             </div>
                                             <progress
                                                 id="progress-bar"
                                                 className={styles.participantsProgressBar}
-                                                value={research.participants}
+                                                value={participantNumber}
                                                 max={participantLimit}
                                             />
                                         </div>
@@ -929,7 +946,9 @@ function ResearchPage() {
                                                             >
                                                                 <Link
                                                                     to={'/login'}
-                                                                    state={{ from: webLocation }}
+                                                                    state={{
+                                                                        from: webLocation,
+                                                                    }}
                                                                     replace
                                                                 >
                                                                     Zaloguj się

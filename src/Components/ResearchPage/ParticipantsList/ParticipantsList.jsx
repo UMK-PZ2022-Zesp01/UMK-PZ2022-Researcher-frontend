@@ -8,7 +8,7 @@ import { faEnvelope, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
 
-function ParticipantsList({ researchCode }) {
+function ParticipantsList({ researchCode, sendParticipantNumber, onClose }) {
     const GET_PARTICIPANTS_URL = getApiUrl() + `research/${researchCode}/participants`;
 
     const { auth } = useAuth();
@@ -91,6 +91,7 @@ function ParticipantsList({ researchCode }) {
         switch (response.status) {
             case 204:
                 setParticipants(participants.filter(user => user.login !== login));
+                sendParticipantNumber(participants.length);
                 setAlert({
                     alertOpen: true,
                     alertType: response.status,
@@ -123,47 +124,57 @@ function ParticipantsList({ researchCode }) {
 
             <h3 className={styles.title}>Lista uczestników badania</h3>
 
-            <input
-                type="search"
-                onChange={e => setQuery(e.target.value)}
-                className={styles.filterInput}
-                placeholder="Szukaj..."
-            />
-
-            {!participants && <p>Wczytywanie...</p>}
-            {filteredParticipants === null ? (
-                <p>Brak uczestników</p>
+            {filteredParticipants.length === 0 ? (
+                <span>ni mo</span>
             ) : (
-                filteredParticipants.length > 0 && (
-                    <div className={styles.participantsList}>
-                        {filteredParticipants.map(user => (
-                            <div className={styles.participantTile} key={user.login}>
-                                <Link to={`/profile/${user.login}`} className={styles.tileFullName}>
-                                    {user.fullName}
-                                </Link>
+                <>
+                    <input
+                        type="search"
+                        onChange={e => setQuery(e.target.value)}
+                        className={styles.filterInput}
+                        placeholder="Szukaj..."
+                    />
 
-                                <span>{user.location}</span>
-
-                                <a href={`mailto:${user.email}`} className={styles.tileEmail}>
-                                    <FontAwesomeIcon icon={faEnvelope} />
-                                    <span>{user.email}</span>
-                                </a>
-
-                                <div className={styles.buttonContainer}>
-                                    <button
-                                        type="button"
-                                        className={styles.deleteButton}
-                                        onClick={() => handleDeleteButtonClick(user.login)}
+                    {filteredParticipants.length > 0 && (
+                        <div className={styles.participantsList}>
+                            {filteredParticipants.map(user => (
+                                <div className={styles.participantTile} key={user.login}>
+                                    <Link
+                                        to={`/profile/${user.login}`}
+                                        className={styles.tileFullName}
                                     >
-                                        <FontAwesomeIcon icon={faTrash} />
-                                        <span>Usuń uczestnika</span>
-                                    </button>
+                                        {user.fullName}
+                                    </Link>
+
+                                    <span>{user.location}</span>
+
+                                    <a href={`mailto:${user.email}`} className={styles.tileEmail}>
+                                        <FontAwesomeIcon icon={faEnvelope} />
+                                        <span>{user.email}</span>
+                                    </a>
+
+                                    <div className={styles.buttonContainer}>
+                                        <button
+                                            type="button"
+                                            className={styles.deleteButton}
+                                            onClick={() => handleDeleteButtonClick(user.login)}
+                                        >
+                                            <FontAwesomeIcon icon={faTrash} />
+                                            <span>Usuń uczestnika</span>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                )
+                            ))}
+                        </div>
+                    )}
+                </>
             )}
+
+            <div className={styles.formButtonContainer}>
+                <button type="button" className={styles.formButton} onClick={onClose}>
+                    Wróć do badania
+                </button>
+            </div>
         </>
     );
 }

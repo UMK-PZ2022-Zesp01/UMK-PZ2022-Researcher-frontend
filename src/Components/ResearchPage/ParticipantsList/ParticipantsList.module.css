@@ -95,6 +95,33 @@
     background-color: #debdef;
 }
 
+.formButtonContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.formButton {
+    background-color: #512c8c;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid #512c8c;
+    transition: 0.3s;
+}
+
+.formButton:hover {
+    background-color: #6d3b9e;
+    border: 2px solid #6d3b9e;
+}
+
 .alertOverlay {
     position: fixed;
     display: flex;
