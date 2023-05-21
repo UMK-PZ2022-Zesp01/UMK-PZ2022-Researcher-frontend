@@ -2,7 +2,7 @@ import styles from '../Containers/Container.module.css';
 import {useRef} from 'react';
 import { GrClose } from 'react-icons/gr';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import {faBug, faFileCirclePlus, faFileLines, faGear, faPencil} from '@fortawesome/free-solid-svg-icons';
 import { HiOutlineDocumentText } from 'react-icons/hi';
 import { GoFlame } from 'react-icons/go';
 import { LatestResearchCard } from '../../Researches/LatestResearchCard';
@@ -11,8 +11,11 @@ import useAuth, { useUsername } from '../../../hooks/useAuth';
 import getApiUrl from '../../../Common/Api';
 import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
+import {useLocation} from "react-router-dom";
 
 const RightContainer = ({ values }) => {
+    /** Conditional component rendering **/
+    const location = useLocation();
     const login = useUsername();
     const EDIT_URL = `${getApiUrl()}user/current/update`;
     const EDIT_PASSWORD_URL = `${getApiUrl()}user/current/updatePassword`;
@@ -442,24 +445,35 @@ const RightContainer = ({ values }) => {
                 }
             >
                 <div className={styles.activityBox}>
-                    <a className={styles.singleActivity} href={'./research/create'}>
-                        <FontAwesomeIcon icon={faFileCirclePlus} />
+                    <a className={styles.formButton} href={'./research/create'}>
+                        <FontAwesomeIcon icon={faFileCirclePlus} className={styles.faIcon} />
                         <span>Dodaj nowe badanie</span>
                     </a>
                     <div
-                        className={styles.singleActivity}
+                        className={styles.formButton}
                         onClick={() => values.setIsClickedResearches(true)}
                     >
-                        <HiOutlineDocumentText className={styles.additionIconResearches} />
+                        <FontAwesomeIcon icon={faFileLines} className={styles.faIcon}/>
                         <span>Zobacz swoje badania</span>
                     </div>
-                    <div className={styles.singleActivity} onClick={values.bugPopup}>
-                        <GoFlame className={styles.additionIcon} />
+                    <div className={styles.formButton} onClick={values.bugPopup}>
+                        <FontAwesomeIcon icon={faBug} className={styles.faIcon} />
                         <span>Zgłoś błąd</span>
                     </div>
-                </div>
-                <div className={styles.latestResearch}>
-                    <LatestResearchCard />
+                    <div className={styles.cont}>
+                        <div className={`${styles.formButton} ${styles.half}`} onClick={() => {
+                            values.setIsClickedEdit(!values.clickedEdit);
+                        }}>
+                            <FontAwesomeIcon icon={faPencil} className={styles.faIcon}/>
+                            <span>Edytuj profil</span>
+                        </div>
+                        <div className={`${styles.formButton} ${styles.half}`} onClick={() => {
+                            values.setClickedAdvance(!values.clickedAdvance);
+                        }}>
+                            <FontAwesomeIcon icon={faGear} className={styles.faIcon}/>
+                            <span>Ustawienia </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

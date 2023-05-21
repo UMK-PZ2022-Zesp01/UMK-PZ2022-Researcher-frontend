@@ -171,36 +171,36 @@ const LeftContainer = ({ values }) => {
                     )}
                 </div>
             </div>
-            <div className={styles.editDiv}>
-                {location.pathname === '/profile' && (
-                    <button
-                        className={
-                            !(values.clickedEdit || values.clickedAdvance)
-                                ? styles.editButton
-                                : styles.editButtonHide
-                        }
-                        onClick={() => {
-                            values.setIsClickedEdit(!values.clickedEdit);
-                        }}
-                    >
-                        Edytuj profil
-                    </button>
-                )}
-                {location.pathname === '/profile' && (
-                    <button
-                        className={
-                            !(values.clickedAdvance || values.clickedEdit)
-                                ? styles.editButton
-                                : styles.editButtonHide
-                        }
-                        onClick={() => {
-                            values.setClickedAdvance(!values.clickedAdvance);
-                        }}
-                    >
-                        Ustawienia konta
-                    </button>
-                )}
-            </div>
+            {/*<div className={styles.editDiv}>*/}
+            {/*    {location.pathname === '/profile' && (*/}
+            {/*        <button*/}
+            {/*            className={*/}
+            {/*                !(values.clickedEdit || values.clickedAdvance)*/}
+            {/*                    ? styles.editButton*/}
+            {/*                    : styles.editButtonHide*/}
+            {/*            }*/}
+            {/*            onClick={() => {*/}
+            {/*                values.setIsClickedEdit(!values.clickedEdit);*/}
+            {/*            }}*/}
+            {/*        >*/}
+            {/*            Edytuj profil*/}
+            {/*        </button>*/}
+            {/*    )}*/}
+            {/*    {location.pathname === '/profile' && (*/}
+            {/*        <button*/}
+            {/*            className={*/}
+            {/*                !(values.clickedAdvance || values.clickedEdit)*/}
+            {/*                    ? styles.editButton*/}
+            {/*                    : styles.editButtonHide*/}
+            {/*            }*/}
+            {/*            onClick={() => {*/}
+            {/*                values.setClickedAdvance(!values.clickedAdvance);*/}
+            {/*            }}*/}
+            {/*        >*/}
+            {/*            Ustawienia konta*/}
+            {/*        </button>*/}
+            {/*    )}*/}
+            {/*</div>*/}
         </div>
     );
 };

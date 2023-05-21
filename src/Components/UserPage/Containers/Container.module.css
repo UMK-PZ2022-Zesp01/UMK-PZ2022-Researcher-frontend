@@ -123,6 +123,7 @@
 }
 
 .editDiv {
+    margin-top: 3rem;
     display: flex;
     gap: 20px;
     justify-content: center;
@@ -137,7 +138,7 @@
     letter-spacing: 1px;
     font-size: 1rem;
     width: 40%;
-    height: 2rem;
+    height: 3rem;
     background-color: rgb(81, 44, 140);
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
@@ -572,9 +573,12 @@
     flex-direction: column;
     gap: 20px;
     width: 85%;
-    padding: 15px;
+    padding: 3rem 0;
     justify-content: center;
     align-items: center;
+}
+.faIcon {
+    font-size: 1.1rem;
 }
 
 .singleActivity {
@@ -595,6 +599,44 @@
     will-change: transform;
 }
 
+.formButton {
+    display: flex;
+    gap: .5rem;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    background-color: #512c8c;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px;
+    padding: 10px;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    border: 2px solid #512c8c;
+    transition: 0.3s;
+    font-size: 0.9rem;
+}
+
+.formButton span{
+    flex: 1;
+}
+
+.formButton.half{
+    width: 48%;
+}
+
+.cont{
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+}
+
+.formButton:hover {
+    background-color: #6d3b9e;
+    border: 2px solid #6d3b9e;
+}
 .singleActivity:hover {
     transform: scale(103%);
     background-color: #6d3b9e;
@@ -631,6 +673,14 @@
     .singleActivity,
     .singleActivity span {
         font-size: 14px;
+    }
+
+    .formButton.half{
+        width: 100%;
+    }
+    .cont{
+        gap: 20px;
+        flex-direction: column;
     }
     .additionIcon,
     .additionIconResearches {

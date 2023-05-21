@@ -41,6 +41,7 @@
     width: 85%;
     background-color: #c6b1e7;
     outline: none;
+    padding: 5px;
     border: solid rgb(109, 59, 158) 1px;
     border-radius: 5px;
     font-family: sans-serif;
