@@ -198,7 +198,6 @@ input:checked + .slider:before {
     padding: 20px;
     width: 10%;
     height: 20px;
-    opacity: 50%;
     margin-top: 10px;
     color: #512c8c;
     border: 0px;
