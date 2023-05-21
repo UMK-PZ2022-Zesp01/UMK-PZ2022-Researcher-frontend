@@ -153,7 +153,7 @@ const RightContainer = ({ values }) => {
             });
             return;
         }
-        if (!/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(emailInput) && emailInput.length > 0) {
+        if (!/^[a-zA-Z0-9.]+@[a-zA-Z0-9.]+\.[A-Za-z]+$/.test(emailInput) && emailInput.length > 0) {
             setAlert({
                 alertOpen: true,
                 alertType: 298,
@@ -161,7 +161,7 @@ const RightContainer = ({ values }) => {
             });
             return;
         }
-        if (!/[0-9]{3} [0-9]{3} [0-9]{3}/.test(phoneInput) && phoneInput.length > 0) {
+        if (!/[0-9]{3}[0-9]{3}[0-9]{3}/.test(phoneInput) && phoneInput.length > 0) {
             setAlert({
                 alertOpen: true,
                 alertType: 298,
@@ -277,8 +277,8 @@ const RightContainer = ({ values }) => {
                                 onChange={handlePhoneChange}
                                 type="text"
                                 value={phoneInput}
-                                placeholder="505 505 505"
-                                pattern="[0-9]{3} [0-9]{3} [0-9]{3}"
+                                placeholder="555555555"
+                                pattern="[0-9]{3}[0-9]{3}[0-9]{3}"
                             />
                         </div>
                     </div>
