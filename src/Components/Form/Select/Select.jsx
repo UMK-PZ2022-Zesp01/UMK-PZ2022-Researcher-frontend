@@ -35,8 +35,6 @@ export const Select = ({
 
     return (
         <div
-            id={id}
-            title={title}
             onClick={() => open(!isOpen)}
             onFocus={() => open(true)}
             onBlur={() => open(false)}
@@ -44,7 +42,9 @@ export const Select = ({
         >
             <input
                 ref={inputRef}
+                id={id}
                 name={name}
+                title={title}
                 type="text"
                 value={value}
                 placeholder={placeholder}

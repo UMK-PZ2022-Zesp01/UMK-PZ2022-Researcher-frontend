@@ -218,7 +218,7 @@ function RegisterForm(props) {
                         <label htmlFor="password">Hasło</label>
                         <input
                             onChange={event => handlePasswordChanged(event)}
-                            id="password"
+                            id="passwordReg"
                             type="password"
                             placeholder="Hasło"
                             className={styles.textInput}
@@ -270,27 +270,6 @@ function RegisterForm(props) {
                             setValue={setGender}
                             placeholder={'Wskaż płeć'}
                         ></Select>
-                        {/*<select*/}
-                        {/*    onChange={event => handleGenderChanged(event)}*/}
-                        {/*    id="gender"*/}
-                        {/*    className={styles.textInput}*/}
-                        {/*    defaultValue="Wybierz płeć:"*/}
-                        {/*    title="Wybierz płeć:"*/}
-                        {/*    required*/}
-                        {/*>*/}
-                        {/*    <option className={styles.option} value="Wybierz płeć:" hidden disabled>*/}
-                        {/*        Wybierz płeć:*/}
-                        {/*    </option>*/}
-                        {/*    <option className={styles.option} value="female">*/}
-                        {/*        Kobieta*/}
-                        {/*    </option>*/}
-                        {/*    <option className={styles.option} value="male">*/}
-                        {/*        Mężczyzna*/}
-                        {/*    </option>*/}
-                        {/*    <option className={styles.option} value="other">*/}
-                        {/*        Inna*/}
-                        {/*    </option>*/}
-                        {/*</select>*/}
                     </div>
 
                     <div className={styles.flexColumnSep}></div>
