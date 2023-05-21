@@ -24,9 +24,9 @@ export default function ErrorPage() {
             <section className={styles.titleWrapper}>
             <section className={styles.RanyWrapper}>
                 <img className={styles.logoR} src={logo1} alt={"Logo"}/>
-                <h1 className={styles.title}>any, </h1>
+                <h1 className={styles.title}>any,&nbsp; </h1>
             </section>
-            <h1 className={styles.title}>nic tu nie ma! </h1>
+            <h1 className={styles.title}>nic tu nie ma!</h1>
             </section>
             <section className={styles.description}>
                 <p>Nie znaleźliśmy strony, której szukasz</p>
