@@ -37,11 +37,11 @@
 }
 
 .bugInput {
-    height: 71px;
+    height: 7rem;
     width: 85%;
     background-color: #c6b1e7;
     outline: none;
-    padding: 5px;
+    padding: 8px;
     border: solid rgb(109, 59, 158) 1px;
     border-radius: 5px;
     font-family: sans-serif;
