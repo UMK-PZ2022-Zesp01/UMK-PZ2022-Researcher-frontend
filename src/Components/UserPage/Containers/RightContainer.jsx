@@ -123,6 +123,8 @@ const RightContainer = ({ values }) => {
         phone: phoneInput.length > 0 ? phoneInput : null,
         email: emailInput.length > 0 ? emailInput : null,
         location: values.locationInput.length > 0 ? values.locationInput : null,
+        locationCoords:values.userLocationCoords.length>0?values.userLocationCoords:null,
+        // locationCoords:[21,21],
     };
 
     const requestOptions = {

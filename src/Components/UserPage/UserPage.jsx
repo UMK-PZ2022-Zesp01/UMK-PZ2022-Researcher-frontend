@@ -22,7 +22,7 @@ const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 export default function UserPage(props) {
     /*user data*/
     const [userData, setUserData] = useState({});
-
+    const [isLoading, setIsLoading] = useState(true);
     /*access token*/
     const { username, accessToken } = useAuth().auth;
 
@@ -41,6 +41,7 @@ export default function UserPage(props) {
 
     /*location section*/
     const [locationInput, setLocationInput] = useState('');
+    const [userLocationCoords,setUserLocationCoords]=useState([])
     const [isClickedLocation, setIsClickedLocation] = useState(false);
 
     /*email section*/
@@ -60,6 +61,7 @@ export default function UserPage(props) {
     const [phoneState, setPhoneState] = useState();
     const [emailState, setEmailState] = useState();
     const [locationState, setLocationState] = useState();
+    const [coords,setCoords]=useState([])
 
     const [alert, setAlert] = React.useState({
         alertOpen: false,
@@ -131,6 +133,8 @@ export default function UserPage(props) {
                 setPhoneState(data.phone);
                 setEmailState(data.email);
                 setLocationState(data.location);
+                setCoords(data.locationCoords)
+                setIsLoading(false);
             })
             .catch(error => {
                 console.error(error);
@@ -164,7 +168,7 @@ export default function UserPage(props) {
             isMounted = false;
             controller.abort();
         };
-    }, [username, accessToken]);
+    }, []);
 
     //Do Poprawienia jest css więc zakomentowane
     const showPosts = () => {
@@ -215,6 +219,8 @@ export default function UserPage(props) {
         handleLocationClick,
         locationInput: locationInput,
         setLocationInput: setLocationInput,
+        userLocationCoords:userLocationCoords,
+        setUserLocationCoords:setUserLocationCoords,
         setPhoneState: setPhoneState,
         setEmailState: setEmailState,
         setLocationState: setLocationState,
@@ -223,69 +229,75 @@ export default function UserPage(props) {
 
     return (
         <div className={styles.PageOverlay}>
-            <div className={styles.alertOverlay}>
-                <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
-            </div>
-            <ReportForm setAlert={setAlert} open={openPopup} onClose={() => setOpenPopup(false)} />
-            <div className={styles.MainContainer}>
-                <HelmetProvider>
-                    <Helmet>
-                        <title>
-                            {userData.firstName + ' ' + userData.lastName + ' | JustResearch'}
-                        </title>
-                    </Helmet>
-                </HelmetProvider>
-                <div className={styles.UserBox}>
-                    <div className={styles.Container}>
-                        <header className={styles.bookmarksContainer}>
-                            <Link to="/" className={styles.logo}>
-                                <img
-                                    className={styles.logoImg}
-                                    src={researcherLogo}
-                                    alt="Researcher Logo"
-                                />
-                            </Link>
-                            <BookmarksNav active="profile" desc="Twój profil" />
-                        </header>
-                        <div className={styles.wrapper}>
-                            <div
-                                className={
-                                    clickedResearches
-                                        ? styles.userResearches
-                                        : styles.userResearchesHide
-                                }
-                            >
-                                <button
-                                    className={styles.exitResBtn}
-                                    onClick={() => setIsClickedResearches(false)}
-                                >
-                                    <FontAwesomeIcon
-                                        className={styles.arrowIcon}
-                                        icon={faArrowTurnDown}
-                                    />
-                                </button>
-                                <div className={styles.userResearchCard}>{showPosts()}</div>
-                            </div>
-
-                            <LeftContainer values={sendToLeftContainer} />
-                            <RightContainer values={sendToRightContainer} />
-                        </div>
-                    </div>
-                    <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
-                        <Gmap
-                            latitude={53.015331}
-                            longitude={18.6057}
-                            type={'user-page'}
-                            exit={exit}
-                            setLocationInput={setLocationInput}
-                            setIsClickedLocation={setIsClickedLocation}
-                            setGmapExit={setGmapExit}
-                            setResearchPlace={() => {}}
-                            setResearchPageAddress={() => {}}
-                        />
-                    </div>
+            {isLoading?<div></div>:
+                <div><div className={styles.alertOverlay}>
+                    <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
                 </div>
-            </div>
+                    <ReportForm setAlert={setAlert} open={openPopup} onClose={() => setOpenPopup(false)} />
+                    <div className={styles.MainContainer}>
+                        <HelmetProvider>
+                            <Helmet>
+                                <title>
+                                    {userData.firstName + ' ' + userData.lastName + ' | JustResearch'}
+                                </title>
+                            </Helmet>
+                        </HelmetProvider>
+                        <div className={styles.UserBox}>
+                            <div className={styles.Container}>
+                                <header className={styles.bookmarksContainer}>
+                                    <Link to="/" className={styles.logo}>
+                                        <img
+                                            className={styles.logoImg}
+                                            src={researcherLogo}
+                                            alt="Researcher Logo"
+                                        />
+                                    </Link>
+                                    <BookmarksNav active="profile" desc="Twój profil" />
+                                </header>
+                                <div className={styles.wrapper}>
+                                    <div
+                                        className={
+                                            clickedResearches
+                                                ? styles.userResearches
+                                                : styles.userResearchesHide
+                                        }
+                                    >
+                                        <button
+                                            className={styles.exitResBtn}
+                                            onClick={() => setIsClickedResearches(false)}
+                                        >
+                                            <FontAwesomeIcon
+                                                className={styles.arrowIcon}
+                                                icon={faArrowTurnDown}
+                                            />
+                                        </button>
+                                        <div className={styles.userResearchCard}>{showPosts()}</div>
+                                    </div>
+
+                                    <LeftContainer values={sendToLeftContainer} />
+                                    <RightContainer values={sendToRightContainer} />
+                                </div>
+                            </div>
+                            <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
+                                <Gmap
+                                    latitude={coords.length>0?Number(coords[0]):53.015331}
+                                    longitude={coords.length>0?Number(coords[1]):18.6057}
+                                    type={'user-page'}
+                                    exit={exit}
+                                    setLocationInput={setLocationInput}
+                                    setIsClickedLocation={setIsClickedLocation}
+                                    setGmapExit={setGmapExit}
+                                    setResearchPlace={() => {}}
+                                    setResearchPageAddress={() => {}}
+                                    setUserLocationCoords={setUserLocationCoords}
+                                    userLocation={locationState}
+                                />
+                            </div>
+                        </div>
+                    </div></div>
+
+            }
+
         </div>
     );
 }
