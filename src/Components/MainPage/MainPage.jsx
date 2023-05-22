@@ -95,11 +95,17 @@ function MainPage() {
     };
 
     const handleSorterChanged = option => {
-        setPreviewed(-1);
-        setPosts([]);
-        setPage(1);
-        setLastPage(false);
-        setSortBy(option);
+        setSortBy(prevState => {
+            const keys = Object.keys(prevState);
+            const differences = keys.filter(key => prevState[key] !== option[key]);
+            if (differences.length !== 0) {
+                setPreviewed(-1);
+                setPosts([]);
+                setPage(1);
+                setLastPage(false);
+            }
+            return option;
+        });
     };
     const handleFromDateSet = event => {
         setFromDate({ ...fromDate, value: event.target.value });
