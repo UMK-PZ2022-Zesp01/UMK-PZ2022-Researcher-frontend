@@ -186,10 +186,13 @@ function ResearchPage() {
 
         getResearch().then(null);
         getCurrentUser().then(null);
+    }, [accessToken]);
+
+    useEffect(() => {
         if (researchGetSuccess && loggedUser) {
             checkIfLoggedUserIsDownForResearch().then(null);
         }
-    }, [accessToken]);
+    }, [researchGetSuccess, loggedUser]);
 
     const getEditedData = data => {
         setEditedData(() => data);
