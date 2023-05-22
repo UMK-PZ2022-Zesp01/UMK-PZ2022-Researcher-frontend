@@ -11,7 +11,6 @@ import { Alert } from '../../Alert/Alert';
 import { Popup } from '../../Popup/Popup';
 import { Gmap } from '../../GoogleMap/GoogleMap';
 import { Link } from 'react-router-dom';
-import AddressFormatter from '../../../Common/AddressFormatter';
 
 function CreateResearchForm() {
     const RESEARCH_ADD_URL = getApiUrl() + 'research/add';
@@ -35,7 +34,7 @@ function CreateResearchForm() {
 
     const [loggedUser, setLoggedUser] = useState({});
     const { auth } = useAuth();
-    const { username, accessToken } = useAuth().auth;
+    const { accessToken } = useAuth().auth;
 
     const [email, setEmail] = useState('');
     const [emailType, setEmailType] = useState('');
@@ -43,6 +42,20 @@ function CreateResearchForm() {
     const [phoneType, setPhoneType] = useState('');
 
     const [isResearchSent, setIsResearchSent] = useState(false);
+
+    // const phoneRef = useRef(null);
+
+    const handlePhoneChanged = event => {
+        const input = event.target;
+
+        if (null !== input.value.match('[0-9]{3}[ -]?[0-9]{3}[ -]?[0-9]{3}')) {
+            input.setCustomValidity(
+                'Numer telefonu powinien mieć postać: 505 505 505 lub 505-505-505'
+            );
+        } else {
+            input.setCustomValidity('');
+        }
+    };
 
     /*** Get Logged User Data ***/
 
@@ -60,6 +73,7 @@ function CreateResearchForm() {
                 setLoggedUser(data);
                 setEmail(data.email);
                 setPhone(data.phone);
+                setPhoneType(data.phone ? 'default' : 'new');
             });
     }, [auth]);
 
@@ -508,7 +522,7 @@ function CreateResearchForm() {
                             defaultValue={'default'}
                         >
                             <option value="default">domyślny ({loggedUser.email})</option>
-                            <option value="new">inny</option>
+                            <option value="new">Inny adres e-mail</option>
                         </select>
 
                         {emailType === 'new' && (
@@ -535,14 +549,15 @@ function CreateResearchForm() {
                             className={styles.formInputRegular}
                             name="phone-form"
                             id="phone-select"
-                            defaultValue={'default'}
+                            value={phoneType}
+                            disabled={!loggedUser?.phone}
                         >
                             {loggedUser.phone ? (
                                 <option value="default">domyślny ({loggedUser.phone})</option>
                             ) : (
-                                <option value="default">brak</option>
+                                <></>
                             )}
-                            <option value="new">inny</option>
+                            <option value="new">Inny numer telefonu</option>
                         </select>
 
                         {phoneType === 'new' && (

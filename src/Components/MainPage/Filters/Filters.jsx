@@ -1,7 +1,7 @@
 import styles from './Filters.module.css';
 import React, { useState } from 'react';
 
-export const Filters = ({ filters, saveFilters }) => {
+export const Filters = ({ id, filters, saveFilters }) => {
     const [open, setOpen] = useState(false);
 
     const handleDropdownSwitch = () => {
@@ -53,7 +53,7 @@ export const Filters = ({ filters, saveFilters }) => {
 
     return (
         <div className={styles.container}>
-            <button onClick={handleDropdownSwitch} className={styles.filtersButton}>
+            <button id={id} onClick={handleDropdownSwitch} className={styles.filtersButton}>
                 Opcje filtrów
             </button>
             <div className={getDropdownClass()}>
@@ -70,6 +70,7 @@ export const Filters = ({ filters, saveFilters }) => {
 };
 
 Filters.defaultProps = {
+    id: '',
     filters: [],
     saveFilters: () => {},
 };

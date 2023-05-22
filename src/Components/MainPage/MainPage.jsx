@@ -11,6 +11,7 @@ import { LoadingDots } from '../LoadingDots/LoadingDots';
 import { Filters } from './Filters/Filters';
 import { FirstTimeForm } from '../Form/FirstTimeForm/FirstTimeForm';
 import { AddResearchTile } from '../ResearchTile/AddResearchTile';
+import { Select } from '../Form/Select/Select';
 
 const RESEARCHES_URL = getApiUrl() + 'research';
 
@@ -39,10 +40,20 @@ function MainPage() {
         minDate: null,
         maxDate: null,
     });
-    const [sortBy, setSortBy] = useState('newest');
+
+    const sortOptions = [
+        { value: 'newest', name: 'daty dodania' },
+        { value: 'ending', name: 'daty zakończenia' },
+        { value: 'starting', name: 'daty rozpoczęcia' },
+    ];
+
+    const [isSortOpen, setIsSortOpen] = useState(false);
+    const [areFiltersOpen, setAreFiltersOpen] = useState(false);
+
+    const [sortBy, setSortBy] = useState({ name: 'daty dodania', value: 'newest' });
     const [page, setPage] = useState(1);
 
-    const urlSortBySection = `sortBy=${sortBy}`;
+    const urlSortBySection = `sortBy=${sortBy.value}`;
 
     const urlFiltersSection = Object.keys(filterBy)
         .filter(key => filterBy[key])
@@ -62,7 +73,6 @@ function MainPage() {
         if (temp?.length === 0) return null;
         return temp.substring(0, temp.length - 1);
     };
-
     const handleSaveFiltersClicked = () => {
         setFilterBy(prevState => {
             const current = {
@@ -85,12 +95,12 @@ function MainPage() {
         });
     };
 
-    const handleSorterChanged = event => {
+    const handleSorterChanged = option => {
         setPreviewed(-1);
         setPosts([]);
         setPage(1);
         setLastPage(false);
-        setSortBy(event.target.value);
+        setSortBy(option);
     };
     const handleFromDateSet = event => {
         setFromDate({ ...fromDate, value: event.target.value });
@@ -293,29 +303,46 @@ function MainPage() {
                 </div>
                 <main ref={triggerRef} className={styles.mainPagePanel}>
                     <div className={styles.optionsBox}>
-                        <label htmlFor={'sortSelect'} className={styles.sortLabel}>
-                            Sortuj według:
-                        </label>
                         <div className={styles.options}>
-                            <div className={styles.selectContainer}>
-                                <select
-                                    id={'sortSelect'}
-                                    onChange={handleSorterChanged}
-                                    className={styles.sortSelect}
-                                >
-                                    <option value={'newest'} disabled hidden>
-                                        Sortowanie:
-                                    </option>
-                                    <option value={'newest'}>daty dodania</option>
-                                    <option value={'ending'}>daty zakończenia</option>
-                                    <option value={'starting'}>daty rozpoczęcia</option>
-                                </select>
+                            <div>
+                                <label htmlFor={'sortSelect'}>Sortuj według:</label>
+                                <div className={styles.selectContainer}>
+                                    <Select
+                                        id={'sortSelect'}
+                                        name={'sortSelect'}
+                                        title={'Sortuj według'}
+                                        options={sortOptions}
+                                        isOpen={isSortOpen}
+                                        open={setIsSortOpen}
+                                        value={sortBy?.name}
+                                        setValue={handleSorterChanged}
+                                        styles={styles}
+                                    />
+                                </div>
+
+                                {/*<select*/}
+                                {/*    id={'sortSelect'}*/}
+                                {/*    onChange={handleSorterChanged}*/}
+                                {/*    className={styles.sortSelect}*/}
+                                {/*>*/}
+                                {/*    <option value={'newest'} disabled hidden>*/}
+                                {/*        Sortowanie:*/}
+                                {/*    </option>*/}
+                                {/*    <option value={'newest'}>daty dodania</option>*/}
+                                {/*    <option value={'ending'}>daty zakończenia</option>*/}
+                                {/*    <option value={'starting'}>daty rozpoczęcia</option>*/}
+                                {/*</select>*/}
                             </div>
 
-                            <Filters
-                                filters={filters}
-                                saveFilters={handleSaveFiltersClicked}
-                            ></Filters>
+                            <div>
+                                <label htmlFor={'filterMenu'}>Filtruj według:</label>
+                                <Filters
+                                    id={'filterMenu'}
+                                    isOpen={areFiltersOpen}
+                                    filters={filters}
+                                    saveFilters={handleSaveFiltersClicked}
+                                ></Filters>
+                            </div>
                         </div>
                     </div>
 

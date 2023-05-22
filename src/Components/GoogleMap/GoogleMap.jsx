@@ -3,6 +3,7 @@ import styleUserPage from '../UserPage/UserPage.module.css';
 import styleResearchForm from '../Form/CreateResearchForm/GoogleMapResearchForm.module.css';
 import { Loader } from '@googlemaps/js-api-loader';
 import { GrClose } from 'react-icons/gr';
+import AddressFormatter from '../../Common/AddressFormatter';
 
 function Gmap({
     exit,
@@ -15,7 +16,7 @@ function Gmap({
     setResearchPageAddress,
     setIsClickedLocation,
     setUserLocationCoords,
-    userLocation
+    userLocation,
 }) {
     const mapRef = useRef(null);
     const inputRef = useRef(null);
@@ -76,7 +77,7 @@ function Gmap({
                     setSearchQuery(place.formatted_address);
                     setLat(place.geometry.location.lat());
                     setLng(place.geometry.location.lng());
-                    setUserLocationCoords([lat,lng])
+                    setUserLocationCoords([lat, lng]);
                     map.setCenter(place.geometry.location);
                     marker.setPosition(place.geometry.location);
                     setShortAddress(place.address_components[0].short_name);
@@ -109,7 +110,7 @@ function Gmap({
                         if (status === 'OK' && results[0]) {
                             setShortAddress(place.formatted_address);
                             setLongAddress(place.formatted_address);
-                            setResearchPageAddress(place.formatted_address);
+                            setResearchPageAddress(AddressFormatter(place.formatted_address));
                             // console.log('Select: ', place.formatted_address);
                         }
                     });
@@ -140,7 +141,7 @@ function Gmap({
                     }
                 }
                 setCity(city);
-                setUserLocationCoords([lat,lng])
+                setUserLocationCoords([lat, lng]);
                 // console.log(lat,lng)
             }
         });
@@ -151,7 +152,7 @@ function Gmap({
             if (status === 'OK' && results[0]) {
                 setResearchAddress(results[0].formatted_address);
                 // setCity(results[0].formatted_address);
-                if(type==="researchPage"){
+                if (type === 'researchPage') {
                     setLongAddress(results[0].formatted_address);
                 }
             }
