@@ -20,7 +20,7 @@ export const Select = ({
         if (available.indexOf(value) === -1) {
             inputRef.current.setCustomValidity('Zaznacz jedną z dostępnych opcji');
         } else inputRef.current.setCustomValidity('');
-    }, [value]);
+    }, [value, options]);
     const renderOptions = () => {
         return options.map(option => (
             <button

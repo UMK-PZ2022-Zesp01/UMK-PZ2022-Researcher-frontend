@@ -48,7 +48,6 @@ function MainPage() {
     ];
 
     const [isSortOpen, setIsSortOpen] = useState(false);
-    const [areFiltersOpen, setAreFiltersOpen] = useState(false);
 
     const [sortBy, setSortBy] = useState({ name: 'daty dodania', value: 'newest' });
     const [page, setPage] = useState(1);
@@ -338,7 +337,6 @@ function MainPage() {
                                 <label htmlFor={'filterMenu'}>Filtruj według:</label>
                                 <Filters
                                     id={'filterMenu'}
-                                    isOpen={areFiltersOpen}
                                     filters={filters}
                                     saveFilters={handleSaveFiltersClicked}
                                 ></Filters>

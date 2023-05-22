@@ -78,8 +78,22 @@
 
     gap: 1rem;
 }
-.options > * {
+.options > div {
     width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.options > div > label {
+    font-size: 0.9rem;
+    padding: 0 3px;
+    text-align: left;
+
+    color: #6d3b9e;
+    z-index: 1;
+
+    border-radius: 5px;
+    width: max-content;
 }
 
 .sortLabel {
@@ -176,7 +190,7 @@
     .tileGrid {
         grid-template-columns: repeat(1, minmax(150px, 1fr));
     }
-    .options > * {
+    .options > div {
         width: 100%;
     }
 }
