@@ -157,7 +157,6 @@ function MainPage() {
 
     /*first login popup*/
     const [openFirstPopup, setOpenFirstPopup] = useState(false);
-    const [userData, setUserData] = useState({});
 
     window.onscroll = () => {
         if (window.innerHeight + window.scrollY + 1 >= triggerRef?.current?.offsetHeight) {
@@ -170,7 +169,7 @@ function MainPage() {
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
-        const signal = controller.signal;
+        // const signal = controller.signal;
 
         const getUser = async () => {
             if (accessToken)
@@ -183,19 +182,33 @@ function MainPage() {
                             'Content-Type': 'application/json; charset:UTF-8',
                         },
                     });
-                    if (response.ok) {
-                        const json = await response.json();
-                        setOpenFirstPopup(!json.lastLoggedIn);
+
+                    switch (response.status) {
+                        case 200:
+                            const json = await response.json();
+                            setOpenFirstPopup(!json.lastLoggedIn);
+                            break;
+                        default:
+                            setOpenFirstPopup(null);
+                            break;
                     }
+
+                    // if (response.ok) {
+                    //     const json = await response.json();
+                    //     setOpenFirstPopup(!json.lastLoggedIn);
+                    // }
                 } catch (e) {
-                    console.error(e);
+                    setOpenFirstPopup(null);
                 }
         };
+
+        getUser();
+
         return () => {
             isMounted = false;
             controller.abort();
         };
-    }, []);
+    }, [accessToken]);
 
     useLayoutEffect(() => {
         let isMounted = true;

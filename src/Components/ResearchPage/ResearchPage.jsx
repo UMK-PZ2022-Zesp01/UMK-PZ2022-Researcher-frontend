@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './ResearchPage.module.css';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import researcherLogo from '../../img/logo-white.png';
@@ -214,13 +214,15 @@ function ResearchPage() {
                 place: editedData.location.place,
                 address: editedData.location.address,
             });
+    }, [editedData]);
 
+    useEffect(() => {
         setParticipantNumber(prevState => prevState - 1);
-    }, [editedData, participantNumberReceived]);
+    }, [participantNumberReceived]);
 
     /*** Alerts Section ***/
 
-    const [alert, setAlert] = React.useState({
+    const [alert, setAlert] = useState({
         alertOpen: false,
         alertType: 0,
         alertText: '',
@@ -766,60 +768,53 @@ function ResearchPage() {
                                             <span className={styles.categoryLabel}>
                                                 Kontakt z autorem badania:
                                             </span>
+
                                             <div className={styles.contactDetails}>
                                                 <span className={styles.contactElement}>
-                                                    <FontAwesomeIcon
-                                                        icon={faEnvelope}
-                                                        className={styles.icon}
-                                                    />
-                                                    <strong> Adres e-mail: </strong>
+                                                    <div>
+                                                        <FontAwesomeIcon
+                                                            icon={faEnvelope}
+                                                            className={styles.icon}
+                                                        />
+                                                        <strong> Adres e-mail: </strong>
+                                                    </div>
 
-                                                    {accessToken ? (
+                                                    {isSomeoneLoggedIn ? (
                                                         <a
-                                                            href={
-                                                                accessToken
-                                                                    ? `mailto:${creatorEmail}`
-                                                                    : ''
-                                                            }
+                                                            href={`mailto:${creatorEmail}`}
                                                             className={styles.link}
                                                         >
-                                                            {creatorEmail}{' '}
+                                                            {creatorEmail}
                                                         </a>
                                                     ) : (
-                                                        [
-                                                            <Link
-                                                                to={'/login'}
-                                                                state={{ from: webLocation }}
-                                                            >
-                                                                Zaloguj się
-                                                            </Link>,
-                                                            ', aby wyświetlić adres email',
-                                                        ]
+                                                        <span>
+                                                            <Link to="/login">Zaloguj się</Link>
+                                                            <span>
+                                                                , aby wyświetlić adres e-mail
+                                                            </span>
+                                                        </span>
                                                     )}
                                                 </span>
+
                                                 <span className={styles.contactElement}>
-                                                    <FontAwesomeIcon
-                                                        icon={faPhone}
-                                                        className={styles.icon}
-                                                    />
-                                                    <strong>Numer telefonu: </strong>
-                                                    <span>
-                                                        {accessToken
-                                                            ? creatorPhone
-                                                                ? creatorPhone
-                                                                : '(nie podano)'
-                                                            : [
-                                                                  <Link
-                                                                      to={'/login'}
-                                                                      state={{
-                                                                          from: webLocation,
-                                                                      }}
-                                                                  >
-                                                                      Zaloguj się
-                                                                  </Link>,
-                                                                  ', aby wyświetlić numer telefonu',
-                                                              ]}
-                                                    </span>
+                                                    <div>
+                                                        <FontAwesomeIcon
+                                                            icon={faPhone}
+                                                            className={styles.icon}
+                                                        />
+                                                        <strong> Numer telefonu: </strong>
+                                                    </div>
+
+                                                    {isSomeoneLoggedIn ? (
+                                                        <span>{creatorPhone}</span>
+                                                    ) : (
+                                                        <span>
+                                                            <Link to="/login">Zaloguj się</Link>
+                                                            <span>
+                                                                , aby wyświetlić adres e-mail
+                                                            </span>
+                                                        </span>
+                                                    )}
                                                 </span>
                                             </div>
                                         </div>

@@ -125,7 +125,7 @@ function ParticipantsList({ researchCode, sendParticipantNumber, onClose }) {
             <h3 className={styles.title}>Lista uczestników badania</h3>
 
             {filteredParticipants.length === 0 ? (
-                <span>ni mo</span>
+                <span>Lista uczestników jest pusta.</span>
             ) : (
                 <>
                     <input

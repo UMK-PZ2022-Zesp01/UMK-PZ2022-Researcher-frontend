@@ -488,6 +488,7 @@ function CreateResearchForm() {
                             placeholder="Wpisz liczbę..."
                             id="participant-limit"
                             name="participant-limit"
+                            defaultValue="1"
                         />
                     </div>
                 </div>
@@ -602,8 +603,8 @@ function CreateResearchForm() {
                                 setResearchPlace={setResearchPlace}
                                 setResearchPageAddress={setResearchAddress}
                                 setIsClickedLocation={() => {}}
-                                setUserLocationCoords={()=>{}}
-                                userLocation={"Nie wybrano"}
+                                setUserLocationCoords={() => {}}
+                                userLocation={'Nie wybrano'}
                             />
                         </div>
                     </div>
@@ -614,7 +615,7 @@ function CreateResearchForm() {
                     <label className={`${styles.requirementDesc} ${styles.left}`}>
                         <strong>Uwaga!</strong>{' '}
                         <span>
-                            Na późniejszym etapie edycja tych danych{' '}
+                            Na późniejszym etapie edycja nagród{' '}
                             <span className={styles.underline}>nie będzie możliwa</span>!
                         </span>
                     </label>
@@ -637,7 +638,7 @@ function CreateResearchForm() {
                     <label className={`${styles.requirementDesc} ${styles.left}`}>
                         <strong>Uwaga!</strong>{' '}
                         <span>
-                            Na późniejszym etapie edycja tych danych{' '}
+                            Na późniejszym etapie edycja wymagań{' '}
                             <span className={styles.underline}>nie będzie możliwa</span>!
                         </span>
                     </label>

@@ -714,7 +714,9 @@
 }
 @media (max-width: 500px) {
     .contactElement {
-        flex-direction: column;
+        /*flex-direction: column;*/
+        flex-wrap: wrap;
+        flex-direction: row;
         justify-content: left;
         align-items: flex-start;
         line-break: loose;

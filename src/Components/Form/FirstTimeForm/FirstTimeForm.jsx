@@ -2,12 +2,12 @@ import { GrClose } from 'react-icons/gr';
 import styles from './FirstTimeForm.module.css';
 import { Link } from 'react-router-dom';
 import getApiUrl from '../../../Common/Api';
-import React, { useEffect } from 'react';
-import useAuth, { useUsername } from '../../../hooks/useAuth';
+import useAuth from '../../../hooks/useAuth';
 const EDIT_URL = `${getApiUrl()}user/current/update`;
 
 const FirstTimeForm = ({ open, onClose }) => {
-    const { username, accessToken } = useAuth().auth;
+    const { accessToken } = useAuth().auth;
+
     const loginUpdate = async () => {
         try {
             await fetch(EDIT_URL, {
@@ -23,8 +23,7 @@ const FirstTimeForm = ({ open, onClose }) => {
         }
     };
 
-    if (!open) return null;
-    return (
+    return open ? (
         <div className={styles.overlay} onClick={onClose}>
             <div
                 className={styles.popupContainer}
@@ -53,6 +52,8 @@ const FirstTimeForm = ({ open, onClose }) => {
                 </div>
             </div>
         </div>
+    ) : (
+        <></>
     );
 };
 
