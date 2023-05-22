@@ -9,6 +9,7 @@ export const useLogout = () => {
 
         const requestCookieDeletion = async () => {
             try {
+                setAuth({});
                 const response = await fetch(getApiUrl() + 'logout', {
                     method: 'DELETE',
                     credentials: 'include',
@@ -18,7 +19,6 @@ export const useLogout = () => {
                 });
 
                 if (!response.ok) throw new Error();
-                setAuth({});
             } catch (e) {
                 retry = true;
             }
