@@ -1,4 +1,4 @@
-import styles from './Select.module.css';
+import defaultStyles from './Select.module.css';
 import { useEffect, useRef } from 'react';
 
 export const Select = ({
@@ -11,6 +11,7 @@ export const Select = ({
     placeholder,
     value,
     setValue,
+    styles,
 }) => {
     const inputRef = useRef(null);
 
@@ -19,7 +20,7 @@ export const Select = ({
         if (available.indexOf(value) === -1) {
             inputRef.current.setCustomValidity('Zaznacz jedną z dostępnych opcji');
         } else inputRef.current.setCustomValidity('');
-    }, [value]);
+    }, [value, options]);
     const renderOptions = () => {
         return options.map(option => (
             <button
@@ -40,21 +41,28 @@ export const Select = ({
             onBlur={() => open(false)}
             className={styles.select}
         >
-            <input
-                ref={inputRef}
-                id={id}
-                name={name}
-                title={title}
-                type="text"
-                value={value}
-                placeholder={placeholder}
-                className={styles.current}
-                required
-                onChange={() => {}}
-            />
+            <div className={styles.current}>
+                <input
+                    ref={inputRef}
+                    id={id}
+                    name={name}
+                    title={title}
+                    type="text"
+                    value={value}
+                    placeholder={placeholder}
+                    className={styles.current}
+                    required
+                    onChange={() => {}}
+                />
+            </div>
+
             <div className={`${styles.dropdown} ${isOpen ? '' : styles.hidden}`}>
                 {renderOptions()}
             </div>
         </div>
     );
+};
+
+Select.defaultProps = {
+    styles: defaultStyles,
 };

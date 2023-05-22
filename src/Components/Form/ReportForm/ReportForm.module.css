@@ -1,6 +1,6 @@
 .overlay {
     display: flex;
-    z-index: 100000;
+    z-index: 50;
     background: rgba(255, 255, 255, 0.5);
     position: fixed;
     top: 0;
@@ -108,13 +108,13 @@
 }
 
 @media only screen and (max-width: 800px) {
-    .popupContainer{
+    .popupContainer {
         width: 70%;
     }
 }
 
 @media only screen and (max-width: 500px) {
-    .popupContainer{
+    .popupContainer {
         width: 80%;
     }
 }

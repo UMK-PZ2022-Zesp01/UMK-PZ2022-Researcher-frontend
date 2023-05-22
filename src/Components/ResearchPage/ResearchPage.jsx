@@ -28,6 +28,7 @@ import { ResearchEditor } from './ResearchEditor/ResearchEditor';
 import { useDateFormat } from '../../hooks/useDateFormat';
 import { useTranslate } from '../../hooks/useTranslate';
 import { ParticipantsList } from './ParticipantsList/ParticipantsList';
+import AddressFormatter from '../../Common/AddressFormatter';
 
 function ResearchPage() {
     const { researchCode } = useParams();
@@ -896,7 +897,7 @@ function ResearchPage() {
                                             </span>
                                             <div className={styles.mapContainer}>
                                                 <span className={styles.locationAddress}>
-                                                    {location.address}
+                                                    {AddressFormatter(location.address)}
                                                 </span>
                                                 <Gmap
                                                     latitude={Number(

@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './ResearchTile.module.css';
-import {ResearchTileRequirement} from './ResearchTileRequirement/ResearchTileRequirement';
-import {useTranslate} from '../../hooks/useTranslate';
-import {ResearchTileReward} from './ResearchTileReward/ResearchTileReward';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {useDateFormat} from '../../hooks/useDateFormat';
+import { ResearchTileRequirement } from './ResearchTileRequirement/ResearchTileRequirement';
+import { useTranslate } from '../../hooks/useTranslate';
+import { ResearchTileReward } from './ResearchTileReward/ResearchTileReward';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDateFormat } from '../../hooks/useDateFormat';
+import AddressFormatter from '../../Common/AddressFormatter';
 
-export default function ResearchTile({withShadow, tileData, postData}) {
-    const {tileNumber, previewed, setPreviewed} = tileData;
+export default function ResearchTile({ withShadow, tileData, postData }) {
+    const { tileNumber, previewed, setPreviewed } = tileData;
     const {
         researchCode,
         poster,
@@ -22,7 +23,7 @@ export default function ResearchTile({withShadow, tileData, postData}) {
         // rewards,
     } = postData;
 
-    const [geoDecoded, setGeoDecoded] = useState('');
+    // const [geoDecoded, setGeoDecoded] = useState('');
 
     const isPreviewed = previewed === tileNumber;
 
@@ -59,12 +60,8 @@ export default function ResearchTile({withShadow, tileData, postData}) {
 
     const displayAddress = () => {
         if (location.form === 'in-place') {
-            return (
-                <li>
-                    <span className={styles.type}>Adres: </span>
-                    <span>{geoDecoded}</span>
-                </li>
-            );
+            // console.log(location.address);
+            return <li>{AddressFormatter(location.address)}</li>;
         }
         return [];
     };
@@ -100,28 +97,28 @@ export default function ResearchTile({withShadow, tileData, postData}) {
     //     ));
     // };
 
-    useEffect(() => {
-        const geoDecode = async () => {
-            const latlng = location?.place.replace(' ', ',');
-            try {
-                const response = await fetch(
-                    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&language=pl&key=${process.env.REACT_APP_API_GOOGLE}`
-                );
-
-                const json = await response.json();
-                const address = json.results[0].formatted_address;
-                setGeoDecoded(address);
-            } catch (e) {
-                setGeoDecoded('Nie udało się pobrać adresu');
-            }
-        };
-
-        if (location.form === 'in-place') {
-            geoDecode();
-        } else {
-            setGeoDecoded(null);
-        }
-    }, [location]);
+    // useEffect(() => {
+    //     const geoDecode = async () => {
+    //         const latlng = location?.place.replace(' ', ',');
+    //         try {
+    //             const response = await fetch(
+    //                 `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng}&language=pl&key=${process.env.REACT_APP_API_GOOGLE}`
+    //             );
+    //
+    //             const json = await response.json();
+    //             const address = json.results[0].formatted_address;
+    //             setGeoDecoded(address);
+    //         } catch (e) {
+    //             setGeoDecoded('Nie udało się pobrać adresu');
+    //         }
+    //     };
+    //
+    //     if (location.form === 'in-place') {
+    //         geoDecode();
+    //     } else {
+    //         setGeoDecoded(null);
+    //     }
+    // }, [location]);
 
     return (
         <>
@@ -181,17 +178,21 @@ export default function ResearchTile({withShadow, tileData, postData}) {
                         </div>
                         <div className={styles.infoBox}>
                             <div className={styles.h4}>Wymagania</div>
-                            {postData.requirements.length > 0 ?
+                            {postData.requirements.length > 0 ? (
                                 <ul className={styles.requirementsList}>{renderRequirements()}</ul>
-                                : <ul className={styles.requirementsList}>{"(Brak szczególnych wymagań)"}</ul>
-                            }
+                            ) : (
+                                <ul className={styles.requirementsList}>
+                                    {'(Brak szczególnych wymagań)'}
+                                </ul>
+                            )}
                         </div>
                         <div className={styles.infoBox}>
                             <div className={styles.h4}>Nagrody za udział</div>
-                            {postData.rewards.length > 0 ?
+                            {postData.rewards.length > 0 ? (
                                 <ul className={styles.rewardsList}>{renderRewards()}</ul>
-                                : <ul className={styles.rewardsList}>{"(Brak nagród za udział)"}</ul>
-                            }
+                            ) : (
+                                <ul className={styles.rewardsList}>{'(Brak nagród za udział)'}</ul>
+                            )}
                         </div>
                     </div>
                     <main className={`${styles.bodyPart} ${styles.bodyRight}`}>

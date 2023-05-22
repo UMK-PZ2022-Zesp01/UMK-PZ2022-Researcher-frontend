@@ -13,7 +13,7 @@ import { Link, useLocation } from 'react-router-dom';
 const LeftContainer = ({ values }) => {
     const AVATAR_UPDATE_URL = getApiUrl() + 'user/current/avatar/update';
     const { auth } = useAuth();
-    const { username, accessToken } = auth;
+    const { accessToken } = auth;
     const [avatarImage, setAvatarImage] = useState(null);
     const setAlert = values.setAlert;
     /** Handle correct poster file extensions **/

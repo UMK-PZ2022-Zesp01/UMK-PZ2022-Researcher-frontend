@@ -1,32 +1,29 @@
 import styles from '../Containers/Container.module.css';
-import {useRef} from 'react';
+import { useRef } from 'react';
 import { GrClose } from 'react-icons/gr';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faBug, faFileCirclePlus, faFileLines, faGear, faPencil} from '@fortawesome/free-solid-svg-icons';
-import { HiOutlineDocumentText } from 'react-icons/hi';
-import { GoFlame } from 'react-icons/go';
-import { LatestResearchCard } from '../../Researches/LatestResearchCard';
+import {
+    faBug,
+    faFileCirclePlus,
+    faFileLines,
+    faGear,
+    faPencil,
+} from '@fortawesome/free-solid-svg-icons';
+
 import React, { useState } from 'react';
-import useAuth, { useUsername } from '../../../hooks/useAuth';
+import useAuth from '../../../hooks/useAuth';
 import getApiUrl from '../../../Common/Api';
-import { Alert } from '../../Alert/Alert';
-import { Popup } from '../../Popup/Popup';
-import {useLocation} from "react-router-dom";
+
+import { useLocation } from 'react-router-dom';
 
 const RightContainer = ({ values }) => {
     /** Conditional component rendering **/
-    const location = useLocation();
-    const login = useUsername();
+
     const EDIT_URL = `${getApiUrl()}user/current/update`;
     const EDIT_PASSWORD_URL = `${getApiUrl()}user/current/updatePassword`;
     const DELETE_URL = `${getApiUrl()}user/current/delete`;
-    const { username, accessToken } = useAuth().auth;
-    const emailRef = useRef(null);
-    const phoneRef = useRef(null);
-    const passwordRef = useRef(null);
-    const newPasswordRef = useRef(null);
-    const delPasswordRef = useRef(null);
-    const setAlert=values.setAlert
+    const { accessToken } = useAuth().auth;
+    const setAlert = values.setAlert;
 
     /*phone section*/
     const [phoneInput, setPhoneInput] = useState('');
@@ -49,9 +46,6 @@ const RightContainer = ({ values }) => {
     /*input debugger*/
     const [canExit, setCanExit] = useState(true);
 
-    const handleClick = (ref) => {
-        ref.current.focus();
-    };
     const exit = () => {
         values.setIsClickedEdit(false);
         setIsClickedEmail(false);
@@ -89,7 +83,7 @@ const RightContainer = ({ values }) => {
             });
             return;
         }
-        window.location.replace("https://justresearch.netlify.app/login");
+        window.location.replace('https://justresearch.netlify.app/login');
     };
 
     let passwordTemplate = {
@@ -126,7 +120,7 @@ const RightContainer = ({ values }) => {
         phone: phoneInput.length > 0 ? phoneInput : null,
         email: emailInput.length > 0 ? emailInput : null,
         location: values.locationInput.length > 0 ? values.locationInput : null,
-        locationCoords:values.userLocationCoords.length>0?values.userLocationCoords:null,
+        locationCoords: values.userLocationCoords.length > 0 ? values.userLocationCoords : null,
         // locationCoords:[21,21],
     };
 
@@ -217,8 +211,6 @@ const RightContainer = ({ values }) => {
         }
     };
 
-
-
     return (
         <div className={styles.rightContainer}>
             <div className={values.clickedEdit ? styles.editBox : styles.editBoxHide}>
@@ -235,8 +227,8 @@ const RightContainer = ({ values }) => {
                         <div
                             className={values.clickedEdit ? styles.valueEdit : styles.valueEditHide}
                             onClick={() => {
-                                    setIsClickedEmail(!isClickedEmail);
-                                    setEmailInput('');
+                                setIsClickedEmail(!isClickedEmail);
+                                setEmailInput('');
                             }}
                         >
                             <div className={isClickedEmail ? styles.text : styles.textSmall}>
@@ -245,7 +237,7 @@ const RightContainer = ({ values }) => {
                             <input
                                 className={isClickedEmail ? styles.val : styles.valHide}
                                 value={emailInput}
-                                onClick={(event)=>{
+                                onClick={event => {
                                     event.stopPropagation();
                                 }}
                                 onChange={event => {
@@ -261,9 +253,8 @@ const RightContainer = ({ values }) => {
                         <div
                             className={values.clickedEdit ? styles.valueEdit : styles.valueEditHide}
                             onClick={() => {
-                                    setIsClickedPhone(!isClickedPhone);
-                                    setPhoneInput('');
-
+                                setIsClickedPhone(!isClickedPhone);
+                                setPhoneInput('');
                             }}
                         >
                             <div className={isClickedPhone ? styles.text : styles.textSmall}>
@@ -271,7 +262,7 @@ const RightContainer = ({ values }) => {
                             </div>
                             <input
                                 className={isClickedPhone ? styles.val : styles.valHide}
-                                onClick={(event)=>{
+                                onClick={event => {
                                     event.stopPropagation();
                                 }}
                                 onChange={handlePhoneChange}
@@ -357,7 +348,7 @@ const RightContainer = ({ values }) => {
                             </div>
                             <input
                                 className={isClickedPassword ? styles.val : styles.valHide}
-                                onClick={(event)=>{
+                                onClick={event => {
                                     event.stopPropagation();
                                 }}
                                 value={currentPasswordInput}
@@ -369,7 +360,7 @@ const RightContainer = ({ values }) => {
                             />
                             <input
                                 className={isClickedPassword ? styles.val : styles.valHide}
-                                onClick={(event)=>{
+                                onClick={event => {
                                     event.stopPropagation();
                                 }}
                                 value={newPasswordInput}
@@ -411,7 +402,7 @@ const RightContainer = ({ values }) => {
                             </div>
                             <input
                                 className={isClickedDelete ? styles.val : styles.valHide}
-                                onClick={(event)=>{
+                                onClick={event => {
                                     event.stopPropagation();
                                 }}
                                 onChange={event => {
@@ -453,7 +444,7 @@ const RightContainer = ({ values }) => {
                         className={styles.formButton}
                         onClick={() => values.setIsClickedResearches(true)}
                     >
-                        <FontAwesomeIcon icon={faFileLines} className={styles.faIcon}/>
+                        <FontAwesomeIcon icon={faFileLines} className={styles.faIcon} />
                         <span>Zobacz swoje badania</span>
                     </div>
                     <div className={styles.formButton} onClick={values.bugPopup}>
@@ -461,16 +452,22 @@ const RightContainer = ({ values }) => {
                         <span>Zgłoś błąd</span>
                     </div>
                     <div className={styles.cont}>
-                        <div className={`${styles.formButton} ${styles.half}`} onClick={() => {
-                            values.setIsClickedEdit(!values.clickedEdit);
-                        }}>
-                            <FontAwesomeIcon icon={faPencil} className={styles.faIcon}/>
+                        <div
+                            className={`${styles.formButton} ${styles.half}`}
+                            onClick={() => {
+                                values.setIsClickedEdit(!values.clickedEdit);
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faPencil} className={styles.faIcon} />
                             <span>Edytuj profil</span>
                         </div>
-                        <div className={`${styles.formButton} ${styles.half}`} onClick={() => {
-                            values.setClickedAdvance(!values.clickedAdvance);
-                        }}>
-                            <FontAwesomeIcon icon={faGear} className={styles.faIcon}/>
+                        <div
+                            className={`${styles.formButton} ${styles.half}`}
+                            onClick={() => {
+                                values.setClickedAdvance(!values.clickedAdvance);
+                            }}
+                        >
+                            <FontAwesomeIcon icon={faGear} className={styles.faIcon} />
                             <span>Ustawienia </span>
                         </div>
                     </div>
