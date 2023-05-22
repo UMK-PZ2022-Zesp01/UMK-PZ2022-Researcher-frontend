@@ -13,6 +13,7 @@ import {
 import React, { useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
 import getApiUrl from '../../../Common/Api';
+import {Link} from 'react-router-dom';
 
 import { useLocation } from 'react-router-dom';
 
@@ -436,10 +437,10 @@ const RightContainer = ({ values }) => {
                 }
             >
                 <div className={styles.activityBox}>
-                    <a className={styles.formButton} href={'./research/create'}>
+                    <Link to='/research/create' className={styles.formButton}>
                         <FontAwesomeIcon icon={faFileCirclePlus} className={styles.faIcon} />
                         <span>Dodaj nowe badanie</span>
-                    </a>
+                    </Link>
                     <div
                         className={styles.formButton}
                         onClick={() => values.setIsClickedResearches(true)}
