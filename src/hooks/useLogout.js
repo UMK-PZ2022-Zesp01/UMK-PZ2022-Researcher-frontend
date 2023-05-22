@@ -5,27 +5,27 @@ export const useLogout = () => {
     const { setAuth } = useAuth();
 
     const logout = async () => {
-        setAuth({});
+        let retry = false;
+
         const requestCookieDeletion = async () => {
-            await fetch(getApiUrl() + 'logout', {
-                method: 'DELETE',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json; charset:UTF-8',
-                },
-            });
+            try {
+                const response = await fetch(getApiUrl() + 'logout', {
+                    method: 'DELETE',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json; charset:UTF-8',
+                    },
+                });
+
+                if (!response.ok) throw new Error();
+                setAuth({});
+            } catch (e) {
+                retry = true;
+            }
         };
 
-        try {
-            const response = await requestCookieDeletion();
-            if (!response.ok) throw new Error();
-        } catch (e) {
-            try {
-                await requestCookieDeletion();
-            } catch (e) {
-                console.log(e);
-            }
-        }
+        requestCookieDeletion();
+        if (retry) requestCookieDeletion();
     };
 
     return logout;
