@@ -60,7 +60,7 @@ const RightContainer = ({ values }) => {
         values.setLocationInput('');
     };
     const handlePhoneChange = event => {
-        const regex = /^[0-9\s]+$/; // regular expression to allow only numbers and backspace
+        const regex = /^[0-9\b\s]*$/; // regular expression to allow only numbers and backspace
         if (event.target.value === '' || regex.test(event.target.value)) {
             setPhoneInput(event.target.value);
         }
@@ -161,7 +161,7 @@ const RightContainer = ({ values }) => {
             });
             return;
         }
-        if (!/[0-9]{3}[0-9]{3}[0-9]{3}/.test(phoneInput) && phoneInput.length > 0) {
+        if (!/[0-9]{3} [0-9]{3} [0-9]{3}/.test(phoneInput) && phoneInput.length > 0) {
             setAlert({
                 alertOpen: true,
                 alertType: 298,
@@ -277,8 +277,8 @@ const RightContainer = ({ values }) => {
                                 onChange={handlePhoneChange}
                                 type="text"
                                 value={phoneInput}
-                                placeholder="555555555"
-                                pattern="[0-9]{3}[0-9]{3}[0-9]{3}"
+                                placeholder="555 555 555"
+                                pattern="[0-9]{3} [0-9]{3} [0-9]{3}"
                             />
                         </div>
                     </div>

@@ -23,12 +23,6 @@ const LeftContainer = ({ values }) => {
         .join(', ');
     /** Conditional component rendering **/
     const location = useLocation();
-    const formattedNumber = values.phoneState;
-    // ? `${values.phoneState.substring(0, 3)} ${values.phoneState.substring(
-    //       3,
-    //       6
-    //   )} ${values.phoneState.substring(6, 9)}`
-    // : '';
 
     const handleAvatarImageChange = event => {
         if (
@@ -149,7 +143,7 @@ const LeftContainer = ({ values }) => {
                         <span>
                             {accessToken
                                 ? values.phoneState
-                                    ? formattedNumber
+                                    ? values.phoneState
                                     : '(nie podano)'
                                 : [
                                       <Link to={'/login'} state={{ from: location }}>
