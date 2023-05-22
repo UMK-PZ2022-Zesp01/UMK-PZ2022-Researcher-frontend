@@ -663,7 +663,7 @@ function CreateResearchForm() {
 
                 <div className={`${styles.formRow} ${styles.margin}`}>
                     <button className={styles.formButton} type="reset">
-                        Zacznij od nowa
+                        Wyczyść formularz
                     </button>
                     <button
                         className={
