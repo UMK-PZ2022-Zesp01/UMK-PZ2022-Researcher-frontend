@@ -26,16 +26,12 @@ function App() {
                     <Route path="/" index element={<MainPage />} />
                     <Route path="/research/:researchCode" element={<ResearchPage />} />
                     <Route path="/profile/:username" element={<OtherUserPage />} />
-                    {/* <Route path="/users" index element={<Users />} /> */}
-                    <Route path="*" element={<ErrorPage />} />
-
-                    {/*<Route path="/research/create" element={<CreateResearchPage />} />*/}
 
                     <Route element={<RequireAuth />}>
-                        {/*<Route path="/authTest" element={<MainPage />} />*/}
-                        <Route path="/profile" element={<UserPage />} />
+                        <Route path="/pro   file" element={<UserPage />} />
                         <Route path="/research/create" element={<CreateResearchPage />} />
                     </Route>
+
                     <Route element={<RequireNoAuth />}>
                         <Route path="/login" element={<LoginRegisterPage />} />
                         <Route path="/register" element={<LoginRegisterPage />} />
@@ -45,12 +41,9 @@ function App() {
                         ></Route>
                         <Route path={'/confirmEmail/:token'} element={<ConfirmEmailPage />}></Route>
                         <Route path={'/resetPwd'} element={<ResetPasswordPage />}></Route>
-                        <Route
-                            path={'/registeredSuccessfully'}
-                            element={<RegisteredSuccessfullyPage />}
-                        />
-                        <Route path={'/confirmEmail/:token'} element={<ConfirmEmailPage />} />
                     </Route>
+
+                    <Route path="*" element={<ErrorPage />} />
                 </Route>
                 {/*<Route path="*" element={<Missing/>}></Route>*/}
             </Route>
