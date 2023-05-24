@@ -45,11 +45,13 @@ function App() {
                         ></Route>
                         <Route path={'/confirmEmail/:token'} element={<ConfirmEmailPage />}></Route>
                         <Route path={'/resetPwd'} element={<ResetPasswordPage />}></Route>
+                        <Route
+                            path={'/registeredSuccessfully'}
+                            element={<RegisteredSuccessfullyPage />}
+                        />
+                        <Route path={'/confirmEmail/:token'} element={<ConfirmEmailPage />} />
                     </Route>
                 </Route>
-
-                <Route path={'/registeredSuccessfully'} element={<RegisteredSuccessfullyPage />} />
-                <Route path={'/confirmEmail/:token'} element={<ConfirmEmailPage />} />
                 {/*<Route path="*" element={<Missing/>}></Route>*/}
             </Route>
         </Routes>

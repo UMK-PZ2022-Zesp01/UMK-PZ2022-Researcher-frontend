@@ -176,7 +176,7 @@ function MainPage() {
     window.onscroll = () => {
         if (window.innerHeight + window.scrollY + 1 >= triggerRef?.current?.offsetHeight) {
             if (!lastPage && !isLoading) {
-                setPage(page + 1);
+                setPage(prevState => prevState + 1);
             }
         }
     };
@@ -237,6 +237,8 @@ function MainPage() {
         };
 
         const getPosts = async () => {
+            const nextLoadMax = 9 - (accessToken && page === 1 ? 1 : 0);
+            // const nextLoadMax = 9;
             try {
                 setLastPage(true);
 
@@ -253,7 +255,7 @@ function MainPage() {
                 const json = await response.json();
 
                 setIsLoading(false);
-                json.length === 9 && setLastPage(false);
+                json.length === nextLoadMax && setLastPage(false);
                 isMounted &&
                     Array.isArray(json) &&
                     setPosts(prevPosts => [...prevPosts, ...json].filter(filterUnique));
@@ -262,8 +264,6 @@ function MainPage() {
                     getPosts();
                     tryAgain = false;
                 }
-
-                console.error(error);
             }
         };
 
@@ -351,7 +351,7 @@ function MainPage() {
                     </div>
 
                     <ul className={styles.tileGrid}>
-                        {accessToken && !isLoading && <AddResearchTile withShadow={true} />}
+                        {accessToken && <AddResearchTile withShadow={true} />}
                         {displayPosts()}
                     </ul>
                     {isLoading && <LoadingDots></LoadingDots>}
