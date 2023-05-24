@@ -366,4 +366,12 @@
     .formInputLarge {
         height: 15em;
     }
+
+    .addButton {
+        font-size: unset;
+    }
+
+    .requirementDesc {
+        text-align: left;
+    }
 }

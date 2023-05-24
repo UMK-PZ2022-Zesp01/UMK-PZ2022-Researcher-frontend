@@ -200,8 +200,8 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin, isSomeoneLoggedIn }
                             </div>
                         ))
                     ) : (
-                        <span>
-                            To badanie jeszcze nie posiada pytań zadanych przez innych użytkowników.
+                        <span className={styles.spanLeft}>
+                            Bądź pierwszą osobą, która zada pytanie autorowi badania!
                         </span>
                     )}
                 </div>

@@ -1,21 +1,21 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './UserPage.module.css';
-import {Popup} from '../Popup/Popup';
-import {LeftContainer} from './Containers/LeftContainer';
-import {RightContainer} from './Containers/RightContainer';
-import {BookmarksNav} from '../BookmarksNav/BookmarksNav';
-import {Alert} from '../Alert/Alert';
-import {Gmap} from '../GoogleMap/GoogleMap';
-import {ReportForm} from '../Form/ReportForm/ReportForm';
+import { Popup } from '../Popup/Popup';
+import { LeftContainer } from './Containers/LeftContainer';
+import { RightContainer } from './Containers/RightContainer';
+import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
+import { Alert } from '../Alert/Alert';
+import { Gmap } from '../GoogleMap/GoogleMap';
+import { ReportForm } from '../Form/ReportForm/ReportForm';
 import useAuth from '../../hooks/useAuth';
-import {Helmet} from 'react-helmet';
-import {Link} from 'react-router-dom';
+import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 import getApiUrl from '../../Common/Api.js';
 import researcherLogo from '../../img/logo-white.png';
-import {faArrowTurnDown} from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faArrowTurnDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ResearchTile from '../ResearchTile/ResearchTile';
-import {HelmetProvider} from 'react-helmet-async';
+import { HelmetProvider } from 'react-helmet-async';
 
 const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 
@@ -24,7 +24,7 @@ export default function UserPage(props) {
     const [userData, setUserData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     /*access token*/
-    const {username, accessToken} = useAuth().auth;
+    const { username, accessToken } = useAuth().auth;
 
     /*researches button value*/
     const [clickedResearches, setIsClickedResearches] = useState(false);
@@ -41,7 +41,7 @@ export default function UserPage(props) {
 
     /*location section*/
     const [locationInput, setLocationInput] = useState('');
-    const [userLocationCoords, setUserLocationCoords] = useState([])
+    const [userLocationCoords, setUserLocationCoords] = useState([]);
     const [isClickedLocation, setIsClickedLocation] = useState(false);
 
     /*email section*/
@@ -63,7 +63,7 @@ export default function UserPage(props) {
     const [phoneState, setPhoneState] = useState();
     const [emailState, setEmailState] = useState();
     const [locationState, setLocationState] = useState();
-    const [coords, setCoords] = useState([])
+    const [coords, setCoords] = useState([]);
 
     const [alert, setAlert] = React.useState({
         alertOpen: false,
@@ -135,7 +135,7 @@ export default function UserPage(props) {
                 setPhoneState(data.phone);
                 setEmailState(data.email);
                 setLocationState(data.location);
-                setCoords(data.locationCoords)
+                setCoords(data.locationCoords);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -150,8 +150,7 @@ export default function UserPage(props) {
                     'Content-Type': 'application/json;charset:UTF-8',
                 },
             })
-                .then(response =>
-                    response.json())
+                .then(response => response.json())
                 .then(result => {
                     isMounted && setPostsCreated(result);
                 })
@@ -171,8 +170,7 @@ export default function UserPage(props) {
                     'Content-Type': 'application/json;charset:UTF-8',
                 },
             })
-                .then(response =>
-                    response.json())
+                .then(response => response.json())
                 .then(result => {
                     isMounted && setPostsEnrolled(result);
                 })
@@ -192,14 +190,16 @@ export default function UserPage(props) {
 
     const showPostsCreated = () => {
         if (postsCreated.length === 0)
-            return (
-                <h1>Nie ma jeszcze badań stworzonych przez ciebie</h1>
-            )
+            return <h1>Nie ma jeszcze badań stworzonych przez ciebie</h1>;
         else
             return postsCreated.map((post, index) => (
                 <ResearchTile
                     key={`ResearchTile${post.researchCode}`}
-                    tileData={{previewed: previewed, setPreviewed: setPreviewed, tileNumber: index}}
+                    tileData={{
+                        previewed: previewed,
+                        setPreviewed: setPreviewed,
+                        tileNumber: index,
+                    }}
                     postData={post}
                 />
             ));
@@ -207,27 +207,29 @@ export default function UserPage(props) {
 
     const showPostsEnrolled = () => {
         if (postsEnrolled.length === 0)
-            return (
-                <h1>Nie bierzesz jeszcze udziału w żadnym badaniu</h1>
-            )
+            return <h1>Nie bierzesz jeszcze udziału w żadnym badaniu</h1>;
         else
             return postsEnrolled.map((post, index) => (
                 <ResearchTile
                     key={`ResearchTile${post.researchCode}`}
-                    tileData={{previewed: previewed, setPreviewed: setPreviewed, tileNumber: index}}
+                    tileData={{
+                        previewed: previewed,
+                        setPreviewed: setPreviewed,
+                        tileNumber: index,
+                    }}
                     postData={post}
                 />
             ));
     };
 
     const researchesHeader = () => {
-        if (fetchCreatedPosts) return (
-            <h2>Badania utworzone przez ciebie</h2>
-        )
-        else return (
-            <h2>Badania, w których bierzesz udział</h2>
-        )
-    }
+        if (fetchCreatedPosts)
+            return <h2 className={styles.researchListHeader}>Badania utworzone przez Ciebie</h2>;
+        else
+            return (
+                <h2 className={styles.researchListHeader}>Badania, w których bierzesz udział</h2>
+            );
+    };
     const handleLocationClick = value => {
         setIsClickedLocation(value);
     };
@@ -281,7 +283,11 @@ export default function UserPage(props) {
                 <div className={styles.alertOverlay}>
                     <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
                 </div>
-                <ReportForm setAlert={setAlert} open={openPopup} onClose={() => setOpenPopup(false)}/>
+                <ReportForm
+                    setAlert={setAlert}
+                    open={openPopup}
+                    onClose={() => setOpenPopup(false)}
+                />
                 <div className={styles.MainContainer}>
                     <HelmetProvider>
                         <Helmet>
@@ -300,7 +306,7 @@ export default function UserPage(props) {
                                         alt="Researcher Logo"
                                     />
                                 </Link>
-                                <BookmarksNav active="profile" desc="Twój profil"/>
+                                <BookmarksNav active="profile" desc="Twój profil" />
                             </header>
                             <div className={styles.wrapper}>
                                 <div
@@ -322,12 +328,16 @@ export default function UserPage(props) {
                                         </button>
                                         <div className={styles.inputWrapper}>
                                             <label className={styles.switch}>
-                                                <input type="checkbox"
-                                                       className={styles.checkbox}
-                                                       id={"checkbox"}
-                                                       checked={fetchCreatedPosts}
-                                                       onChange={(e) => setFetchCreatedPosts(e.target.checked)}/>
-                                                <div className={styles.slider}/>
+                                                <input
+                                                    type="checkbox"
+                                                    className={styles.checkbox}
+                                                    id={'checkbox'}
+                                                    checked={fetchCreatedPosts}
+                                                    onChange={e =>
+                                                        setFetchCreatedPosts(e.target.checked)
+                                                    }
+                                                />
+                                                <div className={styles.slider} />
                                             </label>
                                         </div>
                                     </div>
@@ -343,12 +353,14 @@ export default function UserPage(props) {
                                         </div>
                                     )}
                                 </div>
-                                
-                                <LeftContainer values={sendToLeftContainer}/>
-                                <RightContainer values={sendToRightContainer}/>
+
+                                <LeftContainer values={sendToLeftContainer} />
+                                <RightContainer values={sendToRightContainer} />
                             </div>
                         </div>
-                        <div className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}>
+                        <div
+                            className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}
+                        >
                             <Gmap
                                 latitude={coords.length > 0 ? Number(coords[0]) : 53.015331}
                                 longitude={coords.length > 0 ? Number(coords[1]) : 18.6057}
@@ -357,10 +369,8 @@ export default function UserPage(props) {
                                 setLocationInput={setLocationInput}
                                 setIsClickedLocation={setIsClickedLocation}
                                 setGmapExit={setGmapExit}
-                                setResearchPlace={() => {
-                                }}
-                                setResearchPageAddress={() => {
-                                }}
+                                setResearchPlace={() => {}}
+                                setResearchPageAddress={() => {}}
                                 setUserLocationCoords={setUserLocationCoords}
                                 userLocation={locationState}
                             />
@@ -369,6 +379,5 @@ export default function UserPage(props) {
                 </div>
             </div>
         )
-
     );
 }

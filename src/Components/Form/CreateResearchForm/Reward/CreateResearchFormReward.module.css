@@ -33,6 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.5rem;
     height: 42px;
     color: #512c8c;
     padding: 10px;
@@ -41,6 +42,11 @@
     border-radius: 5px;
     transition: 0.5s;
     cursor: pointer;
+}
+
+.buttonVisible {
+    font-weight: bold;
+    display: none;
 }
 
 .removeRewardButton:hover {
@@ -65,5 +71,9 @@
 
     .removeRewardButton {
         width: 100%;
+    }
+
+    .buttonVisible {
+        display: inline-block;
     }
 }

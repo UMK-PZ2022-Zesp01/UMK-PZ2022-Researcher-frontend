@@ -51,6 +51,7 @@
     align-items: center;
     justify-content: center;
     height: 42px;
+    gap: 0.5rem;
     color: #512c8c;
     padding: 10px;
     background-color: #d6cef3;
@@ -85,6 +86,11 @@
     overflow: hidden;
 }
 
+.buttonVisible {
+    font-weight: bold;
+    display: none;
+}
+
 @media (max-width: 1000px) {
     .alertOverlay {
         padding: 0;
@@ -99,5 +105,9 @@
 
     .removeRequirementButton {
         width: 100%;
+    }
+
+    .buttonVisible {
+        display: inline-block;
     }
 }

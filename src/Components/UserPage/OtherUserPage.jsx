@@ -1,24 +1,24 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './UserPage.module.css';
-import {Popup} from '../Popup/Popup';
-import {LeftContainer} from './Containers/LeftContainer';
-import {BookmarksNav} from '../BookmarksNav/BookmarksNav';
-import {Alert} from '../Alert/Alert';
-import {Helmet} from 'react-helmet';
-import {Link} from 'react-router-dom';
+import { Popup } from '../Popup/Popup';
+import { LeftContainer } from './Containers/LeftContainer';
+import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
+import { Alert } from '../Alert/Alert';
+import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 import getApiUrl from '../../Common/Api.js';
 import researcherLogo from '../../img/logo-white.png';
 import ResearchTile from '../ResearchTile/ResearchTile';
-import {HelmetProvider} from 'react-helmet-async';
-import {useParams} from 'react-router-dom';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { HelmetProvider } from 'react-helmet-async';
+import { useParams } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faFileCircleExclamation,
     faFileCirclePlus,
     faHouse,
     faUser,
-    faUserXmark
-} from "@fortawesome/free-solid-svg-icons";
+    faUserXmark,
+} from '@fortawesome/free-solid-svg-icons';
 
 const USER_URL = getApiUrl() + 'user/';
 const RESEARCHES_URL = getApiUrl() + 'research/creator/';
@@ -29,7 +29,7 @@ export default function UserPage(props) {
     const [doesUserExist, setDoesUserExist] = useState(true);
 
     /*get username*/
-    const {username} = useParams();
+    const { username } = useParams();
 
     /*user's posts*/
     const [posts, setPosts] = React.useState([]);
@@ -109,11 +109,10 @@ export default function UserPage(props) {
                         'Content-Type': 'application/json;charset:UTF-8',
                     },
                 })
-                    .then(response =>
-                        response.json().then(result => {
-                            isMounted && setPosts([...posts, ...result]);
-                        })
-                    )
+                    .then(response => response.json())
+                    .then(result => {
+                        isMounted && setPosts([...posts, ...result]);
+                    })
                     .catch(error => {
                         console.error(error);
                     });
@@ -134,7 +133,7 @@ export default function UserPage(props) {
         return posts.map((post, index) => (
             <ResearchTile
                 key={`ResearchTile${post.researchCode}`}
-                tileData={{previewed: previewed, setPreviewed: setPreviewed, tileNumber: index}}
+                tileData={{ previewed: previewed, setPreviewed: setPreviewed, tileNumber: index }}
                 postData={post}
             />
         ));
@@ -181,17 +180,16 @@ export default function UserPage(props) {
                         </header>
                         {doesUserExist === true && (
                             <div className={styles.wrapper}>
-                                <LeftContainer values={sendToLeftContainer}/>
+                                <LeftContainer values={sendToLeftContainer} />
 
                                 <div className={styles.OtherRightContainer}>
-                                    <div className={styles.OtherUsersResearches}>
-                                        <div className={styles.OtherResearchesHeader}>
-                                            <h1>Badania użytkownika</h1>
-                                        </div>
-                                        {showPosts()}
-                                    </div>
+                                    <h2 className={styles.OtherResearchesHeader}>
+                                        Badania użytkownika
+                                    </h2>
+                                    <div className={styles.OtherUsersResearches}>{showPosts()}</div>
                                 </div>
-                            </div>)}
+                            </div>
+                        )}
                         {doesUserExist === false && (
                             <div className={styles.userNotFoundWrapper}>
                                 <div className={styles.userNotFoundContainer}>
@@ -206,10 +204,13 @@ export default function UserPage(props) {
                                             className={styles.userNotFoundIcon}
                                         />
                                         <div className={styles.userNotFoundDesc}>
-                                            <span className={styles.desc1}>Nie znaleziono użytkownika!</span>
+                                            <span className={styles.desc1}>
+                                                Nie znaleziono użytkownika!
+                                            </span>
                                             <span>
-                                    Upewnij się, czy link jest poprawny oraz czy użytkownik, którego szukasz istnieje
-                                </span>
+                                                Upewnij się, czy link jest poprawny oraz czy
+                                                użytkownik, którego szukasz istnieje
+                                            </span>
                                         </div>
                                     </div>
 
@@ -217,26 +218,28 @@ export default function UserPage(props) {
                                         <h3>Co chcesz zrobić?</h3>
                                         <nav className={styles.navigation}>
                                             <Link to="/" className={styles.navigationButton}>
-                                                <FontAwesomeIcon icon={faHouse}/>
+                                                <FontAwesomeIcon icon={faHouse} />
                                                 <span className={styles.buttonDesc}>
-                                        Przejdź na stronę główną
-                                    </span>
+                                                    Przejdź na stronę główną
+                                                </span>
                                             </Link>
 
                                             <Link to="/profile" className={styles.navigationButton}>
-                                                <FontAwesomeIcon icon={faUser}/>
+                                                <FontAwesomeIcon icon={faUser} />
                                                 <span className={styles.buttonDesc}>
-                                        Przejdź na stronę swojego profilu
-                                    </span>
+                                                    Przejdź na stronę swojego profilu
+                                                </span>
                                             </Link>
 
-                                            <Link to="/research/create" className={styles.navigationButton}>
-                                                <FontAwesomeIcon icon={faFileCirclePlus}/>
+                                            <Link
+                                                to="/research/create"
+                                                className={styles.navigationButton}
+                                            >
+                                                <FontAwesomeIcon icon={faFileCirclePlus} />
                                                 <span className={styles.buttonDesc}>
-                                        Stwórz ogłoszenie o badaniu
-                                    </span>
+                                                    Stwórz ogłoszenie o badaniu
+                                                </span>
                                             </Link>
-
                                         </nav>
                                     </div>
                                 </div>
@@ -248,6 +251,3 @@ export default function UserPage(props) {
         </div>
     );
 }
-
-
-

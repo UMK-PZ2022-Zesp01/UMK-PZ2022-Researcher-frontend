@@ -3,7 +3,7 @@ import styles from './ResearchPage.module.css';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import researcherLogo from '../../img/logo-white.png';
 import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import getApiUrl from '../../Common/Api';
 import {
     faEnvelope,
@@ -73,6 +73,8 @@ function ResearchPage() {
     const [isListVisible, setIsListVisible] = useState(false);
     const [isDeleteResearchConfirmVisible, setIsDeleteResearchConfirmVisible] = useState(false);
     const [isEnrollButtonBlocked, setIsEnrollButtonBlocked] = useState(false);
+
+    const navigate = useNavigate();
 
     /** Get Research From Database **/
 
@@ -322,7 +324,11 @@ function ResearchPage() {
 
     const renderRewards = () => {
         if (rewards.length === 0)
-            return 'Autor badania nie oferuje nagród za udział w tym badaniu.';
+            return (
+                <span className={styles.spanLeft}>
+                    Autor badania nie oferuje nagród za udział w tym badaniu.
+                </span>
+            );
         return (
             <ul className={styles.rewardsList}>
                 {rewards.map((value, index) => {
@@ -344,7 +350,12 @@ function ResearchPage() {
     };
 
     const renderRequirements = () => {
-        if (requirements.length === 0) return 'Badanie nie posiada żadnych wymagań udziału.';
+        if (requirements.length === 0)
+            return (
+                <span className={styles.spanLeft}>
+                    Badanie nie posiada żadnych wymagań udziału.
+                </span>
+            );
         return (
             <div className={styles.requirementsContainer}>
                 {requirements.map((value, index) => {
@@ -560,18 +571,19 @@ function ResearchPage() {
 
             switch (response.status) {
                 case 204:
-                    setAlert({
-                        alertOpen: true,
-                        alertType: response.status,
-                        alertText: (
-                            <span>
-                                Badanie zostało pomyślnie usunięte!{' '}
-                                <Link to="/" className={styles.alertLink}>
-                                    Kliknij, aby przejść na stronę główną
-                                </Link>
-                            </span>
-                        ),
-                    });
+                    navigate('/', { replace: true });
+                    // setAlert({
+                    //     alertOpen: true,
+                    //     alertType: response.status,
+                    //     alertText: (
+                    //         <span>
+                    //             Badanie zostało pomyślnie usunięte!{' '}
+                    //             <Link to="/" className={styles.alertLink}>
+                    //                 Kliknij, aby przejść na stronę główną
+                    //             </Link>
+                    //         </span>
+                    //     ),
+                    // });
                     break;
                 default:
                     setAlert({
@@ -1105,7 +1117,7 @@ function ResearchPage() {
                                         <div className={styles.categoryLabel}>
                                             Sekcja pytań i odpowiedzi
                                         </div>
-                                        <span className={styles.forumInfo}>
+                                        <span className={styles.spanLeft}>
                                             {loggedUser?.login === research.creatorLogin
                                                 ? 'Poniżej znajdują się pytania, które zadały Ci osoby zainteresowane Twoim' +
                                                   ' badaniem.'

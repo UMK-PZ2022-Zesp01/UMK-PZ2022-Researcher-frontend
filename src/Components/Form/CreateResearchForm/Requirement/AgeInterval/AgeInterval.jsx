@@ -110,13 +110,14 @@ function AgeInterval({ index, data, handleUpdate, handleDelete }) {
                 title="Usuń kryterium"
             >
                 <FontAwesomeIcon icon={faTrash} className={styles.trashIcon} />
+                <span className={styles.buttonVisible}>Usuń przedział</span>
             </div>
         </div>
     );
 }
 
 AgeInterval.defaultProps = {
-    data: { ageMin: null, ageMax: null }
+    data: { ageMin: null, ageMax: null },
 };
 
 export { AgeInterval };

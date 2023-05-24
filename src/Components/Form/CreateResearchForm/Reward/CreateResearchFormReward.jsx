@@ -87,6 +87,7 @@ function CreateResearchFormReward({ index, data, handleUpdate, handleDelete }) {
                 title="Usuń nagrodę"
             >
                 <FontAwesomeIcon icon={faTrash} className={styles.trashIcon} />
+                <span className={styles.buttonVisible}>Usuń nagrodę</span>
             </div>
         </div>
     );

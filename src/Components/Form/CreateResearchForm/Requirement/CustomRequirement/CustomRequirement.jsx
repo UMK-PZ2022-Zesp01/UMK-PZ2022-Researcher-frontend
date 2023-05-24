@@ -44,6 +44,7 @@ function CustomRequirement({ index, data, handleUpdate, handleDelete }) {
                 title="Usuń kryterium"
             >
                 <FontAwesomeIcon icon={faTrash} className={styles.trashIcon} />
+                <span className={styles.buttonVisible}>Usuń kryterium</span>
             </div>
         </div>
     );

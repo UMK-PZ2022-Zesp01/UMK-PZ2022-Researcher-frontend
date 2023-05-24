@@ -168,4 +168,8 @@
         flex-direction: column;
         gap: 0;
     }
+
+    .addButton {
+        font-size: unset;
+    }
 }
