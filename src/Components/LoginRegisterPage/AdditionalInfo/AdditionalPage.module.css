@@ -1,0 +1,614 @@
+.fullWidth {
+    width: 100%;
+}
+.loginRegisterPage {
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    justify-content: space-evenly;
+    border-radius: 10px;
+}
+
+.alertOverlay {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.header {
+    width: 25%;
+    margin: auto;
+    background-color: #512c8c;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: 0.3s;
+}
+
+.header:hover {
+    background-color: #6d3b9e;
+}
+
+.main {
+    position: relative;
+    width: 100%;
+    max-height: 100%;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+
+    background-color: #f4f0fa;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+.hBox {
+    display: flex;
+    flex-direction: column;
+    height: 10vh;
+    margin: 0;
+    text-align: center;
+    justify-content: space-evenly;
+}
+
+.h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0 auto;
+    align-self: center;
+    text-align: center;
+    color: #6d3b9e;
+}
+
+.h3 {
+    font-size: 1.2rem;
+    margin: 0 auto;
+    align-self: center;
+    text-align: center;
+    color: #6d3b9e;
+}
+
+.loginFormBox {
+    display: flex;
+    flex-direction: column;
+    width: clamp(20ch, 50ch, 100%);
+    margin: 0;
+}
+
+.registerFormBox {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 66%;
+    flex-grow: 2;
+    margin: 0;
+}
+
+.loginForm,
+.registerForm {
+    display: flex;
+    padding: 1rem 2rem;
+    flex-direction: column;
+}
+
+.aPurple,
+.panelChange {
+    padding: 0.3rem;
+    align-self: end;
+    font-weight: 700;
+
+    color: #512c8c;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.aPurple:hover,
+.panelChange:hover {
+    color: #6600c7;
+    text-decoration: underline;
+}
+
+.aPurple {
+    font-size: 0.8rem;
+}
+
+.panelChange {
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    position: relative;
+    width: 100%;
+}
+
+.textInput {
+    width: 100%;
+    padding: 10px;
+    background-color: #d6cef3;
+    outline: none;
+    border: 2px solid #c6b1e7;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-family: sans-serif;
+    margin-bottom: 0.5rem;
+}
+
+.textInput:focus {
+    border: 2px solid #512c8c;
+    background-color: #d7c2f8;
+}
+
+.textInput:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 50px #c6b1e7 inset;
+}
+
+.textInput::placeholder {
+    color: #5b5b5b;
+    opacity: 1;
+}
+
+.submitButton {
+    position: relative;
+    z-index: 0;
+    padding: 0.6rem;
+    margin: 0.5rem 0;
+    background-color: #512c8c;
+    color: #ffffff;
+    font-weight: bold;
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: translate linear 0.1s;
+}
+
+.submitButton::before {
+    z-index: -1;
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 100%;
+    transition: width ease-in-out 0.3s, left ease-in-out 0.3s;
+    border-radius: 5px;
+    background-color: #6d3b9e;
+}
+
+.submitButton:hover::before {
+    width: 100%;
+    left: 0;
+}
+
+.submitButton:active {
+    background-color: #512c8c;
+    translate: 0 2px;
+}
+
+.orLoginWith {
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid #512c8c;
+    line-height: 0.1rem;
+    margin: 10px 0 20px;
+}
+
+.orLoginWith span {
+    padding: 0 1rem;
+    background-color: #f4f0fa;
+}
+
+.loginWith {
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    flex-basis: 48%;
+    background-color: #d9d9d9;
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.checkboxRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkboxRow label {
+    width: 100%;
+    font-size: 0.9rem;
+    text-align: left;
+    margin-left: 0.5em;
+}
+
+.checkboxInput {
+    aspect-ratio: 1/1;
+    height: 1rem;
+    border: 1px solid #512c8c;
+    border-radius: 2px;
+    appearance: none;
+    cursor: pointer;
+}
+
+.checkboxInput::after {
+    content: '';
+    position: relative;
+    color: #f4f0fa;
+    left: 2px;
+    top: -2px;
+}
+
+.checkboxInput:checked {
+    background-color: #6d3b9e;
+}
+
+.flexRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.3rem;
+}
+
+.flexColumn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pwdStrengthBar {
+    margin-bottom: 0.5rem;
+}
+
+.flexColumnSep {
+    /*width: 0.5rem;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: space-between;*/
+}
+
+.top,
+.bottom {
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    justify-content: flex-start;
+}
+
+.bottom {
+    justify-content: flex-end;
+}
+
+.lightlyTopPadded {
+    padding: 1rem 0 0 0;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.hBox {
+    display: flex;
+    flex-direction: column;
+    height: 10vh;
+    margin: 0;
+    text-align: center;
+    justify-content: space-evenly;
+}
+
+.h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0 auto;
+    align-self: center;
+    text-align: center;
+    color: #6d3b9e;
+}
+
+.h3 {
+    font-size: 1.2rem;
+    margin: 0 auto;
+    align-self: center;
+    text-align: center;
+    color: #6d3b9e;
+}
+
+.loginFormBox {
+    display: flex;
+    flex-direction: column;
+    width: clamp(20ch, 50ch, 100%);
+    margin: 0;
+}
+
+.registerFormBox {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 66%;
+    flex-grow: 2;
+    margin: 0;
+}
+
+.loginForm,
+.registerForm {
+    display: flex;
+    padding: 1rem 2rem;
+    flex-direction: column;
+}
+
+.aPurple,
+.panelChange {
+    padding: 0.3rem;
+    align-self: end;
+    font-weight: 700;
+
+    color: #512c8c;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.aPurple:hover,
+.panelChange:hover {
+    color: #6600c7;
+    text-decoration: underline;
+}
+
+.aPurple {
+    font-size: 0.8rem;
+}
+
+.panelChange {
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    position: relative;
+    width: 100%;
+}
+
+.textInput {
+    width: 100%;
+    padding: 10px;
+    background-color: #d6cef3;
+    outline: none;
+    border: 2px solid #c6b1e7;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-family: sans-serif;
+    margin-bottom: 0.5rem;
+}
+
+.textInput:focus {
+    border: 2px solid #512c8c;
+    background-color: #d7c2f8;
+}
+
+.textInput:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 50px #c6b1e7 inset;
+}
+
+.textInput::placeholder {
+    color: #5b5b5b;
+    opacity: 1;
+}
+
+.submitButton {
+    position: relative;
+    z-index: 0;
+    padding: 0.6rem;
+    margin: 0.5rem 0;
+    background-color: #512c8c;
+    color: #ffffff;
+    font-weight: bold;
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: translate linear 0.1s;
+}
+
+.submitButton::before {
+    z-index: -1;
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 100%;
+    transition: width ease-in-out 0.3s, left ease-in-out 0.3s;
+    border-radius: 5px;
+    background-color: #6d3b9e;
+}
+
+.submitButton:hover::before {
+    width: 100%;
+    left: 0;
+}
+
+.submitButton:active {
+    background-color: #512c8c;
+    translate: 0 2px;
+}
+
+.orLoginWith {
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid #512c8c;
+    line-height: 0.1rem;
+    margin: 10px 0 20px;
+}
+
+.orLoginWith span {
+    padding: 0 1rem;
+    background-color: #f4f0fa;
+}
+
+.loginWith {
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    flex-basis: 48%;
+    background-color: #d9d9d9;
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.checkboxRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.checkboxRow label {
+    width: 100%;
+    font-size: 0.9rem;
+    text-align: left;
+    margin-left: 0.5em;
+}
+
+.checkboxInput {
+    aspect-ratio: 1/1;
+    height: 1rem;
+    border: 1px solid #512c8c;
+    border-radius: 2px;
+    appearance: none;
+    cursor: pointer;
+}
+
+.checkboxInput::after {
+    content: '';
+    position: relative;
+    color: #f4f0fa;
+    left: 2px;
+    top: -2px;
+}
+
+.checkboxInput:checked {
+    background-color: #6d3b9e;
+}
+
+.flexRow {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.3rem;
+}
+
+.flexColumn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pwdStrengthBar {
+    margin-bottom: 0.5rem;
+}
+
+.flexColumnSep {
+    /*width: 0.5rem;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: space-between;*/
+}
+
+.top,
+.bottom {
+    display: flex;
+    flex-direction: column;
+}
+
+.top {
+    justify-content: flex-start;
+}
+
+.bottom {
+    justify-content: flex-end;
+}
+
+.lightlyTopPadded {
+    padding: 1rem 0 0 0;
+}
+
+.wrapper {
+    position: sticky;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    width: 100%;
+    transition: transform 500ms ease-in-out;
+}
+.wrapper > article {
+    flex-basis: 50%;
+}
+
+@media (max-width: 400px) {
+    .flexRow {
+        flex-wrap: wrap;
+    }
+
+    .lightlyTopPadded {
+        display: none;
+    }
+}
+
+@media (max-width: 300px) {
+    .loginForm,
+    .registerForm {
+        padding: 1rem 10px;
+    }
+}
+
+@media (max-width: 250px) {
+    .flexRow {
+        flex-direction: column;
+    }
+}
+
+
+@media (max-width: 400px) {
+    .flexRow {
+        flex-wrap: wrap;
+    }
+
+    .lightlyTopPadded {
+        display: none;
+    }
+}
+
+@media (max-width: 300px) {
+    .loginForm,
+    .registerForm {
+        padding: 1rem 10px;
+    }
+}
+
+@media (max-width: 250px) {
+    .flexRow {
+        flex-direction: column;
+    }
+}
+
+
