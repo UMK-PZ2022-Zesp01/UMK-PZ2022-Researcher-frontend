@@ -1,15 +1,9 @@
 .container {
     display: flex;
-    flex-direction: column;
-    position: relative;
-    justify-content: space-between;
-}
-
-.filters {
-    display: flex;
     flex-direction: row;
+    position: relative;
+
     width: 100%;
-    justify-content: space-between;
 }
 
 .filtersButton {
@@ -21,9 +15,7 @@
     z-index: 0;
 
     padding: 5px;
-    width: 25%;
-    align-self: flex-end;
-    margin-top: 1rem;
+    width: 100%;
     min-width: fit-content;
 
     background-color: #debdef;
@@ -96,6 +88,10 @@
 .category {
     display: flex;
     flex-direction: column;
+
+    width: 100%;
+    padding: 5px 10px;
+    border: 1px solid #c6b1e7;
 }
 
 .category :is(header) {
@@ -106,7 +102,7 @@
 
 .category :is(span, header, label) {
     display: flex;
-    padding: 0 0.5rem;
+    padding: 0 5px;
 }
 
 .checkbox {

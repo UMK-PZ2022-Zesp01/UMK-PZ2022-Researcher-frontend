@@ -71,15 +71,15 @@
 
 .options {
     display: flex;
-    flex-direction: row;
-    align-self: flex-end;
+    flex-direction: column;
 
-    min-width: 50%;
+    width: 100%;
 
     gap: 1rem;
 }
+
 .options > div {
-    width: 50%;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -99,6 +99,42 @@
 .sortLabel {
     display: flex;
     align-items: center;
+}
+
+.sorterOptions {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.sorterOptions > div {
+    display: flex;
+    padding: 0.5rem;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.radio {
+    margin-block: 0;
+    margin: 0;
+    position: relative;
+    appearance: none;
+    height: 1rem;
+    aspect-ratio: 1/1;
+}
+
+.radio::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    border: 1px solid #7d41b7;
+    border-radius: 2px;
+}
+
+.radio:checked::before {
+    background-color: #ca97e6;
 }
 
 .selectContainer {
@@ -177,6 +213,7 @@
         align-items: flex-start;
         flex-direction: column;
     }
+
     .options {
         width: 100%;
         flex-direction: column;
@@ -190,6 +227,7 @@
     .tileGrid {
         grid-template-columns: repeat(1, minmax(150px, 1fr));
     }
+
     .options > div {
         width: 100%;
     }
@@ -284,6 +322,7 @@
     height: 100%;
     cursor: pointer;
 }
+
 .current .small {
     min-width: unset;
 }

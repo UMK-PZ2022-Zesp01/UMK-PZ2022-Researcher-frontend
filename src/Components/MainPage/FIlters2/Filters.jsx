@@ -53,19 +53,18 @@ export const Filters = ({ id, filters, saveFilters }) => {
 
     return (
         <div className={styles.container}>
-            {/*<button id={id} onClick={handleDropdownSwitch} className={styles.filtersButton}>*/}
-            {/*    Opcje filtrów*/}
-            {/*</button>*/}
-            {/*<div className={getDropdownClass()}>*/}
-            <div className={styles.filters}>{renderFilters()}</div>
-
-            <button
-                onClick={handleSaveButtonClicked}
-                className={`${styles.filtersButton} ${styles.small}`}
-            >
-                Zapisz
+            <button id={id} onClick={handleDropdownSwitch} className={styles.filtersButton}>
+                Opcje filtrów
             </button>
-            {/*</div>*/}
+            <div className={getDropdownClass()}>
+                {renderFilters()}
+                <button
+                    onClick={handleSaveButtonClicked}
+                    className={`${styles.filtersButton} ${styles.small}`}
+                >
+                    Zapisz
+                </button>
+            </div>
         </div>
     );
 };

@@ -11,7 +11,6 @@ import { LoadingDots } from '../LoadingDots/LoadingDots';
 import { Filters } from './Filters/Filters';
 import { FirstTimeForm } from '../Form/FirstTimeForm/FirstTimeForm';
 import { AddResearchTile } from '../ResearchTile/AddResearchTile';
-import { Select } from '../Form/Select/Select';
 
 const RESEARCHES_URL = getApiUrl() + 'research';
 
@@ -41,18 +40,11 @@ function MainPage() {
         maxDate: null,
     });
 
-    const sortOptions = [
-        { value: 'newest', name: 'daty dodania' },
-        { value: 'ending', name: 'daty zakończenia' },
-        { value: 'starting', name: 'daty rozpoczęcia' },
-    ];
-
-    const [isSortOpen, setIsSortOpen] = useState(false);
-
-    const [sortBy, setSortBy] = useState({ name: 'daty dodania', value: 'newest' });
+    const [tempSortBy, setTempSortBy] = useState('newest');
+    const [sortBy, setSortBy] = useState('newest');
     const [page, setPage] = useState(1);
 
-    const urlSortBySection = `sortBy=${sortBy.value}`;
+    const urlSortBySection = `sortBy=${sortBy}`;
 
     const urlFiltersSection = Object.keys(filterBy)
         .filter(key => filterBy[key])
@@ -73,6 +65,16 @@ function MainPage() {
         return temp.substring(0, temp.length - 1);
     };
     const handleSaveFiltersClicked = () => {
+        setSortBy(prevState => {
+            if (prevState !== tempSortBy) {
+                setPreviewed(-1);
+                setPosts([]);
+                setPage(1);
+                setLastPage(false);
+            }
+            return tempSortBy;
+        });
+
         setFilterBy(prevState => {
             const current = {
                 forMeOnly: forMeOnly.value,
@@ -94,18 +96,18 @@ function MainPage() {
         });
     };
 
-    const handleSorterChanged = option => {
-        setSortBy(prevState => {
-            const keys = Object.keys(prevState);
-            const differences = keys.filter(key => prevState[key] !== option[key]);
-            if (differences.length !== 0) {
-                setPreviewed(-1);
-                setPosts([]);
-                setPage(1);
-                setLastPage(false);
-            }
-            return option;
-        });
+    const handleSorterChanged = event => {
+        // const checked = event.target.value;
+        // setSortBy(prevState => {
+        //     if (prevState !== checked) {
+        //         setPreviewed(-1);
+        //         setPosts([]);
+        //         setPage(1);
+        //         setLastPage(false);
+        //     }
+        //     return checked;
+        // });
+        setTempSortBy(event.target.value);
     };
     const handleFromDateSet = event => {
         setFromDate({ ...fromDate, value: event.target.value });
@@ -117,6 +119,7 @@ function MainPage() {
 
     const filters = [
         {
+            category: 'Specjalne',
             options: [
                 accessToken
                     ? {
@@ -307,46 +310,56 @@ function MainPage() {
                     <BookmarksNav active="home" desc="Strona główna" />
                 </div>
                 <main ref={triggerRef} className={styles.mainPagePanel}>
-                    <div className={styles.optionsBox}>
-                        <div className={styles.options}>
-                            <div>
-                                <label htmlFor={'sortSelect'}>Sortuj według:</label>
-                                <div className={styles.selectContainer}>
-                                    <Select
-                                        id={'sortSelect'}
-                                        name={'sortSelect'}
-                                        title={'Sortuj według'}
-                                        options={sortOptions}
-                                        isOpen={isSortOpen}
-                                        open={setIsSortOpen}
-                                        value={sortBy?.name}
-                                        setValue={handleSorterChanged}
-                                        styles={styles}
+                    <div className={styles.options}>
+                        <div>
+                            <label htmlFor={'sortSelect'}>Sortuj według:</label>
+                            <div className={styles.sorterOptions}>
+                                <div className={styles.row}>
+                                    <input
+                                        type={'radio'}
+                                        id={'newest'}
+                                        name={'sortBy'}
+                                        value={'newest'}
+                                        onChange={handleSorterChanged}
+                                        checked={tempSortBy === 'newest'}
+                                        className={styles.radio}
                                     />
+                                    <label htmlFor={'newest'}>daty dodania</label>
                                 </div>
-
-                                {/*<select*/}
-                                {/*    id={'sortSelect'}*/}
-                                {/*    onChange={handleSorterChanged}*/}
-                                {/*    className={styles.sortSelect}*/}
-                                {/*>*/}
-                                {/*    <option value={'newest'} disabled hidden>*/}
-                                {/*        Sortowanie:*/}
-                                {/*    </option>*/}
-                                {/*    <option value={'newest'}>daty dodania</option>*/}
-                                {/*    <option value={'ending'}>daty zakończenia</option>*/}
-                                {/*    <option value={'starting'}>daty rozpoczęcia</option>*/}
-                                {/*</select>*/}
+                                <div className={styles.row}>
+                                    <input
+                                        type={'radio'}
+                                        id={'ending'}
+                                        name={'sortBy'}
+                                        value={'ending'}
+                                        onChange={handleSorterChanged}
+                                        checked={tempSortBy === 'ending'}
+                                        className={styles.radio}
+                                    />{' '}
+                                    <label htmlFor={'ending'}>daty zakończenia</label>
+                                </div>
+                                <div className={styles.row}>
+                                    <input
+                                        type={'radio'}
+                                        id={'starting'}
+                                        name={'sortBy'}
+                                        value={'starting'}
+                                        onChange={handleSorterChanged}
+                                        checked={tempSortBy === 'starting'}
+                                        className={styles.radio}
+                                    />
+                                    <label htmlFor={'starting'}>daty rozpoczęcia</label>
+                                </div>
                             </div>
+                        </div>
 
-                            <div>
-                                <label htmlFor={'filterMenu'}>Filtruj według:</label>
-                                <Filters
-                                    id={'filterMenu'}
-                                    filters={filters}
-                                    saveFilters={handleSaveFiltersClicked}
-                                ></Filters>
-                            </div>
+                        <div>
+                            <label htmlFor={'filterMenu'}>Filtruj według:</label>
+                            <Filters
+                                id={'filterMenu'}
+                                filters={filters}
+                                saveFilters={handleSaveFiltersClicked}
+                            ></Filters>
                         </div>
                     </div>
 
