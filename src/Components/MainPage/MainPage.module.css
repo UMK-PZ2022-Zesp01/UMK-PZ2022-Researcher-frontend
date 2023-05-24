@@ -231,6 +231,11 @@
     .options > div {
         width: 100%;
     }
+
+    .sorterOptions {
+        flex-direction: column;
+        gap: 0;
+    }
 }
 
 @media (max-width: 250px) {

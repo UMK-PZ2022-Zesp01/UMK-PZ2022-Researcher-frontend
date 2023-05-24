@@ -6,6 +6,7 @@
 }
 
 .filters {
+    text-align: left;
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -183,6 +184,12 @@
 .dropdown .filtersButton {
     border-top-right-radius: 0;
     border-top-left-radius: 0;
+}
+
+@media (max-width: 600px) {
+    .filters {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 300px) {
