@@ -451,7 +451,7 @@ function CreateResearchForm() {
                             onChange={handleDescriptionChange}
                             id="desc"
                             name="desc"
-                            maxLength="1000"
+                            maxLength="2000"
                             placeholder="Opis badania"
                         />
                     </div>
