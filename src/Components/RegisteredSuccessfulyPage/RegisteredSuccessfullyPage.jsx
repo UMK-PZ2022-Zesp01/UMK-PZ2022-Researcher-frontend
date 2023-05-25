@@ -34,8 +34,10 @@ export default function RegisteredSuccessfullyPage() {
                     setIsSuccessful(true);
                     setHeader('Rejestracja przebiegła pomyślnie');
                     setText(
-                        `Wysłaliśmy do Ciebie wiadomość z linkiem aktywacyjnym na adres: ${json}.
-                               \nKliknij link w wiadomości, aby potwierdzić adres email.`
+                        <p>
+                            Wysłaliśmy do Ciebie wiadomość z linkiem aktywacyjnym na adres:{' '}
+                            <b>{json}</b>. Kliknij link w wiadomości, aby potwierdzić adres email.
+                        </p>
                     );
                     break;
                 case 204:
@@ -83,7 +85,7 @@ export default function RegisteredSuccessfullyPage() {
             </section>
             <br />
             {!isLoading && (
-                <section>
+                <section className={styles.section}>
                     Wiadomość nie dotarła?
                     <button className={styles.button} onClick={handleResendButtonClicked}>
                         Wyślij ponownie
