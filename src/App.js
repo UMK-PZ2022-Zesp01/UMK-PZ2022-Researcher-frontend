@@ -28,7 +28,7 @@ function App() {
                     <Route path="/profile/:username" element={<OtherUserPage />} />
 
                     <Route element={<RequireAuth />}>
-                        <Route path="/pro   file" element={<UserPage />} />
+                        <Route path="/profile" element={<UserPage />} />
                         <Route path="/research/create" element={<CreateResearchPage />} />
                     </Route>
 
