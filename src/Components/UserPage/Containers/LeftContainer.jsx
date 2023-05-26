@@ -136,20 +136,39 @@ const LeftContainer = ({ values }) => {
 
                     <div className={styles.desc}>
                         <HiOutlineMail className={styles.icon} />
-                        <span>{values.emailState}</span>
+                        <span>
+                            {accessToken
+                                ? values?.emailState
+                                    ? values?.emailState
+                                    : '(nie podano)'
+                                : [
+                                      <Link
+                                          key={'phoneToLogin'}
+                                          to={'/login'}
+                                          state={{ from: location }}
+                                      >
+                                          Zaloguj się
+                                      </Link>,
+                                      <span key={'phoneToDisplay'}> aby wyświetlić</span>,
+                                  ]}
+                        </span>
                     </div>
                     <div className={styles.desc}>
                         <MdPhone className={styles.icon} />
                         <span>
                             {accessToken
-                                ? values.phoneState
-                                    ? values.phoneState
+                                ? values?.phoneState
+                                    ? values?.phoneState
                                     : '(nie podano)'
                                 : [
-                                      <Link to={'/login'} state={{ from: location }}>
+                                      <Link
+                                          key={'emailToLogin'}
+                                          to={'/login'}
+                                          state={{ from: location }}
+                                      >
                                           Zaloguj się
                                       </Link>,
-                                      ,
+                                      <span key={'emailToDisplay'}> aby wyświetlić</span>,
                                   ]}
                         </span>
                     </div>

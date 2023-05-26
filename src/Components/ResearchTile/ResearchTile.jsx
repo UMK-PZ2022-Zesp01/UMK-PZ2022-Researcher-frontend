@@ -18,9 +18,6 @@ export default function ResearchTile({ withShadow, tileData, postData }) {
         location,
         begDate,
         endDate,
-        // highlight,
-        // requirements,
-        // rewards,
     } = postData;
 
     // const [geoDecoded, setGeoDecoded] = useState('');

@@ -19,6 +19,7 @@ import {
     faUser,
     faUserXmark,
 } from '@fortawesome/free-solid-svg-icons';
+import useAuth from '../../hooks/useAuth';
 
 const USER_URL = getApiUrl() + 'user/';
 const RESEARCHES_URL = getApiUrl() + 'research/creator/';
@@ -30,6 +31,7 @@ export default function UserPage(props) {
 
     /*get username*/
     const { username } = useParams();
+    const { accessToken } = useAuth().auth;
 
     /*user's posts*/
     const [posts, setPosts] = React.useState([]);
@@ -87,6 +89,7 @@ export default function UserPage(props) {
             method: 'GET',
             credentials: 'include',
             headers: {
+                Authorization: accessToken,
                 'Content-Type': 'application/json;charset:UTF-8',
             },
         })
@@ -106,6 +109,7 @@ export default function UserPage(props) {
                     signal,
                     method: 'GET',
                     headers: {
+                        Authorization: accessToken,
                         'Content-Type': 'application/json;charset:UTF-8',
                     },
                 })
@@ -127,7 +131,7 @@ export default function UserPage(props) {
             isMounted = false;
             controller.abort();
         };
-    }, []);
+    }, [accessToken]);
 
     const showPosts = () => {
         return posts.map((post, index) => (
@@ -144,8 +148,8 @@ export default function UserPage(props) {
         name: userData.firstName,
         lastName: userData.lastName,
         locationState: userData.location,
-        emailState: userData.email,
-        phoneState: userData.phone,
+        emailState: userData?.email,
+        phoneState: userData?.phone,
         gender: userData.gender,
         avatar: userData.avatarImage,
     };

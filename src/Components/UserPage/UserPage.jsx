@@ -147,6 +147,7 @@ export default function UserPage(props) {
                 signal,
                 method: 'GET',
                 headers: {
+                    Authorization: accessToken,
                     'Content-Type': 'application/json;charset:UTF-8',
                 },
             })
@@ -167,6 +168,7 @@ export default function UserPage(props) {
                 signal,
                 method: 'GET',
                 headers: {
+                    Authorization: accessToken,
                     'Content-Type': 'application/json;charset:UTF-8',
                 },
             })

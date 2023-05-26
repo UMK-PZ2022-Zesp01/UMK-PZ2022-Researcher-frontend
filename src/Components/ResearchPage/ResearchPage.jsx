@@ -83,6 +83,7 @@ function ResearchPage() {
         const researchResponse = await fetch(GET_RESEARCH_URL, {
             method: 'GET',
             headers: {
+                Authorization: accessToken,
                 'Content-Type': 'application/json;charset:UTF-8',
             },
         });
@@ -95,8 +96,8 @@ function ResearchPage() {
                 setDescription(result.description);
                 setBegDate(result.begDate);
                 setEndDate(result.endDate);
-                setCreatorEmail(result.creatorEmail);
-                setCreatorPhone(result.creatorPhone);
+                setCreatorEmail(result?.creatorEmail);
+                setCreatorPhone(result?.creatorPhone);
                 setParticipantNumber(result.participants);
                 setParticipantLimit(result.participantLimit);
                 setLocation(result.location);
@@ -114,7 +115,7 @@ function ResearchPage() {
                     case 200:
                         setCreator(await creatorResponse.json());
                         setResearchGetSuccess(true);
-                        if (isSomeoneLoggedIn) checkIfLoggedUserIsDownForResearch().then(null);
+                        // if (isSomeoneLoggedIn) checkIfLoggedUserIsDownForResearch().then(null);
                         break;
                     default:
                         setResearchGetSuccess(false);
@@ -192,7 +193,7 @@ function ResearchPage() {
     }, [accessToken]);
 
     useEffect(() => {
-        if (researchGetSuccess && loggedUser) {
+        if (researchGetSuccess && Object.keys(loggedUser).length !== 0) {
             checkIfLoggedUserIsDownForResearch().then(null);
         }
     }, [researchGetSuccess, loggedUser]);
