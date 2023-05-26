@@ -828,7 +828,7 @@ function ResearchPage() {
                                                         <span>
                                                             <Link to="/login">Zaloguj się</Link>
                                                             <span>
-                                                                , aby wyświetlić adres e-mail
+                                                                , aby wyświetlić numer telefonu
                                                             </span>
                                                         </span>
                                                     )}
