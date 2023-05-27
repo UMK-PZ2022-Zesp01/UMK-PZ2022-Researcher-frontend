@@ -17,7 +17,7 @@ import ErrorPage from './Components/Error/ErrorPage';
 
 import RequireNoAuth from './Common/RequireNoAuth';
 import { ResetPasswordPage } from './Components/ResetPasswordPage/ResetPasswordPage';
-import AdditionalPage from "./Components/LoginRegisterPage/AdditionalInfo/AdditionalPage";
+import AdditionalPage from './Components/LoginRegisterPage/AdditionalInfo/AdditionalPage';
 
 function App() {
     return (
@@ -44,12 +44,10 @@ function App() {
                             path={'/registeredSuccessfully'}
                             element={<RegisteredSuccessfullyPage />}
                         ></Route>
-                        <Route
-                            path={'/fillData'}
-                            element={<AdditionalPage/>}
-                        ></Route>
+
                         <Route path={'/confirmEmail/:token'} element={<ConfirmEmailPage />}></Route>
                         <Route path={'/resetPwd'} element={<ResetPasswordPage />}></Route>
+                        <Route path={'/user/fill'} element={<AdditionalPage />}></Route>
                     </Route>
                 </Route>
 

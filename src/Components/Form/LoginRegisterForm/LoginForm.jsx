@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './LoginRegisterForm.module.css';
 import getApiUrl from '../../../Common/Api.js';
-import {useAuth} from '../../../hooks/useAuth';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faGoogle} from '@fortawesome/free-brands-svg-icons'
-import jwtDecode from "jwt-decode";
+import { useAuth } from '../../../hooks/useAuth';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import jwtDecode from 'jwt-decode';
 
+const apiUrl = getApiUrl();
 const LOGIN_URL = getApiUrl() + 'login';
 
 function LoginForm(props) {
-    const {setAuth} = useAuth();
+    const { setAuth } = useAuth();
     const setAlert = props.setters;
     const changeForm = props.change;
 
@@ -25,12 +26,31 @@ function LoginForm(props) {
 
     async function handleGoogleResponse(response) {
         const decodedInfo = jwtDecode(response.credential);
+
+        const loginWithGoogle = async decoded => {
+            try {
+                const res = await fetch(apiUrl + 'google/login', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json; charset:UTF-8',
+                    },
+                    body: JSON.stringify({ email: decoded.email, jwt: response.credential }),
+                });
+                const json = await res.json();
+
+                setAuth(() => json);
+                // navigate(from ? from : '/', { replace: true });
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
         // console.log(decodedInfo)
         if (decodedInfo !== null) {
             try {
-                const apiUrl = getApiUrl();
-                const res = await fetch(apiUrl + 'isEmailAlreadyTaken', {
-                    method: 'PUT',
+                const res = await fetch(apiUrl + 'user/email/check', {
+                    method: 'POST',
                     credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json; charset:UTF-8',
@@ -38,21 +58,23 @@ function LoginForm(props) {
                     body: JSON.stringify(decodedInfo.email),
                 });
                 // console.log(res.status);
-                if(res.status===299){
-                    navigate('/fillData', {replace: false, state: {decodedInfo}});
-                }
-                else if(res.status===298){
+                if (res.status === 299) {
+                    navigate('/user/fill', {
+                        replace: false,
+                        state: {
+                            decodedInfo: decodedInfo,
+                            jwt: response.credential,
+                            // loginWithGoogle: () => loginWithGoogle(decodedInfo),
+                        },
+                    });
+                } else if (res.status === 298) {
                     setAlert({
                         alertOpen: true,
                         alertType: response.status,
-                        alertText:
-                            'Email jest już wykorzystywany przez inne konto',
-
+                        alertText: 'Email jest już wykorzystywany przez inne konto',
                     });
-                }
-                else{
-                //     logowanie
-                    console.log("logowanie")
+                } else {
+                    await loginWithGoogle(decodedInfo);
                 }
             } catch (error) {
                 console.error(error);
@@ -68,7 +90,6 @@ function LoginForm(props) {
         });
         google.accounts.id.renderButton(document.getElementById('googleButton'), {});
     }, []);
-
 
     async function SubmitButtonClicked(event) {
         event.preventDefault();
@@ -91,10 +112,10 @@ function LoginForm(props) {
                 case 201:
                     const json = await response.json();
                     const accessToken = json.accessToken;
-                    setAuth({username, accessToken});
+                    setAuth({ username, accessToken });
                     setUsername('');
                     setPassword('');
-                    navigate(from, {replace: true});
+                    // navigate(from, { replace: true });
                     break;
                 case 401:
                     setAlert({
@@ -107,7 +128,7 @@ function LoginForm(props) {
                 case 403:
                     setUsername('');
                     setPassword('');
-                    navigate('/registeredSuccessfully', {replace: false, state: {username}});
+                    navigate('/registeredSuccessfully', { replace: false, state: { username } });
                     break;
                 default:
                     setAlert({
@@ -186,8 +207,8 @@ function LoginForm(props) {
                     <button type="submit" className={styles.submitButton}>
                         ZALOGUJ
                     </button>
-                    <button  id="googleButton" className={styles.submitButton}>
-                        <FontAwesomeIcon icon={faGoogle}/>
+                    <button id="googleButton" className={styles.submitButton}>
+                        <FontAwesomeIcon icon={faGoogle} />
                     </button>
                 </div>
                 <span className={styles.lightlyTopPadded}>
@@ -209,4 +230,4 @@ function LoginForm(props) {
     );
 }
 
-export {LoginForm};
+export { LoginForm };

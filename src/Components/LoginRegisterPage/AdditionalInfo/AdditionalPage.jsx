@@ -1,20 +1,25 @@
-import React, {useEffect, useState} from 'react';
-import {BannerWhite} from '../../Banner/BannerWhite';
-import {Helmet} from 'react-helmet';
-import {Alert} from '../../Alert/Alert';
-import {Popup} from '../../Popup/Popup';
+import React, { useEffect, useState } from 'react';
+import { BannerWhite } from '../../Banner/BannerWhite';
+import { Helmet } from 'react-helmet';
+import { Alert } from '../../Alert/Alert';
+import { Popup } from '../../Popup/Popup';
 import styles from './AdditionalPage.module.css';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
-import {Select} from "../../Form/Select/Select";
-import getApiUrl from "../../../Common/Api";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Select } from '../../Form/Select/Select';
+import getApiUrl from '../../../Common/Api';
+import useAuth from '../../../hooks/useAuth';
 
 export default function AdditionalPage() {
     const { state } = useLocation();
     const navigate = useNavigate();
-    const googleInfo=state.decodedInfo
+    const googleInfo = state.decodedInfo;
+    const credential = state.jwt;
+    // const loginWithGoogle = state.loginWithGoogle;
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
     const LOGIN_URL = getApiUrl() + 'login';
+    const { auth, setAuth } = useAuth();
+    const apiUrl = getApiUrl();
 
     const [alert, setAlert] = useState({
         alertOpen: false,
@@ -53,19 +58,23 @@ export default function AdditionalPage() {
     }
 
     const [login, setLogin] = React.useState('');
-    const [firstName, setFirstName] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [gender, setGender] = React.useState({name: '', value: null});
+    const [firstName, setFirstName] = React.useState(
+        googleInfo.given_name ? googleInfo.given_name : ''
+    );
+    const [lastName, setLastName] = React.useState(
+        googleInfo.family_name ? googleInfo.family_name : ''
+    );
+    const [gender, setGender] = React.useState({ name: '', value: null });
     const [birthDate, setBirthDate] = React.useState('');
     const [agreement, setAgreement] = React.useState(false);
     const [genderSelectOpen, setGenderSelectOpen] = useState(false);
     const genderOptions = [
-        {name: 'Kobieta', value: 'female'},
+        { name: 'Kobieta', value: 'female' },
         {
             name: 'Mężczyzna',
             value: 'male',
         },
-        {name: 'Inna', value: 'other'},
+        { name: 'Inna', value: 'other' },
     ];
 
     const currentTime = new Date().toISOString().split('T')[0];
@@ -78,7 +87,7 @@ export default function AdditionalPage() {
         email: googleInfo.email,
         birthDate: birthDate,
         gender: gender?.value,
-        isGoogle:true
+        isGoogle: true,
     };
 
     const handleLoginChanged = event => {
@@ -100,9 +109,28 @@ export default function AdditionalPage() {
     };
 
     const REGISTER_URL = getApiUrl() + 'user/register';
+
     //SUBMIT BUTTON onClick function
     async function SubmitButtonClicked(event) {
         event.preventDefault();
+        const loginWithGoogle = async decoded => {
+            try {
+                const res = await fetch(apiUrl + 'google/login', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json; charset:UTF-8',
+                    },
+                    body: JSON.stringify({ email: decoded.email, jwt: credential }),
+                });
+                const json = await res.json();
+
+                setAuth(() => json);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
         try {
             const response = await fetch(REGISTER_URL, {
                 method: 'POST',
@@ -118,9 +146,8 @@ export default function AdditionalPage() {
                 switch (response.status) {
                     case 201:
                         text = 'Rejestracja przebiegła pomyślnie.';
-                        navigate(from, {replace: true});
+                        await loginWithGoogle(googleInfo);
                         // tutaj trzeba zalogowac
-                        console.log(response.status)
                         break;
                     case 299:
                         text = 'Ten email jest już zajęty.';
@@ -148,6 +175,11 @@ export default function AdditionalPage() {
         }
     }
 
+    useEffect(() => {
+        if (auth?.accessToken) {
+            navigate('/', { replace: true });
+        }
+    }, [auth]);
 
     return (
         <div className={styles.loginRegisterPage}>
@@ -158,7 +190,7 @@ export default function AdditionalPage() {
                 <Popup enabled={alert.alertOpen}>{showAlert()}</Popup>
             </div>
             <Link to="/" className={styles.header}>
-                <BannerWhite/>
+                <BannerWhite />
             </Link>
 
             <main className={styles.main}>
@@ -167,19 +199,22 @@ export default function AdditionalPage() {
                         <header className={styles.hBox}>
                             <div className={styles.h2}>Uzupełnij dane</div>
                         </header>
-                        <form onSubmit={event => SubmitButtonClicked(event)} className={styles.registerForm}>
+                        <form
+                            onSubmit={event => SubmitButtonClicked(event)}
+                            className={styles.registerForm}
+                        >
                             <div className={styles.flexRow}>
                                 <div className={styles.inputContainer}>
-                                    <label htmlFor="login">Login</label>
+                                    <label htmlFor="login">Nazwa użytkownika</label>
                                     <input
                                         onChange={event => handleLoginChanged(event)}
                                         id="login"
                                         type="text"
-                                        placeholder="Login"
+                                        placeholder="Nazwa użytkownika"
                                         className={styles.textInput}
                                         maxLength={32}
                                         pattern="^([a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+[,.]?[ ]?|[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+['-]?)+$"
-                                        title={'Podaj login'}
+                                        title={'Podaj nazwę użytkownika'}
                                         required
                                     />
                                 </div>
@@ -190,6 +225,7 @@ export default function AdditionalPage() {
                                     <label htmlFor="firstName">Imię</label>
                                     <input
                                         onChange={event => handleFirstNameChanged(event)}
+                                        defaultValue={firstName}
                                         id="firstName"
                                         type="text"
                                         placeholder="Imię"
@@ -206,6 +242,7 @@ export default function AdditionalPage() {
                                     <label htmlFor="lastName">Nazwisko</label>
                                     <input
                                         onChange={event => handleLastNameChanged(event)}
+                                        defaultValue={lastName}
                                         id="lastName"
                                         type="text"
                                         placeholder="Nazwisko"
@@ -267,7 +304,6 @@ export default function AdditionalPage() {
                             <button type="submit" className={styles.submitButton}>
                                 ZAPISZ
                             </button>
-
                         </form>
                     </article>
                 </div>
