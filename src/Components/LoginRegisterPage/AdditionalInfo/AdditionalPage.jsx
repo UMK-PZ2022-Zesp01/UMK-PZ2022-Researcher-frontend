@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BannerWhite} from '../../Banner/BannerWhite';
 import {Helmet} from 'react-helmet';
 import {Alert} from '../../Alert/Alert';
@@ -6,8 +6,15 @@ import {Popup} from '../../Popup/Popup';
 import styles from './AdditionalPage.module.css';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {Select} from "../../Form/Select/Select";
+import getApiUrl from "../../../Common/Api";
 
 export default function AdditionalPage() {
+    const { state } = useLocation();
+    const navigate = useNavigate();
+    const googleInfo=state.decodedInfo
+    const location = useLocation();
+    const from = location.state?.from?.pathname || '/';
+    const LOGIN_URL = getApiUrl() + 'login';
 
     const [alert, setAlert] = useState({
         alertOpen: false,
@@ -45,10 +52,7 @@ export default function AdditionalPage() {
         }
     }
 
-    const { pathname } = useLocation();
-    const navigate = useNavigate();
-
-
+    const [login, setLogin] = React.useState('');
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
     const [gender, setGender] = React.useState({name: '', value: null});
@@ -67,15 +71,24 @@ export default function AdditionalPage() {
     const currentTime = new Date().toISOString().split('T')[0];
 
     const user = {
+        login: login,
+        password: '',
         firstName: firstName,
         lastName: lastName,
+        email: googleInfo.email,
         birthDate: birthDate,
         gender: gender?.value,
+        isGoogle:true
+    };
+
+    const handleLoginChanged = event => {
+        setLogin(event.target.value);
     };
 
     const handleFirstNameChanged = event => {
         setFirstName(event.target.value);
     };
+
     const handleLastNameChanged = event => {
         setLastName(event.target.value);
     };
@@ -86,53 +99,53 @@ export default function AdditionalPage() {
         setAgreement(!agreement);
     };
 
+    const REGISTER_URL = getApiUrl() + 'user/register';
     //SUBMIT BUTTON onClick function
     async function SubmitButtonClicked(event) {
-        // event.preventDefault();
-        // try {
-        //     const response = await fetch(REGISTER_URL, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json; charset:UTF-8',
-        //         },
-        //         body: JSON.stringify(user),
-        //     });
-        //
-        //     if (response.ok) {
-        //         //OK or CREATED
-        //         let text;
-        //         switch (response.status) {
-        //             case 201:
-        //                 text = 'Rejestracja przebiegła pomyślnie.';
-        //                 navigate('/registeredSuccessfully', {
-        //                     replace: false,
-        //                     state: { username },
-        //                 });
-        //                 break;
-        //             case 299:
-        //                 text = 'Ten email jest już zajęty.';
-        //                 break;
-        //             case 298:
-        //                 text = 'Ta nazwa użytkownika jest już zajęta.';
-        //                 break;
-        //             default:
-        //                 throw new Error();
-        //         }
-        //         setAlert({
-        //             alertOpen: true,
-        //             alertType: response.status,
-        //             alertText: text,
-        //         });
-        //     } else {
-        //         throw new Error();
-        //     }
-        // } catch (error) {
-        //     setAlert({
-        //         alertOpen: true,
-        //         alertType: 999,
-        //         alertText: 'Coś poszło nie tak.',
-        //     });
-        // }
+        event.preventDefault();
+        try {
+            const response = await fetch(REGISTER_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset:UTF-8',
+                },
+                body: JSON.stringify(user),
+            });
+
+            if (response.ok) {
+                //OK or CREATED
+                let text;
+                switch (response.status) {
+                    case 201:
+                        text = 'Rejestracja przebiegła pomyślnie.';
+                        navigate(from, {replace: true});
+                        // tutaj trzeba zalogowac
+                        console.log(response.status)
+                        break;
+                    case 299:
+                        text = 'Ten email jest już zajęty.';
+                        break;
+                    case 298:
+                        text = 'Ta nazwa użytkownika jest już zajęta.';
+                        break;
+                    default:
+                        throw new Error();
+                }
+                setAlert({
+                    alertOpen: true,
+                    alertType: response.status,
+                    alertText: text,
+                });
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+            setAlert({
+                alertOpen: true,
+                alertType: 999,
+                alertText: 'Coś poszło nie tak.',
+            });
+        }
     }
 
 
@@ -155,6 +168,22 @@ export default function AdditionalPage() {
                             <div className={styles.h2}>Uzupełnij dane</div>
                         </header>
                         <form onSubmit={event => SubmitButtonClicked(event)} className={styles.registerForm}>
+                            <div className={styles.flexRow}>
+                                <div className={styles.inputContainer}>
+                                    <label htmlFor="login">Login</label>
+                                    <input
+                                        onChange={event => handleLoginChanged(event)}
+                                        id="login"
+                                        type="text"
+                                        placeholder="Login"
+                                        className={styles.textInput}
+                                        maxLength={32}
+                                        pattern="^([a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+[,.]?[ ]?|[a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ]+['-]?)+$"
+                                        title={'Podaj login'}
+                                        required
+                                    />
+                                </div>
+                            </div>
 
                             <div className={styles.flexRow}>
                                 <div className={styles.inputContainer}>

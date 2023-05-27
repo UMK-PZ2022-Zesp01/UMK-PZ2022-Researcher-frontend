@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './LoginRegisterForm.module.css';
 import getApiUrl from '../../../Common/Api.js';
-import { useAuth } from '../../../hooks/useAuth';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {useAuth} from '../../../hooks/useAuth';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faGoogle} from '@fortawesome/free-brands-svg-icons'
+import jwtDecode from "jwt-decode";
 
 const LOGIN_URL = getApiUrl() + 'login';
 
 function LoginForm(props) {
-    const { setAuth } = useAuth();
+    const {setAuth} = useAuth();
     const setAlert = props.setters;
     const changeForm = props.change;
 
@@ -16,9 +19,56 @@ function LoginForm(props) {
     const from = location.state?.from?.pathname || '/';
 
     // const styles = FormStyle();
-    const [username, setUsername] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [rememberDevice, setRememberDevice] = React.useState(false);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [rememberDevice, setRememberDevice] = useState(false);
+
+    async function handleGoogleResponse(response) {
+        const decodedInfo = jwtDecode(response.credential);
+        // console.log(decodedInfo)
+        if (decodedInfo !== null) {
+            try {
+                const apiUrl = getApiUrl();
+                const res = await fetch(apiUrl + 'isEmailAlreadyTaken', {
+                    method: 'PUT',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json; charset:UTF-8',
+                    },
+                    body: JSON.stringify(decodedInfo.email),
+                });
+                // console.log(res.status);
+                if(res.status===299){
+                    navigate('/fillData', {replace: false, state: {decodedInfo}});
+                }
+                else if(res.status===298){
+                    setAlert({
+                        alertOpen: true,
+                        alertType: response.status,
+                        alertText:
+                            'Email jest już wykorzystywany przez inne konto',
+
+                    });
+                }
+                else{
+                //     logowanie
+                    console.log("logowanie")
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
+    useEffect(() => {
+        /*global google*/
+        google.accounts.id.initialize({
+            client_id: '638883132297-vj72pdic46m1bms5bgv0p16f37bscuu4.apps.googleusercontent.com',
+            callback: handleGoogleResponse,
+        });
+        google.accounts.id.renderButton(document.getElementById('googleButton'), {});
+    }, []);
+
 
     async function SubmitButtonClicked(event) {
         event.preventDefault();
@@ -41,10 +91,10 @@ function LoginForm(props) {
                 case 201:
                     const json = await response.json();
                     const accessToken = json.accessToken;
-                    setAuth({ username, accessToken });
+                    setAuth({username, accessToken});
                     setUsername('');
                     setPassword('');
-                    navigate(from, { replace: true });
+                    navigate(from, {replace: true});
                     break;
                 case 401:
                     setAlert({
@@ -57,7 +107,7 @@ function LoginForm(props) {
                 case 403:
                     setUsername('');
                     setPassword('');
-                    navigate('/registeredSuccessfully', { replace: false, state: { username } });
+                    navigate('/registeredSuccessfully', {replace: false, state: {username}});
                     break;
                 default:
                     setAlert({
@@ -132,9 +182,14 @@ function LoginForm(props) {
                     />
                     <label htmlFor={'rememberDevice'}>Zapamiętaj to urządzenie</label>
                 </div>
-                <button type="submit" className={styles.submitButton}>
-                    ZALOGUJ
-                </button>
+                <div className={styles.loginButtons}>
+                    <button type="submit" className={styles.submitButton}>
+                        ZALOGUJ
+                    </button>
+                    <button  id="googleButton" className={styles.submitButton}>
+                        <FontAwesomeIcon icon={faGoogle}/>
+                    </button>
+                </div>
                 <span className={styles.lightlyTopPadded}>
                     Nie posiadasz konta?
                     <span onClick={changeForm} className={styles.panelChange}>
@@ -154,4 +209,4 @@ function LoginForm(props) {
     );
 }
 
-export { LoginForm };
+export {LoginForm};

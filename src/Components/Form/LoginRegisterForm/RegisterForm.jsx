@@ -46,6 +46,7 @@ function RegisterForm(props) {
         email: email,
         birthDate: birthDate,
         gender: gender?.value,
+        isGoogle:false
     };
 
     const handleFirstNameChanged = event => {

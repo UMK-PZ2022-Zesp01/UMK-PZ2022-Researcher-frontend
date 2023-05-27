@@ -110,9 +110,16 @@
     opacity: 1;
 }
 
+.loginButtons{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 .submitButton {
     position: relative;
     z-index: 0;
+    width: 48%;
     padding: 0.6rem;
     margin: 0.5rem 0;
     background-color: #512c8c;
@@ -251,6 +258,12 @@
 }
 
 @media (max-width: 400px) {
+    .loginButtons{
+        flex-direction: column;
+    }
+    .submitButton{
+        width: 100%;
+    }
     .flexRow {
         flex-wrap: wrap;
     }
