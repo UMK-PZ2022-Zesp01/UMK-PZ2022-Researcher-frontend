@@ -25,18 +25,27 @@ function MainPage() {
 
     const triggerRef = useRef(null);
 
-    const [forMeOnly, setForMeOnly] = useState({ name: 'forMeOnly', value: false });
-    const [available, setAvailable] = useState({ name: 'available', value: false });
+    const [forMeOnly, setForMeOnly] = useState({
+        name: 'forMeOnly',
+        value: false,
+    });
+    const [available, setAvailable] = useState({
+        name: 'available',
+        value: false,
+    });
     const [inPlace, setInPlace] = useState({ name: 'in-place', value: false });
     const [remote, setRemote] = useState({ name: 'remote', value: false });
-    const [fromDate, setFromDate] = useState({ name: 'minDate', value: null });
+    const [fromDate, setFromDate] = useState({
+        name: 'minDate',
+        value: new Date().toISOString().substring(0, 10),
+    });
     const [toDate, setToDate] = useState({ name: 'maxDate', value: null });
 
     const [filterBy, setFilterBy] = useState({
-        forMeOnly: false,
-        availableOnly: false,
+        forMeOnly: !!accessToken,
+        availableOnly: !!accessToken,
         form: null,
-        minDate: null,
+        minDate: fromDate.value,
         maxDate: null,
     });
 
@@ -125,14 +134,16 @@ function MainPage() {
                     ? {
                           name: 'Pokazuj tylko badania do których się wstępnie kwalifikuję',
                           type: 'checkbox',
-                          value: forMeOnly,
+                          // value: forMeOnly.value,
+                          checked: forMeOnly.value,
                           setter: () => setForMeOnly({ ...forMeOnly, value: !forMeOnly.value }),
                       }
                     : null,
                 {
                     name: 'Pokazuj tylko badania z wolnymi miejscami',
                     type: 'checkbox',
-                    value: available,
+                    // value: available,
+                    checked: available.value,
                     setter: () => setAvailable({ ...available, value: !available.value }),
                 },
             ],
@@ -143,13 +154,15 @@ function MainPage() {
                 {
                     name: 'Na miejscu',
                     type: 'checkbox',
-                    value: 'in-place',
+                    // value: 'in-place',
+                    checked: inPlace.value,
                     setter: () => setInPlace({ ...inPlace, value: !inPlace.value }),
                 },
                 {
                     name: 'Zdalnie',
                     type: 'checkbox',
-                    value: remote,
+                    // value: remote,
+                    checked: remote.value,
                     setter: () => setRemote({ ...remote, value: !remote.value }),
                 },
             ],
@@ -160,13 +173,12 @@ function MainPage() {
                 {
                     name: 'Od',
                     type: 'date',
-                    value: { fromDate },
+                    defaultValue: fromDate.value,
                     setter: handleFromDateSet,
                 },
                 {
                     name: 'Do',
                     type: 'date',
-                    value: { toDate },
                     setter: handleToDateSet,
                 },
             ],
@@ -210,7 +222,6 @@ function MainPage() {
                             setOpenFirstPopup(null);
                             break;
                     }
-
                     // if (response.ok) {
                     //     const json = await response.json();
                     //     setOpenFirstPopup(!json.lastLoggedIn);
@@ -221,6 +232,11 @@ function MainPage() {
         };
 
         getUser();
+        if (accessToken) {
+            console.log(accessToken);
+            setAvailable({ ...available, value: true });
+            setForMeOnly({ ...forMeOnly, value: true });
+        }
 
         return () => {
             isMounted = false;
@@ -270,6 +286,7 @@ function MainPage() {
             }
         };
 
+        console.log(url);
         if (!lastPage) {
             getPosts();
         }
