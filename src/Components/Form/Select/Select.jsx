@@ -24,6 +24,7 @@ export const Select = ({
     const renderOptions = () => {
         return options.map(option => (
             <button
+                type={'button'}
                 key={`option${option.name}`}
                 title={option.name}
                 className={styles.option}
