@@ -19,7 +19,6 @@ function Gmap({
     userLocation,
 }) {
 
-    console.log("wykonuje sie")
     const mapRef = useRef(null);
     const inputRef = useRef(null);
     const [marker, setMarker] = useState(null);

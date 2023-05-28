@@ -68,7 +68,7 @@ const LeftContainer = ({ values }) => {
                         alertOpen: true,
                         alertType: response.status,
                         alertText:
-                            'Zdjęcie profilowe zostało zmienione! Zmiany będą widoczne po odświeżeniu strony.',
+                            'Zdjęcie profilowe zostało zmienione!',
                     });
                     break;
                 default:
@@ -99,17 +99,21 @@ const LeftContainer = ({ values }) => {
                                         className={styles.userAvatarIcon}
                                     />
                                 </div>
-                            ) : (
+                            ) : (avatarImage===null?<img
+                                        src={`data:image/jpeg;base64,${values.avatar}`}
+                                        className={styles.avatarImage}
+                                        alt="avatar"
+                                    />:
                                 <img
-                                    src={`data:image/jpeg;base64,${values.avatar}`}
-                                    className={styles.avatarImage}
+                                    src={URL.createObjectURL(avatarImage)}
                                     alt="avatar"
+                                    className={styles.avatarImage}
                                 />
                             ))}
                         {location.pathname === '/profile' && (
                             <div className={styles.editAvatarButton}>
                                 <label htmlFor="avatar" className={styles.avatarIcon}>
-                                    <BsCameraFill />
+                                    <BsCameraFill className={styles.camera} />
                                     <input
                                         onChange={handleAvatarImageChange}
                                         type="file"

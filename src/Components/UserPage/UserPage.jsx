@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './UserPage.module.css';
-import { Popup } from '../Popup/Popup';
-import { LeftContainer } from './Containers/LeftContainer';
-import { RightContainer } from './Containers/RightContainer';
-import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
-import { Alert } from '../Alert/Alert';
-import { Gmap } from '../GoogleMap/GoogleMap';
-import { ReportForm } from '../Form/ReportForm/ReportForm';
+import {Popup} from '../Popup/Popup';
+import {LeftContainer} from './Containers/LeftContainer';
+import {RightContainer} from './Containers/RightContainer';
+import {BookmarksNav} from '../BookmarksNav/BookmarksNav';
+import {Alert} from '../Alert/Alert';
+import {Gmap} from '../GoogleMap/GoogleMap';
+import {ReportForm} from '../Form/ReportForm/ReportForm';
 import useAuth from '../../hooks/useAuth';
-import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import {Helmet} from 'react-helmet';
+import {Link} from 'react-router-dom';
 import getApiUrl from '../../Common/Api.js';
 import researcherLogo from '../../img/logo-white.png';
-import { faArrowTurnDown } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faArrowTurnDown} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import ResearchTile from '../ResearchTile/ResearchTile';
-import { HelmetProvider } from 'react-helmet-async';
+import {HelmetProvider} from 'react-helmet-async';
 
 const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 
 export default function UserPage(props) {
     /*user data*/
     const [userData, setUserData] = useState({});
-    const [isGoogle,setIsGoogle]=useState(false);
+    const [isGoogle, setIsGoogle] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     /*access token*/
-    const { username, accessToken } = useAuth().auth;
+    const {username, accessToken} = useAuth().auth;
 
     /*researches button value*/
     const [clickedResearches, setIsClickedResearches] = useState(false);
@@ -144,53 +144,52 @@ export default function UserPage(props) {
                 console.error(error);
             });
 
-        try {
-            fetch(RESEARCHES_URL + username, {
-                signal,
-                method: 'GET',
-                headers: {
-                    Authorization: accessToken,
-                    'Content-Type': 'application/json;charset:UTF-8',
-                },
-            })
-                .then(response => response.json())
-                .then(result => {
-                    isMounted && setPostsCreated(result);
-                })
-                .catch(error => {
-                    console.error(error);
-                    setPostsCreated([]);
-                });
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-        }
+        // try {
+        //     fetch(RESEARCHES_URL + username, {
+        //         signal,
+        //         method: 'GET',
+        //         headers: {
+        //             Authorization: accessToken,
+        //             'Content-Type': 'application/json;charset:UTF-8',
+        //         },
+        //     })
+        //         .then(response => response.json())
+        //         .then(result => {
+        //             isMounted && setPostsCreated(result);
+        //         })
+        //         .catch(error => {
+        //             console.error(error);
+        //             setPostsCreated([]);
+        //         });
+        // } catch (error) {
+        //     console.error('Error fetching posts:', error);
+        // }
 
-        try {
-            fetch(getApiUrl() + 'user/' + username + '/enrolledresearches', {
-                signal,
-                method: 'GET',
-                headers: {
-                    Authorization: accessToken,
-                    'Content-Type': 'application/json;charset:UTF-8',
-                },
-            })
-                .then(response => response.json())
-                .then(result => {
-                    isMounted && setPostsEnrolled(result);
-                })
-                .catch(error => {
-                    console.error(error);
-                    setPostsEnrolled([]);
-                });
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-        }
-
+        // try {
+        //     fetch(getApiUrl() + 'user/' + username + '/enrolledresearches', {
+        //         signal,
+        //         method: 'GET',
+        //         headers: {
+        //             Authorization: accessToken,
+        //             'Content-Type': 'application/json;charset:UTF-8',
+        //         },
+        //     })
+        //         .then(response => response.json())
+        //         .then(result => {
+        //             isMounted && setPostsEnrolled(result);
+        //         })
+        //         .catch(error => {
+        //             console.error(error);
+        //             setPostsEnrolled([]);
+        //         });
+        // } catch (error) {
+        //     console.error('Error fetching posts:', error);
+        // }
         return () => {
             isMounted = false;
             controller.abort();
         };
-    }, [emailState,phoneState,locationState]);
+    }, [emailState, phoneState, locationState]);
 
     const showPostsCreated = () => {
         if (postsCreated.length === 0)
@@ -256,7 +255,7 @@ export default function UserPage(props) {
         setIsClickedEdit: setIsClickedEdit,
         clickedAdvance: clickedAdvance,
         setClickedAdvance: setClickedAdvance,
-        isGoogle:isGoogle,
+        isGoogle: isGoogle,
         setAlert: setAlert,
     };
     /**rightContainer args**/
@@ -269,7 +268,7 @@ export default function UserPage(props) {
         setCanExit: setCanExit,
         gmapExit: gmapExit,
         setGmapExit: setGmapExit,
-        isGoogle:isGoogle,
+        isGoogle: isGoogle,
         setIsClickedResearches: setIsClickedResearches,
         bugPopup,
         handleLocationClick,
@@ -282,8 +281,6 @@ export default function UserPage(props) {
         setLocationState: setLocationState,
         setAlert: setAlert,
     };
-
-    console.log(isClickedLocation)
 
     return (
         !isLoading && (
@@ -314,7 +311,7 @@ export default function UserPage(props) {
                                         alt="Researcher Logo"
                                     />
                                 </Link>
-                                <BookmarksNav active="profile" desc="Twój profil" />
+                                <BookmarksNav active="profile" desc="Twój profil"/>
                             </header>
                             <div className={styles.wrapper}>
                                 <div
@@ -345,7 +342,7 @@ export default function UserPage(props) {
                                                         setFetchCreatedPosts(e.target.checked)
                                                     }
                                                 />
-                                                <div className={styles.slider} />
+                                                <div className={styles.slider}/>
                                             </label>
                                         </div>
                                     </div>
@@ -362,12 +359,12 @@ export default function UserPage(props) {
                                     )}
                                 </div>
 
-                                <LeftContainer values={sendToLeftContainer} />
-                                <RightContainer values={sendToRightContainer} />
+                                <LeftContainer values={sendToLeftContainer}/>
+                                <RightContainer values={sendToRightContainer}/>
                             </div>
                         </div>
-                        {isClickedLocation&&<div
-                            className={styles.mapBoxVisible}
+                        <div
+                            className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}
                         >
                             <Gmap
                                 latitude={coords.length > 0 ? Number(coords[0]) : 53.015331}
@@ -377,12 +374,14 @@ export default function UserPage(props) {
                                 setLocationInput={setLocationInput}
                                 setIsClickedLocation={setIsClickedLocation}
                                 setGmapExit={setGmapExit}
-                                setResearchPlace={() => {}}
-                                setResearchPageAddress={() => {}}
+                                setResearchPlace={() => {
+                                }}
+                                setResearchPageAddress={() => {
+                                }}
                                 setUserLocationCoords={setUserLocationCoords}
                                 userLocation={locationState}
                             />
-                        </div>}
+                        </div>
                     </div>
                 </div>
             </div>

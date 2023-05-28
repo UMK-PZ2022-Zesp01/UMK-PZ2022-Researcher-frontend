@@ -257,6 +257,9 @@
     padding: 1rem 0 0 0;
 }
 
+.fakeButton{
+    display: none;
+}
 @media (max-width: 400px) {
     .loginButtons{
         flex-direction: column;

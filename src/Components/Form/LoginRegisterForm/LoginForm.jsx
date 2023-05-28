@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './LoginRegisterForm.module.css';
 import getApiUrl from '../../../Common/Api.js';
-import { useAuth } from '../../../hooks/useAuth';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import {useAuth} from '../../../hooks/useAuth';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faGoogle} from '@fortawesome/free-brands-svg-icons';
 import jwtDecode from 'jwt-decode';
 
 const apiUrl = getApiUrl();
 const LOGIN_URL = getApiUrl() + 'login';
 
 function LoginForm(props) {
-    const { setAuth } = useAuth();
+    const {setAuth} = useAuth();
     const setAlert = props.setters;
     const changeForm = props.change;
 
@@ -23,19 +23,20 @@ function LoginForm(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [rememberDevice, setRememberDevice] = useState(false);
+    const fakeButton = useRef(null);
 
     async function handleGoogleResponse(response) {
         const decodedInfo = jwtDecode(response.credential);
-
         const loginWithGoogle = async decoded => {
             try {
+                // console.log(decoded.email,response.credential)
                 const res = await fetch(apiUrl + 'google/login', {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json; charset:UTF-8',
                     },
-                    body: JSON.stringify({ email: decoded.email, jwt: response.credential }),
+                    body: JSON.stringify({email: decoded.email, jwt: response.credential}),
                 });
                 const json = await res.json();
 
@@ -46,7 +47,6 @@ function LoginForm(props) {
             }
         };
 
-        // console.log(decodedInfo)
         if (decodedInfo !== null) {
             try {
                 const res = await fetch(apiUrl + 'user/email/check', {
@@ -88,8 +88,30 @@ function LoginForm(props) {
             client_id: process.env.REACT_APP_LOGIN_API_GOOGLE,
             callback: handleGoogleResponse,
         });
-        google.accounts.id.renderButton(document.getElementById('googleButton'), {});
+        googleButtonWrapper = createFakeGoogleWrapper();
     }, []);
+
+    const createFakeGoogleWrapper = () => {
+        window.google.accounts.id.renderButton(fakeButton.current, {
+            type: "icon",
+            width: "200",
+        });
+
+        const googleLoginWrapperButton =
+            fakeButton.current.querySelector("div[role=button]");
+
+        return {
+            click: () => {
+                googleLoginWrapperButton.click();
+            },
+        };
+    };
+    let googleButtonWrapper = null
+
+    window.handleGoogleLogin = () => {
+        googleButtonWrapper.click();
+    };
+
 
     async function SubmitButtonClicked(event) {
         event.preventDefault();
@@ -112,7 +134,7 @@ function LoginForm(props) {
                 case 201:
                     const json = await response.json();
                     const accessToken = json.accessToken;
-                    setAuth({ username, accessToken });
+                    setAuth({username, accessToken});
                     setUsername('');
                     setPassword('');
                     // navigate(from, { replace: true });
@@ -128,7 +150,7 @@ function LoginForm(props) {
                 case 403:
                     setUsername('');
                     setPassword('');
-                    navigate('/registeredSuccessfully', { replace: false, state: { username } });
+                    navigate('/registeredSuccessfully', {replace: false, state: {username}});
                     break;
                 default:
                     setAlert({
@@ -159,12 +181,12 @@ function LoginForm(props) {
         setRememberDevice(!rememberDevice);
     };
 
+
     return (
         <article className={styles.loginFormBox}>
             <header className={styles.hBox}>
                 <div className={styles.h2}>Zaloguj się</div>
             </header>
-
             <form onSubmit={event => SubmitButtonClicked(event)} className={styles.loginForm}>
                 <div className={styles.inputContainer}>
                     <label htmlFor="usernameLog">Login</label>
@@ -207,9 +229,12 @@ function LoginForm(props) {
                     <button type="submit" className={styles.submitButton}>
                         ZALOGUJ
                     </button>
-                    <button id="googleButton" className={styles.submitButton}>
-                        <FontAwesomeIcon icon={faGoogle} />
+                    <button className={styles.submitButton} type={"button"} onClick={window.handleGoogleLogin}>
+                        <FontAwesomeIcon icon={faGoogle}/>
                     </button>
+                    {/*<button id="googleButton" className={styles.submitButton} type={"button"} onClick={handleGoogleButtonClick}>*/}
+                    {/*    <FontAwesomeIcon icon={faGoogle} />*/}
+                    {/*</button>*/}
                 </div>
                 <span className={styles.lightlyTopPadded}>
                     Nie posiadasz konta?
@@ -226,8 +251,9 @@ function LoginForm(props) {
                 {/*    <button className={styles.loginWith}>Zaloguj z FB</button>*/}
                 {/*</div>*/}
             </form>
+            <div role={"button"} ref={fakeButton} className={styles.fakeButton} />
         </article>
     );
 }
 
-export { LoginForm };
+export {LoginForm};
