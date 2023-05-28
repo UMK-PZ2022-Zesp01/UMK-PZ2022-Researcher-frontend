@@ -224,7 +224,7 @@ const RightContainer = ({ values }) => {
                     <GrClose />
                 </button>
                 <div className={styles.editField}>
-                    <div className={isClickedEmail ? styles.editTileResized : styles.editTile}>
+                    {!values.isGoogle&&<div className={isClickedEmail ? styles.editTileResized : styles.editTile}>
                         <div
                             className={values.clickedEdit ? styles.valueEdit : styles.valueEditHide}
                             onClick={() => {
@@ -248,7 +248,7 @@ const RightContainer = ({ values }) => {
                                 placeholder="j.kowalski@example.com"
                             />
                         </div>
-                    </div>
+                    </div>}
 
                     <div className={isClickedPhone ? styles.editTileResized : styles.editTile}>
                         <div
@@ -327,7 +327,7 @@ const RightContainer = ({ values }) => {
                     <GrClose />
                 </button>
                 <div className={styles.editField}>
-                    <div
+                    {!values.isGoogle&&<div
                         className={
                             isClickedPassword ? styles.editTileResizedPassword : styles.editTile
                         }
@@ -382,7 +382,7 @@ const RightContainer = ({ values }) => {
                                 Zapisz
                             </button>
                         </div>
-                    </div>
+                    </div>}
 
                     <div
                         className={isClickedDelete ? styles.editTileResizedDelete : styles.editTile}

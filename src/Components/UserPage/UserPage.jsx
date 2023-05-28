@@ -22,6 +22,7 @@ const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 export default function UserPage(props) {
     /*user data*/
     const [userData, setUserData] = useState({});
+    const [isGoogle,setIsGoogle]=useState(false);
     const [isLoading, setIsLoading] = useState(true);
     /*access token*/
     const { username, accessToken } = useAuth().auth;
@@ -136,6 +137,7 @@ export default function UserPage(props) {
                 setEmailState(data.email);
                 setLocationState(data.location);
                 setCoords(data.locationCoords);
+                setIsGoogle(data.isGoogle);
                 setIsLoading(false);
             })
             .catch(error => {
@@ -188,7 +190,7 @@ export default function UserPage(props) {
             isMounted = false;
             controller.abort();
         };
-    }, []);
+    }, [emailState,phoneState,locationState]);
 
     const showPostsCreated = () => {
         if (postsCreated.length === 0)
@@ -254,6 +256,7 @@ export default function UserPage(props) {
         setIsClickedEdit: setIsClickedEdit,
         clickedAdvance: clickedAdvance,
         setClickedAdvance: setClickedAdvance,
+        isGoogle:isGoogle,
         setAlert: setAlert,
     };
     /**rightContainer args**/
@@ -266,6 +269,7 @@ export default function UserPage(props) {
         setCanExit: setCanExit,
         gmapExit: gmapExit,
         setGmapExit: setGmapExit,
+        isGoogle:isGoogle,
         setIsClickedResearches: setIsClickedResearches,
         bugPopup,
         handleLocationClick,
@@ -278,6 +282,8 @@ export default function UserPage(props) {
         setLocationState: setLocationState,
         setAlert: setAlert,
     };
+
+    console.log(isClickedLocation)
 
     return (
         !isLoading && (
@@ -360,8 +366,8 @@ export default function UserPage(props) {
                                 <RightContainer values={sendToRightContainer} />
                             </div>
                         </div>
-                        <div
-                            className={isClickedLocation ? styles.mapBoxVisible : styles.mapBoxHide}
+                        {isClickedLocation&&<div
+                            className={styles.mapBoxVisible}
                         >
                             <Gmap
                                 latitude={coords.length > 0 ? Number(coords[0]) : 53.015331}
@@ -376,7 +382,7 @@ export default function UserPage(props) {
                                 setUserLocationCoords={setUserLocationCoords}
                                 userLocation={locationState}
                             />
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </div>

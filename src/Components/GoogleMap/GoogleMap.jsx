@@ -18,6 +18,8 @@ function Gmap({
     setUserLocationCoords,
     userLocation,
 }) {
+
+    console.log("wykonuje sie")
     const mapRef = useRef(null);
     const inputRef = useRef(null);
     const [marker, setMarker] = useState(null);
@@ -118,46 +120,47 @@ function Gmap({
                 setAutocomplete(autocomplete);
             }
         });
-    }, [lat]);
 
-    if (loader.status === 2) {
-        setResearchPlace(lat + ' ' + lng);
-        // setUserLocationCoords([lat,lng])
+        if (loader.status === 2) {
+            setResearchPlace(lat + ' ' + lng);
+            // setUserLocationCoords([lat,lng])
 
-        const geocoder = new window.google.maps.Geocoder();
-        geocoder.geocode({ address: shortAddress }, (results, status) => {
-            if (status === 'OK' && results[0]) {
-                // Extract the city name from the address_components array
-                const addressComponents = results[0].address_components;
-                let city = '';
+            const geocoder = new window.google.maps.Geocoder();
+            geocoder.geocode({ address: shortAddress }, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                    // Extract the city name from the address_components array
+                    const addressComponents = results[0].address_components;
+                    let city = '';
 
-                setResearchPageAddress(results[0].formatted_address);
+                    setResearchPageAddress(results[0].formatted_address);
 
-                for (let i = 0; i < addressComponents.length; i++) {
-                    const types = addressComponents[i].types;
-                    if (types.includes('locality')) {
-                        city = addressComponents[i].long_name;
-                        break;
+                    for (let i = 0; i < addressComponents.length; i++) {
+                        const types = addressComponents[i].types;
+                        if (types.includes('locality')) {
+                            city = addressComponents[i].long_name;
+                            break;
+                        }
+                    }
+                    setCity(city);
+                    setUserLocationCoords([lat, lng]);
+                    // console.log(lat,lng)
+                }
+            });
+
+            const myLatlng = new window.google.maps.LatLng(latitude, longitude);
+            const geocoder2 = new window.google.maps.Geocoder();
+            geocoder2.geocode({ location: myLatlng }, (results, status) => {
+                if (status === 'OK' && results[0]) {
+                    setResearchAddress(results[0].formatted_address);
+                    // setCity(results[0].formatted_address);
+                    if (type === 'researchPage') {
+                        setLongAddress(results[0].formatted_address);
                     }
                 }
-                setCity(city);
-                setUserLocationCoords([lat, lng]);
-                // console.log(lat,lng)
-            }
-        });
+            });
+        }
+    }, [lat]);
 
-        const myLatlng = new window.google.maps.LatLng(latitude, longitude);
-        const geocoder2 = new window.google.maps.Geocoder();
-        geocoder2.geocode({ location: myLatlng }, (results, status) => {
-            if (status === 'OK' && results[0]) {
-                setResearchAddress(results[0].formatted_address);
-                // setCity(results[0].formatted_address);
-                if (type === 'researchPage') {
-                    setLongAddress(results[0].formatted_address);
-                }
-            }
-        });
-    }
 
     return (
         <>

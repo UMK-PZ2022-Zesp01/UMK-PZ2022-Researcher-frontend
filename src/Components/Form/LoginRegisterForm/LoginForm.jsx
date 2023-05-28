@@ -85,7 +85,7 @@ function LoginForm(props) {
     useEffect(() => {
         /*global google*/
         google.accounts.id.initialize({
-            client_id: '638883132297-vj72pdic46m1bms5bgv0p16f37bscuu4.apps.googleusercontent.com',
+            client_id: process.env.REACT_APP_LOGIN_API_GOOGLE,
             callback: handleGoogleResponse,
         });
         google.accounts.id.renderButton(document.getElementById('googleButton'), {});
