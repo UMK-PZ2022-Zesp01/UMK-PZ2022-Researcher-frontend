@@ -11,10 +11,6 @@
     transition: opacity 1s ease-in-out;
 }
 
-.overlay:hover {
-    cursor: pointer;
-}
-
 .popupContainer {
     max-width: 600px;
     width: 60%;
@@ -35,34 +31,6 @@
 
 .popupContainer:hover {
     cursor: default;
-}
-
-.bugInput {
-    height: 71px;
-    width: 85%;
-    background-color: #c6b1e7;
-    outline: none;
-    border: solid rgb(109, 59, 158) 1px;
-    border-radius: 5px;
-    font-family: sans-serif;
-    resize: none;
-    transition: 0.3s;
-    font-size: large;
-}
-
-.bugInput:focus {
-    border: 2px solid #512c8c;
-    background-color: #d7c2f8;
-}
-
-.closeBtn {
-    position: fixed;
-    top: 10px;
-    right: 12px;
-}
-
-.closeBtn:hover {
-    cursor: pointer;
 }
 
 .profileBtn {

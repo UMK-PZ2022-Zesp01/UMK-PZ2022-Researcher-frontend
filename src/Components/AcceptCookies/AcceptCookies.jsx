@@ -28,8 +28,8 @@ const AcceptCookies = ({open, onClose}) => {
                 className={styles.popupContainer}
             >
                 <h1>Ta strona strona wykorzystuje pliki cookie</h1>
-                <h3>cookie cookie cookie cookie cookie cookie</h3>
-                <h3>cookie cookie cookie cookie cookie cookie cookie cookie</h3>
+                <h3>cookie cookie cookie cookie cookie cookie
+                    cookie cookie cookie cookie cookie cookie</h3>
                 <div>
 
                     <button className={styles.profileBtn} onClick={onClose}>
