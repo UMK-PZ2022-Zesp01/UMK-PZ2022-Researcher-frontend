@@ -91,25 +91,41 @@ const LeftContainer = ({ values }) => {
             <div className={styles.infoWithoutEdit}>
                 <div className={styles.mainInfo}>
                     <div className={styles.avatarBox}>
-                        {values.avatar === undefined ||
-                            (values.avatar === '' ? (
-                                <div className={styles.avatarImage}>
-                                    <FontAwesomeIcon
-                                        icon={faUser}
-                                        className={styles.userAvatarIcon}
-                                    />
-                                </div>
-                            ) : (avatarImage===null?<img
-                                        src={`data:image/jpeg;base64,${values.avatar}`}
-                                        className={styles.avatarImage}
-                                        alt="avatar"
-                                    />:
+                        {
+                            (values.avatar===''&&avatarImage===null)&&
+                            <div className={styles.avatarImage}>
+                                <FontAwesomeIcon icon={faUser} className={styles.userAvatarIcon}/>
+                            </div>
+                        }
+                        {
+                            (values.avatar!==''&&avatarImage!==null)&&
+                            <div className={styles.avatarImage}>
                                 <img
                                     src={URL.createObjectURL(avatarImage)}
                                     alt="avatar"
                                     className={styles.avatarImage}
                                 />
-                            ))}
+                            </div>
+                        }
+                        {
+                            (values.avatar!==''&&avatarImage===null)&&
+                            <div className={styles.avatarImage}>
+                                <img
+                                    src={`data:image/jpeg;base64,${values.avatar}`}
+                                    className={styles.avatarImage}
+                                    alt="avatar"/>
+                            </div>
+                        }
+                        {
+                            (values.avatar===''&&avatarImage!==null)&&
+                            <div className={styles.avatarImage}>
+                                <img
+                                    src={URL.createObjectURL(avatarImage)}
+                                    alt="avatar"
+                                    className={styles.avatarImage}
+                                />
+                            </div>
+                        }
                         {location.pathname === '/profile' && (
                             <div className={styles.editAvatarButton}>
                                 <label htmlFor="avatar" className={styles.avatarIcon}>
