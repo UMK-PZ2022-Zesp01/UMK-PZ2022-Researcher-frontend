@@ -39,7 +39,8 @@ export const Filters = ({ id, filters, saveFilters }) => {
                         id={option?.name + 'checkbox' + index}
                         type={option?.type}
                         className={styles[option?.type]}
-                        checked={option.checked}
+                        checked={option.checked === true}
+                        defaultValue={option.defaultValue ? option.defaultValue : undefined}
                         onChange={option?.setter}
                     ></input>
                     <label
@@ -63,7 +64,7 @@ export const Filters = ({ id, filters, saveFilters }) => {
                 onClick={handleSaveButtonClicked}
                 className={`${styles.filtersButton} ${styles.small}`}
             >
-                Zapisz
+                Szukaj
             </button>
             {/*</div>*/}
         </div>

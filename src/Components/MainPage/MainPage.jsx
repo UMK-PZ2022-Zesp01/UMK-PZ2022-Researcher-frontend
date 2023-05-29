@@ -25,18 +25,29 @@ function MainPage() {
 
     const triggerRef = useRef(null);
 
-    const [forMeOnly, setForMeOnly] = useState({ name: 'forMeOnly', value: false });
-    const [available, setAvailable] = useState({ name: 'available', value: false });
+    const [forMeOnly, setForMeOnly] = useState({
+        name: 'forMeOnly',
+        value: false,
+    });
+    const [available, setAvailable] = useState({
+        name: 'available',
+        value: false,
+    });
     const [inPlace, setInPlace] = useState({ name: 'in-place', value: false });
+    const [distance, setDistance] = useState(0);
     const [remote, setRemote] = useState({ name: 'remote', value: false });
-    const [fromDate, setFromDate] = useState({ name: 'minDate', value: null });
+    const [fromDate, setFromDate] = useState({
+        name: 'minDate',
+        value: new Date().toISOString().substring(0, 10),
+    });
     const [toDate, setToDate] = useState({ name: 'maxDate', value: null });
 
     const [filterBy, setFilterBy] = useState({
-        forMeOnly: false,
-        availableOnly: false,
+        forMeOnly: !!accessToken,
+        availableOnly: !!accessToken,
         form: null,
-        minDate: null,
+        minDate: fromDate.value,
+        distance: distance,
         maxDate: null,
     });
 
@@ -80,6 +91,7 @@ function MainPage() {
                 forMeOnly: forMeOnly.value,
                 availableOnly: available.value,
                 form: getFormString(),
+                distance: distance,
                 minDate: fromDate.value,
                 maxDate: toDate.value,
             };
@@ -125,14 +137,16 @@ function MainPage() {
                     ? {
                           name: 'Pokazuj tylko badania do których się wstępnie kwalifikuję',
                           type: 'checkbox',
-                          value: forMeOnly,
+                          // value: forMeOnly.value,
+                          checked: forMeOnly.value,
                           setter: () => setForMeOnly({ ...forMeOnly, value: !forMeOnly.value }),
                       }
                     : null,
                 {
                     name: 'Pokazuj tylko badania z wolnymi miejscami',
                     type: 'checkbox',
-                    value: available,
+                    // value: available,
+                    checked: available.value,
                     setter: () => setAvailable({ ...available, value: !available.value }),
                 },
             ],
@@ -143,13 +157,15 @@ function MainPage() {
                 {
                     name: 'Na miejscu',
                     type: 'checkbox',
-                    value: 'in-place',
+                    // value: 'in-place',
+                    checked: inPlace.value,
                     setter: () => setInPlace({ ...inPlace, value: !inPlace.value }),
                 },
                 {
                     name: 'Zdalnie',
                     type: 'checkbox',
-                    value: remote,
+                    // value: remote,
+                    checked: remote.value,
                     setter: () => setRemote({ ...remote, value: !remote.value }),
                 },
             ],
@@ -160,13 +176,12 @@ function MainPage() {
                 {
                     name: 'Od',
                     type: 'date',
-                    value: { fromDate },
+                    defaultValue: fromDate.value,
                     setter: handleFromDateSet,
                 },
                 {
                     name: 'Do',
                     type: 'date',
-                    value: { toDate },
                     setter: handleToDateSet,
                 },
             ],
@@ -210,7 +225,6 @@ function MainPage() {
                             setOpenFirstPopup(null);
                             break;
                     }
-
                     // if (response.ok) {
                     //     const json = await response.json();
                     //     setOpenFirstPopup(!json.lastLoggedIn);
@@ -221,6 +235,10 @@ function MainPage() {
         };
 
         getUser();
+        if (accessToken) {
+            setAvailable({ ...available, value: true });
+            setForMeOnly({ ...forMeOnly, value: true });
+        }
 
         return () => {
             isMounted = false;
@@ -311,6 +329,31 @@ function MainPage() {
                 </div>
                 <main ref={triggerRef} className={styles.mainPagePanel}>
                     <div className={styles.options}>
+                        {accessToken ? (
+                            <div>
+                                <label htmlFor={'distance'}>
+                                    Wyświetlaj ogłoszenia w promieniu:
+                                </label>
+
+                                <div className={styles.numberInputContainer}>
+                                    <input
+                                        id={'distance'}
+                                        type="number"
+                                        title={
+                                            'Ustaw swoją lokalizację w profilu użytkownika, aby skorzystać z filtra.'
+                                        }
+                                        min={0}
+                                        max={100}
+                                        defaultValue={distance}
+                                        className={styles.numberInput}
+                                        onChange={event => setDistance(event.target.value)}
+                                    />
+                                    <label className={styles.sidePadded}>km</label>
+                                </div>
+                            </div>
+                        ) : (
+                            []
+                        )}
                         <div>
                             <label htmlFor={'sortSelect'}>Sortuj według:</label>
                             <div className={styles.sorterOptions}>
