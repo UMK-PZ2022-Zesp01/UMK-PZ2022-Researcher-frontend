@@ -110,14 +110,19 @@
     opacity: 1;
 }
 
-.loginButtons{
+.loginButtons {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    gap: 0.5rem;
 }
 
 .submitButton {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
     z-index: 0;
     width: 48%;
     padding: 0.6rem;
@@ -258,10 +263,10 @@
 }
 
 @media (max-width: 400px) {
-    .loginButtons{
+    .loginButtons {
         flex-direction: column;
     }
-    .submitButton{
+    .submitButton {
         width: 100%;
     }
     .flexRow {

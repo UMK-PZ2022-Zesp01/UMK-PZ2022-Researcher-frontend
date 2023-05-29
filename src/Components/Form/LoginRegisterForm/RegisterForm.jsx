@@ -46,7 +46,7 @@ function RegisterForm(props) {
         email: email,
         birthDate: birthDate,
         gender: gender?.value,
-        isGoogle:false
+        isGoogle: false,
     };
 
     const handleFirstNameChanged = event => {
@@ -302,9 +302,16 @@ function RegisterForm(props) {
                         Wyrażam zgodę na przetwarzanie moich danych osobowych.
                     </label>
                 </div>
-                <button onClick={validatePassword} type="submit" className={styles.submitButton}>
-                    ZAREJESTRUJ
-                </button>
+                <div className={styles.loginButtons}>
+                    <button
+                        onClick={validatePassword}
+                        type="submit"
+                        className={styles.submitButton}
+                    >
+                        ZAREJESTRUJ
+                    </button>
+                </div>
+
                 <span className={styles.lightlyTopPadded}>
                     Posiadasz już konto?
                     <span onClick={changeForm} className={styles.panelChange}>
