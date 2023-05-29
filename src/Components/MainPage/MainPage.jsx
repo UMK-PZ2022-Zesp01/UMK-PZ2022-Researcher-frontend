@@ -34,6 +34,7 @@ function MainPage() {
         value: false,
     });
     const [inPlace, setInPlace] = useState({ name: 'in-place', value: false });
+    const [distance, setDistance] = useState(0);
     const [remote, setRemote] = useState({ name: 'remote', value: false });
     const [fromDate, setFromDate] = useState({
         name: 'minDate',
@@ -46,6 +47,7 @@ function MainPage() {
         availableOnly: !!accessToken,
         form: null,
         minDate: fromDate.value,
+        distance: distance,
         maxDate: null,
     });
 
@@ -89,6 +91,7 @@ function MainPage() {
                 forMeOnly: forMeOnly.value,
                 availableOnly: available.value,
                 form: getFormString(),
+                distance: distance,
                 minDate: fromDate.value,
                 maxDate: toDate.value,
             };
@@ -233,7 +236,6 @@ function MainPage() {
 
         getUser();
         if (accessToken) {
-            console.log(accessToken);
             setAvailable({ ...available, value: true });
             setForMeOnly({ ...forMeOnly, value: true });
         }
@@ -286,7 +288,6 @@ function MainPage() {
             }
         };
 
-        console.log(url);
         if (!lastPage) {
             getPosts();
         }
@@ -328,6 +329,27 @@ function MainPage() {
                 </div>
                 <main ref={triggerRef} className={styles.mainPagePanel}>
                     <div className={styles.options}>
+                        {accessToken ? (
+                            <div>
+                                <label htmlFor={'distance'}>
+                                    Wyświetlaj ogłoszenia w promieniu:
+                                </label>
+                                <div className={styles.numberInputContainer}>
+                                    <input
+                                        id={'distance'}
+                                        type="number"
+                                        min={0}
+                                        max={100}
+                                        defaultValue={distance}
+                                        className={styles.numberInput}
+                                        onChange={event => setDistance(event.target.value)}
+                                    />
+                                    <div>km</div>
+                                </div>
+                            </div>
+                        ) : (
+                            []
+                        )}
                         <div>
                             <label htmlFor={'sortSelect'}>Sortuj według:</label>
                             <div className={styles.sorterOptions}>
