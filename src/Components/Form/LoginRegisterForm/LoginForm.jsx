@@ -24,6 +24,7 @@ function LoginForm(props) {
     const [password, setPassword] = useState('');
     const [rememberDevice, setRememberDevice] = useState(false);
     const fakeButton = useRef(null);
+    const [googleButtonWrapper, setGoogleButtonWrapper] = useState(null);
 
     async function handleGoogleResponse(response) {
         const decodedInfo = jwtDecode(response.credential);
@@ -64,7 +65,6 @@ function LoginForm(props) {
                         state: {
                             decodedInfo: decodedInfo,
                             jwt: response.credential,
-                            // loginWithGoogle: () => loginWithGoogle(decodedInfo),
                         },
                     });
                 } else if (res.status === 298) {
@@ -88,7 +88,7 @@ function LoginForm(props) {
             client_id: process.env.REACT_APP_LOGIN_API_GOOGLE,
             callback: handleGoogleResponse,
         });
-        googleButtonWrapper = createFakeGoogleWrapper();
+        createFakeGoogleWrapper();
     }, []);
 
     const createFakeGoogleWrapper = () => {
@@ -100,16 +100,17 @@ function LoginForm(props) {
         const googleLoginWrapperButton =
             fakeButton.current.querySelector("div[role=button]");
 
-        return {
+        setGoogleButtonWrapper({
             click: () => {
                 googleLoginWrapperButton.click();
             },
-        };
+        });
     };
-    let googleButtonWrapper = null
 
     window.handleGoogleLogin = () => {
-        googleButtonWrapper.click();
+        if (googleButtonWrapper) {
+            googleButtonWrapper.click();
+        }
     };
 
 
@@ -232,9 +233,6 @@ function LoginForm(props) {
                     <button className={styles.submitButton} type={"button"} onClick={window.handleGoogleLogin}>
                         <FontAwesomeIcon icon={faGoogle}/>
                     </button>
-                    {/*<button id="googleButton" className={styles.submitButton} type={"button"} onClick={handleGoogleButtonClick}>*/}
-                    {/*    <FontAwesomeIcon icon={faGoogle} />*/}
-                    {/*</button>*/}
                 </div>
                 <span className={styles.lightlyTopPadded}>
                     Nie posiadasz konta?
@@ -242,14 +240,6 @@ function LoginForm(props) {
                         Zarejestruj się!
                     </span>
                 </span>
-
-                {/*<div className={styles.orLoginWith}>*/}
-                {/*    <span>lub</span>*/}
-                {/*</div>*/}
-                {/*<div className={styles.flexRow}>*/}
-                {/*    <button className={styles.loginWith}>Zaloguj z G</button>*/}
-                {/*    <button className={styles.loginWith}>Zaloguj z FB</button>*/}
-                {/*</div>*/}
             </form>
             <div role={"button"} ref={fakeButton} className={styles.fakeButton} />
         </article>

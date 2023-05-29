@@ -352,6 +352,10 @@ input:checked + .slider:before {
     font-weight: bold;
 }
 
+.fakeButton{
+    display: none;
+}
+
 .mapBoxHide {
     pointer-events: none;
     opacity: 0;

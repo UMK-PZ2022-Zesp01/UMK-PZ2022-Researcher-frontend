@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styles from './UserPage.module.css';
 import {Popup} from '../Popup/Popup';
 import {LeftContainer} from './Containers/LeftContainer';
@@ -16,6 +16,8 @@ import {faArrowTurnDown} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import {HelmetProvider} from 'react-helmet-async';
+import jwtDecode from "jwt-decode";
+import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 
 const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 
@@ -117,6 +119,7 @@ export default function UserPage(props) {
         setOpenPopup(true);
     };
 
+
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController();
@@ -144,52 +147,56 @@ export default function UserPage(props) {
                 console.error(error);
             });
 
-        // try {
-        //     fetch(RESEARCHES_URL + username, {
-        //         signal,
-        //         method: 'GET',
-        //         headers: {
-        //             Authorization: accessToken,
-        //             'Content-Type': 'application/json;charset:UTF-8',
-        //         },
-        //     })
-        //         .then(response => response.json())
-        //         .then(result => {
-        //             isMounted && setPostsCreated(result);
-        //         })
-        //         .catch(error => {
-        //             console.error(error);
-        //             setPostsCreated([]);
-        //         });
-        // } catch (error) {
-        //     console.error('Error fetching posts:', error);
-        // }
 
-        // try {
-        //     fetch(getApiUrl() + 'user/' + username + '/enrolledresearches', {
-        //         signal,
-        //         method: 'GET',
-        //         headers: {
-        //             Authorization: accessToken,
-        //             'Content-Type': 'application/json;charset:UTF-8',
-        //         },
-        //     })
-        //         .then(response => response.json())
-        //         .then(result => {
-        //             isMounted && setPostsEnrolled(result);
-        //         })
-        //         .catch(error => {
-        //             console.error(error);
-        //             setPostsEnrolled([]);
-        //         });
-        // } catch (error) {
-        //     console.error('Error fetching posts:', error);
-        // }
+        //to do poprawy bo bledy rzuca
+
+        try {
+            fetch(RESEARCHES_URL + username, {
+                signal,
+                method: 'GET',
+                headers: {
+                    Authorization: accessToken,
+                    'Content-Type': 'application/json;charset:UTF-8',
+                },
+            })
+                .then(response => response.json())
+                .then(result => {
+                    isMounted && setPostsCreated(result);
+                })
+                .catch(error => {
+                    console.error(error);
+                    setPostsCreated([]);
+                });
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+
+        try {
+            fetch(getApiUrl() + 'user/' + username + '/enrolledresearches', {
+                signal,
+                method: 'GET',
+                headers: {
+                    Authorization: accessToken,
+                    'Content-Type': 'application/json;charset:UTF-8',
+                },
+            })
+                .then(response => response.json())
+                .then(result => {
+                    isMounted && setPostsEnrolled(result);
+                })
+                .catch(error => {
+                    console.error(error);
+                    setPostsEnrolled([]);
+                });
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
         return () => {
             isMounted = false;
             controller.abort();
         };
     }, [emailState, phoneState, locationState]);
+
 
     const showPostsCreated = () => {
         if (postsCreated.length === 0)
@@ -242,6 +249,9 @@ export default function UserPage(props) {
         setIsClickedPhone(false);
     };
 
+
+
+
     /**leftContainer args**/
     const sendToLeftContainer = {
         name: userData.firstName,
@@ -280,8 +290,8 @@ export default function UserPage(props) {
         setEmailState: setEmailState,
         setLocationState: setLocationState,
         setAlert: setAlert,
+        emailState:emailState
     };
-
     return (
         !isLoading && (
             <div className={styles.PageOverlay}>

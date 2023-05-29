@@ -1,7 +1,7 @@
 import styles from '../Containers/Container.module.css';
-import { useRef } from 'react';
-import { GrClose } from 'react-icons/gr';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {useEffect, useRef} from 'react';
+import {GrClose} from 'react-icons/gr';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
     faBug,
     faFileCirclePlus,
@@ -10,21 +10,28 @@ import {
     faPencil,
 } from '@fortawesome/free-solid-svg-icons';
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import useAuth from '../../../hooks/useAuth';
 import getApiUrl from '../../../Common/Api';
 import {Link} from 'react-router-dom';
 
-import { useLocation } from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
+import {faGoogle} from "@fortawesome/free-brands-svg-icons";
+import jwtDecode from "jwt-decode";
 
-const RightContainer = ({ values }) => {
+const RightContainer = ({values}) => {
     /** Conditional component rendering **/
 
     const EDIT_URL = `${getApiUrl()}user/current/update`;
     const EDIT_PASSWORD_URL = `${getApiUrl()}user/current/updatePassword`;
     const DELETE_URL = `${getApiUrl()}user/current/delete`;
-    const { accessToken } = useAuth().auth;
+    const DELETE_GOOGLE_URL = `${getApiUrl()}user/google/delete`;
+    const {accessToken} = useAuth().auth;
     const setAlert = values.setAlert;
+
+    const[googleInfo,setGoogleInfo]=useState('')
+
+    const [googleDelete,setGoogleDelete]=useState(false)
 
     /*phone section*/
     const [phoneInput, setPhoneInput] = useState('');
@@ -46,6 +53,8 @@ const RightContainer = ({ values }) => {
 
     /*input debugger*/
     const [canExit, setCanExit] = useState(true);
+    const [googleButtonWrapper, setGoogleButtonWrapper] = useState(null);
+    const fakeButton = useRef(null);
 
     const exit = () => {
         values.setIsClickedEdit(false);
@@ -64,6 +73,10 @@ const RightContainer = ({ values }) => {
     let deleteTemplate = {
         password: passwordCheckInput.length > 0 ? passwordCheckInput : null,
     };
+    let deleteGoogleTemplate = {
+        email: values.emailState.length > 0 ? values.emailState : null,
+        jwt:googleInfo
+    };
 
     const deleteRequestOptions = {
         method: 'DELETE',
@@ -73,6 +86,15 @@ const RightContainer = ({ values }) => {
         },
         body: JSON.stringify(deleteTemplate),
     };
+
+    const deleteGoogleRequestOptions={
+        method: 'DELETE',
+        headers: {
+            Authorization: accessToken,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(deleteGoogleTemplate),
+    }
 
     const deleteUser = async () => {
         const response = await fetch(DELETE_URL, deleteRequestOptions);
@@ -86,6 +108,20 @@ const RightContainer = ({ values }) => {
         }
         window.location.replace('https://justresearch.netlify.app/login');
     };
+
+    const deleteGoogleUser = async () => {
+        const response = await fetch(DELETE_GOOGLE_URL, deleteGoogleRequestOptions);
+        if (response.status === 299) {
+            setAlert({
+                alertOpen: true,
+                alertType: 299,
+                alertText: 'Coś jest nie tak, spróbuj ponownie później',
+            });
+            return;
+        }
+        window.location.replace('https://justresearch.netlify.app/login');
+
+    }
 
     let passwordTemplate = {
         password: currentPasswordInput.length > 0 ? currentPasswordInput : null,
@@ -192,7 +228,6 @@ const RightContainer = ({ values }) => {
             if (values.locationInput.length > 0) {
                 values.setLocationState(values.locationInput);
                 setIsClickedLocation(false);
-                // values.setLocationInput('')
                 values.setGmapExit(false);
             }
             setAlert({
@@ -208,8 +243,52 @@ const RightContainer = ({ values }) => {
             setEmailInput('');
             setPhoneInput('');
             values.setGmapExit(false);
+            values.setGmapExit(false)
         }
     };
+
+    async function handleGoogleResponse(response) {
+        setGoogleInfo(response.credential)
+    }
+
+    useEffect(()=>{
+        if (googleInfo!==null&&googleDelete===true){
+            deleteGoogleUser()
+        }
+    },[googleInfo])
+
+
+    useEffect(() => {
+        /*global google*/
+        google.accounts.id.initialize({
+            client_id: process.env.REACT_APP_LOGIN_API_GOOGLE,
+            callback: handleGoogleResponse,
+        });
+        createFakeGoogleWrapper();
+    }, []);
+
+    const createFakeGoogleWrapper = () => {
+        window.google.accounts.id.renderButton(fakeButton.current, {
+            type: "icon",
+            width: "200",
+        });
+
+        const googleLoginWrapperButton =
+            fakeButton.current.querySelector("div[role=button]");
+
+        setGoogleButtonWrapper({
+            click: () => {
+                googleLoginWrapperButton.click();
+            },
+        });
+    };
+
+    window.handleGoogleLogin = () => {
+        if (googleButtonWrapper) {
+            googleButtonWrapper.click();
+        }
+    };
+
 
     return (
         <div className={styles.rightContainer}>
@@ -220,10 +299,10 @@ const RightContainer = ({ values }) => {
                         exit();
                     }}
                 >
-                    <GrClose />
+                    <GrClose/>
                 </button>
                 <div className={styles.editField}>
-                    {!values.isGoogle&&<div className={isClickedEmail ? styles.editTileResized : styles.editTile}>
+                    {!values.isGoogle && <div className={isClickedEmail ? styles.editTileResized : styles.editTile}>
                         <div
                             className={values.clickedEdit ? styles.valueEdit : styles.valueEditHide}
                             onClick={() => {
@@ -280,7 +359,8 @@ const RightContainer = ({ values }) => {
                                 ? styles.editTileResized
                                 : styles.editTile
                         }
-                        onClick={() => {}}
+                        onClick={() => {
+                        }}
                     >
                         <div
                             className={values.clickedEdit ? styles.valueEdit : styles.valueEditHide}
@@ -323,10 +403,10 @@ const RightContainer = ({ values }) => {
                         setNewPasswordInput('');
                     }}
                 >
-                    <GrClose />
+                    <GrClose/>
                 </button>
                 <div className={styles.editField}>
-                    {!values.isGoogle&&<div
+                    {!values.isGoogle && <div
                         className={
                             isClickedPassword ? styles.editTileResizedPassword : styles.editTile
                         }
@@ -378,12 +458,11 @@ const RightContainer = ({ values }) => {
                                 }
                                 onClick={changePasswordButton}
                             >
-                                Zapisz
+                                Zapiszz
                             </button>
                         </div>
                     </div>}
-
-                    <div
+                    {!values.isGoogle && <div
                         className={isClickedDelete ? styles.editTileResizedDelete : styles.editTile}
                     >
                         <div
@@ -397,6 +476,7 @@ const RightContainer = ({ values }) => {
                                 }
                             }}
                         >
+
                             <div className={isClickedDelete ? styles.text : styles.textSmall}>
                                 Usuń konto
                             </div>
@@ -427,7 +507,32 @@ const RightContainer = ({ values }) => {
                                 Usuń konto
                             </button>
                         </div>
-                    </div>
+                    </div>}
+                    {values.isGoogle &&
+                        <div
+                            className={styles.editTileResizedDelete}
+                        >
+                            <div
+                                className={styles.valueEdit}
+                            >
+                                <div className={styles.text}>
+                                    Usuń konto
+                                </div>
+                                <button
+                                    onClick={()=>{
+                                        window.handleGoogleLogin()
+                                        setGoogleDelete(true)
+                                    }}
+                                    className={styles.deleteGoogleButton}
+                                >
+                                    <FontAwesomeIcon icon={faGoogle}/>
+                                </button>
+
+                            </div>
+                        </div>
+
+                    }
+
                 </div>
             </div>
             <div
@@ -437,18 +542,18 @@ const RightContainer = ({ values }) => {
             >
                 <div className={styles.activityBox}>
                     <Link to='/research/create' className={styles.formButton}>
-                        <FontAwesomeIcon icon={faFileCirclePlus} className={styles.faIcon} />
+                        <FontAwesomeIcon icon={faFileCirclePlus} className={styles.faIcon}/>
                         <span>Dodaj nowe badanie</span>
                     </Link>
                     <div
                         className={styles.formButton}
                         onClick={() => values.setIsClickedResearches(true)}
                     >
-                        <FontAwesomeIcon icon={faFileLines} className={styles.faIcon} />
+                        <FontAwesomeIcon icon={faFileLines} className={styles.faIcon}/>
                         <span>Zobacz swoje badania</span>
                     </div>
                     <div className={styles.formButton} onClick={values.bugPopup}>
-                        <FontAwesomeIcon icon={faBug} className={styles.faIcon} />
+                        <FontAwesomeIcon icon={faBug} className={styles.faIcon}/>
                         <span>Zgłoś błąd</span>
                     </div>
                     <div className={styles.cont}>
@@ -458,7 +563,7 @@ const RightContainer = ({ values }) => {
                                 values.setIsClickedEdit(!values.clickedEdit);
                             }}
                         >
-                            <FontAwesomeIcon icon={faPencil} className={styles.faIcon} />
+                            <FontAwesomeIcon icon={faPencil} className={styles.faIcon}/>
                             <span>Edytuj profil</span>
                         </div>
                         <div
@@ -467,14 +572,15 @@ const RightContainer = ({ values }) => {
                                 values.setClickedAdvance(!values.clickedAdvance);
                             }}
                         >
-                            <FontAwesomeIcon icon={faGear} className={styles.faIcon} />
+                            <FontAwesomeIcon icon={faGear} className={styles.faIcon}/>
                             <span>Ustawienia </span>
                         </div>
                     </div>
                 </div>
             </div>
+            <div role={"button"} ref={fakeButton} className={styles.fakeButton} />
         </div>
     );
 };
 
-export { RightContainer };
+export {RightContainer};
