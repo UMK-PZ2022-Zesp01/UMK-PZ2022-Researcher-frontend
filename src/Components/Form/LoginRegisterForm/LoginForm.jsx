@@ -231,7 +231,7 @@ function LoginForm(props) {
                         ZALOGUJ
                     </button>
                     <button className={styles.submitButton} type={"button"} onClick={window.handleGoogleLogin}>
-                        <FontAwesomeIcon icon={faGoogle}/>
+                        <div>ZALOGUJ Z <FontAwesomeIcon icon={faGoogle}/></div>
                     </button>
                 </div>
                 <span className={styles.lightlyTopPadded}>
