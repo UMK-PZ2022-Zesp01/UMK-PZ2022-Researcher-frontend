@@ -64,7 +64,7 @@ export const Filters = ({ id, filters, saveFilters }) => {
                 onClick={handleSaveButtonClicked}
                 className={`${styles.filtersButton} ${styles.small}`}
             >
-                Zapisz
+                Szukaj
             </button>
             {/*</div>*/}
         </div>

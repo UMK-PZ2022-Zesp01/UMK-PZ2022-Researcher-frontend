@@ -334,17 +334,21 @@ function MainPage() {
                                 <label htmlFor={'distance'}>
                                     Wyświetlaj ogłoszenia w promieniu:
                                 </label>
+
                                 <div className={styles.numberInputContainer}>
                                     <input
                                         id={'distance'}
                                         type="number"
+                                        title={
+                                            'Ustaw swoją lokalizację w profilu użytkownika, aby skorzystać z filtra.'
+                                        }
                                         min={0}
                                         max={100}
                                         defaultValue={distance}
                                         className={styles.numberInput}
                                         onChange={event => setDistance(event.target.value)}
                                     />
-                                    <div>km</div>
+                                    <label className={styles.sidePadded}>km</label>
                                 </div>
                             </div>
                         ) : (
