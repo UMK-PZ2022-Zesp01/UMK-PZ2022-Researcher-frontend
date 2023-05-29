@@ -11,6 +11,7 @@ import { LoadingDots } from '../LoadingDots/LoadingDots';
 import { Filters } from './Filters/Filters';
 import { FirstTimeForm } from '../Form/FirstTimeForm/FirstTimeForm';
 import { AddResearchTile } from '../ResearchTile/AddResearchTile';
+import {AcceptCookies} from "../AcceptCookies/AcceptCookies";
 
 const RESEARCHES_URL = getApiUrl() + 'research';
 
@@ -176,6 +177,7 @@ function MainPage() {
     /*first login popup*/
     const [openFirstPopup, setOpenFirstPopup] = useState(false);
 
+
     window.onscroll = () => {
         if (window.innerHeight + window.scrollY + 1 >= triggerRef?.current?.offsetHeight) {
             if (!lastPage && !isLoading) {
@@ -283,6 +285,24 @@ function MainPage() {
     // const cutText = (text, toLength) =>
     //     [...text].length > toLength ? text.substring(0, toLength) : text;
 
+    const [openCookies, setOpenCookies] = useState(false);
+
+    useEffect(() => {
+        const acceptedCookies = localStorage.getItem("acceptedCookies");
+        if (acceptedCookies === "false") {
+            setOpenCookies(true);
+        } else if (acceptedCookies === "true") {
+            return;
+        } else {
+            localStorage.setItem("acceptedCookies", false);
+        }
+    }, []);
+
+    const handleCookiesClicked = () => {
+        setOpenCookies(false);
+        localStorage.setItem("acceptedCookies", true);
+    }
+
     const displayPosts = () => {
         return posts.map((post, index) => (
             <ResearchTile
@@ -297,6 +317,7 @@ function MainPage() {
     return (
         <>
             <div className={styles.pageOverlay}>
+                <AcceptCookies open={openCookies} onClose={() => handleCookiesClicked()}/>
                 <FirstTimeForm open={openFirstPopup} onClose={() => setOpenFirstPopup(false)} />
             </div>
             <div className={styles.mainPage}>
