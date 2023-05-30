@@ -281,10 +281,13 @@
 }
 
 .numberInputContainer {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
     padding: 0.5rem;
+    gap: 0.5rem;
 }
 
 .numberInput {
@@ -298,8 +301,37 @@
     cursor: pointer;
 }
 
-.sidePadded {
-    padding: 0 5px;
+.numberInput:disabled {
+    pointer-events: none;
+    opacity: 50%;
+}
+
+.numberInput:disabled + label {
+    opacity: 50%;
+}
+
+.info {
+    opacity: 0;
+    z-index: 75;
+    font-size: 0.9rem;
+    background-color: #efdef7;
+    border: 1px solid #7d41b7;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 100%;
+    transition: opacity 400ms ease;
+}
+
+.iconBox {
+    color: #5c1374;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.iconBox:hover .info {
+    opacity: 1;
 }
 
 @media (max-width: 600px) {
@@ -470,7 +502,7 @@
 }
 
 .hidden {
-    max-height: 0;
+    visibility: hidden;
 }
 
 .option {

@@ -111,8 +111,7 @@ function LoginForm(props) {
             switch (response?.status) {
                 case 201:
                     const json = await response.json();
-                    const accessToken = json.accessToken;
-                    setAuth({ username, accessToken });
+                    setAuth(() => json);
                     setUsername('');
                     setPassword('');
                     // navigate(from, { replace: true });
