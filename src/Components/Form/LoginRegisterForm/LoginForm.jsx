@@ -1,17 +1,17 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './LoginRegisterForm.module.css';
 import getApiUrl from '../../../Common/Api.js';
-import {useAuth} from '../../../hooks/useAuth';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faGoogle} from '@fortawesome/free-brands-svg-icons';
+import { useAuth } from '../../../hooks/useAuth';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import jwtDecode from 'jwt-decode';
 
 const apiUrl = getApiUrl();
 const LOGIN_URL = getApiUrl() + 'login';
 
 function LoginForm(props) {
-    const {setAuth} = useAuth();
+    const { setAuth } = useAuth();
     const setAlert = props.setters;
     const changeForm = props.change;
 
@@ -37,7 +37,7 @@ function LoginForm(props) {
                     headers: {
                         'Content-Type': 'application/json; charset:UTF-8',
                     },
-                    body: JSON.stringify({email: decoded.email, jwt: response.credential}),
+                    body: JSON.stringify({ email: decoded.email, jwt: response.credential }),
                 });
                 const json = await res.json();
 
@@ -93,12 +93,11 @@ function LoginForm(props) {
 
     const createFakeGoogleWrapper = () => {
         window.google.accounts.id.renderButton(fakeButton.current, {
-            type: "icon",
-            width: "200",
+            type: 'icon',
+            width: '200',
         });
 
-        const googleLoginWrapperButton =
-            fakeButton.current.querySelector("div[role=button]");
+        const googleLoginWrapperButton = fakeButton.current.querySelector('div[role=button]');
 
         setGoogleButtonWrapper({
             click: () => {
@@ -112,7 +111,6 @@ function LoginForm(props) {
             googleButtonWrapper.click();
         }
     };
-
 
     async function SubmitButtonClicked(event) {
         event.preventDefault();
@@ -134,8 +132,7 @@ function LoginForm(props) {
             switch (response?.status) {
                 case 201:
                     const json = await response.json();
-                    const accessToken = json.accessToken;
-                    setAuth({username, accessToken});
+                    setAuth(() => json);
                     setUsername('');
                     setPassword('');
                     // navigate(from, { replace: true });
@@ -151,7 +148,7 @@ function LoginForm(props) {
                 case 403:
                     setUsername('');
                     setPassword('');
-                    navigate('/registeredSuccessfully', {replace: false, state: {username}});
+                    navigate('/registeredSuccessfully', { replace: false, state: { username } });
                     break;
                 default:
                     setAlert({
@@ -181,7 +178,6 @@ function LoginForm(props) {
     const handleRememberDeviceChanged = () => {
         setRememberDevice(!rememberDevice);
     };
-
 
     return (
         <article className={styles.loginFormBox}>
@@ -230,8 +226,14 @@ function LoginForm(props) {
                     <button type="submit" className={styles.submitButton}>
                         ZALOGUJ
                     </button>
-                    <button className={styles.submitButton} type={"button"} onClick={window.handleGoogleLogin}>
-                        <div>ZALOGUJ Z <FontAwesomeIcon icon={faGoogle}/></div>
+                    <button
+                        className={styles.submitButton}
+                        type={'button'}
+                        onClick={window.handleGoogleLogin}
+                    >
+                        <div>
+                            ZALOGUJ Z <FontAwesomeIcon icon={faGoogle} />
+                        </div>
                     </button>
                 </div>
                 <span className={styles.lightlyTopPadded}>
@@ -241,9 +243,9 @@ function LoginForm(props) {
                     </span>
                 </span>
             </form>
-            <div role={"button"} ref={fakeButton} className={styles.fakeButton} />
+            <div role={'button'} ref={fakeButton} className={styles.fakeButton} />
         </article>
     );
 }
 
-export {LoginForm};
+export { LoginForm };

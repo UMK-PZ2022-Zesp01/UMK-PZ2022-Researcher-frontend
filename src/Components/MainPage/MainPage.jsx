@@ -17,7 +17,7 @@ import { faCircleInfo } from '@fortawesome/free-solid-svg-icons/faCircleInfo';
 const RESEARCHES_URL = getApiUrl() + 'research';
 
 function MainPage() {
-    const { accessToken, locationSet } = useAuth()?.auth;
+    const { auth } = useAuth();
 
     const [posts, setPosts] = useState([]);
     const [previewed, setPreviewed] = useState(-1);
@@ -37,6 +37,7 @@ function MainPage() {
         value: false,
     });
     const [inPlace, setInPlace] = useState({ name: 'in-place', value: false });
+    const [distanceFilterOn, setDistanceFilterOn] = useState(false);
     const [distance, setDistance] = useState(0);
     const [remote, setRemote] = useState({ name: 'remote', value: false });
     const [fromDate, setFromDate] = useState({
@@ -50,7 +51,7 @@ function MainPage() {
         availableOnly: false,
         form: null,
         minDate: fromDate.value,
-        distance: distance,
+        distance: distanceFilterOn ? distance : 0,
         maxDate: null,
     });
 
@@ -94,7 +95,7 @@ function MainPage() {
                 forMeOnly: forMeOnly.value,
                 availableOnly: available.value,
                 form: getFormString(),
-                distance: distance,
+                distance: distanceFilterOn ? distance : 0,
                 minDate: fromDate.value,
                 maxDate: toDate.value,
             };
@@ -136,7 +137,7 @@ function MainPage() {
         {
             category: 'Specjalne',
             options: [
-                accessToken
+                auth?.accessToken
                     ? {
                           name: 'Pokazuj tylko badania do których się wstępnie kwalifikuję',
                           type: 'checkbox',
@@ -208,13 +209,13 @@ function MainPage() {
         // const signal = controller.signal;
 
         const getUser = async () => {
-            if (accessToken)
+            if (auth?.accessToken)
                 try {
                     const response = await fetch(getApiUrl() + 'user/current', {
                         method: 'GET',
                         credentials: 'include',
                         headers: {
-                            Authorization: accessToken,
+                            Authorization: auth.accessToken,
                             'Content-Type': 'application/json; charset:UTF-8',
                         },
                     });
@@ -247,7 +248,7 @@ function MainPage() {
             isMounted = false;
             controller.abort();
         };
-    }, [accessToken]);
+    }, [auth]);
 
     useLayoutEffect(() => {
         let isMounted = true;
@@ -261,7 +262,7 @@ function MainPage() {
         };
 
         const getPosts = async () => {
-            const nextLoadMax = 9 - (accessToken && page === 1 ? 1 : 0);
+            const nextLoadMax = 9 - (auth?.accessToken && page === 1 ? 1 : 0);
             // const nextLoadMax = 9;
             try {
                 setLastPage(true);
@@ -271,7 +272,7 @@ function MainPage() {
                     method: 'GET',
                     credentials: 'include',
                     headers: {
-                        Authorization: accessToken,
+                        Authorization: auth.accessToken,
                         'Content-Type': 'application/json;charset:UTF-8',
                     },
                 });
@@ -332,33 +333,51 @@ function MainPage() {
                 </div>
                 <main ref={triggerRef} className={styles.mainPagePanel}>
                     <div className={`${styles.options}  ${isMenuOpen ? styles.open : ''}`}>
-                        <div>
-                            <label htmlFor={'distance'}>Wyświetlaj ogłoszenia w promieniu:</label>
+                        {auth.accessToken ? (
+                            <div>
+                                <label htmlFor={'distance'}>
+                                    Wyświetlaj ogłoszenia w promieniu:
+                                </label>
 
-                            <div className={styles.numberInputContainer}>
-                                <input
-                                    id={'distance'}
-                                    type="number"
-                                    title={
-                                        'Ustaw swoją lokalizację w profilu użytkownika, aby skorzystać z filtra.'
-                                    }
-                                    min={0}
-                                    max={100}
-                                    defaultValue={distance}
-                                    className={styles.numberInput}
-                                    onChange={event => setDistance(event.target.value)}
-                                    disabled={!locationSet}
-                                />
-                                <label className={styles.sidePadded}>km</label>
-                                <span className={styles.iconBox}>
-                                    <FontAwesomeIcon
-                                        icon={faCircleInfo}
-                                        className={styles.infoIcon}
+                                <div className={styles.numberInputContainer}>
+                                    <input
+                                        type="checkbox"
+                                        title="Przełącz filtr odległości"
+                                        defaultValue={distanceFilterOn}
+                                        onChange={event => setDistanceFilterOn(!distanceFilterOn)}
+                                        disabled={!auth?.locationSet}
+                                        className={styles.radio}
                                     />
-                                    <span className={styles.info}></span>
-                                </span>
+                                    <input
+                                        id={'distance'}
+                                        type="number"
+                                        title={
+                                            'Ustaw swoją lokalizację w profilu użytkownika, aby skorzystać z filtra.'
+                                        }
+                                        min={0}
+                                        max={100}
+                                        defaultValue={distance}
+                                        className={styles.numberInput}
+                                        onChange={event => setDistance(event.target.value)}
+                                        disabled={!auth?.locationSet || !distanceFilterOn}
+                                    />
+                                    <label>km</label>
+                                    <span
+                                        className={`${styles.iconBox} ${
+                                            auth.locationSet === 'true' ? styles.hidden : ''
+                                        }`}
+                                    >
+                                        <FontAwesomeIcon icon={faCircleInfo} />
+                                        <span className={styles.info}>
+                                            Ustaw lokalizację w profilu użytkownika, aby móc
+                                            skorzystać z tego filtra
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            []
+                        )}
 
                         <div>
                             <label htmlFor={'sortSelect'}>Sortuj według:</label>
@@ -419,7 +438,7 @@ function MainPage() {
                     </div>
 
                     <ul className={styles.tileGrid}>
-                        {accessToken && <AddResearchTile withShadow={true} />}
+                        {auth?.accessToken && <AddResearchTile withShadow={true} />}
                         {displayPosts()}
                     </ul>
                     {isLoading && <LoadingDots></LoadingDots>}
