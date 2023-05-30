@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styles from './UserPage.module.css';
-import { Popup } from '../Popup/Popup';
-import { LeftContainer } from './Containers/LeftContainer';
-import { BookmarksNav } from '../BookmarksNav/BookmarksNav';
-import { Alert } from '../Alert/Alert';
-import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import {Popup} from '../Popup/Popup';
+import {LeftContainer} from './Containers/LeftContainer';
+import {BookmarksNav} from '../BookmarksNav/BookmarksNav';
+import {Alert} from '../Alert/Alert';
+import {Helmet} from 'react-helmet';
+import {Link} from 'react-router-dom';
 import getApiUrl from '../../Common/Api.js';
 import researcherLogo from '../../img/logo-white.png';
 import ResearchTile from '../ResearchTile/ResearchTile';
-import { HelmetProvider } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {HelmetProvider} from 'react-helmet-async';
+import {useParams} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
     faFileCircleExclamation,
     faFileCirclePlus,
@@ -30,8 +30,8 @@ export default function UserPage(props) {
     const [doesUserExist, setDoesUserExist] = useState(true);
 
     /*get username*/
-    const { username } = useParams();
-    const { accessToken } = useAuth().auth;
+    const {username} = useParams();
+    const {accessToken} = useAuth().auth;
 
     /*user's posts*/
     const [posts, setPosts] = React.useState([]);
@@ -81,9 +81,6 @@ export default function UserPage(props) {
     }
 
     useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
-        const signal = controller.signal;
 
         fetch(USER_URL + username, {
             method: 'GET',
@@ -104,43 +101,43 @@ export default function UserPage(props) {
             });
 
         const getPosts = async () => {
-            try {
-                await fetch(RESEARCHES_URL + username, {
-                    signal,
-                    method: 'GET',
-                    headers: {
-                        Authorization: accessToken,
-                        'Content-Type': 'application/json;charset:UTF-8',
-                    },
-                })
-                    .then(response => response.json())
-                    .then(result => {
-                        isMounted && setPosts([...posts, ...result]);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            } catch (error) {
-                console.error(error);
+            const response = await fetch(RESEARCHES_URL + username, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json;charset:UTF-8',
+                },
+            });
+
+            switch (response.status){
+                case 200:
+                    const result = await response.json()
+                    setPosts(result)
+                    break;
+                case 204:
+                    setPosts([])
+                    break;
             }
         };
 
         getPosts();
 
-        return () => {
-            isMounted = false;
-            controller.abort();
-        };
     }, [accessToken]);
 
     const showPosts = () => {
-        return posts.map((post, index) => (
-            <ResearchTile
-                key={`ResearchTile${post.researchCode}`}
-                tileData={{ previewed: previewed, setPreviewed: setPreviewed, tileNumber: index }}
-                postData={post}
-            />
-        ));
+        if (posts.length === 0)
+            return (
+                <div className={styles.noPosts}>
+                    <h2>Ten użytkownik nie utworzył jeszcze żadnego badania</h2>
+                </div>
+            )
+        else
+            return posts.map((post, index) => (
+                <ResearchTile
+                    key={`ResearchTile${post.researchCode}`}
+                    tileData={{previewed: previewed, setPreviewed: setPreviewed, tileNumber: index}}
+                    postData={post}
+                />
+            ));
     };
 
     /**leftContainer args**/
@@ -184,7 +181,7 @@ export default function UserPage(props) {
                         </header>
                         {doesUserExist === true && (
                             <div className={styles.wrapper}>
-                                <LeftContainer values={sendToLeftContainer} />
+                                <LeftContainer values={sendToLeftContainer}/>
 
                                 <div className={styles.OtherRightContainer}>
                                     <h2 className={styles.OtherResearchesHeader}>
@@ -222,14 +219,14 @@ export default function UserPage(props) {
                                         <h3>Co chcesz zrobić?</h3>
                                         <nav className={styles.navigation}>
                                             <Link to="/" className={styles.navigationButton}>
-                                                <FontAwesomeIcon icon={faHouse} />
+                                                <FontAwesomeIcon icon={faHouse}/>
                                                 <span className={styles.buttonDesc}>
                                                     Przejdź na stronę główną
                                                 </span>
                                             </Link>
 
                                             <Link to="/profile" className={styles.navigationButton}>
-                                                <FontAwesomeIcon icon={faUser} />
+                                                <FontAwesomeIcon icon={faUser}/>
                                                 <span className={styles.buttonDesc}>
                                                     Przejdź na stronę swojego profilu
                                                 </span>
@@ -239,7 +236,7 @@ export default function UserPage(props) {
                                                 to="/research/create"
                                                 className={styles.navigationButton}
                                             >
-                                                <FontAwesomeIcon icon={faFileCirclePlus} />
+                                                <FontAwesomeIcon icon={faFileCirclePlus}/>
                                                 <span className={styles.buttonDesc}>
                                                     Stwórz ogłoszenie o badaniu
                                                 </span>
