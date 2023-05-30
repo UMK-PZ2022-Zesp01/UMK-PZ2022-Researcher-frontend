@@ -98,6 +98,10 @@
     flex-direction: column;
 }
 
+.category:last-child {
+    margin-bottom: 0.5rem;
+}
+
 .category :is(header) {
     font-size: 1.1rem;
     color: #7d41b7;

@@ -11,11 +11,13 @@ import { LoadingDots } from '../LoadingDots/LoadingDots';
 import { Filters } from './Filters/Filters';
 import { FirstTimeForm } from '../Form/FirstTimeForm/FirstTimeForm';
 import { AddResearchTile } from '../ResearchTile/AddResearchTile';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons/faCircleInfo';
 
 const RESEARCHES_URL = getApiUrl() + 'research';
 
 function MainPage() {
-    const { accessToken } = useAuth()?.auth;
+    const { accessToken, locationSet } = useAuth()?.auth;
 
     const [posts, setPosts] = useState([]);
     const [previewed, setPreviewed] = useState(-1);
@@ -25,6 +27,7 @@ function MainPage() {
 
     const triggerRef = useRef(null);
 
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [forMeOnly, setForMeOnly] = useState({
         name: 'forMeOnly',
         value: false,
@@ -43,8 +46,8 @@ function MainPage() {
     const [toDate, setToDate] = useState({ name: 'maxDate', value: null });
 
     const [filterBy, setFilterBy] = useState({
-        forMeOnly: !!accessToken,
-        availableOnly: !!accessToken,
+        forMeOnly: false,
+        availableOnly: false,
         form: null,
         minDate: fromDate.value,
         distance: distance,
@@ -235,10 +238,10 @@ function MainPage() {
         };
 
         getUser();
-        if (accessToken) {
-            setAvailable({ ...available, value: true });
-            setForMeOnly({ ...forMeOnly, value: true });
-        }
+        // if (accessToken) {
+        //     // setAvailable({ ...available, value: true });
+        //     // setForMeOnly({ ...forMeOnly, value: true });
+        // }
 
         return () => {
             isMounted = false;
@@ -328,32 +331,35 @@ function MainPage() {
                     <BookmarksNav active="home" desc="Strona główna" />
                 </div>
                 <main ref={triggerRef} className={styles.mainPagePanel}>
-                    <div className={styles.options}>
-                        {accessToken ? (
-                            <div>
-                                <label htmlFor={'distance'}>
-                                    Wyświetlaj ogłoszenia w promieniu:
-                                </label>
+                    <div className={`${styles.options}  ${isMenuOpen ? styles.open : ''}`}>
+                        <div>
+                            <label htmlFor={'distance'}>Wyświetlaj ogłoszenia w promieniu:</label>
 
-                                <div className={styles.numberInputContainer}>
-                                    <input
-                                        id={'distance'}
-                                        type="number"
-                                        title={
-                                            'Ustaw swoją lokalizację w profilu użytkownika, aby skorzystać z filtra.'
-                                        }
-                                        min={0}
-                                        max={100}
-                                        defaultValue={distance}
-                                        className={styles.numberInput}
-                                        onChange={event => setDistance(event.target.value)}
+                            <div className={styles.numberInputContainer}>
+                                <input
+                                    id={'distance'}
+                                    type="number"
+                                    title={
+                                        'Ustaw swoją lokalizację w profilu użytkownika, aby skorzystać z filtra.'
+                                    }
+                                    min={0}
+                                    max={100}
+                                    defaultValue={distance}
+                                    className={styles.numberInput}
+                                    onChange={event => setDistance(event.target.value)}
+                                    disabled={!locationSet}
+                                />
+                                <label className={styles.sidePadded}>km</label>
+                                <span className={styles.iconBox}>
+                                    <FontAwesomeIcon
+                                        icon={faCircleInfo}
+                                        className={styles.infoIcon}
                                     />
-                                    <label className={styles.sidePadded}>km</label>
-                                </div>
+                                    <span className={styles.info}></span>
+                                </span>
                             </div>
-                        ) : (
-                            []
-                        )}
+                        </div>
+
                         <div>
                             <label htmlFor={'sortSelect'}>Sortuj według:</label>
                             <div className={styles.sorterOptions}>
@@ -395,7 +401,6 @@ function MainPage() {
                                 </div>
                             </div>
                         </div>
-
                         <div>
                             <label htmlFor={'filterMenu'}>Filtruj według:</label>
                             <Filters
@@ -404,6 +409,13 @@ function MainPage() {
                                 saveFilters={handleSaveFiltersClicked}
                             ></Filters>
                         </div>
+                        <button
+                            type={'button'}
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className={styles.jankyButton}
+                        >
+                            {isMenuOpen ? 'Schowaj filtry' : 'Wyświetl filtry'}
+                        </button>
                     </div>
 
                     <ul className={styles.tileGrid}>

@@ -16,6 +16,7 @@ import {
     faFileCirclePlus,
     faPencil,
     faTrash,
+    faSquareArrowUpRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import useAuth from '../../hooks/useAuth';
@@ -431,6 +432,7 @@ function ResearchPage() {
             switch (response.status) {
                 case 200:
                     setIsEnrollButtonBlocked(true);
+                    setIsLoggedUserOnParticipantList(true);
                     setAlert({
                         alertOpen: true,
                         alertType: response.status,
@@ -514,6 +516,7 @@ function ResearchPage() {
             switch (response.status) {
                 case 200:
                     setIsEnrollButtonBlocked(true);
+                    setIsLoggedUserOnParticipantList(false);
                     setAlert({
                         alertOpen: true,
                         alertType: response.status,
@@ -875,17 +878,24 @@ function ResearchPage() {
                                                         </a>
                                                     </span>
                                                 ) : (
-                                                    <span>
+                                                    <span className={styles.linkRow}>
                                                         {isLoggedUserOnParticipantList ? (
                                                             <>
-                                                                <span>zdalnie: </span>
-                                                                <a
-                                                                    href={location.place}
-                                                                    target="_blank"
-                                                                    rel="noreferrer"
+                                                                <button
+                                                                    className={styles.editorBtn}
+                                                                    onClick={toggleListVisibility}
                                                                 >
-                                                                    {location.place}
-                                                                </a>
+                                                                    <a
+                                                                        href={location.place}
+                                                                        target="_blank"
+                                                                        rel="noreferrer"
+                                                                    >
+                                                                        Przejdź do kwestionariusza
+                                                                    </a>
+                                                                    <FontAwesomeIcon
+                                                                        icon={faSquareArrowUpRight}
+                                                                    />
+                                                                </button>
                                                             </>
                                                         ) : (
                                                             'zdalnie'

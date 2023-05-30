@@ -70,6 +70,7 @@
 }
 
 .options {
+    position: relative;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
@@ -78,6 +79,26 @@
     width: 100%;
 
     /*gap: 1rem;*/
+    max-height: 0;
+    transition: max-height 500ms ease-in-out;
+}
+
+.options.open {
+    max-height: 15rem;
+}
+
+.options > :not(.jankyButton) {
+    opacity: 0;
+    transition: opacity 300ms ease;
+    transition-delay: 200ms;
+}
+
+.options.open > :not(.jankyButton) {
+    opacity: 1;
+}
+
+.jankyButton {
+    z-index: 50;
 }
 
 .options > div {
@@ -97,6 +118,55 @@
 
     border-radius: 5px;
     width: max-content;
+}
+
+.jankyButton {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 0;
+
+    padding: 5px;
+    width: 25%;
+    align-self: flex-end;
+    min-width: fit-content;
+
+    background-color: #debdef;
+    color: #6d3b9e;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 5px;
+
+    appearance: none;
+    border: none;
+
+    transition: translate linear 0.1s;
+}
+
+.jankyButton::before {
+    z-index: -1;
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 100%;
+    transition: width ease-in-out 0.3s, left ease-in-out 0.3s;
+    border-radius: 5px;
+    background-color: #f6e2ff;
+}
+
+.jankyButton:hover {
+    cursor: pointer;
+}
+
+.jankyButton:hover::before {
+    width: 100%;
+    left: 0;
 }
 
 .sortLabel {
@@ -132,12 +202,12 @@
     width: 100%;
     height: 100%;
 
-    border: 1px solid #7d41b7;
+    border: 1px solid #512c8c;
     border-radius: 2px;
 }
 
 .radio:checked::before {
-    background-color: #ca97e6;
+    background-color: #6d3b9e;
 }
 
 .selectContainer {
@@ -240,13 +310,21 @@
     }
 
     .options {
+        margin: 2rem 0 0 0;
         width: 100%;
         flex-direction: column;
         justify-content: flex-start;
+        flex-wrap: nowrap;
+        transition: all 500ms ease-in-out;
+    }
+
+    .options.open {
+        margin: 0 0 1rem 0;
+        max-height: 40rem;
     }
 
     .mainPagePanel {
-        padding: 1rem;
+        padding: 1rem 1rem;
     }
 
     .tileGrid {

@@ -22,7 +22,7 @@ export const Filters = ({ id, filters, saveFilters }) => {
             .filter(filter => filter != null)
             .map((filter, index) => (
                 <div key={index + filter?.category} className={styles.category}>
-                    <header>{filter?.category}</header>
+                    {/*<header>{filter?.category}</header>*/}
                     {renderOptions(filter?.options)}
                 </div>
             ));

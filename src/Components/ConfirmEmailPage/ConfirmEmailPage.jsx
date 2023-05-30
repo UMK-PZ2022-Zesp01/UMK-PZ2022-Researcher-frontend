@@ -79,7 +79,7 @@ export default function ConfirmEmailPage() {
                         Spróbuj ponownie
                     </button>
                 )}
-                <button className={styles.button} onClick={onGoBackButtonClicked}>
+                <button type={'button'} className={styles.button} onClick={onGoBackButtonClicked}>
                     Wróć do ekranu logowania
                 </button>
             </div>

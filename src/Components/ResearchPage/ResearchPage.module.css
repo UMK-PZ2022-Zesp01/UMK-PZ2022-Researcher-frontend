@@ -283,6 +283,19 @@
     text-decoration: underline 1px #512c8c;
 }
 
+.linkRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.linkRow a {
+    color: white;
+    text-decoration: none;
+}
+
 .link {
     color: #000000;
     text-decoration: underline 1px transparent;
