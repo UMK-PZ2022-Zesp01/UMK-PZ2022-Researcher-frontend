@@ -446,7 +446,7 @@ function ResearchPage() {
                                         rel="noreferrer"
                                         className={styles.alertLink}
                                     >
-                                        Kliknij, aby przejść do ankiety z badaniem
+                                        Kliknij, aby przejść do kwestionariusza
                                     </a>
                                 )}
                             </span>
@@ -880,23 +880,17 @@ function ResearchPage() {
                                                 ) : (
                                                     <span className={styles.linkRow}>
                                                         {isLoggedUserOnParticipantList ? (
-                                                            <>
-                                                                <button
-                                                                    className={styles.editorBtn}
-                                                                    onClick={toggleListVisibility}
-                                                                >
-                                                                    <a
-                                                                        href={location.place}
-                                                                        target="_blank"
-                                                                        rel="noreferrer"
-                                                                    >
-                                                                        Przejdź do kwestionariusza
-                                                                    </a>
-                                                                    <FontAwesomeIcon
-                                                                        icon={faSquareArrowUpRight}
-                                                                    />
-                                                                </button>
-                                                            </>
+                                                            <a
+                                                                href={location.place}
+                                                                target={'_blank'}
+                                                                rel="noreferrer"
+                                                                className={styles.editorBtn}
+                                                            >
+                                                                Przejdź do kwestionariusza
+                                                                <FontAwesomeIcon
+                                                                    icon={faSquareArrowUpRight}
+                                                                />
+                                                            </a>
                                                         ) : (
                                                             'zdalnie'
                                                         )}
