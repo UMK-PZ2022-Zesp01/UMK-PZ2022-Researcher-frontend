@@ -195,6 +195,7 @@
 
 .headerRight {
     text-align: right;
+    min-width: 25ch;
 }
 
 .bodyPart {

@@ -160,7 +160,11 @@ export const ResetPasswordPage = () => {
                             {/*        Spróbuj ponownie*/}
                             {/*    </button>*/}
                             {/*)}*/}
-                            <button className={styles.button} onClick={handleToLoginPageClicked}>
+                            <button
+                                type={'button'}
+                                className={styles.button}
+                                onClick={handleToLoginPageClicked}
+                            >
                                 Wróć na stronę logowania
                             </button>
                             <button type={'submit'} className={styles.button}>
@@ -252,7 +256,11 @@ export const ResetPasswordPage = () => {
                                 </button>
                             )}
 
-                            <button className={styles.button} onClick={handleToLoginPageClicked}>
+                            <button
+                                type={'button'}
+                                className={styles.button}
+                                onClick={handleToLoginPageClicked}
+                            >
                                 Wróć na stronę logowania
                             </button>
                         </div>
