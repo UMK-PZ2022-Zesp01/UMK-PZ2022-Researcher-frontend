@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from './UserPage.module.css';
 import {Popup} from '../Popup/Popup';
 import {LeftContainer} from './Containers/LeftContainer';
@@ -16,8 +16,6 @@ import {faArrowTurnDown} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import ResearchTile from '../ResearchTile/ResearchTile';
 import {HelmetProvider} from 'react-helmet-async';
-import jwtDecode from "jwt-decode";
-import {faGoogle} from "@fortawesome/free-brands-svg-icons";
 
 const RESEARCHES_URL = getApiUrl() + 'research/creator/';
 
@@ -200,7 +198,11 @@ export default function UserPage(props) {
 
     const showPostsCreated = () => {
         if (postsCreated.length === 0)
-            return <h1>Nie ma jeszcze badań stworzonych przez ciebie</h1>;
+            return (
+                <div className={styles.noPosts}>
+                    <h2>Nie ma jeszcze badań stworzonych przez Ciebie</h2>
+                </div>
+            )
         else
             return postsCreated.map((post, index) => (
                 <ResearchTile
@@ -217,7 +219,11 @@ export default function UserPage(props) {
 
     const showPostsEnrolled = () => {
         if (postsEnrolled.length === 0)
-            return <h1>Nie bierzesz jeszcze udziału w żadnym badaniu</h1>;
+            return (
+                <div className={styles.noPosts}>
+                    <h2>Nie bierzesz jeszcze udziału w żadnym badaniu</h2>
+                </div>
+            )
         else
             return postsEnrolled.map((post, index) => (
                 <ResearchTile
