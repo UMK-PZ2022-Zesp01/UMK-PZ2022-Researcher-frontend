@@ -151,7 +151,7 @@ export default function UserPage(props) {
                 },
             });
 
-            switch (response.status){
+            switch (response.status) {
                 case 200:
                     const result = await response.json()
                     setPostsCreated(result)
@@ -162,24 +162,23 @@ export default function UserPage(props) {
             }
         };
 
-        try {
-            fetch(getApiUrl() + 'user/' + username + '/enrolledresearches', {
+        const getEnrolledPosts = async () => {
+            await fetch(getApiUrl() + 'user/' + username + '/enrolledresearches', {
                 method: 'GET',
                 headers: {
-                    Authorization: accessToken,
                     'Content-Type': 'application/json;charset:UTF-8',
                 },
             })
                 .then(response => response.json())
                 .then(result => setPostsEnrolled(result))
                 .catch(error => {
-                    console.error(error);
-                    setPostsEnrolled([]);
-                });
-        } catch (error) {
-            console.error('Error fetching posts:', error);
+                        console.error(error);
+                        setPostsEnrolled([]);
+                    }
+                );
         }
 
+        getEnrolledPosts();
         getPosts();
 
 
@@ -246,8 +245,6 @@ export default function UserPage(props) {
     };
 
 
-
-
     /**leftContainer args**/
     const sendToLeftContainer = {
         name: userData.firstName,
@@ -286,7 +283,7 @@ export default function UserPage(props) {
         setEmailState: setEmailState,
         setLocationState: setLocationState,
         setAlert: setAlert,
-        emailState:emailState
+        emailState: emailState
     };
     return (
         !isLoading && (
