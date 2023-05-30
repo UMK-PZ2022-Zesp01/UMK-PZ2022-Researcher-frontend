@@ -119,9 +119,6 @@ export default function UserPage(props) {
 
 
     useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController();
-        const signal = controller.signal;
 
         fetch(getApiUrl() + 'user/current', {
             method: 'GET',
@@ -146,32 +143,27 @@ export default function UserPage(props) {
             });
 
 
-        //to do poprawy bo bledy rzuca
-
-        try {
-            fetch(RESEARCHES_URL + username, {
-                signal,
+        const getPosts = async () => {
+            const response = await fetch(RESEARCHES_URL + username, {
                 method: 'GET',
                 headers: {
-                    Authorization: accessToken,
                     'Content-Type': 'application/json;charset:UTF-8',
                 },
-            })
-                .then(response => response.json())
-                .then(result => {
-                    isMounted && setPostsCreated(result);
-                })
-                .catch(error => {
-                    console.error(error);
-                    setPostsCreated([]);
-                });
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-        }
+            });
+
+            switch (response.status){
+                case 200:
+                    const result = await response.json()
+                    setPostsCreated(result)
+                    break;
+                case 204:
+                    setPostsCreated([])
+                    break;
+            }
+        };
 
         try {
             fetch(getApiUrl() + 'user/' + username + '/enrolledresearches', {
-                signal,
                 method: 'GET',
                 headers: {
                     Authorization: accessToken,
@@ -179,9 +171,7 @@ export default function UserPage(props) {
                 },
             })
                 .then(response => response.json())
-                .then(result => {
-                    isMounted && setPostsEnrolled(result);
-                })
+                .then(result => setPostsEnrolled(result))
                 .catch(error => {
                     console.error(error);
                     setPostsEnrolled([]);
@@ -189,10 +179,10 @@ export default function UserPage(props) {
         } catch (error) {
             console.error('Error fetching posts:', error);
         }
-        return () => {
-            isMounted = false;
-            controller.abort();
-        };
+
+        getPosts();
+
+
     }, [emailState, phoneState, locationState]);
 
 
