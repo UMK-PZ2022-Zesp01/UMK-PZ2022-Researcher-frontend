@@ -27,9 +27,11 @@ const AcceptCookies = ({open, onClose}) => {
             <div
                 className={styles.popupContainer}
             >
-                <h1>Ta strona strona wykorzystuje pliki cookie</h1>
-                <h3>cookie cookie cookie cookie cookie cookie
-                    cookie cookie cookie cookie cookie cookie</h3>
+                <h1>Używamy pliki cookie</h1>
+                <h3>Wykorzystujemy pliki cookie do usprawnienia działania
+                    naszego serwisu. Chcąc zapewnić jak najlepsze doświadczenie
+                    dla naszych użytkowników, przed przejściem dalej wymagane jest
+                    ich zaakceptowanie. </h3>
                 <div>
 
                     <button className={styles.profileBtn} onClick={onClose}>
