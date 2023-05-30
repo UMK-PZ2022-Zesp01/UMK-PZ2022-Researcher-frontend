@@ -334,6 +334,10 @@
     opacity: 1;
 }
 
+.radio:disabled {
+    opacity: 50%;
+}
+
 @media (max-width: 600px) {
     .optionsBox {
         justify-content: flex-start;

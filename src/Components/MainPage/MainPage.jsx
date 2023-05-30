@@ -344,8 +344,8 @@ function MainPage() {
                                         type="checkbox"
                                         title="Przełącz filtr odległości"
                                         defaultValue={distanceFilterOn}
-                                        onChange={event => setDistanceFilterOn(!distanceFilterOn)}
-                                        disabled={!auth?.locationSet}
+                                        onChange={() => setDistanceFilterOn(!distanceFilterOn)}
+                                        disabled={auth?.locationSet !== 'true'}
                                         className={styles.radio}
                                     />
                                     <input
@@ -359,7 +359,7 @@ function MainPage() {
                                         defaultValue={distance}
                                         className={styles.numberInput}
                                         onChange={event => setDistance(event.target.value)}
-                                        disabled={!auth?.locationSet || !distanceFilterOn}
+                                        disabled={auth?.locationSet !== 'true' || !distanceFilterOn}
                                     />
                                     <label>km</label>
                                     <span

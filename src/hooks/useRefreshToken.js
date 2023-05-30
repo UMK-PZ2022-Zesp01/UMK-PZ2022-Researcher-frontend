@@ -8,28 +8,22 @@ export const useRefreshToken = () => {
 
     const refresh = async () => {
         try {
-            await fetch(REFRESH_URL, {
+            const response = await fetch(REFRESH_URL, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json; charset:UTF-8',
                 },
-            })
-                .then(async response => {
-                    if (response.ok) {
-                        await response.json().then(async result => {
-                            await setAuth(result);
-                        });
-                    } else {
-                        setAuth({});
-                        // console.log('Access denied');
-                    }
-                })
-                .catch(e => {
-                    console.log(e);
-                });
+            });
+
+            if (!response.ok) {
+                throw new Error();
+            }
+            const json = await response.json();
+
+            setAuth(() => json);
         } catch (e) {
-            console.log(e);
+            setAuth({});
         }
     };
 
