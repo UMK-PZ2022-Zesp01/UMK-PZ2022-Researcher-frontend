@@ -262,7 +262,6 @@ function MainPage() {
         };
 
         const getPosts = async () => {
-            console.log(url);
             const nextLoadMax = 9 - (auth?.accessToken && page === 1 ? 1 : 0);
             // const nextLoadMax = 9;
             try {
