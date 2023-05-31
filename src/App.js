@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import { MainPage } from './Components/MainPage/MainPage';
 import LoginRegisterPage from './Components/LoginRegisterPage/LoginRegisterPage';
 import RequireAuth from './Common/RequireAuth';
+import RequireNoAuth from './Common/RequireNoAuth';
 import PersistLogin from './Common/PersistLogin';
 import Layout from './Common/Layout';
 import RegisteredSuccessfullyPage from './Components/RegisteredSuccessfulyPage/RegisteredSuccessfullyPage';
@@ -12,10 +13,7 @@ import UserPage from './Components/UserPage/UserPage';
 import { CreateResearchPage } from './Components/CreateResearchPage/CreateResearchPage';
 import { ResearchPage } from './Components/ResearchPage/ResearchPage';
 import OtherUserPage from './Components/UserPage/OtherUserPage';
-
 import ErrorPage from './Components/Error/ErrorPage';
-
-import RequireNoAuth from './Common/RequireNoAuth';
 import { ResetPasswordPage } from './Components/ResetPasswordPage/ResetPasswordPage';
 import AdditionalPage from './Components/LoginRegisterPage/AdditionalInfo/AdditionalPage';
 

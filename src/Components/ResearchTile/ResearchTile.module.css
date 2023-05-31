@@ -195,7 +195,7 @@
 
 .headerRight {
     text-align: right;
-    min-width: 25ch;
+    min-width: 18ch;
 }
 
 .bodyPart {
@@ -220,7 +220,7 @@
 }
 
 .previewHeader1 .headerLeft {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 500;
 }
 
@@ -394,6 +394,11 @@
     font-size: 8rem;
 }
 
+@media screen and (max-width: 800px) {
+    .previewHeader1 .headerLeft {
+        font-size: 1rem;
+    }
+}
 @media screen and (max-width: 600px) {
     .previewTile {
         display: none;
