@@ -914,7 +914,7 @@ function ResearchPage() {
                                             </span>
                                             <div className={styles.mapContainer}>
                                                 <span className={styles.locationAddress}>
-                                                    {AddressFormatter(location.address)}
+                                                    {location.address}
                                                 </span>
                                                 <Gmap
                                                     latitude={Number(
