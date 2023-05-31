@@ -199,10 +199,12 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin, isSomeoneLoggedIn }
                                 />
                             </div>
                         ))
-                    ) : (
+                    ) : username !== researchOwnerLogin ? (
                         <span className={styles.spanLeft}>
                             Bądź pierwszą osobą, która zada pytanie autorowi badania!
                         </span>
+                    ) : (
+                        []
                     )}
                 </div>
             </div>
@@ -224,4 +226,4 @@ const Forum = ({ fullName, researchCode, researchOwnerLogin, isSomeoneLoggedIn }
         </div>
     );
 };
-export { Forum };
+export {Forum};
