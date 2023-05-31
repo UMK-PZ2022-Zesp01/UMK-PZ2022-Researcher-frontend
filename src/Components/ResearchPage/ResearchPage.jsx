@@ -877,24 +877,22 @@ function ResearchPage() {
                                                             (kliknij, aby przejść do mapy)
                                                         </a>
                                                     </span>
-                                                ) : (
+                                                ) : isLoggedUserOnParticipantList ? (
                                                     <span className={styles.linkRow}>
-                                                        {isLoggedUserOnParticipantList ? (
-                                                            <a
-                                                                href={location.place}
-                                                                target={'_blank'}
-                                                                rel="noreferrer"
-                                                                className={styles.editorBtn}
-                                                            >
-                                                                Przejdź do kwestionariusza
-                                                                <FontAwesomeIcon
-                                                                    icon={faSquareArrowUpRight}
-                                                                />
-                                                            </a>
-                                                        ) : (
-                                                            'zdalnie'
-                                                        )}
+                                                        <a
+                                                            href={location.place}
+                                                            target={'_blank'}
+                                                            rel="noreferrer"
+                                                            className={styles.editorBtn}
+                                                        >
+                                                            Przejdź do kwestionariusza
+                                                            <FontAwesomeIcon
+                                                                icon={faSquareArrowUpRight}
+                                                            />
+                                                        </a>
                                                     </span>
+                                                ) : (
+                                                    <span>zdalnie</span>
                                                 )}
                                             </span>
                                         </div>

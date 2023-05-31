@@ -124,17 +124,17 @@ function ParticipantsList({ researchCode, sendParticipantNumber, onClose }) {
 
             <h3 className={styles.title}>Lista uczestników badania</h3>
 
+            <input
+                type="search"
+                onChange={e => setQuery(e.target.value)}
+                className={styles.filterInput}
+                placeholder="Szukaj..."
+            />
+
             {filteredParticipants.length === 0 ? (
                 <span>Lista uczestników jest pusta.</span>
             ) : (
                 <>
-                    <input
-                        type="search"
-                        onChange={e => setQuery(e.target.value)}
-                        className={styles.filterInput}
-                        placeholder="Szukaj..."
-                    />
-
                     {filteredParticipants.length > 0 && (
                         <div className={styles.participantsList}>
                             {filteredParticipants.map(user => (

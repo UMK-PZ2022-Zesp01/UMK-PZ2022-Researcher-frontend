@@ -250,7 +250,7 @@ function ResearchEditor({ research, onClose, sendEdited }) {
                                 setResearchPlace={setLocationCoords}
                                 setResearchPageAddress={setLocationAddress}
                                 setIsClickedLocation={() => {}}
-                                setUserLocationCoords={()=>{}}
+                                setUserLocationCoords={() => {}}
                                 userLocation={research.location.address}
                             />
                         </div>
@@ -269,7 +269,7 @@ function ResearchEditor({ research, onClose, sendEdited }) {
 
                 <div className={styles.formButtonContainer}>
                     <button type="button" className={styles.formButton} onClick={onClose}>
-                        Anuluj
+                        Wróć do badania
                     </button>
 
                     <button type="submit" className={styles.formButton}>
